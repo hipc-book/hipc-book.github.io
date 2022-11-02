@@ -7,11 +7,11 @@ layout: post
 
 # Overview
 
+<video width="560" class="center" controls>
+    <source src="/hipc/assets/videos/HIPC-Unit_6-Overview.mp4" type="video/mp4">
+</video><br/> 
 
-<iframe width="720" height="480" style="max-width: 100%; max-height: 100%;" src="https://york.cloud.panopto.eu/Panopto/Pages/Embed.aspx?instance=york&id=da6621ce-3c99-4d95-805e-ae4400ea978b&v=1" frameborder="0" allowfullscreen=""></iframe>
- 
-
-This week we're stepping off-node! We're going to look at how we can make use of an entire distrubted-memory supercomputer. 
+This week we're stepping off-node. We're going to look at how we can make use of an entire distrubted-memory supercomputer. 
 
 We're going to cover: 
 
@@ -26,53 +26,56 @@ We're going to cover:
 
 Again, we're going to start this unit with a quick revisit to Flynn's taxonomy. 
  
+![Flynn's taxonomy -- SISD, SIMD, MISD, and MIMD.](/hipc/assets/unit-6/flynns.png){: width="60%" }  
+_**Figure 1:** Flynn's taxonomy_
+{: style="color:gray; font-size: 90%; text-align: center;" }
 
-![](/hipc/assets/unit-5/)
-**Figure 1:** Flynn's Taxonomy 
-
-In the last unit we talked about the two extensions to the Taxonomy with **SIMT (Single Instruction, Multiple Threads)** and **SPMD (Single Program, Multiple Data)**. In this unit we're working primarily in the SPMD world, only now our Single Program is running across multiple compute nodes simultaneously, and our memory space is _distributed_ across those compute nodes (i.e. distributed memory, rather than shared memory). 
+In the last unit we talked about the two extensions to the taxonomy with **SIMT (Single Instruction, Multiple Threads)** and **SPMD (Single Program, Multiple Data)**. In this unit we're working primarily in the SPMD world, only now our Single Program is running across multiple compute nodes simultaneously, and our memory space is _distributed_ across those compute nodes (i.e. distributed memory, rather than shared memory). 
  
-## Distributed Memory Systems
+# Distributed Memory Systems
  
-A Distributed Memory System is one where each processor has its own private memory, and computational tasks can only operate on local data. If remote data is required, the computational task must communicate with one or more remote processes to request the data. 
+A **Distributed Memory System** is one where each processor has its own private memory, and computational tasks can only operate on local data. If remote data is required, the computational task must communicate with one or more remote processes to request the data. 
  
 In a distributed memory system, there are typically a number of processors, each with their own memory, and some form of high speed interconnect that allows applications running on each of the processors to communicate with one another. 
  
-On HPC systems this interconnect is typically a low latency network dedicated to internode communications (e.g. Infiniband [**See Unit 2**]). 
+On HPC systems this interconnect is typically a low latency network dedicated to internode communications (e.g. Infiniband [See Unit 2]). 
  
+![A distributed memory system](/hipc/assets/unit-6/)
+_**Figure 2:** Modern systems are typically a mix of shared and distributed memory systems, where individual ccNUMA-type shared-memory nodes are interconnected to one another to form a distibuted memory system._
+{: style="color:gray; font-size: 90%; text-align: center;" }
 
-![](/hipc/assets/unit-5/)
-**Figure 1:** Modern systems are typically a mix of shared and distributed memory systems, where individual ccNUMA-type shared-memory nodes are interconnected to one another to form a distibuted memory system. 
+Modern day HPC systems are typically a hybrid of shared memory and distributed memory systems (see Figure 2). Purely shared memory systems are typically limited in their size, while purely distributed memory systems may be expensive to design and build. Hybrid systems strike the balance between cost and scalability, using multi-core and multi-processor nodes, interconnected by a high-speed fabric. 
 
-Modern day HPC systems are typically a hybrid of shared memory and distributed memory systems (see Figure 1). Purely shared memory systems are typically limited in their size, while purely distributed memory systems may be expensive to design and build. Hybrid systems strike the balance between cost and scalability, using multi-core and multi-processor nodes, interconnected by a high-speed fabric. 
-
-From the developers perspective, the main difference between a shared memory system and a distributed memory system is that in a distributed memory system, memory must be managed and shared between processors _explicitly_. This is usually achieved through _**Message Passing**_, where processes explicitly communicate with one another through send and receive functions. The de facto standard for message passing on HPC systems is the **Message Passing Interface**, or **MPI**. 
+From the developer's perspective, the main difference between a shared memory system and a distributed memory system is that in a distributed memory system, memory must be managed and shared between processors _explicitly_. This is usually achieved through _**Message Passing**_, where processes explicitly communicate with one another through send and receive functions. The de facto standard for message passing on HPC systems is the **Message Passing Interface**, or **MPI**. 
 
 It should be noted that while individual nodes are ccNUMA-like shared memory systems, they can be programmed as and operate as a distributed memory system. Moreover, distributed memory systems can be programmed as and operate as shared memory systems using approaches such as **Partitioned Global Address Space (PGAS)**, where the PGAS implementation mimics a shared memory system by performing remote memory sends and recieves transparently. 
-                                
 
-### The Message Passing Interface
+# The Message Passing Interface
      
 The Message Passing Interface (MPI) is a portable message passing standard designed for distributed-memory parallel computers. The standard (version 4.0) currently defines an API with almost 500 functions, in C and Fortran (support for Fortran 2008 was added in the MPI 3.0 standard, while the C++ bindings were deprecated).  
 
 Today, there are numerous implementations of the MPI standard available. Notable examples include the open-source implementations OpenMPI, MPICH and MVAPICH, and the vendor-developed implementations Intel MPI, Cray MPI and bullx MPI (note that many of these vendor-developed implementations are based on an open-source implementation). 
 
-#### History
+## History
 
 Efforts to define a standardised message passing interface began in 1991 and subsequently led to the Workshop on Standards for Message Passing in a Distributed Memory Environment (held in April 1992). At this workshop, the essential features of a message passing library were discussed, and a small working group was formed with the task of defining a standard. 
 
-The first draft of the MPI standard was designed by <a href="https://en.wikipedia.org/wiki/Jack_Dongarra" target="_blank" rel="noopener">Jack Dongarra</a>, <a href="https://en.wikipedia.org/wiki/Tony_Hey" target="_blank" rel="noopener">Tony Hey</a> and David W. Walker and presented at the Supercomputing Conference (SC) in 1993. Following a period of consultation, the 1.0 standard was released in June 1994. 
+The first draft of the MPI standard was designed by [Jack Dongarra](https://en.wikipedia.org/wiki/Jack_Dongarra), [Tony Hey](https://en.wikipedia.org/wiki/Tony_Hey) and David W. Walker and presented at the Supercomputing Conference (SC) in 1993. Following a period of consultation, the 1.0 standard was released in June 1994. 
  
-![](/hipc/assets/unit-5/)
-**Figure 1:** Version 1.0 of the MPI Standard
+![Version 1 of the MPI Standard](/hipc/assets/unit-6/)  
+_**Figure 3:** Version 1.0 of the MPI Standard_
+{: style="color:gray; font-size: 90%; text-align: center;" }
   
 The MPI effort involved around 80 people from 40 organisations, mainly in the United States and Europe. It was funded heavily by DARPA, the U.S. National Science Foundation (NSF), and the European commission (among others). 
  
 Since its creation, MPI has become the _de facto_ standard for communications on distributed memory systems. The standard is maintained by the MPI Forum, and the current version of the standard is 4.0; the 4.1 and 5.0 standards are a work in progress. 
 
-**Further Reading:** <a href="https://www.mpi-forum.org/docs/" target="_blank" rel="noopener">MPI Documents</a> 
- 
-### Getting Started 
+> **Further Reading** 
+>
+> * [MPI Documents](https://www.mpi-forum.org/docs/)
+{: .block-tip } 
+
+## Getting Started 
  
 MPI is available as a library on most distributed systems (including Viking); in order to compile and link an MPI program, the compiler must be aware that the MPI library is required, and where its header files and libraries can be found. Luckily, most MPI implementations provide a compiler wrapper for this purpose (often called mpicc, mpif90, etc.). 
 
