@@ -6,49 +6,54 @@ layout: post
 ---
 
 # Overview
-     
-<iframe width="720" height="480" style="max-width: 100%; max-height: 100%;" src="https://york.cloud.panopto.eu/Panopto/Pages/Embed.aspx?instance=york&id=53dd8e4c-f586-4162-a775-ae4600ff4e3c&v=1" frameborder="0" allowfullscreen=""></iframe>
+
+<video width="560" class="center" controls>
+    <source src="/hipc/assets/videos/HIPC-Unit_7-Overview.mp4" type="video/mp4">
+</video><br/> 
  
-Welcome to the seventh unit of the HIPC course. 
+Welcome to the 7th unit of the HIPC course. 
   
-In 2008 Roadrunner became the first supercomputer to break the PetaFLOP/s barrier. Roadrunner was perhaps the first modern heterogenous system, with each node employing PowerXCell accelerators to achieve high performance. Today, many of the largest systems in the world are heterogeneous platforms, employing GPUs to accelerate their computational workloads. This unit covers the basics of accelerators and how to program them. 
+In 2008 Roadrunner became the first supercomputer to break the PetaFLOP/s barrier. Roadrunner was perhaps the first modern heterogenous system, with each node employing PowerXCell accelerators to achieve its high performance. Today, many of the largest systems in the world are heterogeneous platforms, employing GPUs to accelerate their computational workloads. This unit covers the basics of accelerators and how to program them. 
 
 Specifically, we will cover: 
 
-  *  Accelerators in HPC  
-  *  GPGPU Platforms  
-  *  GPU Models  
-  *  Programming with CUDA  
+* Accelerators in HPC  
+* GPGPU platforms  
+* GPU models  
+* Programming with CUDA  
 
-After this course, you are expected to have a better understanding of GPU and CUDA programming, and be able to write CUDA programs (more on this will be exercised in the lab).  
+After this unit, you are expected to have a better understanding of GPU and CUDA programming, and be able to write CUDA programs.
   
-## A Brief Introduction to GPUs in HPC
+# A Brief Introduction to GPUs in HPC
      
-An _accelerator_ is, as the name indicates, a device to speed up certain computations of an HPC. Accelerators are peripheral processors that are able to perform additional work in the background, while releasing the resources of the main processor.   
+An _accelerator_ is, as the name indicates, a device to speed up certain computations in an HPC application. Accelerators are peripheral processors that are able to perform additional work in the background, while releasing the resources of the main processor.   
 
-According to a recent report (June 2016 Top500 list), 19% of state-of-the-art HPC systems use GPUs (graphics processing units) or other accelerators (e.g. FPGA-based HPC accelerators). In general, accelerators can be classified as (1) general-purpose, or (2) domain-specific. The use of accelerators involves the cooperative design of software and hardware (or SW & HW co-design), which sometimes makes porting and maintenance difficult, as the software and hardware are coupled for a specific software application and hardware platform. 
+In the June 2016 TOP500 list, 19% of state-of-the-art HPC systems used GPUs (graphics processing units) or other accelerators (e.g. FPGA-based HPC accelerators). In general, accelerators can be classified as (1) general-purpose, or (2) domain-specific. The use of accelerators involves the cooperative design of software and hardware (or SW & HW co-design), which sometimes makes porting and maintenance difficult, as the software and hardware are coupled for a specific software application and hardware platform. 
 
-Accelerated computing started to gain popularity with the release of the first Petascale system, Roadrunner, which had IBM PowerXCell 8i accelerators connected to each core: 
+Accelerated computing started to gain popularity with the release of the first Petascale system, Roadrunner, which had IBM PowerXCell 8i accelerators connected to each core.
 
-![]()
-_Figure 1: _ Roadrunner Architecture 
+![Roadrunner's architecture](/hipc/assets/unit-6/)
+_**Figure 1:** Roadrunner Architecture_
+{: style="color:gray; font-size: 90%; text-align: center;" }
   
-In the following years, the trend rapidly moved towards the use of GPU, due to their versatility and relatively low cost. The prevalence of GPUs as accelerators has significantly improved the programmability issue due to their general-purpose nature and well supported programming infrastructure. These GPUs that can be used for calculation are referred to as _GPGPUs_ (General Purpose Graphic Processing Units).  
+In the following years, the trend rapidly moved towards the use of GPUs, due to their versatility and relatively low cost. The prevalence of GPUs as accelerators has significantly improved the programmability issue due to their general-purpose nature and well supported programming infrastructure. These GPUs that can be used for calculation are sometimes referred to as _GPGPUs_ (General Purpose Graphic Processing Units).  
 
-In 2007, Nvidia released its _CUDA_ development environment, the earliest widely adopted programming model for GPU computing. Two years later, OpenCL became widely supported. This framework allows for the development of code for both GPUs and CPUs with an emphasis on portability. Thus, GPUs became a more generalised computing device. Although with other competitors (e.g. AMD, Intel, ARM, etc.) in the market, the combination of Nvidia GPUs and CUDA dominates several application areas, including scientific computing, deep learning, animation rendering, and is a foundation for some of the fastest computers in the world.  
+In 2007, NVIDIA released its _CUDA_ development environment, the earliest widely adopted programming model for GPU computing. Two years later, OpenCL became widely supported. The OpenCL framework allows for the development of code for both GPUs and CPUs with an emphasis on portability. Thus, GPUs became a more generalised computing device. 
 
-CUDA, as already mentioned, is a parallel computing platform and programming model developed by Nvidia for general computing on its own GPUs. CUDA enables developers to speed up compute-intensive applications by harnessing the power of GPUs for the parallelisable part of the computation. In this unit, we focus on Nvidia GPUs and CUDA programming. 
+Despite other competitors in the market (e.g. AMD, Intel), the combination of NVIDIA GPUs and CUDA dominates several application areas, including scientific computing, deep learning, animation rendering, and NVIDIA GPUs are the foundation for some of the fastest computers in the world.
 
-### GPU vs CPU: What's the difference?
+CUDA, as already mentioned, is a parallel computing platform and programming model developed by NVIDIA for general computing on its own GPUs. CUDA enables developers to speed up compute-intensive applications by harnessing the power of GPUs for the parallelisable part of the computation. In this unit, we will focus on NVIDIA GPUs and CUDA programming, but many of the concepts will apply to other GPUs and GPU programming models.
+
+## GPU vs CPU: What's the difference?
     
 GPUs were originally designed to accelerate the rendering of 3D graphics. During the last few decades, several researchers have used GPUs to perform scientific computations, including fluid flow simulation using the Lattice Boltzman model, cloud dynamics simulation, finite-element simulations, ice crystal growth, etc. 
 
 However, an obvious question to ask is why we need to use a GPU in addition to a CPU? Well, we know a CPU is good for general-purpose computing, however, it is optimised for serial tasks. On the other hand, a GPU is optimised for parallel tasks and it is extremely powerful at running smaller (and simpler) jobs simultaneously.  
 
-Architecturally, in a GPU there are often hundreds of arithmetic logic units (ALUs). While for a CPU there are only a limited number of ALUs, that is usually heavily related to the number of cores. This architectural difference leads to their different approaches to processing tasks, and correlated with which purposes they are good/bad for. 
+Architecturally, in a GPU there are often hundreds of arithmetic logic units (ALUs). While for a CPU there are only a limited number of ALUs, usually correlated to the number of cores. This architectural difference leads to their different approaches to processing tasks, and therefore dictates which purposes they are good/bad for. 
 
-![]()
-_Figure 2: _CPU and GPU 
+![Comparison between CPUs and GPUs]()
+_**Figure 2:** THe key differences between CPUs and GPUs_
 
 To make it clearer, in the following table we list the strengths of a CPU and a GPU: 
 
