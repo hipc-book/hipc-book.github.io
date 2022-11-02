@@ -9,7 +9,7 @@ description: >
 version:          1.0
 gitbook_version:  3.2.3
 
-url:              'https://sighingnow.github.io'
+url:              'https://cs.york.ac.uk/~saw/'
 baseurl:          '/hipc'
 rss:              RSS
 
@@ -48,6 +48,9 @@ collections:
     output: true
     permalink: /:collection/:path/
   units:
+    output: true
+    permalink: /:collection/:path/
+  exercises:
     output: true
     permalink: /:collection/:path/
 
