@@ -40,7 +40,7 @@ In a distributed memory system, there are typically a number of processors, each
  
 On HPC systems this interconnect is typically a low latency network dedicated to internode communications (e.g. Infiniband [See Unit 2]). 
  
-![A distributed memory system](/hipc/assets/unit-6/)
+![A distributed memory system](/hipc/assets/unit-6/distributed-memory.png)
 _**Figure 2:** Modern systems are typically a mix of shared and distributed memory systems, where individual ccNUMA-type shared-memory nodes are interconnected to one another to form a distibuted memory system._
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -62,7 +62,7 @@ Efforts to define a standardised message passing interface began in 1991 and sub
 
 The first draft of the MPI standard was designed by [Jack Dongarra](https://en.wikipedia.org/wiki/Jack_Dongarra), [Tony Hey](https://en.wikipedia.org/wiki/Tony_Hey) and David W. Walker and presented at the Supercomputing Conference (SC) in 1993. Following a period of consultation, the 1.0 standard was released in June 1994. 
  
-![Version 1 of the MPI Standard](/hipc/assets/unit-6/)  
+![Version 1 of the MPI Standard](/hipc/assets/unit-6/mpi1-standard.png)  
 _**Figure 3:** Version 1.0 of the MPI Standard_
 {: style="color:gray; font-size: 90%; text-align: center;" }
   
@@ -184,7 +184,7 @@ For more complex decompositions, setting up a grid of processes and calculating 
 
 Let's say, for example, that we have 12 processes and we want the to form a 3 &times; 4 grid which is periodic in the second dimension but not in the first. 
  
-![12 processes arranged in a 3 x 4 grid, periodic in one dimension](/hipc/assets/unit-5/)  
+![12 processes arranged in a 3 x 4 grid, periodic in one dimension](/hipc/assets/unit-6/cartgrid.png)  
 _**Figure 4:** A two-dimensional cartesian topology. 12 processes form a 3x4 grid, periodic in the second dimension but not the first._
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -454,7 +454,7 @@ MPI_Type_free(&my_column);
 
 In this example, we've created a new data type that will contain 10 blocks, each with a size of 1 data type (in this case 1 double), strided by 10 elements. On a 10 &times; 10 matrix this would correspond to a column (i.e. one value in every 10). 
  
-![Conceptual layour of a 10 x 10 array in C](/hipc/assets/unit-5/)  
+![Conceptual layour of a 10 x 10 array in C](/hipc/assets/unit-6/2d-array-col.png)  
 _**Figure 5:** The conceptual layout of a 10x10 2D array in C_ 
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -516,11 +516,11 @@ This function combines the arguments for a send and a receive into a single func
 
 So, for example, in a 1D decomposition, where each process holds a 10 &times; 10 data array (10 &times; 12 with "ghost cells"), a halo exchange takes place in two steps. First each process sends its final column to the process to the right (and stores it in the ghost cells of that process). Then each process sends its first column to the process to the left (and again stores this in the ghost cells). The process is demonstrated in Figures 6 and 7, below. 
  
-![The first step of a 1D halo exchange](/hipc/assets/unit-6/)  
+![The first step of a 1D halo exchange](/hipc/assets/unit-6/halo-exchange-right.png)  
 _**Figure 6:** Step one of a 1D halo exchange_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
-![The second step of a 1D halo exchange](/hipc/assets/unit-6/)  
+![The second step of a 1D halo exchange](/hipc/assets/unit-6/halo-exchange-left.png)  
 _**Figure 7:** Step two of a 1D halo exchange_
 {: style="color:gray; font-size: 90%; text-align: center;" } 
 
@@ -783,7 +783,7 @@ int main(int argc, char *argv[]) {
 
 While most collective operations can be implemented manually using point-to-point operations, collective operations are usually optimised in the MPI library. For example, reductions can be implemented hierarchically (rather than having every process send a message to every other process). 
  
-![Heirarchical structure of an Allreduce call](/hipc/assets/unit-6/)
+![Heirarchical structure of an Allreduce call](/hipc/assets/unit-6/mpi-reduction.png)  
 _**Figure 8:** A heirarchical MPI Allreduce_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -804,7 +804,7 @@ The MPI API contains almost 500 function -- far more than we have the time or sp
   
 There are numerous approaches to writing output from parallel processes, and they can broadly be categorised into three approaches: _N_-to-_N_, _N_-to-_M_ and _N_-to-_1_. 
  
-![The three approaches to writing files in parallel: N to N, N to M, and N to 1](/hipc/assets/unit-6/)  
+![The three approaches to writing files in parallel: N to N, N to M, and N to 1](/hipc/assets/unit-6/parallel-io.png)  
 _**Figure 9:** Three approaches to writing files in parallel_
 {: style="color:gray; font-size: 90%; text-align: center;" }
   
@@ -935,7 +935,7 @@ Beyond this, MPI also provides support for non-contiguous access. This is a comm
 
 In order to operate safely in a non-contiguous manner, MPI uses the notion of a _file view_. A file view allows each process to specify (on a block-by-block basis) where its data lives in the file, using "holes" to represent other processes data. 
  
-![An example file view on 4 processes](/hipc/assets/unit-6/)  
+![An example file view on 4 processes](/hipc/assets/unit-6/mpi-file-view.png)  
 _**Figure 10:** An example of a file view on 4 processes_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
