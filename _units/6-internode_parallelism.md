@@ -15,12 +15,12 @@ This week we're stepping off-node! We're going to look at how we can make use of
 
 We're going to cover: 
 
-  * A brief return to Flynn's taxonomy 
-  * Distributed-memory systems 
-  * The Message Passing Interface (MPI) 
-  * Point-to-point operations 
-  * Collective operations 
-  * Parallel I/O 
+* A brief return to Flynn's taxonomy 
+* Distributed-memory systems 
+* The Message Passing Interface (MPI) 
+* Point-to-point operations 
+* Collective operations 
+* Parallel I/O 
 
 # The Return of Flynn
 
