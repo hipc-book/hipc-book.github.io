@@ -8,7 +8,7 @@ layout: post
 # Overview
 
 <video width="560" class="center" controls>
-    <source src="/hipc/assets/videos/HIPC-Unit_8-Overview.mp4" type="video/mp4">
+    <source src="../../assets/videos/HIPC-Unit_8-Overview.mp4" type="video/mp4">
 </video><br/> 
 
 In the final unit of the HIPC course we'll look at the topic of _**Heterogeneous Programming**_. Modern HPC platforms are becoming more diverse and more heterogeneous, and exploiting the heirarchical parallelism that is available on these systems often requires multiple different approaches (i.e. a different programming model for an accelerator and for host code).  
@@ -42,7 +42,7 @@ Importantly, the majority of the next generation of supercomputers are almost al
 
 One of the first modern heterogeneous platforms was the first iteration of Tsubame. Tsubame 1.0 was built by Sun Microsystems and reached #9 in the TOP500 in November 2006. Alongside AMD Opteron CPUs, it was powered by ClearSpeed X620 Accelerators -- PCIe connected accelerators each containing an array of 96 processor elements, running at 210-250 MHz. 
  
-![A ClearSpeed Accelerator card](/hipc/assets/unit-8/clearspeed.png)  
+![A ClearSpeed Accelerator card](../../assets/unit-8/clearspeed.png)  
 _**Figure 1:** A ClearSpeed Accelerator Card_
 {: style="color:gray; font-size: 90%; text-align: center;" }
   
@@ -55,11 +55,11 @@ _**Figure 1:** A ClearSpeed Accelerator Card_
 
 We encountered Roadrunner earlier in this module, when discussing the various performance barriers that have been broken over the past 50 years. Roadrunner was the first supercomputer to break the PetaFLOP/s barrier, and did so using IBM PowerXCell 8i co-processors (a similar processor powered the Sony PlayStation 3). 
 
-![The architecture of a Roadrunner TriBlade](/hipc/assets/unit-8/RR-TriBlade.png)  
+![The architecture of a Roadrunner TriBlade](../../assets/unit-8/RR-TriBlade.png)  
 _**Figure 2:** The architecture of a Roadrunner TriBlade_
 {: style="color:gray; font-size: 90%; text-align: center;" }
  
-![A schematic for Roadrunner's architecture](/hipc/assets/unit-8/RR-schematic.png)  
+![A schematic for Roadrunner's architecture](../../assets/unit-8/RR-schematic.png)  
 _**Figure 3:** Schematic of Roadrunners architecture_
 {: style="color:gray; font-size: 90%; text-align: center;" }
   
@@ -90,7 +90,7 @@ Both systems are comprised of IBM Power9 cores, backed by NVIDIA Tesla V100 GPUs
 
 The Department of Energy are currently in the process of building and installing their first three Exascale systems, namely **Aurora**, **Frontier** and **El Capitan**, to be installed at Argonne National Laboratory, Oak Ridge National Laboratory and Lawrence Livermore National Laboratory, respectively. All three systems are designed around the Cray Shasta architecture, and are heterogeneous systems, consisting of a mixture of CPUs and GPUs. 
  
-![The design for Frontier](/hipc/assets/unit-8/frontier.png)  
+![The design for Frontier](../../assets/unit-8/frontier.png)  
 _**Figure 4:** The design for the Frontier system, with performance in excess of 1 ExaFLOP/s_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -138,7 +138,7 @@ Typically HPC software engineers are trying to achieve _the three Ps_:
 
 It is often said that these three goals exist on a triangle, where only two may be possible. 
 
-![The Three Ps plotted on a triangle](/hipc/assets/unit-8/threePs.png)  
+![The Three Ps plotted on a triangle](../../assets/unit-8/threePs.png)  
 _**Figure 5:** The three Ps_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -245,7 +245,7 @@ Although the equation above provides a formal definition for performance portabi
 
 These visualisations are perhaps best described with an example. The figure below presents a simple synthetic data set for six implementations of an application running across 10 platforms. 
 
-![A table of data for a synthetic dataset of performance](/hipc/assets/unit-8/synthetic-heat-map.png)  
+![A table of data for a synthetic dataset of performance](../../assets/unit-8/synthetic-heat-map.png)  
 _**Figure 6:** An example synthetic data set of performance_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -261,13 +261,13 @@ We could simply apply the performance portability metric to this synthetic data 
 
 Figure 7 addresses the first concern, showing not only the median efficiency of an application, but also the spread of efficiencies (and any outliers).
 
-![A box plot of performance portability for a synthetic dataset](/hipc/assets/unit-8/synthetic-box-plot.png)  
+![A box plot of performance portability for a synthetic dataset](../../assets/unit-8/synthetic-box-plot.png)  
 _**Figure 7:** A box plot showing the spread of efficiencies_ 
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
 The second concern is addressed by a cascade plot (demonstrated in Figure 8), where the application's performance portability and efficiency are plotted as platforms are added to the evaluation set in descending order of efficiency. 
    
-![A cascade plot of performance portability for a synthetic dataset](/hipc/assets/unit-8/synthetic-cascade.png)  
+![A cascade plot of performance portability for a synthetic dataset](../../assets/unit-8/synthetic-cascade.png)  
 _**Figure 8:** A cascade plot showing how performacne portability changes as platforms are added to the evaluation set_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -785,7 +785,7 @@ RAJA::forall<loop_exec>(seg, [=] (int i) {
 
 Much like Kokkos, RAJA also provides a mechanism for managing multidimensional arrays; however, RAJA only provides a view over allocated memory, leaving the rest to the developer. 
 
-So for example, to use a 2D array in RAJA you would first allocate the memory, then create a `View` over the allocated memory. 
+So for example, to use a 2D array in RAJA you would first allocate the memory, then create a `RAJA::View` over the allocated memory. 
 
 ```cpp
 const int DIM = 2;

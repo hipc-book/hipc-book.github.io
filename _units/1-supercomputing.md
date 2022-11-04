@@ -10,7 +10,7 @@ layout: post
 Welcome to the first unit of the HIPC course.
 
 <video width="560" class="center" controls>
-    <source src="/hipc/assets/videos/HIPC-Unit_1-Overview.mp4" type="video/mp4">
+    <source src="../../assets/videos/HIPC-Unit_1-Overview.mp4" type="video/mp4">
 </video>
 
 This unit will cover:
@@ -52,13 +52,13 @@ Scientific computing and numerical simulation are now indispensable tools in man
 
 The first general-purpose computer was the Electronic Numerical Integrator and Computer (ENIAC), built in 1939. The machine could perform between 300 and 500 floating-point operations per second (FLOP/s). Due to the prevalence and importance of floating-point operations in modern day science applications, the FLOP rate is the standard way in which modern supercomputer performance is assessed.
 
-![The ENIAC](/hipc/assets/unit-1/Eniac.jpg)  
+![The ENIAC](../../assets/unit-1/Eniac.jpg)  
 _**Figure 1:** ENIAC -- the first programmable, electronic, general-purpose digital computer_
 {: style="color:gray; font-size: 90%; text-align: center;"}
 
 The era of the modern supercomputer began in the 1960s with the release of the CDC 6600. Designed by Seymour Cray for the Control Data Corporation (CDC), the CDC 6600 was the first mainframe computer to separate many of the components typically found in CPUs of the era into separate processing units. This resulted in the CPU being able to use a reduced instruction set, simplifying its design, and allowing operations usually performed by the CPU (such as memory accesses and I/O) to instead be handled by dedicated peripheral processors in parallel. Consequently, the CDC 6600 was approximately three times faster than its predecessor, the IBM 7030, and the machine held the record for the world's fastest computer from 1964 to 1969, performing approximately 1 million floating-point operations per second (1 MFLOP/s).
 
-![CDC6600](/hipc/assets/unit-1/CDC_6600.jpg)  
+![CDC6600](../../assets/unit-1/CDC_6600.jpg)  
 _**Figure 2:** CDC 6600 -- the first commercially successful supercomputer_
 {: style="color:gray; font-size: 90%; text-align: center;"}
 
@@ -70,7 +70,7 @@ In 1972, following financial difficulties at CDC, Seymour Cray left to form his 
 
 Following three years of development, in 1975, Cray announced the first Cray Research supercomputer, the 80 MHz Cray-1. When it was released the following year, the Cray-1 was ten times faster than competing machines, but cost up to $10 million and drew 115 kW of power. The excitement surrounding the machine was such that a bidding war broke out between Los Alamos National Laboratory (LANL) and Lawrence Livermore National Laboratory (LLNL) to acquire the first machine, with LANL ultimately proving successful.
 
-![Cray-1](/hipc/assets/unit-1/Cray-1.jpeg)  
+![Cray-1](../../assets/unit-1/Cray-1.jpeg)  
 _**Figure 3:** Seymour Cray with a Cray-1 supercomputer_
 {: style="color:gray; font-size: 90%; text-align: center;"}
 
@@ -84,7 +84,7 @@ In 1985, the Cray X-MP was replaced as the fastest computer by the Cray-2, the f
 
 The Cray-2 was a quad-processor, liquid cooled computer. The system was cooled by Fluorinert, which was pumped around the system under pressure, and then cooled outside the processor box in a unique "waterfall" cooling system. This lead to a number of jokes ("no fishing" signs, etc) and the system being nicknamed "Bubbles".
 
-![Cray-2](/hipc/assets/unit-1/Cray-2.jpeg)  
+![Cray-2](../../assets/unit-1/Cray-2.jpeg)  
 _**Figure 4:** NERSC's Cray-2 and Cooling "waterfall"_
 {: style="color:gray; font-size: 90%; text-align: center;"}
 
@@ -98,7 +98,7 @@ Until 1990, the fastest systems typically had very few processors, with most per
 
 In 1993, Fujitsu's Numerical Wind Tunnel became the fastest supercomputer in the world, doing so using 140 vector processors (later upgraded to 167). It achieved a maximum performance of 124 GFLOP/s running the LINPACK benchmark, with a theoretical maximum performance of 235.8 GFLOP/s. Each processor had 4 separate pipelines, and could perform two fused multiply-add (FMA) instruction for 1.7 GFLOP/s per processor.
 
-![Numerical Wind Tunnel](/hipc/assets/unit-1/NWT.jpeg)  
+![Numerical Wind Tunnel](../../assets/unit-1/NWT.jpeg)  
 _**Figure 5:** Numerical Wind Tunnel_
 {: style="color:gray; font-size: 90%; text-align: center;"}
 
@@ -108,7 +108,7 @@ The third machine to reach the #1 ranking was the Intel Paragon XP/S140 system i
 
 Intel's next foray to the top of the rankings was in 1997, when they broke the TeraFLOP barrier with ASCI Red, achieving 1.06 TFLOP/s on the LINPACK benchmark. ASCI Red could perhaps be considered one of the first **Beowulf clusters** -- one that is mostly made of commercially available hardware.
 
-![ASCI Red](/hipc/assets/unit-1/asci-red.jpeg)  
+![ASCI Red](../../assets/unit-1/asci-red.jpeg)  
 _**Figure 6:** ASCI Red inside Sandia National Laboratories_ 
 {: style="color:gray; font-size: 90%; text-align: center;"}
 
@@ -118,13 +118,13 @@ ASCI Red held on to the top spot until 2000, when it was briefly displaced by IB
 
 In 2002, ASCI White's performance was surpassed considerbly by the Earth Simulator. With a LINPACK performance of 35.86 TFLOP/s, Earth Simulator was almost five times faster than the previous #1 system. The system was developed for running global climate models to evaluate the effects of climate change by the Japan Aerospace Exploration Agency, the Japan Atomic Energy Research Institute, and the Japan Marine Science and Technology Center. It consisted of 640 nodes, with eight vector processors in each node, for a total of 5120 processors.
 
-![Earth Simulator](/hipc/assets/unit-1/EarthSimulator.jpeg)  
+![Earth Simulator](../../assets/unit-1/EarthSimulator.jpeg)  
 _**Figure 7:** Earth Simulator_
 {: style="color:gray; font-size: 90%; text-align: center;"}
 
 The title of fastest supercomputer in the world was taken back by the United States in November 2004, with the installation of IBM's first BlueGene system at LLNL. Initially installed as a 16-rack system, LLNL's BlueGene/L system took the title with an achieved performance of 70.72 TFLOP/s. The system was gradually expanded up to 104 racks, achieving 478 TFLOP/s in 2007.
 
-![IBM BlueGene/L](/hipc/assets/unit-1/bluegene-l.jpeg)  
+![IBM BlueGene/L](../../assets/unit-1/bluegene-l.jpeg)  
 _**Figure 8:** BlueGene/L_
 {: style="color:gray; font-size: 90%; text-align: center;"}
 
@@ -140,7 +140,7 @@ Roadrunner was displaced at the top of the rankings in 2010 by the Chinese super
 
 In June 2011, Tianhe-1A was overtaken by the K-Computer -- a Japanese 10 PFLOP/s homogeneous supercomputer, using Fujitsu SPARC64fx processors and a proprietary Torus Fusion (Tofu) interconnect.
 
-![K-Computer](/hipc/assets/unit-1/k-computer.jpeg)  
+![K-Computer](../../assets/unit-1/k-computer.jpeg)  
 _**Figure 9:** K-Computer_
 {: style="color:gray; font-size: 90%; text-align: center;"}
 
@@ -150,7 +150,7 @@ The United States regained the top spot in the TOP500 in June 2012 with the thir
 
 Sequoia's position at the top was shortlived, being replaced in November 2012 by another US system. Titan was a supercomputer installed at Oak Ridge National Laboratory, achieving a peak performance of 17.59 PFLOP/s. Similar to Tianhe-1A, it was a heterogeneous platform, consisting of 18,688 AMD Opteron CPUs in conjuncting with an equal number of NVIDIA Tesla K20x GPUs.
 
-![Titan](/hipc/assets/unit-1/titan.jpeg)  
+![Titan](../../assets/unit-1/titan.jpeg)  
 _**Figure 10:** Titan_
 {: style="color:gray; font-size: 90%; text-align: center;"}
 
@@ -164,7 +164,7 @@ The TOP500 crown returned to the United States in 2018, when the heterogeneous S
 
 In June 2020, the successor to the K-Computer took the TOP500 crown and retained it up to 2022. Fugaku is built with the Fujitsu A64FX microprocessor (the first ARM-based architecture to achieve the #1 ranking), with nodes interconnected with the Tofu interconnect. Similar to previous Japanese #1 supercomputers, Fugaku outperformed rival supercomputers considerably when installed, beating Summit and Sierra by almost three times. Currently, it has been able to achieve 450 PFLOP/s on the LINPACK benchmark. Alongside the TOP500 ranking, it is also the first supercomputer to also top the Graph500, HPL-AI and HPCG rankings simultaneously.
 
-![Fugaku](/hipc/assets/unit-1/fugaku.jpeg)  
+![Fugaku](../../assets/unit-1/fugaku.jpeg)  
 _**Figure 11**: Fugaku_
 {: style="color:gray; font-size: 90%; text-align: center;"}
 
@@ -173,7 +173,7 @@ _**Figure 11**: Fugaku_
 ## The Era of Exascale
 
 <video width="560" class="center" controls>
-    <source src="/hipc/assets/videos/HIPC-Unit_1-Exascale.mp4" type="video/mp4">
+    <source src="../../assets/videos/HIPC-Unit_1-Exascale.mp4" type="video/mp4">
 </video>
 
 We are now fast approaching the era of Exascale computing. Today's supercomputers are already capable of performing half an ExaFLOP, and within the next 12 months, it is likely there will be a number of Exascale systems operating around the world. Like previous leaps in HPC capability, Exascale will enable scientists to make new discoveries in material sciences, fusion energy, engineering, medicine, and many other fields.
@@ -197,7 +197,7 @@ The TOP500 was introduced by Hans Meuer and Jack Dongarra in 1993. Supercomputer
 
 Since the TOP500 began tracking supercomputing performance, the performance of the #1 machine has approximately doubled every two years (thus following the consequence of Moore's law, that the number of transistors in a dense integrated circuit will double approximately every two years).
 
-![The Top 500 Ranking](/hipc/assets/unit-1/top500.png)  
+![The Top 500 Ranking](../../assets/unit-1/top500.png)  
 _**Figure 12:** TOP500 supercomputer performance since 1993_
 {: style="color:gray; font-size: 90%; text-align: center;"}
 
@@ -292,25 +292,25 @@ In Flynn's 1972 paper, "[Some Computer Organizations and Their Effectiveness](ht
 
 ### Single instruction stream, single data stream (SISD)
 
-![Single instruction stream, single data stream](/hipc/assets/unit-1/sisd.png){: width="35%" style="display: block; margin: 0 auto" }
+![Single instruction stream, single data stream](../../assets/unit-1/sisd.png){: width="35%" style="display: block; margin: 0 auto" }
 
 Each processor fetches a single instruction and operates on a single data stream.
 
 #### Single instruction stream, multiple data streams (SIMD)
 
-![Single instruction stream, multiple data streams](/hipc/assets/unit-1/simd.png){: width="35%" style="display: block; margin: 0 auto" }
+![Single instruction stream, multiple data streams](../../assets/unit-1/simd.png){: width="35%" style="display: block; margin: 0 auto" }
 
 Each processor applies the same instruction on multiple pieces of data simultaneously.
 
 #### Multiple instruction streams, single data stream (MISD)
 
-![Multiple instruction streams, single data stream](/hipc/assets/unit-1/misd.png){: width="35%" style="display: block; margin: 0 auto" }
+![Multiple instruction streams, single data stream](../../assets/unit-1/misd.png){: width="35%" style="display: block; margin: 0 auto" }
 
 Each processor applies potentially different instructions on a single piece of data simultaneously.
 
 #### Multiple instruction streams, multiple data streams (MIMD)
 
-![Multiple instruction streams, multiple data streams](/hipc/assets/unit-1/mimd.png){: width="35%" style="display: block; margin: 0 auto" }
+![Multiple instruction streams, multiple data streams](../../assets/unit-1/mimd.png){: width="35%" style="display: block; margin: 0 auto" }
 
 Each processor applies potentially different instructions to different pieces of data simultaneously.
 
@@ -328,7 +328,7 @@ SPMD is the most common style of parallel programming, and is the style that thi
 
 A typical example of SPMD can be seen in the Figure below. In this example, a particle simulation is being performed in parallel. First the problem domain is divided into four and distributed to four processors. Each processor independently calculates the position of the particles in the next time step. The problem space can then be reconstructed to show the final state.
 
-![A parallelised particle simulation](/hipc/assets/unit-1/ParallelComputing.png)  
+![A parallelised particle simulation](../../assets/unit-1/ParallelComputing.png)  
 _**Figure 13:** A parallelised particle simulation_
 {: style="color:gray; font-size: 90%; text-align: center;"}
 
@@ -368,7 +368,7 @@ $$
 
 In other words, we could expect that by doubling the performance of 40% of the execution, our application will run 1.25$\times$ faster.
 
-![Amdahl's law example](/hipc/assets/unit-1/amdahl.png)  
+![Amdahl's law example](../../assets/unit-1/amdahl.png)  
 _**Figure 13:** Theoretical speedup from Amdahl's law for various amounts of parallelisability_
 {: style="color:gray; font-size: 90%; text-align: center;"}
 

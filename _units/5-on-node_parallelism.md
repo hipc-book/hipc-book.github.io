@@ -8,7 +8,7 @@ layout: post
 # Overview
 
 <video width="560" class="center" controls>
-    <source src="/hipc/assets/videos/HIPC-Unit_5-Overview.mp4" type="video/mp4">
+    <source src="../../assets/videos/HIPC-Unit_5-Overview.mp4" type="video/mp4">
 </video><br/>
 
 In the last unit we were looking at how we can parallelise and optimise an application on a single node. In this unit we'll start to look at how we can make use of the entire node. Specifically we're going to cover: 
@@ -23,7 +23,7 @@ In the last unit we were looking at how we can parallelise and optimise an appli
 
 This unit begins in the same way as the previous unit -- with Flynn's taxonomy. 
 
-![Flynn's taxonomy -- SISD, SIMD, MISD, and MIMD.](/hipc/assets/unit-5/flynns.png){: width="60%" }  
+![Flynn's taxonomy -- SISD, SIMD, MISD, and MIMD.](../../assets/unit-5/flynns.png){: width="60%" }  
 _**Figure 1:** Flynn's taxonomy_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -45,7 +45,7 @@ An **UMA (Uniform Memory Access)** system is one where the system has a flat mem
 
 In an UMA system, each CPU would typically be connected to a shared memory controller, which would act as a conduit between the CPUs and the main memory. With modern CPUs now containing tens of cores per chip, UMA architecture are no longer used. As core counts increase, the single memory controller soon becomes a significant bottleneck. 
 
-![A Uniform Memory Access (UMA) design](/hipc/assets/unit-5/uma.png)   
+![A Uniform Memory Access (UMA) design](../../assets/unit-5/uma.png)   
 _**Figure 2:** An UMA design_  
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -53,7 +53,7 @@ A **ccNUMA (cache-coherent Non-Uniform Memory Access)** system is one in which m
 
 In a NUMA system, each CPU has its own local memory address space, and can additionally access any other CPUs memory address space through an interconnect. 
 
-![A simple non-uniform memory access (NUMA) design](/hipc/assets/unit-5/numa.png)   
+![A simple non-uniform memory access (NUMA) design](../../assets/unit-5/numa.png)   
 _**Figure 3:** A simple NUMA design_  
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -129,7 +129,7 @@ In most cases, false sharing can be avoided or mitigated with simple code change
 
 The fork-join model is a method for setting up and executing parallel programs that branch off at designated points and rejoin later on in execution (to continue sequential execution). It was formulated as a parallel design pattern at least as early as 1963. 
 
-![An example of the Fork-Join model](/hipc/assets/unit-5/Fork_join.png)   
+![An example of the Fork-Join model](../../assets/unit-5/Fork_join.png)   
 _**Figure 4:** An example of a fork-join execution_  
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -483,7 +483,7 @@ int main(int argc, char *argv[]) {
 We can further parallelise our application by adding worksharing directives to our vectorised code, meaning that we can exploit parallelism at the core- and the process-level. 
 
 <video width="560" class="center" controls>
-    <source src="/hipc/assets/videos/HIPC-Unit_5-OpenMP.mp4" type="video/mp4">
+    <source src="../../assets/videos/HIPC-Unit_5-OpenMP.mp4" type="video/mp4">
 </video>
 
 # Advanced OpenMP

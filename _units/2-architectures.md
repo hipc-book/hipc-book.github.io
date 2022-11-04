@@ -8,7 +8,7 @@ layout: post
 # Overview
 
 <video width="560" class="center" controls>
-    <source src="/hipc/assets/videos/HIPC-Unit_2-Overview.mp4" type="video/mp4">
+    <source src="../../assets/videos/HIPC-Unit_2-Overview.mp4" type="video/mp4">
 </video>
 
 Welcome to the second unit of HIPC. In this unit, we'll start to look at some distributed systems and analyse the architecture of these systems. We'll cover: 
@@ -27,7 +27,7 @@ When we think about computer systems, we almost always have a certain architectu
 
 The stored-program computer architecture was a concept concieved by Alan Turing in 1936, as a universal Turing machine. This concept was formalised by John von Neumann and others in 1945 in the [_First Draft of a Report on the EDVAC_](https://en.wikipedia.org/wiki/First_Draft_of_a_Report_on_the_EDVAC), and was implemented on the EDVAC in 1949. 
 
-![The von Neumann Architecture](/hipc/assets/unit-2/vonneumann.png)  
+![The von Neumann Architecture](../../assets/unit-2/vonneumann.png)  
 _**Figure 1:** The von Neumann Architecture_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -52,7 +52,7 @@ The central CPU was supported by a number of peripheral processors that handled 
 
 In 1976, the Cray-1 was released, featuring a number of architectural optimisations that shaped the next 15 years of supercomputing. While typical von Neumann architectures were SISD, the Cray-1 was the first successful implementation of a vector processor (i.e. SIMD). 
 
-![A block diagram for the Cray 1 processor](/hipc/assets/unit-2/cray1-block.jpg)  
+![A block diagram for the Cray 1 processor](../../assets/unit-2/cray1-block.jpg)  
 _**Figure 2:** Cray-1 block diagram_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -88,7 +88,7 @@ This hybrid approach is now dominated by the use of Graphics Processing Units (G
      
 Modern CPUs owe much of their core design to the original von Neumann architectures. However, a number of modifications and optimisations have been made to bring about performance increases over the last 80 years. 
  
-![Basic block diagram for a simple single core CPU](/hipc/assets/unit-2/CPUArch.png)  
+![Basic block diagram for a simple single core CPU](../../assets/unit-2/CPUArch.png)  
 _**Figure 3:** A simplified block diagram of a typical single core CPU_
 {: style="color:gray; font-size: 90%; text-align: center;" }
  
@@ -121,7 +121,7 @@ Pipelining is perhaps the most important architectural innovation in the develop
 
 Complex operations (like floating point addition and multiplication) are divided into simple subcomponents that can be executed on separate units simultaneously to increase instruction throughput. While a complete instruction might take more than a single clock cycle, if operands are optimally pipelined, we can often achieve a throughput of one instruction per cycle. 
 
-![Simple vector pipeline](/hipc/assets/unit-2/pipeline.png)  
+![Simple vector pipeline](../../assets/unit-2/pipeline.png)  
 _**Figure 4:** Timeline for a simplified vector multiplication_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -145,13 +145,13 @@ In the previous unit we discussed vector processors, such as the Cray-1, whereby
 
 While SIMD execution was common in vector supercomputers, it did not make its way to the commodity market until 1996, when Intel's MMX instructions were added the their x86 architecture. SIMD is now a common feature in desktop and server CPUs. 
  
-![Comparison of SISD and SIMD with width 2](/hipc/assets/unit-2/sisd-vs-simd.png)  
+![Comparison of SISD and SIMD with width 2](../../assets/unit-2/sisd-vs-simd.png)  
 _**Figure 5:** SISD vs SIMD (with width 2)_
 {: style="color:gray; font-size: 90%; text-align: center;" }
  
 The MMX instruction set has since been superceded by the SSE and AVX instruction sets on Intel's hardware. Each new generation of SIMD extensions brings new vectorised instructions, and ever increasing vector widths. Most modern Intel CPUs now implement the AVX512 instruction set, with 512-bit vector registers. This allows instructions to operate on up to 8 double-precision (64-bit) floating-point values simultaneously. 
 
-We will look more closely at SIMD instruction sets in [Unit 4](/hipc/units/4-on-core_parallelism/). 
+We will look more closely at SIMD instruction sets in [Unit 4](../../units/4-on-core_parallelism/). 
 
 ### Out-of-order execution
 
@@ -161,7 +161,7 @@ When a CPU is executing instructions in its instruction stream, it is often the 
 
 Modern computers contain a hierarchy of memory, with each layer decreasing in size and increasing in performance (and cost!). 
 
-![The memory hierarchy](/hipc/assets/unit-2/caches.png)  
+![The memory hierarchy](../../assets/unit-2/caches.png)  
 _**Figure 6:** The memory hierarchy_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -355,7 +355,7 @@ The performance of the interconnect in a distributed system is primarily dictate
 
 Fat trees are shaped similarly to a tree, and have root switches and leaf switches (see figure below). Typical implementations are 2 or 3 level and may be tapered between the root and leaf switches, reducing cost and increasing the number of available endpoints but at the expense of global bandwidth. 
 
-![A simple 2-level fat tree](/hipc/assets/unit-2/fattree.png)  
+![A simple 2-level fat tree](../../assets/unit-2/fattree.png)  
 _**Figure 7:** A simple 2-level fat-tree configuration_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -373,7 +373,7 @@ A torus is a multidimensional topologies based upon a mesh or a cube network (k-
 
 The figure below shows a 2D torus, in a 3 &times; 3 grid; a switch (**s** in the figure) can then have multiple nodes attached. 
 
-![A 3 by 3 torus network](/hipc/assets/unit-2/torus.png)  
+![A 3 by 3 torus network](../../assets/unit-2/torus.png)  
 _**Figure 8:** A 3 x 3 torus network_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -383,7 +383,7 @@ Torus interconnects are typically very high performance, with a minimal number o
  
 Dragonfly is a network topology designed by Cray, that can be more cost effective for more endpoints than a Fat-Tree. Networks based upon a Dragonfly are grouped in to three ranks, firstly the router, secondly an intra-group and thirdly inter-groups. The figure below shows four nodes per router and three routers per group configuration with one global link per router for inter-group communication. The design of inter-group networks are left to the implementer, in the case of Cray Aries this is an All-To-All 2D mesh. 
  
-![A simple dragonfly topology](/hipc/assets/unit-2/dragonfly.png)  
+![A simple dragonfly topology](../../assets/unit-2/dragonfly.png)  
 _**Figure 9:** A simple dragonfly topology_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -431,7 +431,7 @@ One or more OSTs are connected to one or more Object Storage Servers. The OSSs a
 
 The Lustre file system is used by many of the world's fastest and largest computers. The basic architecture of a Lustre file system is shown below. Although Lustre (up to version 2.4) uses only a single MDS, a fail-over MDS and MGS can be present. Additionally, multiple OSSs can be connected to common OSTs and this will again provide some fail-over capability. 
  
-![A simple Lustre file system configuration](/hipc/assets/unit-2/lustre.png)  
+![A simple Lustre file system configuration](../../assets/unit-2/lustre.png)  
 _**Figure 10:** Simplified example configuration of a Lustre file system_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -445,7 +445,7 @@ To maintain consistency and allow correct concurrent access to the DFS, Lustre m
 
 IBM's Spectrum Scale file system (formally known the General Parallel File System (GPFS)) operates similarly to Lustre; large files are distributed across multiple storage targets using stripes. However, Spectrum Scale differs from Lustre in that all OSSs are connected to all OSTs and MDTs, usually through a fibre channel switch. This provides additional resilience in that many more OSSs can fail before the file system must go offline. The figure below demonstrates an example Spectrum Scale configuration.  
 
-![A simple IBM Spectrum Scale file system](/hipc/assets/unit-2/spectrumscale.png)  
+![A simple IBM Spectrum Scale file system](../../assets/unit-2/spectrumscale.png)  
 _**Figure 11:** Simplified example configuration of a Spectrum Scale file system_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -480,7 +480,7 @@ In an accelerated system, computations that are "offloaded" to the accelerator u
 
 The figure below highlights some of the key computational differences between CPUs and GPUs (but this applied to almost all accelerators). 
 
-![Feature comparison between CPUs and GPUs](/hipc/assets/unit-2/cpu-vs-gpu.png)  
+![Feature comparison between CPUs and GPUs](../../assets/unit-2/cpu-vs-gpu.png)  
 _**Figure 12:** CPUs vs GPUs for computation_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -527,7 +527,7 @@ The current TOP500 contains a number of other accelerators, primarily developed 
 # HPC Systems
 
 <video width="560" class="center" controls>
-    <source src="/hipc/assets/videos/HIPC-Unit_2-How_to_build_a_system.mp4" type="video/mp4">
+    <source src="../../assets/videos/HIPC-Unit_2-How_to_build_a_system.mp4" type="video/mp4">
 </video><br/>
 
 This unit has covered each of the "major" constituent parts of a supercomputer.  

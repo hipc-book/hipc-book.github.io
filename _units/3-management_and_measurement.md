@@ -8,7 +8,7 @@ layout: post
 # Overview
 
 <video width="560" class="center" controls>
-    <source src="/hipc/assets/videos/HIPC-Unit_3-Overview.mp4" type="video/mp4">
+    <source src="../../assets/videos/HIPC-Unit_3-Overview.mp4" type="video/mp4">
 </video>
 
 This week we're going to be covering: 
@@ -38,7 +38,7 @@ COS was ultimately succeeded by UNICOS during the 1980s. UNICOS was a Unix-based
 
 During the 1980s, almost all supercomputers began adopting Unix-like operating systems. In 1993, the first TOP500 list contained 491 systems using variants of Unix (e.g. UNICOS, BSD, CMOST, etc), and only 9 NEC machines were not. 
 
-![A graph showing the share of TOP500 systems using Unix and Linux operating systems](/hipc/assets/unit-3/OSshare.png)  
+![A graph showing the share of TOP500 systems using Unix and Linux operating systems](../../assets/unit-3/OSshare.png)  
 _**Figure 1:** Operating system share of TOP500 since 1993_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -474,7 +474,7 @@ Roofline is a visual heuristic model, that allows developers to plot the perform
 
 In a Roofline model, multiple ceilings can be plotted (e.g. maximum floating point performance, maximum performance without SIMD, etc.), alongside unit slops calculated based on the memory bandwidth of various memory subsytems (e.g. L1 bandwidth, L2 bandwidth, DRAM bandwidth). The figure below shows the calculated data from an AMD Opteron X2 (taken from the Roofline paper). 
 
-![A roofline model for an AMD Opteron CPU](/hipc/assets/unit-3/roofline.png)  
+![A roofline model for an AMD Opteron CPU](../../assets/unit-3/roofline.png)  
 _**Figure 2:** A Roofline model for an AMD Opteron X2_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -488,7 +488,7 @@ Importantly, a Roofline model is plotted using the maximum attainable values, an
 
 Calculating and generating Roofline models may seem complex, but they are available in some analysis tools. For example, Intel Advisor (mentioned above) has a Roofline tool that will collect maximum figures, and will plot your application on a Roofline model. 
 
-![An example of Intel's Roofline analysis tool](/hipc/assets/unit-3/intel-roofline.png)  
+![An example of Intel's Roofline analysis tool](../../assets/unit-3/intel-roofline.png)  
 _**Figure 3:** Intel's Roofline analysis tool_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 

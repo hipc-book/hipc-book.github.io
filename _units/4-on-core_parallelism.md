@@ -9,7 +9,7 @@ layout: post
 
 
 <video width="560" class="center" controls>
-    <source src="/hipc/assets/videos/HIPC-Unit_4-Overview.mp4" type="video/mp4">
+    <source src="../../assets/videos/HIPC-Unit_4-Overview.mp4" type="video/mp4">
 </video><br/>
 
 Over the next three units we're going to be looking at how to develop applications for homogeneous distributed systems. In this unit, we're going to start with performance and parallelism at the core level. 
@@ -24,13 +24,13 @@ Specifically we're going to cover:
  
 # Flynn's Taxonomy
 
-![A screenshot of Flynn's paper](/hipc/assets/unit-4/FlynnPaper.png){: width="350" }  
+![A screenshot of Flynn's paper](../../assets/unit-4/FlynnPaper.png){: width="350" }  
 _**Figure 1:** Some Computer Organizations and Their Effectiveness_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
 In Unit 1, we briefly covered Flynn's taxonomy. In Flynn's 1972 IEEE Transactions on Computers paper, "[Some Computer Organizations and Their Effectiveness](https://doi.org/10.1109/TC.1972.5009071)", he defined four classifications for compute architectures based on the number of concurrent instruction streams and data streams that were available in hardware (see Figure 2).
 
-![Flynn's taxonomy -- SISD, SIMD, MISD, and MIMD.](/hipc/assets/unit-4/flynns.png){: width="60%" }  
+![Flynn's taxonomy -- SISD, SIMD, MISD, and MIMD.](../../assets/unit-4/flynns.png){: width="60%" }  
 _**Figure 2:** Flynn's taxonomy_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -224,7 +224,7 @@ ALLOCATE(a(8, 16))
 
 The allocate statement will allocate a _contiguous_ block of memory with space for 128 "reals" (i.e. 8 &times; 16). In Fortran, arrays are indexed in _column-major order_; in other words, the allocated memory will look like the figure below (**Note:** arrays in Fortran begin at 1 unless told otherwise, and arrays are accessed using this bracket notation). 
    
-![Column-major ordering in Fortran](/hipc/assets/unit-4/column-major.png)   
+![Column-major ordering in Fortran](../../assets/unit-4/column-major.png)   
 _**Figure 3:** Column-major ordering in Fortran_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -236,7 +236,7 @@ double a[8][16];
 
 We would then be able to access the elements of this array using the standard C bracket notation. However, in contrast to Fortran, the data will be stored in _row-major order_. The figure below demonstrates this. 
 
-![Row-major ordering in C/C++](/hipc/assets/unit-4/row-major.png)  
+![Row-major ordering in C/C++](../../assets/unit-4/row-major.png)  
 _**Figure 4:** Row-major ordering in C/C++_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -321,7 +321,7 @@ my_particles[0].y = ...;
 
 This is perhaps the most intuitive way to store our 1000 particles. But, if we look at how this is stored in memory, it might not be conducive to performance. 
 
-![An array-of-structures](/hipc/assets/unit-4/AoS.png)  
+![An array-of-structures](../../assets/unit-4/AoS.png)  
 _**Figure 5:** An array-of-structures_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -341,7 +341,7 @@ my_particles.y[0] = ...;
 ...
 ``` 
 
-![A structure-of-arrays](/hipc/assets/unit-4/SoA.png)  
+![A structure-of-arrays](../../assets/unit-4/SoA.png)  
 **Figure 6:** A structure-of-arrays 
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -472,7 +472,7 @@ In 1999, Intel introduced the Streaming SIMD Extensions (SSE) instruction set --
 
 The SSE instruction set was further extended to SSE3, SSE4, SSE4.1 and SSE4.2. In total there are approximately 300 vector instructions across the SSE instruction sets. 
 
-![Selection of SSE instructions](/hipc/assets/unit-4/SSE.png)  
+![Selection of SSE instructions](../../assets/unit-4/SSE.png)  
 _**Figure 7:** A small selection of SSE instructions taken the [Intel Intrinsics Guide](https://www.intel.com/content/www/us/en/docs/intrinsics-guide/index.html)_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -513,7 +513,7 @@ free(c);
 ```
 
 <video width="560" class="center" controls>
-    <source src="/hipc/assets/videos/HIPC-Unit_4-SIMD.mp4" type="video/mp4">
+    <source src="../../assets/videos/HIPC-Unit_4-SIMD.mp4" type="video/mp4">
 </video><br/>
 
 As we can see in the video above, in order to manually apply vectorisation instructions to our vector-add example, we have to: 
@@ -530,7 +530,7 @@ Advanced Vector eXtensions were introduced in March 2008, and first supported by
 
 AVX was extended in 2013 with the AVX2 instruction set, and extended once again in 2013 for the Intel Xeon Phi Knights Landing processor with AVX-512 (with 512-bit wide vector registers). Although introduced for the Intel Xeon Phi range of co-processors, AVX-512 has been available on some modern Intel CPUs since 2017's Skylake platform. 
 
-![Selection of AVX instructions](/hipc/assets/unit-4/AVX.png)  
+![Selection of AVX instructions](../../assets/unit-4/AVX.png)  
 _**Figure 8:** A small selection of AVX instructions taken the [Intel Intrinsics Guide](https://www.intel.com/content/www/us/en/docs/intrinsics-guide/index.html)_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 

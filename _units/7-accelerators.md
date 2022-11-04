@@ -8,7 +8,7 @@ layout: post
 # Overview
 
 <video width="560" class="center" controls>
-    <source src="/hipc/assets/videos/HIPC-Unit_7-Overview.mp4" type="video/mp4">
+    <source src="../../assets/videos/HIPC-Unit_7-Overview.mp4" type="video/mp4">
 </video><br/> 
  
 Welcome to the 7th unit of the HIPC course. 
@@ -32,7 +32,7 @@ In the June 2016 TOP500 list, 19% of state-of-the-art HPC systems used GPUs (gra
 
 Accelerated computing started to gain popularity with the release of the first Petascale system, Roadrunner, which had IBM PowerXCell 8i accelerators connected to each core.
 
-![Roadrunner's architecture](/hipc/assets/unit-7/The-structure-of-a-Roadrunner-compute-node-triblade.png)  
+![Roadrunner's architecture](../../assets/unit-7/The-structure-of-a-Roadrunner-compute-node-triblade.png)  
 _**Figure 1:** Roadrunner's architecture_
 {: style="color:gray; font-size: 90%; text-align: center;" }
   
@@ -52,7 +52,7 @@ However, an obvious question to ask is why we need to use a GPU in addition to a
 
 Architecturally, in a GPU there are often hundreds of arithmetic logic units (ALUs). While for a CPU there are only a limited number of ALUs, usually correlated to the number of cores. This architectural difference leads to their different approaches to processing tasks, and therefore dictates which purposes they are good/bad for. 
 
-![Comparison between CPUs and GPUs](/hipc/assets/unit-7/gpuvscpu2.jpg)  
+![Comparison between CPUs and GPUs](../../assets/unit-7/gpuvscpu2.jpg)  
 _**Figure 2:** The key differences between CPUs and GPUs_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -83,7 +83,7 @@ Modern CPUs strongly favour sequential serial processing with high operational f
 
 A more direct comparison of their performance is given in the following graph, where the single- and double-precision floating-point performance (left) and memory performance (right) of NVIDIA Tesla GPUs are compared with some x86 CPUs: 
 
-![Graph of performance differences between a CPU and a GPU](/hipc/assets/unit-7/gpuvscpu.png)  
+![Graph of performance differences between a CPU and a GPU](../../assets/unit-7/gpuvscpu.png)  
 _**Figure 3:** CPU and GPU performance comparison_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -97,7 +97,7 @@ The architecture of NVIDIA GPUs has been evolving for serval years. Since 2006, 
 
 An overview of NVIDIAs GPU architecture is given in the following diagram: 
   
-![The GPU Hardware model for an NVIDIA A100](/hipc/assets/unit-7/memory-hierarchy-in-gpus-2.png)  
+![The GPU Hardware model for an NVIDIA A100](../../assets/unit-7/memory-hierarchy-in-gpus-2.png)  
 _**Figure 4:** GPU Hardware Model -- Overview (A100)_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -107,7 +107,7 @@ An NVIDIA chip consists of one or more _streaming multiprocessors_ (SMs). Each S
 
 In the following figure, we take the Pascal computing architecture (GeForce GTX 1080, Telsa P100, etc.) as an example to look inside an SM. The diagrammatic structure is shown below.
   
-![GPU Hardware model for a GeForce GTX 1080, Pascal](/hipc/assets/unit-7/GeForce_GTX_1080_SM_Diagram_FINAL.png)  
+![GPU Hardware model for a GeForce GTX 1080, Pascal](../../assets/unit-7/GeForce_GTX_1080_SM_Diagram_FINAL.png)  
 _**Figure 5:** GPU Hardware Model -- SM (of a GP104/Pascal)_
 {: style="color:gray; font-size: 90%; text-align: center;" }
   
@@ -127,7 +127,7 @@ CUDA (Compute Unified Device Architecture) is a parallel computing platform and 
 
 Before we move to more details about CUDA programming, we'll first look at the programming model of CUDA: 
 
-![CUDA's parallel thread model](/hipc/assets/unit-7/cuda_parallel_model.png)  
+![CUDA's parallel thread model](../../assets/unit-7/cuda_parallel_model.png)  
 _**Figure 6:** CUDA Parallel Thread Architecture_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -155,7 +155,7 @@ CUDA is implemented and deployed in multiple software layers. It consists of:
 
 The CUDA Toolkit SDK (source development kit) comes with the software driver, the CUDA toolkit (compiler, debugger, profiler), and code samples.
 
-![The CUDA Software Stack](/hipc/assets/unit-7/The-CUDA-software-stack.png)  
+![The CUDA Software Stack](../../assets/unit-7/The-CUDA-software-stack.png)  
 _**Figure 7:** CUDA Software Stack_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -208,7 +208,7 @@ It is noted that the version of components differs version by version. In this u
 
 CUDAs memory model is organised as follows:
 
-![CUDA's Memory Model](/hipc/assets/unit-7/cuda_memory.png)  
+![CUDA's Memory Model](../../assets/unit-7/cuda_memory.png)  
 _**Figure 8:** CUDA Memory Model_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -344,7 +344,7 @@ $ ./hello
 
 CUDA compilation works as follows: the input program is preprocessed for device compilation and is compiled to a CUDA binary (`cubin`) and/or PTX intermediate code, which are placed in a _fatbinary_. The input program is preprocessed once again for host compilation and is synthesised to embed the fatbinary and transform CUDA specific C++ extensions into standard C++ constructs. Then, the C++ host compiler compiles the synthesised host code with the embedded fatbinary into a host object. The exact steps that are followed to achieve this are displayed in the following diagram:
 
-![The CUDA Compilation process](/hipc/assets/unit-7/cuda-compilation-from-cu-to-executable.png)  
+![The CUDA Compilation process](../../assets/unit-7/cuda-compilation-from-cu-to-executable.png)  
 _**Figure 9:** The CUDA compilation process -- from `.cu` to a binary_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
