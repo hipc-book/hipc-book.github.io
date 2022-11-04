@@ -25,7 +25,7 @@
                 "all": ["facebook", "google", "twitter", "weibo", "instapaper"],
                 "facebook": true,
                 "google": false,
-                "instapaper": false,
+                "instapaper": true,
                 "twitter": true,
                 "vk": false,
                 "weibo": false
