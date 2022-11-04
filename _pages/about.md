@@ -1,9 +1,13 @@
 ---
 title: About
-author: Tao He
-date: 2022-02-04
+author: Steven Wright
+date: 2022-11-04
 category: Jekyll
 layout: post
 ---
 
-This is an about page.
+This GitBook provides all of the teaching material for the [HIPC](https://www.york.ac.uk/students/studying/manage/programmes/module-catalogue/module/COM00036H/latest/) module taught at the University of York. The material was primarily developed by [Steven Wright](https://cs.york.ac.uk/~saw), while Unit 7 (Accelerators) was developed by [Xiaotian Dai](https://www.xiaotiandai.com).
+
+At the end of each academic year a snapshot of the site will be made for archival purposes, but this GitBook will be updated. Any significant changes will be documented in the Changelog.
+
+The assignment for this module will be made available via the York VLE (rather than via this site).

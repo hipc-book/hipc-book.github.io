@@ -802,19 +802,19 @@ The MPI API contains almost 500 function -- far more than we have the time or sp
 > It is not expected (or required) that you will use Parallel I/O in your assignment. However, that is not a reason you shouldn't gain a basic understanding in using MPI-IO! 🙂
 {: .block-warning } 
   
-There are numerous approaches to writing output from parallel processes, and they can broadly be categorised into three approaches: _N_-to-_N_, _N_-to-_M_ and _N_-to-_1_. 
+There are numerous approaches to writing output from parallel processes, and they can broadly be categorised into three approaches: N-to-N, N-to-M and N-to-1. 
  
 ![The three approaches to writing files in parallel: N to N, N to M, and N to 1](/hipc/assets/unit-6/parallel-io.png)  
 _**Figure 9:** Three approaches to writing files in parallel_
 {: style="color:gray; font-size: 90%; text-align: center;" }
   
-The simplest approach to implement is perhaps _N_-to-_N_, where each process writes its own file. This can be achieved using simple POSIX file I/O operations. However, this may overwhelm a file system at scale (lots of metadata operations (e.g. file create, file close, file size queries, etc.)), and may also make it difficult to manage for other applications. In particular loading from _N_ files on a future application run (which may run on a different number of processes) may be more complicated, and parsing data spread across many files may be more complex for analysis tools. 
+The simplest approach to implement is perhaps N-to-N, where each process writes its own file. This can be achieved using simple POSIX file I/O operations. However, this may overwhelm a file system at scale (lots of metadata operations (e.g. file create, file close, file size queries, etc.)), and may also make it difficult to manage for other applications. In particular loading from N files on a future application run (which may run on a different number of processes) may be more complicated, and parsing data spread across many files may be more complex for analysis tools. 
 
-The _N_-to-_1_ approach is perhaps the most natural approach following _N_-to-_N_, where all processes write to a single file. This solves many of the complexities introduced by the _N_-to-_N_ case. However, orchestrating this using POSIX operations may be difficult, with each process writing to a separate "chunk" simultaneously. Since each process is writing to a single file, this approach may also add overhead or cause serialisation because of the potential need to use file locks and unlocks to prevent data corruption. 
+The N-to-1 approach is perhaps the most natural approach following N-to-N, where all processes write to a single file. This solves many of the complexities introduced by the N-to-N case. However, orchestrating this using POSIX operations may be difficult, with each process writing to a separate "chunk" simultaneously. Since each process is writing to a single file, this approach may also add overhead or cause serialisation because of the potential need to use file locks and unlocks to prevent data corruption. 
 
-They hybrid _N_-to-_M_ approach is perhaps the most complex to implement, but can strike a good balance between being usability and performance (since we can potentially reduce metadata overhead, but also reduce file locking overhead, book-keeping, etc.). 
+They hybrid N-to-M approach is perhaps the most complex to implement, but can strike a good balance between being usability and performance (since we can potentially reduce metadata overhead, but also reduce file locking overhead, book-keeping, etc.). 
 
-In this section, we're going to cover the _N_-to-_1_ approach, and we're going to do it using the `MPI_File_...()` functions. 
+In this section, we're going to cover the N-to-1 approach, and we're going to do it using the `MPI_File_...()` functions. 
 
 ## MPI-IO
  
