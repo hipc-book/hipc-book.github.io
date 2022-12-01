@@ -9,8 +9,8 @@ description: >
 version:          1.0
 gitbook_version:  3.2.3
 
-url:              'https://cs.york.ac.uk/'
-baseurl:          '/~saw/hipc'
+url:              'https://www-users.york.ac.uk/'
+baseurl:          '/~saw586/hipc'
 rss:              RSS
 
 # bootstrap: use the remote theme for the site itself
