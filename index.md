@@ -19,19 +19,19 @@ The module will be delivered asychronously through this site, and will be suppor
 
 If you have any questions about the module, please direct them to [Steven Wright](https://cs.york.ac.uk/~saw).
 
-* #### [Unit 1 - Supercomputing and Scientific Computing](units/1-supercomputing/)
+* #### [Unit 1 - Supercomputing and Scientific Computing](lectures/1-supercomputing/)
 
-* #### [Unit 2 - The Architectures of Distributed Systems](units/2-architectures/)
+* #### [Unit 2 - The Architectures of Distributed Systems](lectures/2-architectures/)
 
-* #### [Unit 3 - Management and Measurement of Distributed Systems](units/3-management_and_measurement/)
+* #### [Unit 3 - Management and Measurement of Distributed Systems](lectures/3-management_and_measurement/)
 
-* #### [Unit 4 - On-Core Parallelism](units/4-on-core_parallelism/)
+* #### [Unit 4 - On-Core Parallelism](lectures/4-on-core_parallelism/)
 
-* #### [Unit 5 - On-node Parallelism](units/5-on-node_parallelism/)
+* #### [Unit 5 - On-node Parallelism](lectures/5-on-node_parallelism/)
 
-* #### [Unit 6 - Inter-node Parallelism](units/6-internode_parallelism/)
+* #### [Unit 6 - Inter-node Parallelism](lectures/6-internode_parallelism/)
 
-* #### [Unit 7 - Accelerators](units/7-accelerators/)
+* #### [Unit 7 - Accelerators](lectures/7-accelerators/)
 
-* #### [Unit 8 - Heterogenous Programming](units/8-heterogeneous_programming/)
+* #### [Unit 8 - Heterogenous Programming](lectures/8-heterogeneous_programming/)
 
