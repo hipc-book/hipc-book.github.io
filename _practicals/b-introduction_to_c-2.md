@@ -29,7 +29,8 @@ int *dynamic_array = (int *) malloc(10 * sizeof(int)); // Dynamically allocated 
 free(dynamic_array); // release memory
 ```
 
-Statically allocated memory lives on the program stack where space is limited by the operating system. The stack segment is used as a temporary scratch pad to store local function variables and context during function calls. Before calling a function a program must first build a stack frame which contains all of the function's arguments along with enough free space to hold any local variables declared by that function. This is pushed onto the stack and the processor jumps to the start of the function code. When a function returns, the stack frame is popped off the stack and discarded. This means that statically allocated memory only exists for the duration of a function call and is automatically allocated on function entry and released after the function exits. The compiler will automatically generate code to do this, meaning the programmer does not have to explicitly manage static memory. To statically allocate an array of integers in a function (as we've previously been doing), you can write:<br> 
+Statically allocated memory lives on the program stack where space is limited by the operating system. The stack segment is used as a temporary scratch pad to store local function variables and context during function calls. Before calling a function a program must first build a stack frame which contains all of the function's arguments along with enough free space to hold any local variables declared by that function. This is pushed onto the stack and the processor jumps to the start of the function code. When a function returns, the stack frame is popped off the stack and discarded. This means that statically allocated memory only exists for the duration of a function call and is automatically allocated on function entry and released after the function exits. The compiler will automatically generate code to do this, meaning the programmer does not have to explicitly manage static memory. To statically allocate an array of integers in a function (as we've previously been doing), you can write:
+ 
  
 ```c
 void foo(double argument) {
@@ -78,7 +79,8 @@ In C, all strings must all end with a null character (\0) and you should therefo
 size_t strlen(const char *s);
 ```
  
-The <a onclick="this.href='/webapps/blackboard/content/contentWrapper.jsp?content_id=_4532469_1 &displayName=Linked+File &navItem=content &attachment=true &course_id=_103719_1 &tab_group=courses &href=http%3A%2F%2Flinux.die.net%2Fman%2F3%2Fstrlen';" href="http://linux.die.net/man/3/strlen" style="font-size: 12pt;" target="_parent"><code>strlen()</code></a> function returns the number of characters in a string. This will likely be different to the amount of memory allocated for a particular string -- it will report the number of characters up to _(but not including)_ the null character.<br> 
+The <a onclick="this.href='/webapps/blackboard/content/contentWrapper.jsp?content_id=_4532469_1 &displayName=Linked+File &navItem=content &attachment=true &course_id=_103719_1 &tab_group=courses &href=http%3A%2F%2Flinux.die.net%2Fman%2F3%2Fstrlen';" href="http://linux.die.net/man/3/strlen" style="font-size: 12pt;" target="_parent"><code>strlen()</code></a> function returns the number of characters in a string. This will likely be different to the amount of memory allocated for a particular string -- it will report the number of characters up to _(but not including)_ the null character.
+ 
  
 In the above example, strlen is used to get the size of string_a and string_b. The space required for the concatenated string is then the sum of the length of these two strings plus 1 for the null character. 
  
@@ -86,7 +88,8 @@ In the above example, strlen is used to get the size of string_a and string_b. T
 char * strcat (char * destination, const char * source );
 ```
 
-The strcat function appends a copy of the source string to the destination string. The terminating null character in destination is overwritten by the first character of source, and a null-character is included at the end of the new string formed by the concatenation of both in destination.<br> 
+The strcat function appends a copy of the source string to the destination string. The terminating null character in destination is overwritten by the first character of source, and a null-character is included at the end of the new string formed by the concatenation of both in destination.
+ 
 
 An alternative approach would be to use the sprintf function to amalgamate the two strings: 
  
@@ -94,7 +97,8 @@ An alternative approach would be to use the sprintf function to amalgamate the t
 sprintf(tmp_string, "%s%s", string_a, string_b);
 ```
 
-The sprintf function is much the same as the <a onclick="this.href='/webapps/blackboard/content/contentWrapper.jsp?content_id=_4532469_1 &displayName=Linked+File &navItem=content &attachment=true &course_id=_103719_1 &tab_group=courses &href=http%3A%2F%2Flinux.die.net%2Fman%2F3%2Fprintf';" href="http://linux.die.net/man/3/printf" style="font-size: 12pt;" target="_parent">printf()</a> function we encountered last time. Where printf prints to the standard out stream, <a onclick="this.href='/webapps/blackboard/content/contentWrapper.jsp?content_id=_4532469_1 &displayName=Linked+File &navItem=content &attachment=true &course_id=_103719_1 &tab_group=courses &href=http%3A%2F%2Flinux.die.net%2Fman%2F3%2Fsprintf';" href="http://linux.die.net/man/3/sprintf" style="font-size: 12pt;" target="_parent"><code>sprintf()</code></a> prints into memory (which must be allocated with at least enough room).<br> 
+The sprintf function is much the same as the <a onclick="this.href='/webapps/blackboard/content/contentWrapper.jsp?content_id=_4532469_1 &displayName=Linked+File &navItem=content &attachment=true &course_id=_103719_1 &tab_group=courses &href=http%3A%2F%2Flinux.die.net%2Fman%2F3%2Fprintf';" href="http://linux.die.net/man/3/printf" style="font-size: 12pt;" target="_parent">printf()</a> function we encountered last time. Where printf prints to the standard out stream, <a onclick="this.href='/webapps/blackboard/content/contentWrapper.jsp?content_id=_4532469_1 &displayName=Linked+File &navItem=content &attachment=true &course_id=_103719_1 &tab_group=courses &href=http%3A%2F%2Flinux.die.net%2Fman%2F3%2Fsprintf';" href="http://linux.die.net/man/3/sprintf" style="font-size: 12pt;" target="_parent"><code>sprintf()</code></a> prints into memory (which must be allocated with at least enough room).
+ 
  
 ```c
 int strcmp(const char *s1, const char *s2);
@@ -112,13 +116,15 @@ int v = strcmp(s1, s2); // This will be 0 as they are equal
 int w = strcmp(s1, s3); // This will be non-zero
 ```
 
-The final function we will discuss in this lab session is the <a onclick="this.href='/webapps/blackboard/content/contentWrapper.jsp?content_id=_4532469_1 &displayName=Linked+File &navItem=content &attachment=true &course_id=_103719_1 &tab_group=courses &href=http%3A%2F%2Flinux.die.net%2Fman%2F3%2Fstrstr';" href="http://linux.die.net/man/3/strstr" style="font-size: 12pt;" target="_parent"><code>strstr()</code></a> function.<br> 
+The final function we will discuss in this lab session is the <a onclick="this.href='/webapps/blackboard/content/contentWrapper.jsp?content_id=_4532469_1 &displayName=Linked+File &navItem=content &attachment=true &course_id=_103719_1 &tab_group=courses &href=http%3A%2F%2Flinux.die.net%2Fman%2F3%2Fstrstr';" href="http://linux.die.net/man/3/strstr" style="font-size: 12pt;" target="_parent"><code>strstr()</code></a> function.
+ 
  
 ```c
 char *strstr(const char *haystack, const char *needle);
 ```
  
-The <a onclick="this.href='/webapps/blackboard/content/contentWrapper.jsp?content_id=_4532469_1 &displayName=Linked+File &navItem=content &attachment=true &course_id=_103719_1 &tab_group=courses &href=http%3A%2F%2Flinux.die.net%2Fman%2F3%2Fstrstr';" href="http://linux.die.net/man/3/strstr" style="font-size: 12pt;" target="_parent"><code>strstr()</code></a> function finds a substring within a larger string and returns a pointer to the beginning of the substring, or NULL if the substring is not found. For example:<br> 
+The <a onclick="this.href='/webapps/blackboard/content/contentWrapper.jsp?content_id=_4532469_1 &displayName=Linked+File &navItem=content &attachment=true &course_id=_103719_1 &tab_group=courses &href=http%3A%2F%2Flinux.die.net%2Fman%2F3%2Fstrstr';" href="http://linux.die.net/man/3/strstr" style="font-size: 12pt;" target="_parent"><code>strstr()</code></a> function finds a substring within a larger string and returns a pointer to the beginning of the substring, or NULL if the substring is not found. For example:
+ 
  
 ```c
 char *s1 = "this is a string";
@@ -130,7 +136,8 @@ char *r1 = strstr(s1, s2); // This will return a pointer to: "is a string"
 char *r2 = strstr(s1, s3); // This will return NULL
 ```
  
-Like in the previous practical, memory leaks and buffer overflows are serious problems when dealing with strings stored on the heap. You **must** make sure that when you allocate memory for a string you<b style="font-size: 12pt; font-style: inherit;"> </b>**include 1 additional character space for the NULL characte**r and that you don't overrun the memory you have allocated.<br> 
+Like in the previous practical, memory leaks and buffer overflows are serious problems when dealing with strings stored on the heap. You **must** make sure that when you allocate memory for a string you<b style="font-size: 12pt; font-style: inherit;"> </b>**include 1 additional character space for the NULL characte**r and that you don't overrun the memory you have allocated.
+ 
 
 A buffer overflow occurs when you write more data to memory than you have allocated space for. While your application will often not crash when doing this operation, it may cause issues at a later time as you may overwrite memory being used for something else entirely. Furthermore, buffer overflows are often the cause of security problems in applications. If you can overwrite memory in the correct way, it is actually possible to inject malicious assembly code into a running application. 
 
@@ -159,7 +166,8 @@ int main(){
 }
 ```
  
-Note that the main() function in the above exercise uses the function fgets() to read characters from the <a onclick="this.href='/webapps/blackboard/content/contentWrapper.jsp?content_id=_4532470_1 &displayName=Linked+File &navItem=content &attachment=true &course_id=_103719_1 &tab_group=courses &href=http%3A%2F%2Flinux.die.net%2Fman%2F3%2Fclose';" href="http://linux.die.net/man/3/close" style="font-size: 12pt;" target="_parent"><code>stdin</code></a> file stream. In C, a file stream is used to represent an opened I/O device or file. The <a onclick="this.href='/webapps/blackboard/content/contentWrapper.jsp?content_id=_4532470_1 &displayName=Linked+File &navItem=content &attachment=true &course_id=_103719_1 &tab_group=courses &href=http%3A%2F%2Flinux.die.net%2Fman%2F3%2Fclose';" href="http://linux.die.net/man/3/close" style="font-size: 12pt;" target="_parent"><code>stdin</code></a> file stream represents the keyboard. Also, note that fgets() in the above program will read at most 99 bytes (one less than the second argument) from the stdin file stream leaving 1 byte to store the null character ('\0') which makes 'str' a valid string. See the man page of fgets() to know more about the function.<br> 
+Note that the main() function in the above exercise uses the function fgets() to read characters from the <a onclick="this.href='/webapps/blackboard/content/contentWrapper.jsp?content_id=_4532470_1 &displayName=Linked+File &navItem=content &attachment=true &course_id=_103719_1 &tab_group=courses &href=http%3A%2F%2Flinux.die.net%2Fman%2F3%2Fclose';" href="http://linux.die.net/man/3/close" style="font-size: 12pt;" target="_parent"><code>stdin</code></a> file stream. In C, a file stream is used to represent an opened I/O device or file. The <a onclick="this.href='/webapps/blackboard/content/contentWrapper.jsp?content_id=_4532470_1 &displayName=Linked+File &navItem=content &attachment=true &course_id=_103719_1 &tab_group=courses &href=http%3A%2F%2Flinux.die.net%2Fman%2F3%2Fclose';" href="http://linux.die.net/man/3/close" style="font-size: 12pt;" target="_parent"><code>stdin</code></a> file stream represents the keyboard. Also, note that fgets() in the above program will read at most 99 bytes (one less than the second argument) from the stdin file stream leaving 1 byte to store the null character ('\0') which makes 'str' a valid string. See the man page of fgets() to know more about the function.
+ 
 
 # File I/O
 
@@ -344,7 +352,8 @@ tail = tail->next;   // the crow's foot is a pretty shortcut for..
 tail = (*tail).next; // this ugly code.
 ```
  
-The second line dereferences the tail pointer (in brackets), and having dereferenced it accesses the next member with the standard dot syntax.<br> 
+The second line dereferences the tail pointer (in brackets), and having dereferenced it accesses the next member with the standard dot syntax.
+ 
 
 # Exercise 3
 
@@ -373,7 +382,8 @@ int main(int argc, char *argv[]) {
  
 You might already be able spot the error in the code above. If you were to compile and run the above application, it would run to completion and nothing seems amiss; however if this was part of a larger application, this code may well cause a segfault somewhere else in the code entirely. To debug these problems, there are two options. 
 
-One is a tool called valgrind. If we compile the above program using debug symbols (<code>-g</code>) and the run it through valgrind:<br> 
+One is a tool called valgrind. If we compile the above program using debug symbols (<code>-g</code>) and the run it through valgrind:
+ 
  
 ```
 $ valgrind ./test
