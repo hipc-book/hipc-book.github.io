@@ -4,6 +4,8 @@ title: High Performance Parallel and Distributed Systems
 permalink: /
 ---
 
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/KPhZMgyO_K4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe><br/>
+
 Welcome to High Performance Parallel and Distributed Systems
 
 In this module we will cover:
