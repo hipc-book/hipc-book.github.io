@@ -7,9 +7,7 @@ layout: post
 
 # Overview
 
-<video width="560" class="center" controls>
-    <source src="../../assets/videos/HIPC-Unit_3-Overview.mp4" type="video/mp4">
-</video>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/CxUGPhQUl_s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe><br/>
 
 This week we're going to be covering: 
 
@@ -30,7 +28,7 @@ Early HPC systems were very different to workstations of the time and therefore 
 
 The CDC6600 used its own Chippewa Operating System (so named after Chippewa Falls, where the machine was developed). Chippewa OS was a simple job control oriented operating system. 
 
-When the first Cray-1 was installed at the Los Alamos National Laboratory (LANL), it was delivered without any software or OS. Instead, LANL developed the the Cray Time Sharing System (CTSS) in conjunction with the Lawrence Livermore National Laboratory (LLNL). CTSS was popular on Cray systems across the United States Department of Energy (DOE). 
+When the first Cray-1 was installed at the Los Alamos National Laboratory (LANL), it was delivered without any software or OS. Instead, LANL developed the Cray Time Sharing System (CTSS) in conjunction with the Lawrence Livermore National Laboratory (LLNL). CTSS was popular on Cray systems across the United States Department of Energy (DOE). 
 
 Alongside CTSS, Cray also developed their own Cray Operating System (COS) in 1975. COS was used on both Cray-1 and Cray X-MP supercomputers, and, like CTSS, was a batch oriented operating system. 
 
@@ -53,7 +51,7 @@ In 1991, frustrated by the licencing of some Unix operating systems, Linus Torva
 
 The adoption of commodity hardware in most modern HPC systems means that, today, most systems use a relatively conventional Linux distribution. The most popular distributions in use are typically provided by vendors such as RedHat or SUSE, or supported by internal developers (as is the case with the Tri-Laboratory Operating System Stack, or TOSS, developed at LLNL, based heavily on the RedHat Enterprise Linux distribution).  
 
-Although most systems (or perhaps even, all!) use a commodity Linux installation, there are a number of instances where compute nodes and login nodes use different Linux kernels, with compute nodes occaisionally favouring a lightweight kernel (LWK) -- such that the kernel only implements only a crucial subset of a full Linux kernel to minimise OS overhead and jitter. 
+Although most systems (or perhaps even, all!) use a commodity Linux installation, there are a number of instances where compute nodes and login nodes use different Linux kernels, with compute nodes occaisionally favouring a lightweight kernel (LWK) -- such that the kernel implements only a crucial subset of a full Linux kernel to minimise OS overhead and jitter. 
 
 Two examples of using LWKs can be seen in IBM's BlueGene systems and Cray systems. 
 
@@ -88,7 +86,7 @@ However, using third-party software or libraries also comes with some associated
 
 The first issue is often handled by an administrator using system software (like `apt`, `yum`, etc.) to update software using pre-packaged binaries. The second issue is more difficult and often requires maintaining multiple installations of each library on the same system, with access to the different versions controlled by some of the typical environment variables on a Linux system. 
 
-One approach to both of these issues is to use an HPC-specific package manager, such as **Spack**. Spack was developed at Lawrence Livermore National Laboratory and can be used to install scientific software and libraries along with associated dependencies, and is capable of maintaining multiple versions of each library through environment modules. 
+One approach to both of these issues is to use an HPC-specific package manager, such as **Spack**. Spack was developed at Lawrence Livermore National Laboratory and can be used to install scientific software and libraries along with associated dependencies. It is also capable of maintaining multiple versions of each library through environment modules. 
 
 <iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/D0p5xpsboK4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe> <br/>
 
@@ -117,7 +115,7 @@ The GNU Compiler Collection (GCC) is perhaps the most widely used compiler on Li
 
 Additionally, GCC supports many of the programming models used in HPC application development, such as OpenMP and OpenACC. You can find out more about GCC from its manual page. 
 
-```shell
+```
 $ man gcc
 ```
 
@@ -134,7 +132,7 @@ The LLVM project began in 2000, initially as a low-level virtual machine (hence 
 
 Much of the LLVM implementation is written in C++, and is purposely language-agnostic. Instead, a frontend compiler emits LLVM IR, which LLVM can optimise and convert to machine-dependent assembly for execution. Because of this, LLVM currently contains support for over 30 languages. 
 
-The C-language frontend to LLVM is known as Clang, and it is capable of compiling C, C++ and Objective-C, and also supports the OpenMP, OpenCL, CUDA and HIP language frameworks. Clang is designed to be a drop-in replacement for GCC, and so largely supports many of the same compilation flags. 
+The C-language frontend to LLVM is known as Clang, and it is capable of compiling C, C++ and Objective-C, and also supports the OpenMP, OpenCL, CUDA and HIP language frameworks. Clang is designed to be a drop-in replacement for GCC, and so supports many of the same compilation flags. 
 
 Such is the success of LLVM/Clang, that in recent years it has been forked by AMD, Intel and Cray for their compiler environments. 
 
@@ -142,7 +140,7 @@ Such is the success of LLVM/Clang, that in recent years it has been forked by AM
 
 > **Exercise** 
 >
->The [Compiler Explorer](https://godbolt.org) is a useful website to see how different compilers perform at compiling simple applications.
+> The [Compiler Explorer](https://godbolt.org) is a useful website to see how different compilers perform at compiling simple applications.
 > 
 > Write a simple hello world application in C (or something similarly simple) and use the compiler explorer to see how different compilers perform.
 >
@@ -159,11 +157,11 @@ On a distributed system, applications running in parallel across a system often 
 
 The **Partitioned Global Address Space (PGAS)** parallel programming paradigm essentially mimics a shared memory system, by providing a distributed application with a globally coherent memory space that is transparently partitioned among compute nodes. When compute is being performed on a partition that is local to a compute node it can exploit _locality of reference_ to act directly on the memory; when data is required that is not local, it must be requested from another compute node, thus requiring a communication step. 
 
-Notable examples of a PGAS memory model can be found in Coarray Fortran, Unified Parallel C and Chapel. Since Fortran 2008, Coarray Fortran has been integrated into the language. 
+Notable examples of a PGAS memory model can be found in **Coarray Fortran**, **Unified Parallel C** and **Chapel**. Since Fortran 2008, Coarray Fortran has been integrated into the language. 
 
 In contrast to the implicit communication in a PGAS model, **Message Passing** uses explicit communication to coordinate applications running in parallel. The **Message Passing Interface**, or **MPI**, is the de facto standard in HPC. 
 
-MPI was first devised in 1991, with the first standard published at the Supercomputing conference in 1993. It has been continually developed ever since, and is extensively used on almost every HPC system today. The MPI standard defines an API (application programming interface) that includes communicators, point-to-point messaging, collective operations, derived data types and parallel file I/O. There are a number of implementations available, including OpenMPI (not to be confused with OpenMP!), MPICH, Intel MPI and IBM MPI, to name just a few, and there are API bindings available in C, C++ and Fortran. 
+MPI was first devised in 1991, with the first standard published at the Supercomputing conference in 1993. It has been continually developed ever since, and is extensively used on almost every HPC system today. The MPI standard defines an API (application programming interface) that includes communicators, point-to-point messaging, collective operations, derived data types and parallel file I/O. There are a number of implementations available, including **OpenMPI** (not to be confused with OpenMP!), **MPICH**, **Intel MPI** and **IBM MPI**, to name just a few, and there are API bindings available in C, C++ and Fortran. 
 
 We'll look more closely at MPI later in this module. 
 
@@ -171,11 +169,11 @@ We'll look more closely at MPI later in this module.
 
 ### Mathematical Libraries
 
-There are many common algorithms that are used in many scientific software applications. For this reason, there are a number of mathematical libraries that provide an interface for solving common mathematical problems. 
+There are numerous common algorithms that are used in many scientific software applications. For this reason, there are a number of mathematical libraries that provide an interface for solving common mathematical problems. 
 
 The basis of many of these libraries is **BLAS (Basic Linear Algebra Subprograms)**, first developed in 1979. BLAS provides vector operations, matrix-vector operations and matrix-matrix operations. **LAPACK (Linear Algebra Package)** builds on BLAS and provides routines for solving systems of linear equations. The **FFTW** library provides functions for computing discrete Fourier transforms, and is known to be the fastest free software implementation of the fast Fourier transform (FFT). 
 
-Architecture-tuned implementations of BLAS, LAPACK and FFTW are often available, with notable examples being AMD Optimized CPU Libraries, ARM Performance Libraries, Intel Math Kernel Library, cuBLAS, clBLAS, OpenBLAS, and Boost.uBLAS. 
+Architecture-tuned implementations of BLAS, LAPACK and FFTW are often available, with notable examples being **AMD Optimized CPU Libraries**, **ARM Performance Libraries**, **Intel Math Kernel Library**, **cuBLAS**, **clBLAS**, **OpenBLAS**, and **Boost.uBLAS**. 
 
 <iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/pzVaJgdN9Fw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe> <br/>
 
@@ -231,7 +229,7 @@ But when a system has thousands of users competing for a limited resource, a bat
 
 In using a scheduler, users typically express their job needs in a short script (written in shell script, or perhaps python). Users then submit this script to the scheduler along with a request for particular resources. The scheduler then processes items in the queue using a pre-configured scheduling algorithm to ensure that all users are given fair use of the system. 
 
-On York's Viking cluster, the Slurm scheduler is used. Slurm was developed at Lawrence Livermore National Laboratory, and is used on around 60% of the TOP500 systems currently. 
+On York's Viking cluster, the **Slurm** scheduler is used. Slurm was developed at Lawrence Livermore National Laboratory, and is used on around 60% of the TOP500 systems currently. 
 
 > **Further Reading**
 >
@@ -247,7 +245,7 @@ On any cluster system, perhaps the most important operations to be aware of are 
 > Use the Viking wiki page, or the Slurm manual pages to find out how to do each of the four tasks above. You might like to try each command out.
 {: .block-danger }
 
-Besides Slurm, there are a number of other queuing and scheduling systems, with notable examples being Maui, PBS Pro and IBM LoadLeveler. While each system has its own semantics, the principles of a batch scheduling system are the same. 
+Besides Slurm, there are a number of other queuing and scheduling systems, with notable examples being **Maui**, **PBS Pro** and **IBM LoadLeveler**. While each system has its own semantics, the principles of a batch scheduling system are the same. 
 
 > **Further Reading** 
 > 
@@ -332,13 +330,19 @@ Alongside timing information, it might be that we want more performance data tha
 
 Most systems contain **Hardware Performance Counters** -- a set of special-purpose registers built into microprocessors to count hardware related activities within a system. These can be accessed through the `perf` command, or programmatically through the **Performance Application Programming Interface**, or **PAPI**. 
 
-> TODO: Insert bit here about PERF
+To use the `perf` command (assuming it is installed), we run the application through its `stat` function, and specify which performance events we would like to capture. To get a list of available _events_, we can use:
 
-```shell
-$ perf stat -a -e "power/energy-ram/" -e "power/energy-cores/" -e "power/energy-pkg/" ./omp_parallel_test.x
+```
+$ perf list
 ```
 
-You can load the PAPI library on Viking with:
+We can then record performance using the `stat` function and specifying the counters using the `-e` event paramenter. For example, to record the energy usage of an application:
+
+```
+$ perf stat -a -e "power/energy-ram/" -e "power/energy-cores/" -e "power/energy-pkg/" ./test.x
+```
+
+We can also instrument our code directly to capture events through the PAPI interface. You can load the PAPI library on Viking with:
 
 ```shell
 $ module load perf/PAPI/5.6.0-GCCcore-7.3.0
@@ -346,7 +350,7 @@ $ module load perf/PAPI/5.6.0-GCCcore-7.3.0
 
 You can then see what performance counters are available using the `papi_avail` command. 
 
-```shell
+```
 $ papi_avail
 ...
 ================================================================================
@@ -364,7 +368,7 @@ You can access and read these counters programatically through the PAPI library,
 
 Firstly, you must include the PAPI header file, `<papi.h>`, and then you must compile and link against `libpapi` with: 
 
-```shell
+```
 $ gcc -lpapi test.c
 ```
 
@@ -403,17 +407,17 @@ Now that we have a collection of tools at our disposal for collecting performanc
 
 Code _**profilers**_ use timing information to generate a profile of an application's execution, such that we can identify performance hot spots. 
 
-A profiler can provide timing statistics for each of the functions in an application in a (usually) lightweight manner. Rather than timing each individual instruction, they usually employ statistical sampling -- while this many sacrifice some accuracy, it also reduces the overhead on the application, and thus avoids polluting performance data with frequent calls to a timing function. 
+A profiler can provide timing statistics for each of the functions in an application in a (usually) lightweight manner. Rather than timing each individual instruction, they employ statistical sampling -- while this many sacrifice some accuracy, it also reduces the overhead on the application, and thus avoids polluting performance data with frequent calls to a timing function. 
 
-The most widely available profiler on Linux systems is probably the GNU Profiler (gprof). To enable gprof profiling, you first compile the application with profiling enabled (the command line option to do this is the same between GCC and Clang). 
+The most widely available profiler on Linux systems is probably the GNU Profiler (`gprof`). To enable `gprof` profiling, you first compile the application with profiling enabled (the command line option to do this is the same between GCC and Clang). 
 
-```shell
+```
 $ gcc -pg test.c 
 ```
 
-When the application is subsequently run (e.g. `./a.out`, _note:_ if the executable file is named differently, its name must be specified to gprof), it will generate a profile in the `gmon.out` file. This file (and the original binary executable) are then opened by the gprof profiling tool. For example, 
+When the application is subsequently run (e.g. `./a.out`, _note:_ if the executable file is named differently, its name must be specified to `gprof`), it will generate a profile in the `gmon.out` file. This file (and the original binary executable) are then opened by the `gprof` profiling tool. For example, 
 
-```shell
+```
 $ gcc -pg cfd_solver.c
 $ ./a.out
 $ gprof
@@ -432,24 +436,24 @@ time   seconds   seconds    calls  Ts/call  Ts/call  name
 ...
 ```
 
-gprof can be used to provide a breakdown of an application's runtime, and therefore can potentially identify performance critical functions. 
+`gprof` can be used to provide a breakdown of an application's runtime, and therefore can potentially identify performance critical functions. 
 
-For parallel applications, running at scale, gprof is likely not sufficient. For this reason, there are a number of cluster-ready performance analysis tools -- some of which are available on Viking. 
+For parallel applications, running at scale, `gprof` is likely not sufficient. For this reason, there are a number of cluster-ready performance analysis tools -- some of which are available on Viking. 
 
-Intel Advisor is one such tool that forms part of [Intel's oneAPI Base Toolkit](https://www.intel.com/content/www/us/en/developer/tools/oneapi/advisor.html#gs.lxzukx). Advisor is a profiling toolkit, that can measure and analyse the performance of an application, and can provide useful advice on how to improve performance through vectorisation, threading, memory use and GPU utilisation. 
+Intel Advisor is one such tool that forms part of [Intel's oneAPI Base Toolkit](https://www.intel.com/content/www/us/en/developer/tools/oneapi/advisor.html#gs.lxzukx). Advisor is a profiling toolkit that can measure and analyse the performance of an application, and can provide useful advice on how to improve performance through vectorisation, threading, memory use and GPU utilisation. 
 
 Advisor has a GUI for running applications and analysing their performance, but on a remote cluster system this may be difficult. So instead, you can use a CLI version of the application to collect data for analysis offline. 
 
 On Viking you can load the package with: 
 
-```shell
+```
 $ module load perf/Advisor
 $ source $EBROOTADVISOR/setvars.sh
 ```
 
 You can then use Advisor on any application to collect performance statistics, and generate a report. 
 
-```shell
+```
 $ advisor --collect=survey --project-dir=./my_project -- ./my_project   # collect survey data
 $ advisor --report=survey --project-dir=./my_project                    # generate a survey report
 ```
@@ -472,7 +476,7 @@ Besides code profiling, one of the most important method developed for analysing
 
 Roofline is a visual heuristic model, that allows developers to plot the performance of a kernel in terms of its operational intensity and its floating-point performance. These opposing axes allow us to reason about whether the performance of a kernel is being bound by the memory bandwidth available, or by the computational power available. 
 
-In a Roofline model, multiple ceilings can be plotted (e.g. maximum floating point performance, maximum performance without SIMD, etc.), alongside unit slops calculated based on the memory bandwidth of various memory subsytems (e.g. L1 bandwidth, L2 bandwidth, DRAM bandwidth). The figure below shows the calculated data from an AMD Opteron X2 (taken from the Roofline paper). 
+In a Roofline model, multiple ceilings can be plotted (e.g. maximum floating point performance, maximum performance without SIMD, etc.), alongside unit slops calculated based on the memory bandwidth of various memory subsytems (e.g. L1 bandwidth, L2 bandwidth, DRAM bandwidth). Figure 2 shows the calculated data from an AMD Opteron X2 (taken from the Roofline paper). 
 
 ![A roofline model for an AMD Opteron CPU](../../assets/unit-3/roofline.png)  
 _**Figure 2:** A Roofline model for an AMD Opteron X2_
@@ -499,6 +503,4 @@ One of the important features of a Roofline model is that they are specific to a
 > Try plotting a Roofline model for your own CPU. If you don't know your peak FLOP/s, peak memory bandwidth etc, you could look them up through Google, or benchmark them (if you can find an appropriate benchmark (e.g. STREAM for memory)!).
 {: .block-danger }
 
-# MORE READING
-# EXERCISES?
 

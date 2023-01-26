@@ -7,9 +7,7 @@ layout: post
 
 # Overview
 
-<video width="560" class="center" controls>
-    <source src="../../assets/videos/HIPC-Unit_2-Overview.mp4" type="video/mp4">
-</video>
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/vCrELZ-m3rE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe><br/>
 
 Welcome to the second unit of HIPC. In this unit, we'll start to look at some distributed systems and analyse the architecture of these systems. We'll cover: 
  
@@ -21,7 +19,7 @@ Welcome to the second unit of HIPC. In this unit, we'll start to look at some di
  
 # A History of Architectural Development
 
-When we think about computer systems, we almost always have a certain architecture in mind -- The Stored-program Computer Architecture.
+When we think about computer systems, we almost always have a certain architecture in mind -- **The Stored-program Computer Architecture**.
 
 ## The Stored-Program Computer Architecture
 
@@ -42,7 +40,7 @@ As we'll see in the remainder of this section and unit, architectural optimisati
 
 ### The First Supercomputer
 
-For many years following the EDVAC computer systems used the same basic architecture, with a single CPU driving the entire system. At the time, CPUs generally ran slower than main memory, and so between fetching and executing an instruction, the main memory would be idle. It was this idle time that Seymour Cray exploited in the CDC 6600. 
+For many years, following the EDVAC, computer systems used the same basic architecture, with a single CPU driving the entire system. At the time, CPUs generally ran slower than main memory, and so between fetching and executing an instruction, the main memory would be idle. It was this idle time that Seymour Cray exploited in the CDC 6600. 
 
 The CDC 6600 used a simplified CPU that was designed to run mathematical and logic operations as fast as possible. To achieve this, Cray focussed on creating a much smaller CPU, with much shorter lengths of wire (to reduce signalling delays). The result was a CPU that could run at 10 MHz (about 10 times faster than other CPUs at the time). 
 
@@ -77,7 +75,7 @@ Many of the largest and fastest supercomputers today achieve their high performa
 
 Roadrunner was primarily a AMD Opteron-based Beowulf-style cluster, with each computational node consisting of two dual-core AMD Opteron CPUs running at 1.8 GHz. However, the vast majority of its performance (85%) was provided by four PowerXCell 8i CPUs installed on each node. 
 
-This hybrid approach is now dominated by the use of Graphics Processing Units (GPUs) as computational accelerators. Since 2008, the number of accelerated architectures in the TOP500 has increased each year, with 8 of the current top 10 accelerated by GPUs, and over 30% of the full TOP500 list featuring computational accelerators. 
+This hybrid approach is now dominated by the use of General Purpose Graphics Processing Units (GPGPUs) as computational accelerators. Since 2008, the number of accelerated architectures in the TOP500 has increased each year, with 8 of the current top 10 accelerated by GPUs, and over 30% of the full TOP500 list featuring computational accelerators. 
 
 > **Further Reading** 
 > 
@@ -92,7 +90,7 @@ Modern CPUs owe much of their core design to the original von Neumann architectu
 _**Figure 3:** A simplified block diagram of a typical single core CPU_
 {: style="color:gray; font-size: 90%; text-align: center;" }
  
-Figure 3 shows a simplified block diagram of a modern CPU. The computation in a CPU is completed by the floating-point and integer ALUs. The rest of the CPU is administrative logic that feeds those units with operands. The floating-point and integer registers hold operands to be accessed by the instructions, and the load and store units move data from cache to these registers. Memory is streamed from main memory into these caches. In a multi-core chip, some of the components may be shared by many cores (for examble a shared cache). 
+Figure 3 shows a simplified block diagram of a modern CPU. The computation in a CPU is completed by the floating-point and integer ALUs. The rest of the CPU is administrative logic that feeds those units with operands. The floating-point and integer registers hold operands to be accessed by the instructions, and the load and store units move data from cache to these registers. Memory is streamed from main memory into these caches. In a multi-core chip, some of the components may be shared by many cores (for example a shared cache). 
 
 Up to around 2006, the performance of a CPU like this was heavily dictated by **Moore's law** and **Dennard scaling**.
 
@@ -149,9 +147,9 @@ While SIMD execution was common in vector supercomputers, it did not make its wa
 _**Figure 5:** SISD vs SIMD (with width 2)_
 {: style="color:gray; font-size: 90%; text-align: center;" }
  
-The MMX instruction set has since been superceded by the SSE and AVX instruction sets on Intel's hardware. Each new generation of SIMD extensions brings new vectorised instructions, and ever increasing vector widths. Most modern Intel CPUs now implement the AVX512 instruction set, with 512-bit vector registers. This allows instructions to operate on up to 8 double-precision (64-bit) floating-point values simultaneously. 
+The MMX instruction set has since been superceded by the SSE and AVX instruction sets on Intel's hardware. Each new generation of SIMD extensions brings new vectorised instructions, and ever increasing vector widths. Most modern Intel CPUs now implement the AVX-512 instruction set, with 512-bit vector registers. This allows instructions to operate on up to 8 double-precision (64-bit) floating-point values simultaneously. 
 
-We will look more closely at SIMD instruction sets in [Unit 4](../../units/4-on-core_parallelism/). 
+We will look more closely at SIMD instruction sets in [Unit 4](../../lectures/4-on-core_parallelism/). 
 
 ### Out-of-order execution
 
@@ -173,17 +171,17 @@ Modern CPUs typically have 3-4 levels of cache prior to main memory, and some of
  
 As computers and supercomputers developed, so too did the instruction sets upon which they relied. Throughout the early development of computers, these instruction sets grew progressively more complex, with single instructions responsible for loading values from memory, performing a mathematical or logical operations and then storing the result back in memory. These Complex Instruction Set Computers (CISC) were, themselves, growing increasingly complex and required a significant hardware effort to decode and execute each instruction. 
 
-In the 1980s, there was a general move towards Reduced Instruction Set Computers (RISC). These RISC architectures typically featured a very simple instruction set that can be executed rapidly. This increased the burden on programmers (who now had to write many more instructions to perform the same tasks), but meant that processors could be simplified in such a way that their performance could be optimised much more readily. 
+In the 1980s, there was a general move towards Reduced Instruction Set Computers (RISC). These RISC architectures typically featured a very simple instruction set that could be executed rapidly. This increased the burden on programmers (who now had to write many more instructions to perform the same tasks), but meant that processors could be simplified in such a way that their performance could be optimised much more readily. 
 
-Today, almost all CPUs use a RISC architecture at the low-level. Even though x86 is considered a CISC architecture, intructions are translated to micro-ops on-the-fly. 
+Today, almost all CPUs use a RISC architecture at the lowest-level. Even though x86 is considered a CISC architecture, intructions are translated to RISC-like micro-ops on-the-fly. 
 
 #### Multicore and Multithreaded CPUs
 
 In recent years, due to the breakdown of Dennard scaling, CPU manufacturers have instead focussed on maintaining Moore's law through _multicore_ designs. Typically a CPU will feature multiple cores, where each core has a mixture of its own execution units and some shared execution units, alongside dedicated registers and a mixture of dedicated and shared caches. 
 
-For example, a Intel Xeon Silver 4114 "Skylake" contains 10 cores, where each core has a 32 KiB L1 instruction cache, a 32 KiB L1 data cache, a 1 MiB L2 cache, and a shared 13.75 MiB L3 cache. 
+For example, an Intel Xeon Silver 4114 "Skylake" contains 10 cores, where each core has a 32 KiB L1 instruction cache, a 32 KiB L1 data cache, a 1 MiB L2 cache, and a shared 13.75 MiB L3 cache. 
 
-Additionally each core is capable of simultaneously executing two threads. The complex pipelines on modern CPUs means that it is often the case that there are gaps in the pipeline that are otherwise wasted. To harness the performance that would otherwise be wasted, modern CPUs are usually capable of simultaneous multi-threading (SMT), whereby multiple threads can be executing concurrently on a single core to maximise pipeline usage. However, SMT cannot improve single-thread performance, and can lead to decreased performance if there is contention for some of the pipelined units. 
+Additionally, each core is capable of simultaneously executing two threads. The complex pipelines on modern CPUs means that it is often the case that there are gaps in the pipeline that are otherwise wasted. To harness the performance that would otherwise be wasted, modern CPUs are usually capable of simultaneous multi-threading (SMT), whereby multiple threads can be executing concurrently on a single core to maximise pipeline usage. However, SMT cannot improve single-thread performance, and can lead to decreased performance if there is contention for some of the pipelined units. 
 
 > **Further Reading** 
 >
@@ -203,7 +201,7 @@ The 64-bit instruction set, x86_64, was first released in 1999 and was originall
 
 Over the years, many additions and extensions have been made to the instruction set, including (but by no means limited to): 
 
-* x87 floating point instructions 
+* x87 floating-point instructions 
 * MMX, SSE (Streaming SIMD Extensions), SSE2, SSE3, SSE4, SSE 4.1, SSE 4.2 
 * AVX (Advanced Vector eXtensions), AVX2, AVX-512 
 * Cyptographic instructions 
@@ -220,9 +218,9 @@ Depending on how you count, the x86_64 architecture now contains somewhere betwe
  
 The PowerPC RISC architecture was created by an alliance of Apple, IBM and Motorola in 1991 (and based on an earlier IBM Power instruction set architecture (ISA)). The PowerPC ISA was well known for being the architecture of choice in Apple Mac systems up to their switch to Intel x86 CPUs in 2006. 
 
-Since 2006 the PowerPC ISA has been named the Power ISA and has been developed by the OpenPOWER foundation, led by IBM. Since Apple's switch away from Power architectures, the ISA is now mostly found in supercomputers, rather than commodity systems. 
+Since 2006, the PowerPC ISA has been named the Power ISA and has been developed by the OpenPOWER foundation, led by IBM. Since Apple's switch away from Power architectures, the ISA is now mostly found in supercomputers, rather than commodity systems. 
 
-The BlueGene/L, /P and /Q all used low-power mutlicore PowerPC architectures, and the #2 and #3 (in 2021) supercomputers make use of IBM Power9 architectures alongside NVIDIA accelerator devices. 
+The BlueGene/L, /P and /Q all used low-power multicore PowerPC architectures, and the #2 and #3 (in 2021) supercomputers make use of IBM Power9 architectures alongside NVIDIA accelerator devices. 
 
 <iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/btbeXx6xXBU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe> 
 
@@ -232,7 +230,7 @@ The ARM family of architectures first emerged in 1985, with the ARM1 processor. 
 
 In contrast to Intel, AMD and IBM, Arm do not fabricate their own processors, and instead licence the architectures to other companies. This business model has proven particularly successful in the smartphone market, where over 90% of all mobile phones use at least one ARM processor. 
 
-In recent years, ARM has emerged as a serious competitor in both personal computing and supercomputing. In 2020, Apple adopted the ARM architecture in their Apple M1 processors, now found in all new Apple Mac computers, and in 2018, Astra became the fastest ARM-based supercomputer in the Top500, with a performance of 1.529 PetaFLOP/s. This was subsequently followed by Fugaku reaching #1 with the ARMv8-based A64FX architecture. 
+In recent years, ARM has emerged as a serious competitor in both personal computing and supercomputing. In 2020, Apple adopted the ARM architecture in their Apple M1 processors, now found in all new Apple Mac computers, and in 2018, Astra became the fastest ARM-based supercomputer in the Top500, with a performance of 1.529 PetaFLOP/s. This was subsequently followed by Fugaku reaching #1 in 2020 with the ARMv8-based A64FX architecture. 
 
 > **Further Reading**
 >
@@ -281,7 +279,7 @@ Of course, achieving this level of performance with either of these processors r
 > **Exercise**
 > 
 > Find out what CPU your current computer contains. Look up its information on [Intel Ark](https://ark.intel.com) (or wikichip, or an alternative (if not an Intel core)). Calculate its peak FLOP performance.
-{: .block-danger}
+{: .block-danger }
                                    
 # Distributed System Interconnects
      
@@ -291,7 +289,7 @@ In this section we will cover some of the interconnects that are used to provide
 
 ## The Internet and Ethernet 
 
-Geographically distributed systems (e.g. the cloud) typically operate within a data centre, or within multiple, connected data centres. Within these data centres nodes are typically connected via Ethernet, and connections between data centres usually take place over fast internet connections. 
+Geographically distributed systems (e.g. the cloud) typically operate within a data centre, or within multiple, connected data centres. Within these data centres nodes are typically connected via Ethernet, and connections between data centres usually take place over fast (optical) internet connections. 
 
 Cloud systems typically require the ability to be "elastic", i.e., to grow and shrink capacity on demand. Because of this, nodes may be separated considerably. Ethernet provides high-bandwidth between nodes (even over large distances), but with an associated high latency. 
 
@@ -305,7 +303,7 @@ All modern networks are switched fabric -- nodes communicate through one of more
  
 Infiniband originated in 1999 from a merger of Next Generation I/O (Intel, Sun and Dell) and Future I/O (Compaq, IBM and HP). Infiniband is a switched fabric topology focussed on low latency, that was originally designed to replace PCI. 
 
-In infiniband, the physical connections can be made with copper (up to 10 meters) or optical fiber (up to 10 km), and links can be aggregated to achieve higher bandwidth. 
+In infiniband, the physical connections can be made with copper (up to 10 meters) or optical fibre (up to 10 km), and links can be aggregated to achieve higher bandwidth. 
 
 The initial release of infiniband was single-data rate (SDR) with a theoretical throughput of 2 Gbit/s per link, and an adapter latency of 5 $\mu$s. Subsequently this has been extended to double-data rate (DDR), quad-data rate (QDR), fourteen-data rate (FDR), enhanced-data rate (EDR) and high-data rate (HDR), with each update increasing the throughput, up to 50 Gbits/s per link, and reducing the latency to around 0.5 $\mu$s. 
 
@@ -353,7 +351,7 @@ The performance of the interconnect in a distributed system is primarily dictate
 
 #### Fat Tree 
 
-Fat trees are shaped similarly to a tree, and have root switches and leaf switches (see figure below). Typical implementations are 2 or 3 level and may be tapered between the root and leaf switches, reducing cost and increasing the number of available endpoints but at the expense of global bandwidth. 
+Fat trees are shaped similarly to a tree, and have root switches and leaf switches (see Figure 7). Typical implementations are 2 or 3 level and may be tapered between the root and leaf switches, reducing cost and increasing the number of available endpoints but at the expense of global bandwidth. 
 
 ![A simple 2-level fat tree](../../assets/unit-2/fattree.png)  
 _**Figure 7:** A simple 2-level fat-tree configuration_
@@ -369,9 +367,9 @@ If the left most node and the right most node want to communicate then it must g
 
 #### Torus
 
-A torus is a multidimensional topologies based upon a mesh or a cube network (k-ary n-mesh/cube network). 
+A torus is a multidimensional topology based upon a mesh or a cube network (k-ary n-mesh/cube network). 
 
-The figure below shows a 2D torus, in a 3 &times; 3 grid; a switch (**s** in the figure) can then have multiple nodes attached. 
+Figure 8 shows a 2D torus, in a 3 &times; 3 grid; a switch (**s** in the figure) can then have multiple nodes attached. 
 
 ![A 3 by 3 torus network](../../assets/unit-2/torus.png)  
 _**Figure 8:** A 3 x 3 torus network_
@@ -381,13 +379,13 @@ Torus interconnects are typically very high performance, with a minimal number o
 
 #### Dragonfly
  
-Dragonfly is a network topology designed by Cray, that can be more cost effective for more endpoints than a Fat-Tree. Networks based upon a Dragonfly are grouped in to three ranks, firstly the router, secondly an intra-group and thirdly inter-groups. The figure below shows four nodes per router and three routers per group configuration with one global link per router for inter-group communication. The design of inter-group networks are left to the implementer, in the case of Cray Aries this is an All-To-All 2D mesh. 
+Dragonfly is a network topology designed by Cray, that can be more cost effective for more endpoints than a Fat-Tree. Networks based upon a Dragonfly are grouped in to three ranks, firstly the router, secondly an intra-group and thirdly inter-groups. Figure 9 shows four nodes per router and three routers per group configuration with one global link per router for inter-group communication. The design of inter-group networks are left to the implementer, in the case of Cray Aries this is an All-To-All 2D mesh. 
  
 ![A simple dragonfly topology](../../assets/unit-2/dragonfly.png)  
 _**Figure 9:** A simple dragonfly topology_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
-The Aries implementation from Cray of a Dragonfly uses 4 nodes to 1 router and 96 routers per group connected as an All-To-All mesh electrically; the inter-group connections are optical and can be tapered to reduce cost. 
+The Aries implementation of a Dragonfly topology uses 4 nodes to 1 router and 96 routers per group connected as an All-To-All mesh electrically; the inter-group connections are optical and can be tapered to reduce cost. 
 
 The average hop count for a Dragonfly is 5, this is where the node needs to communicate with a node from another group. The worst case could be higher than a fat tree for a sufficiently large network because the adaptive routing could make the data travel over multiple routers. 
 
@@ -421,11 +419,14 @@ The IBIS file system, developed in 1985, was one of the first DFSs where the fil
 
 In most modern DFSs, there are four components. For the purpose of this unit we will adopt the naming convention from the Lustre file system (described below); different file systems may use alternate terms but the functions they provide are largely equivalent. 
 
-* **Object Storage Targets (OST)** HDDs are usually grouped using RAID (to improve performance and provide some redundancy), these are then referred to as Object Storage Targets. The OSTs are used to store the stripe data blocks that make up each file. 
+* **Object Storage Targets (OST)** 
+HDDs are usually grouped using RAID (to improve performance and provide some redundancy), these are then referred to as Object Storage Targets. The OSTs are used to store the stripe data blocks that make up each file. 
 * **Object Storage Servers (OSS)**
 One or more OSTs are connected to one or more Object Storage Servers. The OSSs are directly responsible for reading and writing file data from and to the OSTs. 
-* **Metadata Server (MDS)** Metadata (such as the directory tree, file permissions and file block locations) is either stored on a dedicated Metadata Server or is stored on the OSSs (as in IBM Spectrum Scale). The MDS is used by the clients to get file information and file structure, such that they can access the file stripes stored on the OSTs.
-* **Management Server (MGS)** Finally, there are usually one or two Management Servers holding the server configurations. 
+* **Metadata Server (MDS)** 
+Metadata (such as the directory tree, file permissions and file block locations) is either stored on a dedicated Metadata Server or is stored on the OSSs (as in IBM Spectrum Scale). The MDS is used by the clients to get file information and file structure, such that they can access the file stripes stored on the OSTs.
+* **Management Server (MGS)** 
+Finally, there are usually one or two Management Servers holding the server configurations. 
 
 ### Lustre
 
@@ -443,7 +444,7 @@ To maintain consistency and allow correct concurrent access to the DFS, Lustre m
 
 ### IBM Spectrum Scale
 
-IBM's Spectrum Scale file system (formally known the General Parallel File System (GPFS)) operates similarly to Lustre; large files are distributed across multiple storage targets using stripes. However, Spectrum Scale differs from Lustre in that all OSSs are connected to all OSTs and MDTs, usually through a fibre channel switch. This provides additional resilience in that many more OSSs can fail before the file system must go offline. The figure below demonstrates an example Spectrum Scale configuration.  
+IBM's Spectrum Scale file system (formally known the General Parallel File System (GPFS)) operates similarly to Lustre; large files are distributed across multiple storage targets using stripes. However, Spectrum Scale differs from Lustre in that all OSSs are connected to all OSTs and MDTs, usually through a fibre channel switch. This provides additional resilience in that many more OSSs can fail before the file system must go offline. Figure 11 demonstrates an example Spectrum Scale configuration.  
 
 ![A simple IBM Spectrum Scale file system](../../assets/unit-2/spectrumscale.png)  
 _**Figure 11:** Simplified example configuration of a Spectrum Scale file system_
@@ -451,7 +452,7 @@ _**Figure 11:** Simplified example configuration of a Spectrum Scale file system
 
 Metadata is maintained by all servers, potentially providing better performance for metadata intensive workloads. Although it is possible to store metadata on the same disks as file data, many installations make use of dedicated higher performance (but smaller) targets for metadata. 
 
-Spectrum scale makes use of a much smaller stripe size than Lustre (typically 16 KB or 64 KB) and sets the stripe width adaptively. For large parallel writes, data can be striped across all available servers, potentially providing a much greater maximum bandwidth. 
+Spectrum Scale makes use of a much smaller stripe size than Lustre (typically 16 KB or 64 KB) and sets the stripe width adaptively. For large parallel writes, data can be striped across all available servers, potentially providing a much greater maximum bandwidth. 
 
 # Computational Accelerators
      
@@ -463,9 +464,9 @@ You may recall that the CDC 6600 used a simplified CPU that was supported by a n
 
 <iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/s_4rIQmOw28" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe><br/>
 
-The modern era of accelerated computing arguable began with the first Petascale system, Roadrunner. 
+The modern era of accelerated computing arguable began with the first Petascale system, IBM Roadrunner. 
 
-Roadrunner was an AMD Opteron powered system with IBM PowerXCell 8i accelerators connected to each core. 
+IBM Roadrunner was an AMD Opteron powered system with IBM PowerXCell 8i accelerators connected to each core. 
 
 The hybrid design of Roadrunner required that applications be written specifically to make use of the PowerXCell accelerator devices in order to achieve the highest possible performance. This complicated the development process, but the accelerators provided the vast majority of the available computational power of the machine. 
 
@@ -478,7 +479,7 @@ The important difference to notice between CPUs and accelerator architectures (s
 
 In an accelerated system, computations that are "offloaded" to the accelerator usually begin with a data transfer over a PCIe bus into the accelerators memory space, followed by the execution of a computational "kernel", before the resultant data is transfered back to the host device. 
 
-The figure below highlights some of the key computational differences between CPUs and GPUs (but this applied to almost all accelerators). 
+Figure 12 highlights some of the key computational differences between CPUs and GPUs (but this applied to almost all accelerators). 
 
 ![Feature comparison between CPUs and GPUs](../../assets/unit-2/cpu-vs-gpu.png)  
 _**Figure 12:** CPUs vs GPUs for computation_
@@ -499,7 +500,7 @@ Perhaps the biggest step in the evolution of General-purpose computing on GPUs (
 
 These programmable shaders were the focus of the Brook programming language, developed at Stanford University in the early 2000s. BrookGPU was a compiler and runtime implementation of the Brook stream programming language aimed at using programmable shaders to perform floating-point calculations on a GPU alongside a CPU. 
 
-In 2007, inspired by Brook, NVIDIA created the CUDA (Compute Unified Device Architecture) programming language -- a C-like programming language aimed at programming NVIDIA GPUs not for visual output, but for parallel computation. While a GPU lacks much of the functionality required to operate an entire operating system, they are able to perform many floating-point operations in parallel when data and instructions are provided in a SIMD-like fashion. 
+In 2007, inspired by Brook, NVIDIA created the CUDA (Compute Unified Device Architecture) programming language -- a C-like programming language aimed at programming NVIDIA GPUs not for visual output, but for parallel computation. While a GPU lacks much of the functionality required to operate an entire operating system, they can perform many floating-point operations in parallel when data and instructions are provided in a SIMD-like fashion. 
 
 <iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/JkvqWe1ZT2w" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe><br/>
 
@@ -526,23 +527,21 @@ The current TOP500 contains a number of other accelerators, primarily developed 
 
 # HPC Systems
 
-<video width="560" class="center" controls>
-    <source src="../../assets/videos/HIPC-Unit_2-How_to_build_a_system.mp4" type="video/mp4">
-</video><br/>
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/79TpV6BZXRA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe><br/>
 
 This unit has covered each of the "major" constituent parts of a supercomputer.  
 
 Modern day systems typically consist of a number of cores on each processor chip, and a number of processor chips on each motherboard. Many systems further employ accelerators (usually in the form of GPUs) on each node. 
 
-Each node is connected to its neighbours and other nodes in the system through an interconnect, and this interconnect may be heirarchical in nature, meaning nodes that are physically closer in a cabinet are likely also "closer" in terms of the communication latency. 
+Each node is connected to its neighbours and other nodes in the system through an interconnect, and this interconnect may be heirarchical in nature, meaning nodes that are physically closer in a cabinet are likely to also be "closer" in terms of the communication latency. 
 
 A shared parallel file system is usually available for the system, such that nodes can each read and write data to a coherent storage medium. 
 
-On an HPC system, users typically interact with the system through login nodes. Users typically compile their applications on these login nodes, before submitting batch jobs to the queuing system. For cloud based system, users are much more likely to interact with individual nodes, with node instances being created on-demand. 
+On an HPC system, users typically interact with the system through login nodes. Users typically compile their applications on these login nodes, before submitting batch jobs to the queuing system. For cloud based systems, users are much more likely to interact with individual nodes, with node instances being created on-demand. 
 
 ---
 
-Hopefully you can see that there is a wealth of diversity in HPC systems, and this diversity is growing. A cursory glance at the TOP500 lists over the past decade shows the explosion in architectural development that is currently ocurring. Ensuring each of these HPC systems is used in the most effective way will be the focus for much of the remainder of this module. 
+Hopefully you can see that there is a wealth of diversity in HPC systems, and this diversity is growing. A cursory glance at the TOP500 lists over the past decade shows the explosion in architectural development that is currently occurring. Ensuring each of these HPC systems is used in the most effective way will be the focus for much of the remainder of this module. 
 
 # Recommended Reading
 
