@@ -1,5 +1,5 @@
 ---
-title: C. Programming On-core Parallelism 
+title: 3. Programming On-core Parallelism 
 date: 2022-07-21
 category: hipc
 layout: post

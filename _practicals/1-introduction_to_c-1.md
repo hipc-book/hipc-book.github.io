@@ -1,5 +1,5 @@
 ---
-title: A. Introduction to C (part 1)
+title: 1. Introduction to C (part 1)
 date: 2022-07-21
 category: hipc
 layout: post
@@ -146,9 +146,9 @@ $ man <function_name>
  
 where `<function_name>` specifies the name of the function you want to search for. Try pulling up the man pages for the man function itself! 
 
-# Exercise 1
-
-> Write a C program that asks the user to enter an integer, `n`, and then prints the primes between 2 and `n`. The program should use a function to determine if a given integer is a prime. 
+> # Exercise 1
+>
+> Write a C program that asks the user to enter an integer, `n`, and then prints the primes between 2 and `n`. The program should use a function to determine if a given integer is a prime. <br/><br/>
 {: .block-danger }
 
 # Pointers
@@ -209,8 +209,8 @@ int *a;
  
 While they may seem quite confusing, pointers are an incredibly powerful feature of C and are vital when writing efficient code. 
 
-# Exercise 2
-
+> # Exercise 2
+>
 > Given the code below, implement the `swap` function and call it correctly from the `main` function to swap the two integers (so that `a` becomes `b` and `b` becomes `a`). 
 >
 > **Note**: even in this simple example we are beginning to see the power of C -- it is impossible to write an equivalent function to exchange primitives in Java. 
@@ -233,10 +233,11 @@ While they may seem quite confusing, pointers are an incredibly powerful feature
 >   return 0;
 > }
 > ```
+> <br/>
 {: .block-danger }
 
-# Exercise 3
-
+> # Exercise 3
+>
 > Complete the C program below by writing the code for the `sort()` function. You can use any sorting algorithm of your choice. 
 >  
 > ```c
@@ -260,6 +261,7 @@ While they may seem quite confusing, pointers are an incredibly powerful feature
 >    return 0;
 > }
 > ```
+> <br/>
 {: .block-danger }
 
 # Memory
@@ -341,11 +343,11 @@ void free(void *ptr);
  
 The `free()` function returns no value and simply releases the memory in use by a pointer. After `free` has been called the memory at `*ptr` will be released. The value of `ptr` will not change, however, you may wish to explicitly set `ptr` to `NULL` to prevent any invalid memory accesses. 
 
-# Exercise 4
-     
+> # Exercise 4
+>   
 > Write a C program that would sort an array of any size entered by a user. The program should first ask the user the size of the array they want to sort. Then the program should ask the user to enter the elements of the array. Once the whole array is entered by the user, the program should output the sorted array.  
 > 
-> You should use a dynamic array to store the integers entered by the user. You can use the `scanf()` function to read the numbers input by the user.
+> You should use a dynamic array to store the integers entered by the user. You can use the `scanf()` function to read the numbers input by the user.<br/><br/>
 {: .block-danger } 
 
 # Multiple File Projects
@@ -461,9 +463,9 @@ $ make
  
 from your terminal. This will build the entire project including all intermediate files.
  
-# Exercise 5
-
-> For the same project, write another C source file that only contains a function `prime()`. This function should take an integer `n` as input and should output the sum of all primes from 2 to `n`. Call the `prime()` function from `main()` of `main.c` above to print the sum of the primes up to `n`.
+> # Exercise 5
+>
+> For the same project, write another C source file that only contains a function `prime()`. This function should take an integer `n` as input and should output the sum of all primes from 2 to `n`. Call the `prime()` function from `main()` of `main.c` above to print the sum of the primes up to `n`.<br/><br/>
 {: .block-danger } 
 
 # Compile Time Debugging
@@ -600,9 +602,9 @@ More information can be extracted using `gdb` by using the commands "`bt`" and "
 > **Note:** If you're using a Mac, it is likely that `gdb` will not be available. Instead you can use `lldb` 
 {: .block-tip }
 
-# Exercise 6
-
-> Fix the above program and ensure that it runs to completion (it should not produce any errors). 
+> # Exercise 6
+>
+> Fix the above program and ensure that it runs to completion (it should not produce any errors). <br/><br/>
 {: .block-danger }
 
 

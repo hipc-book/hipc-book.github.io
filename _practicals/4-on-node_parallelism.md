@@ -1,5 +1,5 @@
 ---
-title: D. Programming On-node Parallelism
+title: 4. Programming On-node Parallelism
 date: 2022-07-21
 category: hipc
 layout: post

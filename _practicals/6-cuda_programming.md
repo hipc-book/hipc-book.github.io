@@ -1,5 +1,5 @@
 ---
-title: F. CUDA Programming
+title: 6. CUDA Programming
 date: 2022-07-21
 category: hipc
 layout: post

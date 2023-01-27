@@ -7,7 +7,7 @@ layout: post
 
 # Overview
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/CxUGPhQUl_s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe><br/>
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/CxUGPhQUl_s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe><br/>
 
 This week we're going to be covering: 
 
