@@ -8,13 +8,11 @@ layout: post
 # Overview
 
 
-<video width="560" class="center" controls>
-    <source src="../../assets/videos/HIPC-Unit_4-Overview.mp4" type="video/mp4">
-</video><br/>
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/c7VQd9-M224" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe><br/>
 
-Over the next three units we're going to be looking at how to develop applications for homogeneous distributed systems. In this unit, we're going to start with performance and parallelism at the core level. 
+Over the next three units we're going to be looking at how to develop applications for homogeneous distributed systems. In this unit, we're going to start with performance and parallelism at the _core_ level. 
 
-Specifically we're going to cover: 
+Specifically we're going to cover:
 
 * Some really simple optimisations
 * Some slightly less obvious optimisations
@@ -222,7 +220,7 @@ REAL, DIMENSION(:, :), ALLOCATABLE :: a
 ALLOCATE(a(8, 16))
 ```
 
-The allocate statement will allocate a _contiguous_ block of memory with space for 128 "reals" (i.e. 8 &times; 16). In Fortran, arrays are indexed in _column-major order_; in other words, the allocated memory will look like the figure below (**Note:** arrays in Fortran begin at 1 unless told otherwise, and arrays are accessed using this bracket notation). 
+The allocate statement will allocate a _contiguous_ block of memory with space for 128 "reals" (i.e. 8 &times; 16). In Fortran, arrays are indexed in _column-major order_; in other words, the allocated memory will look like Figure 3 (**Note:** arrays in Fortran begin at 1 unless told otherwise, and arrays are accessed using this bracket notation). 
    
 ![Column-major ordering in Fortran](../../assets/unit-4/column-major.png)   
 _**Figure 3:** Column-major ordering in Fortran_
@@ -234,7 +232,7 @@ In C/C++, it is not strictly possible to allocate a dynamic multidimensional arr
 double a[8][16];
 ```
 
-We would then be able to access the elements of this array using the standard C bracket notation. However, in contrast to Fortran, the data will be stored in _row-major order_. The figure below demonstrates this. 
+We would then be able to access the elements of this array using the standard C bracket notation. However, in contrast to Fortran, the data will be stored in _row-major order_. Figure 4 demonstrates this. 
 
 ![Row-major ordering in C/C++](../../assets/unit-4/row-major.png)  
 _**Figure 4:** Row-major ordering in C/C++_
@@ -289,7 +287,7 @@ my_array[x * cols + y] = ...;
 
 This approach has the advantage of contiguous storage, but also increases programmer effort, by requiring manual dereferencing. The use of C pre-processor macros can tidy up this example considerably. 
 
-There are a number of other approaches to dynamic multidimensional arrays in C/C++ (and you'll notice one is used in the HIPC coursework later in the course!). 
+There are a number of other approaches to dynamic multidimensional arrays in C/C++ (and you'll notice one is used in the HIPC assessment later in the course!). 
 
 In HPC applications, locality of access is important, so approaches that keep memory contiguous are likely to outperform any other approach considerably.
 
@@ -301,7 +299,7 @@ In HPC applications, locality of access is important, so approaches that keep me
 
 ### Array-of-Structs vs Struct-of-Arrays
 
-The final topic we'll cover before looking at loop optimisation techniques, is how we store multiple properties about a each item in an array. This is often referred to as the _array-of-structures vs structure-of-arrays_ problem. 
+The final topic we'll cover before looking at loop optimisation techniques, is how we store multiple properties about each item in an array. This is often referred to as the _array-of-structures vs structure-of-arrays_ problem. 
 
 First, let's consider an example where we are storing a collection of particles in 3D space. For each particle, we need to store an _x_-, _y_- and _z_-dimension. We can do this in C using a `struct` and then we can store an array of these structs. 
 
@@ -345,7 +343,7 @@ my_particles.y[0] = ...;
 **Figure 6:** A structure-of-arrays 
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
-As we will see later in this unit, when we start making use of vector instructions, an SoA approach is much more effective at using SIMD registers than an AoS approach, but comes at the expense of readability. A hybrid approach (array-of-structures-of-arrays, or AoSoA) is also an option and provide greater control over the size of memory requests (since we can set the stride to be equal to the cache line width). 
+As we will see later in this unit, when we start making use of vector instructions, an SoA approach is much more effective at using SIMD registers than an AoS approach, but comes at the expense of readability. A hybrid approach (array-of-structures-of-arrays, or AoSoA) is also an option and provides greater control over the size of memory requests (since we can set the stride to be equal to the cache line width). 
 
 > **Further Reading**
 > 
@@ -512,9 +510,7 @@ free(b);
 free(c);
 ```
 
-<video width="560" class="center" controls>
-    <source src="../../assets/videos/HIPC-Unit_4-SIMD.mp4" type="video/mp4">
-</video><br/>
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/IEXAticfFe0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe><br/>
 
 As we can see in the video above, in order to manually apply vectorisation instructions to our vector-add example, we have to: 
 
@@ -597,7 +593,7 @@ We can control many of the types of optimisation through compiler flags; flags s
 
 But usually we don't want to write out a exhaustive list of compiler options, and so instead we choose to specify an optimisation level that turns on a particular set of optimisation flags for us. 
 
-We will not list all of the optimisation levels and what options are enabled here, but on GCC we can specify an optimisation level from `-O0` (disable all optimisations) through to `-O3` (turn on all optimisations that are strict standards compliant). There are some additional optimisation flags that can be specified that may disregard strict standards compliance (`-Ofast`), or optimise an binary for size (`-Os` and `-Oz`). 
+We will not list all of the optimisation levels and what options are enabled here, but on GCC we can specify an optimisation level from `-O0` (disable all optimisations) through to `-O3` (turn on all optimisations that are strict standards compliant). There are some additional optimisation flags that can be specified that may disregard strict standards compliance (`-Ofast`), or optimise a binary for size (`-Os` and `-Oz`). 
 
 > **Further Reading**
 >
@@ -741,7 +737,7 @@ The next things to look for are inner loop function calls which may prevent vect
 
 In the vector-add example above, the call to the `rand()` function could not be inlined or vectorised and therefore the loop could not be vectorised safely. But many other simple functions may not have this issue. You may be able to take steps such as manually inlining a function, rewriting the loop logic to remove function calls, annotating a functions call to include the `inline` keyword, etc. 
 
-The final issue we'll deal with here is related to our first example -- loop dependencies. Compilers will generally attempt to vectorise your code if, and only if, (a) it believes the performance increase is worth it (evaluated at compile time using a cost-model) and (b) it believes that there are no loop dependencies. In some applications, this latter concern is difficult to evaluate, and so compilers will always "play it safe", treating _assumed dependencies_ as _proven dependencies_. 
+The final issue we'll deal with here is related to our first example -- loop dependencies. Compilers will generally attempt to vectorise your code if, and only if, (i) it believes the performance increase is worth it (evaluated at compile time using a cost-model) and (ii) it believes that there are no loop dependencies. In some applications, this latter concern is difficult to evaluate, and so compilers will always "play it safe", treating _assumed dependencies_ as _proven dependencies_. 
 
 Take the following code, for example, 
 
