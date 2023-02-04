@@ -1,5 +1,5 @@
 ---
-title: 4. On-Core Parallelism
+title: 4. On-core Parallelism
 date: 2022-07-24
 category: hipc
 layout: post
