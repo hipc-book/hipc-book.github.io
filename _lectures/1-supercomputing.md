@@ -485,7 +485,7 @@ In his 2004 talk, Phillip Colella outlined the _seven dwarfs of scientific compu
 > * LAMMPS
 > * NEK5000
 >
-> _**Note:** These applications may contain morifs of multiple dwarfs._
+> _**Note:** These applications may contain motifs of multiple dwarfs._
 {: .block-danger }
 
 ## The 13 Dwarfs
