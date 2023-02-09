@@ -306,11 +306,11 @@ Alternatively, we could use the `clock_gettime()` function to record the time at
 struct timespec start, stop; 
 double duration; 
 
-clock_gettime(CLOCK_MONOTONIC, &amp;start); 
+clock_gettime(CLOCK_MONOTONIC, &start); 
 
 // code 
 
-clock_gettime(CLOCK_MONOTONIC, &amp;stop); 
+clock_gettime(CLOCK_MONOTONIC, &stop); 
 
 // calculate time taken for loop 
 duration = (double) (stop.tv_sec * 1000000000 + stop.tv_nsec) - (start.tv_sec * 1000000000 + start.tv_nsec);

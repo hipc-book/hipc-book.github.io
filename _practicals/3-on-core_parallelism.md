@@ -330,7 +330,8 @@ For now, we're going to disable compiler optimisations, so make sure you keep `-
 >  
 > Add timers to the application and then optimise it as best as you can. Bonus marks if you are able to make use of vector intrinsics in the main loop body. 
 > 
-> **Note:** There will be minimal support provided for this exercise -- but it is a fun exercise nonetheless! 
+> **Note:** There will be minimal support provided for this exercise -- but it is a fun exercise nonetheless! <br/><br/>
+{: .block-danger }
 
 # Using Intel Advisor
 
