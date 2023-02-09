@@ -7,11 +7,9 @@ layout: post
 
 # Overview
 
-<video width="560" class="center" controls>
-    <source src="../../assets/videos/HIPC-Unit_5-Overview.mp4" type="video/mp4">
-</video><br/>
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/MaZVLgE6gwQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe><br/>
 
-In the last unit we were looking at how we can parallelise and optimise an application on a single node. In this unit we'll start to look at how we can make use of the entire node. Specifically we're going to cover: 
+In the last unit we were looking at how we can parallelise and optimise an application on a single core. In this unit we'll start to look at how we can make use of the entire processor (or processors!). Specifically we're going to cover: 
 
 * A quick revisit of Flynn's taxonomy (with two new categories) 
 * The architecture of a shared memory system 
@@ -31,7 +29,7 @@ The four initial classifications defined by Flynn have since been subdivided and
 
 The **Single Instruction, Multiple Threads (SIMT)** execution model is widely used in parallel computing. SIMT could be thought of as a subcategory of SIMD, but where the SIMD is combined with multithreading, and each parallel element has its own independent registers and memory. 
 
-The **Single Program, Multiple Data (SPMD)** execution model is a subcategory of MIMD often used in distributed computing. In SPMD, tasks are divided and distributed to run on multiple processes with different inputs in order to obtain results much more rapidly. 
+The **Single Program, Multiple Data (SPMD)** execution model is a subcategory of MIMD often used in distributed computing. In SPMD, tasks are divided and distributed to run on multiple processors with different inputs in order to obtain results much more rapidly. 
 
 In the last unit, we were focussing very much on the SIMD aspect of Flynn's taxonomy; in this unit we'll look at SIMT and SPMD approaches on a single node. 
 
@@ -39,11 +37,11 @@ In the last unit, we were focussing very much on the SIMD aspect of Flynn's taxo
  
 A shared memory parallel computer is a system in which a number of cores (or CPUs) work on a common, shared physical address space.  
 
-Although transparent to the programmer there are typically two different forms of shared memory system in terms of memory access. 
+Although transparent to the programmer, there are typically two different forms of shared memory system in terms of memory access. 
 
 An **UMA (Uniform Memory Access)** system is one where the system has a flat memory model -- latency and bandwidth are the same for all processors and all memory locations. This is sometimes also called symmetric multiprocessing (SMP). 
 
-In an UMA system, each CPU would typically be connected to a shared memory controller, which would act as a conduit between the CPUs and the main memory. With modern CPUs now containing tens of cores per chip, UMA architecture are no longer used. As core counts increase, the single memory controller soon becomes a significant bottleneck. 
+In an UMA system, each CPU would typically be connected to a shared memory controller, which would act as a conduit between the CPUs and the main memory. With modern CPUs now containing tens of cores per chip, UMA designs are not typically used. As core counts increase, the single memory controller soon becomes a significant bottleneck. 
 
 ![A Uniform Memory Access (UMA) design](../../assets/unit-5/uma.png)   
 _**Figure 2:** An UMA design_  
@@ -121,7 +119,7 @@ void write_y() {
 
 Although the value of `x` in the struct is not changing, because the values are stored contiguously in memory the write function continually invalidates the cache line for other processors. This causes the cache line to be evicted and reloaded each time a read is issued. 
 
-In most cases, false sharing can be avoided or mitigated with simple code changes (or by the compiler!). We'll look at some of these later in this unit. 
+In most cases, false sharing can be avoided or mitigated with simple code changes (or by the compiler!).
 
 #  The Fork-Join Model and POSIX Threads
 
@@ -133,9 +131,9 @@ The fork-join model is a method for setting up and executing parallel programs t
 _**Figure 4:** An example of a fork-join execution_  
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
-In the figure above, there are three parallel tasks to be executed, with each block being executed by a varying number of threads. First, the master thread creates two child threads, which rejoin after the first task, then it creates three threads, which rejoin after the second task, and then finally creates a single additional thread for the third parallel task.  
+In Figure 4, there are three parallel tasks to be executed, with each block being executed by a varying number of threads. First, the master thread creates two child threads, which rejoin after the first task, then it creates three threads, which rejoin after the second task, and then finally creates a single additional thread for the third parallel task.  
 
-In C, perhaps the quickest (and dirtiest!) way to implement a fork-join model is with the POSIX [`fork()`](https://man7.org/linux/man-pages/man2/fork.2.html) and [`wait()`](https://man7.org/linux/man-pages/man2/wait.2.html) functions from [`<unistd.h>`](https://man7.org/linux/man-pages/man0/unistd.h.0p.html). A call to `fork()` will create a child process by duplicating the calling process. The new process is referred to as the _child process_, while the calling process is the _parent process_. On the parent, the fork call will return the process ID of the child; while on the child process, the fork call will return zero. Each process runs in a seperate memory space (but the content is duplicated at the time of the fork call), and continues execution from the fork command. 
+In C, perhaps the quickest (and dirtiest!) way to implement a fork-join model is with the POSIX [`fork()`](https://man7.org/linux/man-pages/man2/fork.2.html) and [`wait()`](https://man7.org/linux/man-pages/man2/wait.2.html) functions from [`<unistd.h>`](https://man7.org/linux/man-pages/man0/unistd.h.0p.html). A call to `fork()` will create a child process by duplicating the calling process. The new process is referred to as the _child process_, while the calling process is the _parent process_. On the parent, the fork call will return the process ID of the child; while on the child process, the fork call will return zero. Each process runs in a seperate memory space (but the content is duplicated at the time of the fork call), and continues execution from the `fork()` command. 
 
 A simple example might look like this: 
 
@@ -178,7 +176,7 @@ POSIX Threads (or pthreads) is a parallel execution model that allows a program 
 
 Unlike the `fork()` command, pthreads creates a new thread within the same process, rather than a new process. This new thread shares the same memory space, but gets its own stack, registers and ID. Since threads share a memory space, they can communicate through shared memory; but, be warned, this can lead to race conditions and undefined behaviour. 
 
-Threads are created using the `pthread_create()` function, and rejoin the parent when the `pthread_join()` function is called. The `pthread_create` function requires a function pointer (i.e. a pointer to a function, rather than a variable). A simple example is shown below, where each thread executes the `perform_work` function, with the thread ID passed as a variable to the function. 
+Threads are created using the `pthread_create()` function, and rejoin the parent when the `pthread_join()` function is called. The `pthread_create()` function requires a function pointer (i.e. a pointer to a function, rather than a variable). A simple example is shown below, where each thread executes the `perform_work(...)` function, with the thread ID passed as a variable to the function. 
 
 ```c
 #include <stdio.h>
@@ -269,6 +267,11 @@ int main(int argc, char *argv[]) {
  
 In this updated code example, the mutex lock will be locked by each thread (not necessarily in order) so that the accumulation operations will never collide, and will thus avoid the case where an addition is missed. 
 
+> **Exercise**
+>
+> Try both of the pthreads examples above. Try to create undefined behaviour. Try to deadlock your code (you can always CTRL+C your code!).
+{: .block-danger }
+
 The pthreads API contains around 100 procedures, but we're only going to cover the very basics in this section. The following playlist provides a much deeper look at pthreads. 
 
 <iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/videoseries?list=PL9IEJIKnBJjFZxuqyJ9JqVYmuFZHr7CFM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""> </iframe>
@@ -277,7 +280,7 @@ The pthreads API contains around 100 procedures, but we're only going to cover t
  
 OpenMP (Open Multi-Processing) is an API that supports shared memory multiprocessing in C, C++ and Fortran. It provides an implementation of the Fork-Join model alongside some other parallel execution schemes and was first released for Fortran in 1997. The C/C++ specification was released in 2002 (part of version 2.0), two years after the release of version 2.0 of the Fortran specification.  
 
-The current version is 5.1 and was released in November 2020. While the initial release was primarily focussed on parallelising highly regular loops, the modern standard now includes support for tasking, accelerators, atomics, reductions, SIMD and more. 
+The current version is 5.2 and was released in November 2021. While the initial release was primarily focussed on parallelising highly regular loops, the modern standard now includes support for tasking, accelerators, atomics, reductions, SIMD and more. 
 
 The central concept of the OpenMP standard is the use of [_**compiler directives**_](https://en.wikipedia.org/wiki/Directive_(programming)). Rather than explicitly starting and subsequently rejoining threads (like with pthreads), code meant for parallel dispatch is marked accordingly with a directive that the compiler can understand. The most commonly used directives are focussed on _data parallelism_ (i.e. SPMD). 
 
@@ -342,7 +345,7 @@ int main(int argc, char *argv[]) {
  
 As you can see, our OpenMP code is much shorter and concise. One significant difference between the pthreads code from earlier and our OpenMP implementation is that the number of threads is not specified in the code. The code above can be compiled and executed like so: 
 
-```shell
+```
 $ gcc -fopenmp -o openmp_demo openmp_demo.c
 $ export OMP_NUM_THREADS=5
 $ ./openmp_demo                               
@@ -358,7 +361,7 @@ Our compile line no longer requires the `-pthreads` option, and instead includes
 
 Note that you can also specify the number of threads on the same line as the command, like so: 
 
-```shell
+```
 $ OMP_NUM_THREADS=5 ./openmp_demo
 ```
 
@@ -366,7 +369,7 @@ $ OMP_NUM_THREADS=5 ./openmp_demo
 >
 > OpenMP may not be easily available on MacOS with the default compiler. You may have to install an OpenMP library (perhaps using `brew`), and then pass a special option to the compiler. If you use [Homebrew](https://brew.sh), you could try the following:
 >
-> ```shell
+> ```
 > $ brew install libomp
 > $ clang -O3 -Xpreprocessor -fopenmp my_code.c -lomp
 > ```
@@ -482,9 +485,7 @@ int main(int argc, char *argv[]) {
 
 We can further parallelise our application by adding worksharing directives to our vectorised code, meaning that we can exploit parallelism at the core- and the process-level. 
 
-<video width="560" class="center" controls>
-    <source src="../../assets/videos/HIPC-Unit_5-OpenMP.mp4" type="video/mp4">
-</video>
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/Qp7hRK4DZog" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 # Advanced OpenMP
 
@@ -616,7 +617,7 @@ int main(int argc, char *argv[]) {
 
 Running the code produces the correct answer, but is not efficient due to the serialisation around the critical section. In fact, it may be faster to run this very simple example on a single thread. 
 
-```shell
+```
 $ gcc -fopenmp -o sum sum.c
 $ time ./sum                         
 sum is: 887459712
@@ -637,7 +638,7 @@ for (int i = 0; i < 100000000; i++) {
 
 Notice that we no longer require the critical section. Instead, we specify that the variable `sum` will be subject to an addition reduction. Our parallelised loop is now faster than the single threaded case. 
 
-```shell
+```
 $ gcc -fopenmp -o sum sum.c
 $ time OMP_NUM_THREADS=1 ./sum       
 sum is: 887459712
@@ -684,7 +685,7 @@ int main(int argc, char *argv[]) {
 
 The simplest (and default) schedule is "`static`", which divides the loop into contiguous blocks of roughly equal size. Each thread will then execute a single block. 
 
-```shell
+```
 $ OMP_NUM_THREADS=5 ./demo
 Thread 0 is performing iteration 0
 Thread 0 is performing iteration 1
@@ -698,9 +699,9 @@ Thread 4 is performing iteration 8
 Thread 4 is performing iteration 9 
 ```
 
-If the work in each loop iteration is not constant, a `static` schedule may be suboptimal. For example, if the amount of work per iteration increases with each iteration, each thread will have progressively more work to do than the previous thread. One solution to this is to specific the size of a chunk. We could specify a chunk size of 1 (`schedule(static,1)`), meaning that each iteration is allocated to a thread in a round-robin fashion. 
+If the work in each loop iteration is not constant, a `static` schedule may be suboptimal. For example, if the amount of work per iteration increases with each iteration, each thread will have progressively more work to do than the previous thread. One solution to this is to specify the size of a chunk. We could specify a chunk size of 1 (`schedule(static,1)`), meaning that each iteration is allocated to a thread in a round-robin fashion. 
 
-```shell
+```
 $ OMP_NUM_THREADS=5 ./demo
 Thread 1 is performing iteration 1
 Thread 1 is performing iteration 6
@@ -718,7 +719,7 @@ In a `static` schedule, the blocks are assigned to threads before execution, and
 
 Besides `static` schedules, there are a number of alternatives. A `dynamic` schedule will divide iterations into blocks of a specified size (defaults to 1), and will start by scheduling a single block to each thread. When a thread finishes, it requests a new block to be allocated. So, for example with `schedule(dynamic,3)`: 
 
-```shell
+```
 OMP_NUM_THREADS=5 ./demo            
 Thread 0 is performing iteration 0
 Thread 0 is performing iteration 1
@@ -768,7 +769,7 @@ Since the number of calls to `printf()` is not known, tasking is a natural choic
 
 ## Environmental Variables 
 
-Much of the parallelisation provided by OpenMP is controllable at runtime. As we've already seen, OpenMP uses environmental variables to control execution (e.g. `OMP_NUM_THREADS`). It also provides a number of environment variables that direct an application to provide us with information that might be critical to performance. 
+Much of the parallelisation provided by OpenMP is controllable at runtime. As we've already seen, OpenMP uses environment variables to control execution (e.g. `OMP_NUM_THREADS`). It also provides a number of environment variables that direct an application to provide us with information that might be critical to performance. 
 
 You can find the complete list of variables provided by OpenMP in [Section 6 (Environment Variables)](https://www.openmp.org/spec-html/5.0/openmpch6.html#x287-20510006) of the specification. We'll cover a few of the important ones here: 
 
@@ -890,7 +891,7 @@ for (int i = 0; i < iters; i++) {
 
 In the code above, the loop will only parallelise if there are more than 100 iterations to complete. The point at which parallelisation may become beneficial will be problem- and platform-specific, but you could explore this space with profiling (see Unit 3). 
 
-Alternatively, we could manually reduce the number of threads such that the overhead is minimised. We can do this by controlling the number of threads with a `num_threads` clause. E.g. 
+Alternatively, we could manually reduce the number of threads such that the overhead is minimised. We can do this by controlling the number of threads with a `num_threads` clause. For example, 
 
 ```c
 int iters = 10;
@@ -900,11 +901,11 @@ for (int i = 0; i < iters; i++) {
 } 
 ```
 
-In this example, regardless of the number of threads available to the application, this loop will only ever use 2. Less threads means less overhead, and thus this might improve performance of a loop, without slowing down later loops that may benefit from more threads. 
+In this example, regardless of the number of threads available to the application, this loop will only ever use 2. Less threads means less overhead, and thus this might improve the performance of a loop, without slowing down later loops that may benefit from more threads. 
 
 ### Avoid implicit barriers 
 
-As was mentioned in the previous section, there are implicit barriers at the end of all parallel regions in OpenMP. This means that if some threads finish their work early, they will block until all threads have finished. In cases there this is not required, we can instruct threads not to wait and to continue their execution. 
+As was mentioned in the previous section, there are implicit barriers at the end of all parallel regions in OpenMP. This means that if some threads finish their work early, they will block until all threads have finished. In cases where this is not required, we can instruct threads not to wait and to continue their execution. 
 
 There is an explicit barrier at the end of any parallel region that cannot be removed, but we can remove the implicit barrier from a work-sharing construct with the `nowait` clause. Consider the `omp for` pragma in the following code sample: 
 
@@ -941,7 +942,7 @@ Thread 3 is done
 Thread 4 is done 
 ```
 
-If we add the `nowait` clause to our omp for pragma, the output shows that we have removed one of the implicit barriers in our code. 
+If we add the `nowait` clause to our `omp for` pragma, the output shows that we have removed one of the implicit barriers in our code. 
 
 ```shell
 $ OMP_NUM_THREADS=5 ./demo            
