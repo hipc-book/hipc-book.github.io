@@ -5,6 +5,10 @@ category: hipc
 layout: post
 ---
 
+TODO: 
+* Update video to Youtube video
+* Add exercises here! (Play with MPI-IO, Test out MPI, etc)
+
 # Overview
 
 <video width="560" class="center" controls>
@@ -48,24 +52,24 @@ Modern day HPC systems are typically a hybrid of shared memory and distributed m
 
 From the developer's perspective, the main difference between a shared memory system and a distributed memory system is that in a distributed memory system, memory must be managed and shared between processors _explicitly_. This is usually achieved through _**Message Passing**_, where processes explicitly communicate with one another through send and receive functions. The de facto standard for message passing on HPC systems is the **Message Passing Interface**, or **MPI**. 
 
-It should be noted that while individual nodes are ccNUMA-like shared memory systems, they can be programmed as and operate as a distributed memory system. Moreover, distributed memory systems can be programmed as and operate as shared memory systems using approaches such as **Partitioned Global Address Space (PGAS)**, where the PGAS implementation mimics a shared memory system by performing remote memory sends and recieves transparently. 
+It should be noted that while individual nodes are ccNUMA-like shared memory systems, they can be programmed as and operate as a distributed memory system. Moreover, distributed memory systems can be programmed as and operate as shared memory systems using approaches such as **Partitioned Global Address Space (PGAS)**, where the PGAS implementation mimics a shared memory system by performing remote memory sends and receives transparently. 
 
 # The Message Passing Interface
      
-The Message Passing Interface (MPI) is a portable message passing standard designed for distributed-memory parallel computers. The standard (version 4.0) currently defines an API with almost 500 functions, in C and Fortran (support for Fortran 2008 was added in the MPI 3.0 standard, while the C++ bindings were deprecated).  
+The Message Passing Interface (MPI) is a portable message passing standard designed for distributed-memory parallel computers. The standard (version 4.0) currently defines an API with almost 500 functions, in C and Fortran (support for Fortran 2008 was added in the MPI 3.0 standard, while the C++ bindings were deprecated).
 
-Today, there are numerous implementations of the MPI standard available. Notable examples include the open-source implementations OpenMPI, MPICH and MVAPICH, and the vendor-developed implementations Intel MPI, Cray MPI and bullx MPI (note that many of these vendor-developed implementations are based on an open-source implementation). 
+Today, there are numerous implementations of the MPI standard available. Notable examples include the open-source implementations OpenMPI, MPICH and MVAPICH, and the vendor-developed implementations Intel MPI, Cray MPI and bullx MPI (note that many of these vendor-developed implementations are based on an open-source implementation).
 
 ## History
 
-Efforts to define a standardised message passing interface began in 1991 and subsequently led to the Workshop on Standards for Message Passing in a Distributed Memory Environment (held in April 1992). At this workshop, the essential features of a message passing library were discussed, and a small working group was formed with the task of defining a standard. 
+Efforts to define a standardised message passing interface began in 1991 and subsequently led to the _Workshop on Standards for Message Passing in a Distributed Memory Environment_ (held in April 1992). At this workshop, the essential features of a message passing library were discussed, and a small working group was formed with the task of defining a standard. 
 
-The first draft of the MPI standard was designed by [Jack Dongarra](https://en.wikipedia.org/wiki/Jack_Dongarra), [Tony Hey](https://en.wikipedia.org/wiki/Tony_Hey) and David W. Walker and presented at the Supercomputing Conference (SC) in 1993. Following a period of consultation, the 1.0 standard was released in June 1994. 
+The first draft of the MPI standard was designed by [Jack Dongarra](https://en.wikipedia.org/wiki/Jack_Dongarra), [Tony Hey](https://en.wikipedia.org/wiki/Tony_Hey) and David W. Walker and presented at the Supercomputing Conference (SC) in 1993. Following a period of consultation, the 1.0 standard was released in June 1994.
  
 ![Version 1 of the MPI Standard](../../assets/unit-6/mpi1-standard.png)  
 _**Figure 3:** Version 1.0 of the MPI Standard_
 {: style="color:gray; font-size: 90%; text-align: center;" }
-  
+
 The MPI effort involved around 80 people from 40 organisations, mainly in the United States and Europe. It was funded heavily by DARPA, the U.S. National Science Foundation (NSF), and the European commission (among others). 
  
 Since its creation, MPI has become the _de facto_ standard for communications on distributed memory systems. The standard is maintained by the MPI Forum, and the current version of the standard is 4.0; the 4.1 and 5.0 standards are a work in progress. 
@@ -108,7 +112,7 @@ This will compile our program with all of the required MPI libraries, and then l
 
 But, you might ask, where do we start with writing an MPI application? 
 
-The first thing we do in an MPI program, is initialise the MPI library (and its associated communicators, etc.). We do this with the `MPI_Init()` function, which takes as arguments the application's `argc` and `argv` parameters as pointers so that it can remove any extraneous parameters added by mpirun. 
+The first thing we do in an MPI program, is initialise the MPI library (and its associated communicators, etc.). We do this with the `MPI_Init()` function, which takes as arguments the application's `argc` and `argv` parameters as pointers so that it can remove any extraneous parameters added by `mpirun`. 
 
 We finish our MPI programs in a similar way, with the `MPI_Finalize()` function. So, a typical MPI program might follow the following format: 
 
@@ -122,17 +126,17 @@ int main(int argc, char *argv[]) {
 
     ... // application code
 
-   MPI_Finalize();
+    MPI_Finalize();
 }
 ```
 
-Most MPI functions in C return an integer (which in this case, we've discarded). Like many return values in C, it indicates whether the operation has been successful. If the MPI operation has been successful, it will return MPI_SUCCESS. Other return values indicate that a problem has occurred. 
+Most MPI functions in C return an integer (which in this case, we've discarded). Like many return values in C, it indicates whether the operation has been successful. If the MPI operation has been successful, it will return `MPI_SUCCESS`. Other return values indicate that a problem has occurred. 
 
 ## Communicators
 
 Much of MPI is based around the notion of _communicators_. A communicator defines a group of MPI processes that are referred to by a _communicator handle_. The `MPI_COMM_WORLD` handle encompasses all MPI processes that have been started as part of a parallel program. Most MPI operations require a communicator handle to be passed, to determine where messages should be sent to or received from. 
 
-You can query the size of a communicator, and a processes rank within the communicator with the `MPI_Comm_size()` and `MPI_Comm_rank()` functions. Each take a communicator handle and a pointer to an integer which is where MPI stores the result of the call. 
+You can query the size of a communicator, and a process's rank within the communicator with the `MPI_Comm_size()` and `MPI_Comm_rank()` functions. Each take a communicator handle and a pointer to an integer, which is where MPI stores the result of the call. 
 
 With the 4 MPI functions we've covered so far, we can now write a very simple MPI "Hello, World!" application. 
 
@@ -178,14 +182,14 @@ Hello, World! I am process 2 of 8
 
 For most of the applications we'll encounter, `MPI_COMM_WORLD` will likely be sufficient; but before we move on, we'll take a quick look at how to create and manage custom communicator handles. 
 
-When decomposing a problem across parallel processes, it is perhaps trivial to implement a 1-dimensional decomposition (where each processes neighbours hold the ranks immediately before and after).  
+When decomposing a problem across parallel processes, it is perhaps trivial to implement a 1-dimensional decomposition (where each process's neighbours hold the ranks immediately before and after).  
 
-For more complex decompositions, setting up a grid of processes and calculating which ranks have to exchange halo data is nontrivial. For this reason, MPI provides functionality to set up virtual topologies. 
+For more complex decompositions, setting up a grid of processes and calculating which ranks have to exchange halo data is non-trivial. For this reason, MPI provides functionality to set up virtual topologies. 
 
-Let's say, for example, that we have 12 processes and we want the to form a 3 &times; 4 grid which is periodic in the second dimension but not in the first. 
+Let's say, for example, that we have 12 processes and we want them to form a 3 &times; 4 grid which is periodic in the second dimension but not in the first. 
  
 ![12 processes arranged in a 3 x 4 grid, periodic in one dimension](../../assets/unit-6/cartgrid.png)  
-_**Figure 4:** A two-dimensional cartesian topology. 12 processes form a 3x4 grid, periodic in the second dimension but not the first._
+_**Figure 4:** A two-dimensional cartesian topology. 12 processes form a 3 &times; 4 grid, periodic in the second dimension but not the first._
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
 We can set this up using the `MPI_Cart_create()` function, which takes as inputs an old communicator, the number of dimensions, the dimensions themselves and the periodicity in each dimension, and outputs a new communicator. For the situation in Figure 4, we can use: 
@@ -398,11 +402,11 @@ As well as the predefined data types, we can build custom data types in MPI. Thi
 
 The process for creating and using a derived type in MPI (and C) is: 
  
- 1. Set up a new `MPI_Datatype` variable 
- 2. Configure the new data type 
- 3. Commit the data type 
- 4. Use the data type 
- 5. Free the data type 
+1. Set up a new `MPI_Datatype` variable 
+2. Configure the new data type 
+3. Commit the data type 
+4. Use the data type 
+5. Free the data type 
 
 So, let's create a data type to hold a particle in a simulation: 
 
@@ -455,10 +459,10 @@ MPI_Type_free(&my_column);
 In this example, we've created a new data type that will contain 10 blocks, each with a size of 1 data type (in this case 1 double), strided by 10 elements. On a 10 &times; 10 matrix this would correspond to a column (i.e. one value in every 10). 
  
 ![Conceptual layour of a 10 x 10 array in C](../../assets/unit-6/2d-array-col.png)  
-_**Figure 5:** The conceptual layout of a 10x10 2D array in C_ 
+_**Figure 5:** The conceptual layout of a 10 &times; 10 2D array in C_ 
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
-Using our new MPI data type, we can send any column by using the pointer address &my_matrix[0][col]. This will start our call at an offset column, which will then be strided by 10 for each value.
+Using our new MPI data type, we can send any column by using the pointer address `&my_matrix[0][col]`. This will start our call at an offset column, which will then be strided by 10 for each value.
  
 ## Sending and Receiving Messages
 
@@ -475,7 +479,7 @@ The parameters required by each function largely mirror each other, with an addi
 
 Each function then requires the destination or source of the message. If the source is not known, the special wildcard value `MPI_ANY_SOURCE` can be provided to indicate that a message can be received from any rank. The `tag` parameter allows us to "tag" a message such that only a matching receive call will accept the message. Again, the wildcard `MPI_ANY_TAG` can be used by the receiving process if the tag value is not known. Finally, the communicator is provided to both functions. Importantly, a message can only be received if the source, tag and communicator match that of the sending process (unless wildcard values are used by the receiver). 
 
-The final parameter in the `MPI_Recv()` function is the `MPI_Status` object. In many cases, applications are written such that the status object does not require inspection; in these cases the special value `MPI_STATUS_IGNORE` can be used to avoid allocating a status variable. But in the case that either wildcards are used, the status object will contain the correct values after execution. The `MPI_Status` object is defined in the specification to contain three fields: `MPI_SOURCE`, `MPI_TAG` and `MPI_ERROR`. Additional fields are implementation specific and so should not be addressed directly. 
+The final parameter in the `MPI_Recv()` function is the `MPI_Status` object. In many cases, applications are written such that the status object does not require inspection; in these cases the special value `MPI_STATUS_IGNORE` can be used to avoid allocating a status variable. But in the case that either of the wildcards are used, the status object will contain the correct values after execution. The `MPI_Status` object is defined in the specification to contain three fields: `MPI_SOURCE`, `MPI_TAG` and `MPI_ERROR`. Additional fields are implementation specific and so should not be addressed directly. 
 
 So, for example: 
 
@@ -498,7 +502,7 @@ if (rank == 0) {
 }
 ```
 
-In many (most?) cases, point-to-point communications are used to exchange border information (e.g. a "halo-exchange") between nearest neighbours. A common pattern in such applications is to call an `MPI_Send()`, followed immediately by an `MPI_Recv()`.
+In many cases, point-to-point communications are used to exchange border information (e.g. a "halo-exchange") between nearest neighbours. A common pattern in such applications is to call an `MPI_Send()`, followed immediately by an `MPI_Recv()`.
 
 However, beware! In most MPI implementations it is likely that the `MPI_Send()` call will return as soon as the data has been moved into an internal send buffer; however in some implementations the send may be fully synchronous and may block until a matching receive call is issued. In this case, the application will **deadlock** (since all processes will block on their send call before issuing their receive call).  
 
@@ -556,7 +560,7 @@ In the case where your boundaries are not cyclic, you can still use `MPI_Sendrec
 
 Another solution to the potential deadlock problem above is to use **non-blocking communications**. So far, the functions we've encountered will block until the send or receive buffers can be used without issues. For example, an `MPI_Recv()` call will only return control to the program when the message has been received, and the data has been unpacked into the receiving buffer. In MPI this is termed "_blocking communications_". 
 
-For most communication functions in MPI, there is a _non-blocking_ alternative, where the MPI library initiates a communication, but control is immediately passed back to the application. It is then the applications responsibility to ensure the buffers being used for communication are not used until the communication is complete. This allows us an opportunity to overlap compute and communication. In the halo exchange example above, we could update values in each array, providing we do not update or use values in the leftmost or right most columns (until the communications are complete).
+For most communication functions in MPI, there is a _non-blocking_ alternative, where the MPI library initiates a communication, but control is immediately passed back to the application. It is then the application's responsibility to ensure the buffers being used for communication are not used until the communication is complete. This allows us an opportunity to overlap compute and communication. In the halo exchange example above, we could update values in each array, providing we do not update or use values in the leftmost or rightmost columns (until the communications are complete).
 
 The call signatures for a non-blocking send function and a non-blocking receive function are similar to before, but contain an additional parameter -- an `MPI_Request` pointer. 
 
@@ -632,7 +636,7 @@ int MPI_Scatter(const void *sendbuf, int sendcount, MPI_Datatype sendtype, void 
         MPI_Datatype recvtype, int root, MPI_Comm comm);
 ```
 
-To demonstrate this we'll set up a situation where rank 0 generates 10 values for each process (filled with increasing numbers). It will scatter these values to each of the other processes. Finally, the last process (i.e. the highest rank) will gather the data back. You should note that the receive buffer is ignored by `MPI_Gather()` on all ranks but the receiving process, and the send buffer is ignored by `MPI_Scatter()` on all ranks but the sending processor. 
+To demonstrate this we'll set up a situation where rank 0 generates 10 values for each process (filled with increasing numbers). It will scatter these values to each of the other processes. Finally, the last process (i.e. the highest rank) will gather the data back. You should note that the receive buffer is ignored by `MPI_Gather()` on all ranks but the receiving process, and the send buffer is ignored by `MPI_Scatter()` on all ranks but the sending process. 
 
 ```c
 #include <stdio.h>
@@ -709,19 +713,19 @@ There are a number of predefined `MPI_Op` operators that should be sufficient fo
 
 <div class="table-wrapper" markdown="block">
 
-| **Name**     | **Meaning**            |
-| `MPI_MAX`    | Maximum                |
-| `MPI_MIN`    | Minimum                |
-| `MPI_SUM`    | Sum                    |
-| `MPI_PROD`   | Product                |
-| `MPI_LAND`   | Logical AND            |
-| `MPI_BAND`   | Bit-wise AND           |
-| `MPI_LOR`    | Logical OR             |
-| `MPI_BOR`    | Bit-wise OR            |
-| `MPI_LXOR`   | Logical XOR            |
-| `MPI_BXOR`   | Bit-wise XOR           |
-| `MPI_MAXLOC` | Max value and location |
-| `MPI_MINLOC` | Min value and location |
+| **Name**     | **Meaning**            |
+| `MPI_MAX`    | Maximum                |
+| `MPI_MIN`    | Minimum                |
+| `MPI_SUM`    | Sum                    |
+| `MPI_PROD`   | Product                |
+| `MPI_LAND`   | Logical AND            |
+| `MPI_BAND`   | Bit-wise AND           |
+| `MPI_LOR`    | Logical OR             |
+| `MPI_BOR`    | Bit-wise OR            |
+| `MPI_LXOR`   | Logical XOR            |
+| `MPI_BXOR`   | Bit-wise XOR           |
+| `MPI_MAXLOC` | Max value and location |
+| `MPI_MINLOC` | Min value and location |
 
 </div>
   
@@ -740,7 +744,7 @@ if (rank == 0) printf("The sum is: %d\n", result);
 
 If we provide an array in the send and receive buffers, the reduction operation will reduce across each element in the array (i.e. element 0 in the result array will be the result of a reduction of all element 0s, element 1 in the result array will be the result of a reduction of all element 1s, and so on). 
 
-Similar to the gather function above, there is an `MPI_Allreduce()` function that will perform a reduction and then distribute the result back to each processor. 
+Similar to the gather function above, there is an `MPI_Allreduce()` function that will perform a reduction and then distribute the result back to each process. 
 
 ```c
 int MPI_Allreduce(const void *sendbuf, void *recvbuf, int count,
@@ -789,7 +793,7 @@ _**Figure 8:** A heirarchical MPI Allreduce_
 
 The figure above demonstrates how an Allreduce operation can be completed by 9 processes with minimal communication overhead. Compared to each process sending data to P<sub>0</sub>, followed by a reduction and a broadcast, this communication pattern is significantly more efficient. The underlying implementation of MPI collectives is vendor and release specific (and in some cases relies on specialised hardware and proprietary algorithms). Nonetheless, MPI collectives should always be favoured over alternatives. 
 
-One final note, is that collective calls are **blocking**, and so often act as synchronisation points in applications. In almost all cases, a non-blocking alternative is available, but would require that an `MPI_Request` object is checked prior to any further operations using the send and recieve buffers. 
+One final note, is that collective calls are **blocking**, and so often act as synchronisation points in applications. In almost all cases, a non-blocking alternative is available, but would require that an `MPI_Request` object is checked prior to any further operations using the send and receive buffers. 
    
 <iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/sahAGYPoubE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe> 
 
@@ -1059,7 +1063,7 @@ int main(int argc, char *argv[]) {
 }
 ```
 
-We can load the HDF5 module on Viking and then compile and run this simple application like so (and examine the output with `h5dump`): 
+We can load the HDF5 module on Viking and then compile, and run, this simple application like so (and examine the output with `h5dump`): 
 
 ```
 $ module load data/HDF5/1.10.5-gompi-2019a
