@@ -269,8 +269,3 @@ echo
 /users/{YOUR_USER_NAME}/scratch/{YOUR_CODE_FILENAME}
 ```
 
-# Example Solutions
-
-Below is a Github link with some example solutions to give you some ideas (try yourself before look at these answers):
-
-<a onclick="this.href='/webapps/blackboard/content/contentWrapper.jsp?content_id=_4532511_1&displayName=Linked+File&navItem=content&attachment=true&course_id=_103719_1&tab_group=courses&href=https%3A%2F%2Fgithub.com%2Fautomaticdai%2Fcuda-lab-examples-hipc';" href="https://github.com/automaticdai/cuda-lab-examples-hipc">https://github.com/automaticdai/cuda-lab-examples-hipc</a>
