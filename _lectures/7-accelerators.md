@@ -7,8 +7,7 @@ layout: post
 
 # Overview
 
-<iframe width="640" height="480" src="https://www.youtube.com/embed/zOesxDOApbg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
-</iframe>
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/zOesxDOApbg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe><br/>
 
 Welcome to the 7th unit of the HIPC course.
 
