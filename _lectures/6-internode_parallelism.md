@@ -5,15 +5,9 @@ category: hipc
 layout: post
 ---
 
-TODO: 
-* Update video to Youtube video
-* Add exercises here! (Play with MPI-IO, Test out MPI, etc)
-
 # Overview
 
-<video width="560" class="center" controls>
-    <source src="../../assets/videos/HIPC-Unit_6-Overview.mp4" type="video/mp4">
-</video><br/> 
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/fb5IodEKbn8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe><br/>
 
 This week we're stepping off-node. We're going to look at how we can make use of an entire distrubted-memory supercomputer. 
 
@@ -177,6 +171,13 @@ Hello, World! I am process 6 of 8
 Hello, World! I am process 4 of 8
 Hello, World! I am process 2 of 8
 ```
+
+> **Exercise**
+>
+> Try out the "Hello, World!" program above on Viking. Try running it in an interactive job and a batch job.
+>
+> Try out different compilers and MPI implementations. What differences do you notice between MPI variants? (not in terms of performance, but in terms of function)
+{: .block-danger }
 
 ## Virtual Topologies
 
@@ -593,7 +594,12 @@ Note that the send calls have been given different tags, and that the request ob
 
 For most communication functions, there is a non-blocking alternative, usually prefixed with the letter I (e.g., `MPI_Barrier()` and `MPI_Ibarrier()`, etc.). 
 
-<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/s7drX_BgLnE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe> 
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/s7drX_BgLnE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe> <br/>
+
+> **Exercise**
+>
+> Write a simple MPI program to swap two arrays. Try implementing it with blocking send and recieve operations, combined send/recieve operations and non-blocking send and recieve operations. Can you make any of them deadlock?
+{: .block-danger }
 
 # Collective Operations
 
@@ -624,6 +630,11 @@ MPI_Bcast(buf, 100, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 ```
 
 While rank 0 is perhaps the natural "root", there is no reason that any other process cannot be the root note -- providing all processes provide the _same_ root rank. For the root, the buffer must be allocated and filled with the required data; for all other ranks, the buffer must be allocated with enough space to store the received data. 
+
+> **Exercise**
+>
+> Try implementing your own broadcast using point-to-point communications. How efficient is your implementation? What is the most efficient way to implement a broadcast?
+{: .block-danger } 
 
 ## Gather and Scatter
 
@@ -795,7 +806,7 @@ The figure above demonstrates how an Allreduce operation can be completed by 9 p
 
 One final note, is that collective calls are **blocking**, and so often act as synchronisation points in applications. In almost all cases, a non-blocking alternative is available, but would require that an `MPI_Request` object is checked prior to any further operations using the send and receive buffers. 
    
-<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/sahAGYPoubE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe> 
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/sahAGYPoubE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe> <br/>
 
 # Parallel I/O
      
