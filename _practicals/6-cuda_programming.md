@@ -83,9 +83,9 @@ If it says the package needs installing, give it 10 minutes, log out and log bac
 
 > # Exercise 2
 >
-> **Part 1** Practice the _vect_add_ example in Unit 7. Compare the performance of different Kernel configurations (note your code has to be adjusted according to the kernel configuration!) and report your results. Produce a diagram/table that shows how performance changes against the Kernel configuration.
+> **Part 1** Practice the _vec_add_ example in Unit 7. Compare the performance of different Kernel configurations (note your code has to be adjusted according to the kernel configuration!) and report your results. Produce a diagram/table that shows how performance changes against the Kernel configuration.
 >
-> **Part 2** One issue of _vect_add_ is that it is not friendly when _N_ is not multiples of `blockDim.x`. Adjust the code so that it can handle arbitrary vector sizes (N). <br/><br/>
+> **Part 2** One issue of _vec_add_ is that it is not friendly when _N_ is not multiples of `blockDim.x`. Adjust the code so that it can handle arbitrary vector sizes (N). <br/><br/>
 {: .block-danger }
 
 > # Exercise 3
