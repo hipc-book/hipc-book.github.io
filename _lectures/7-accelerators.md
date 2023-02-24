@@ -20,7 +20,7 @@ Specifically, we will cover:
 * GPU models  
 * Programming with CUDA  
 
-After this unit, you are expected to have a better understanding of GPU and CUDA programming, and be able to write CUDA programs.
+After this unit, you are expected to have a better understanding of GPU and CUDA programming, and to be able to write CUDA programs.
 
 # A Brief Introduction to GPUs in HPC
 
@@ -38,7 +38,7 @@ In the following years, the trend rapidly moved towards the use of GPUs, due to 
 
 In 2007, NVIDIA released its _CUDA_ development environment, the earliest widely adopted programming model for GPU computing. Two years later, OpenCL became widely supported. The OpenCL framework allows for the development of code for both GPUs and CPUs with an emphasis on portability. Thus, GPUs became a more generalised computing device.
 
-Despite other competitors in the market (e.g. AMD, Intel), the combination of NVIDIA GPUs and CUDA dominates several application areas, including scientific computing, deep learning, animation rendering, and NVIDIA GPUs are the foundation for some of the fastest computers in the world.
+Despite other competitors in the market (e.g. AMD, Intel), the combination of NVIDIA GPUs and CUDA dominates several application areas, including scientific computing, deep learning, and animation rendering. NVIDIA GPUs are the foundation for some of the fastest computers in the world.
 
 CUDA, as already mentioned, is a parallel computing platform and programming model developed by NVIDIA for general computing on its own GPUs. CUDA enables developers to speed up compute-intensive applications by harnessing the power of GPUs for the parallelisable part of the computation. In this unit, we will focus on NVIDIA GPUs and CUDA programming, but many of the concepts will apply to other GPUs and GPU programming models.
 
@@ -87,13 +87,13 @@ _**Figure 3:** CPU and GPU performance comparison_
 
 In 2009, the differences between CPUs and GPUs was demonstrated in the TV Show Mythbusters.
 
-<iframe width="640" height="480" class="center" src="https://www.youtube.com/embed/-P28LKWTzrI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/-P28LKWTzrI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
 
 # The Microarchitecture of NVIDIA GPUs
 
 The architecture of NVIDIA GPUs has been evolving for serval years. Since 2006, NVIDIA has released a number of different GPU microarchitectures, which are: [Tesla](https://en.wikipedia.org/wiki/Tesla_(microarchitecture)) (2006), [Fermi](https://en.wikipedia.org/wiki/Fermi_(microarchitecture)) (2010), [Kepler](https://en.wikipedia.org/wiki/Kepler_(microarchitecture)) (2012), [Maxwell](https://en.wikipedia.org/wiki/Maxwell_(microarchitecture)) (2014), [Pascal](https://en.wikipedia.org/wiki/Pascal_(microarchitecture)) (2016), [Volta](https://en.wikipedia.org/wiki/Volta_(microarchitecture)) (2017), [Turing](https://en.wikipedia.org/wiki/Turing_(microarchitecture)) (2018), [Ampere](https://en.wikipedia.org/wiki/Ampere_(microarchitecture)) (2020) and [Hopper](https://en.wikipedia.org/wiki/Hopper_(microarchitecture)) (2022).
 
-An overview of NVIDIAs GPU architecture is given in the following diagram:
+An overview of NVIDIAs GPU architecture is given in Figure 4:
 
 ![The GPU Hardware model for an NVIDIA A100](../../assets/unit-7/memory-hierarchy-in-gpus-2.png)  
 _**Figure 4:** GPU Hardware Model -- Overview (A100)_
@@ -103,7 +103,7 @@ It can be seen that from the top level, a GPU is similar to a CPU with respect t
 
 An NVIDIA chip consists of one or more _streaming multiprocessors_ (SMs). Each SM has a dedicated L1 cache, and all SMs share a unified L2 cache. An SM then has 1-4 _warp schedulers_. Each warp scheduler has a register file and multiple execution units. The execution units may be exclusive to the warp scheduler or shared between schedulers. Execution units include _CUDA cores_ (FP/INT), _special function units_ (SPU), _texture_, and _load-store units_ (LD/ST).   
 
-In the following figure, we take the Pascal computing architecture (GeForce GTX 1080, Telsa P100, etc.) as an example to look inside an SM. The diagrammatic structure is shown below.
+In Figure 5, we take the Pascal computing architecture (GeForce GTX 1080, Telsa P100, etc.) as an example to look inside an SM. The diagrammatic structure is shown below.
 
 ![GPU Hardware model for a GeForce GTX 1080, Pascal](../../assets/unit-7/GeForce_GTX_1080_SM_Diagram_FINAL.png)  
 _**Figure 5:** GPU Hardware Model -- SM (of a GP104/Pascal)_
@@ -119,11 +119,11 @@ We will cover these in detail in the following section.
 
 CUDA (Compute Unified Device Architecture) is a parallel computing platform and application programming interface (API) that allows software to use certain types of the graphics processing unit (GPU) for general-purpose processing -- an approach called general-purpose computing on GPUs (GPGPU). CUDA is a software layer with a C-like programming interface that gives direct access to the GPU's virtual instruction set and parallel computational elements for the execution of compute kernels. CUDA was first released in 2007 by NVIDIA, and the vision of CUDA is not for graphics but for parallel computation. It enables GPUs to perform many parallelised floating-point computations.
 
-<iframe width="640" height="480" class="center" src="https://www.youtube.com/embed/IzU4AVcMFys" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/IzU4AVcMFys" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
 
 ## CUDA Scalable Parallel Architecture
 
-Before we move to more details about CUDA programming, we'll first look at the programming model of CUDA:
+Before we move on to more details about CUDA programming, we'll first look at the programming model of CUDA:
 
 ![CUDA's parallel thread model](../../assets/unit-7/cuda_parallel_model.png)  
 _**Figure 6:** CUDA Parallel Thread Architecture_
@@ -151,7 +151,7 @@ CUDA is implemented and deployed in multiple software layers. It consists of:
 * The CUDA API and its runtime: The CUDA API is an extension of the C programming language that adds the ability to specify thread-level parallelism in C and also to specify GPU device-specific operations (like moving data between the CPU and the GPU);
 * Mathematical libraries that have been optimised to run using CUDA.  
 
-The CUDA Toolkit SDK (source development kit) comes with the software driver, the CUDA toolkit (compiler, debugger, profiler), and code samples.
+The CUDA Toolkit SDK (software development kit) comes with the software driver, the CUDA toolkit (compiler, debugger, profiler), and code samples.
 
 ![The CUDA Software Stack](../../assets/unit-7/The-CUDA-software-stack.png)  
 _**Figure 7:** CUDA Software Stack_
@@ -210,7 +210,7 @@ CUDAs memory model is organised as follows:
 _**Figure 8:** CUDA Memory Model_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
-Because of the nature of data allocation in shared memory, two concurrent threads in a warp can access different words in the same bank at the same time, causing a bank conflict that makes a GPU serialise the issued accesses to this bank. Since serialisation in a GPU is undesirable and clock-cycle costly, this access pattern should be avoided.
+Because of the nature of data allocation in shared memory, two concurrent threads in a warp can access different words in the same bank at the same time, causing a bank conflict that makes a GPU serialise the accesses issued to this bank. Since serialisation in a GPU is undesirable and clock-cycle costly, this access pattern should be avoided.
 
 The amount of memory that is available to the CUDA application is (in most cases) specific to the _compute capability_ of the device. For each compute capability, the size restrictions of each type of memory (except global memory) is defined in the table below. The application programmer is encouraged to query the device properties in the application using the `cudaGetDeviceProperties()` method.
 
@@ -259,7 +259,7 @@ In the following part, we will cover how to use the CUDA toolkit and write CUDA-
 
 ## First CUDA Example
 
-CUDA uses C-like syntax and adds its own primitives and API on top of C. To understand the difference, we'll first look at the classic "hello, world" example written in C and in CUDA.
+CUDA uses C-like syntax and adds its own primitives and API on top of C. To understand the difference, we'll first look at the classic "Hello, World" example written in C and in CUDA.
 
 First, as written in C (using a function call for the `printf()` for simplicity later:
 
@@ -267,7 +267,7 @@ First, as written in C (using a function call for the `printf()` for simplicity 
 #include <stdio.h>
 
 void c_hello() {
-    printf("Hello World!\n");
+    printf("Hello, World!\n");
 }
 
 int main(int argc, char *argv[]) {
@@ -282,7 +282,7 @@ int main(int argc, char *argv[]) {
 #include <stdio.h>
 
 __global__ void cuda_hello() {
-    printf("Hello World from GPU!\n");
+    printf("Hello, World! From GPU!\n");
 }
 
 int main(int argc, char *argv[]) {
@@ -330,29 +330,29 @@ To compile a CUDA program, the `nvcc` compiler should be used. Just like `gcc`, 
 
 To compile the "hello, world" example, in a new terminal:
 
-```shell
+```
 $ nvcc hello.cu -o hello
 ```
 
 Once the compilation is finished, the program can be run with:
 
-```shell
+```
 $ ./hello
 ```
 
-CUDA compilation works as follows: the input program is preprocessed for device compilation and is compiled to a CUDA binary (`cubin`) and/or PTX intermediate code, which are placed in a _fatbinary_. The input program is preprocessed once again for host compilation and is synthesised to embed the fatbinary and transform CUDA specific C++ extensions into standard C++ constructs. Then, the C++ host compiler compiles the synthesised host code with the embedded fatbinary into a host object. The exact steps that are followed to achieve this are displayed in the following diagram:
+CUDA compilation works as follows: the input program is preprocessed for device compilation and is compiled to a CUDA binary (`cubin`) and/or PTX intermediate code, which are placed in a _fat binary_. The input program is preprocessed once again for host compilation and is synthesised to embed the fat binary and transform CUDA specific C++ extensions into standard C++ constructs. Then, the C++ host compiler compiles the synthesised host code with the embedded fat binary into a host object. The exact steps that are followed to achieve this are displayed in the Figure 9:
 
 ![The CUDA Compilation process](../../assets/unit-7/cuda-compilation-from-cu-to-executable.png)  
 _**Figure 9:** The CUDA compilation process -- from `.cu` to a binary_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
-The embedded fatbinary is inspected by the CUDA runtime system whenever the device code is launched by the host program to obtain an appropriate fatbinary image for the current GPU.
+The embedded fat binary is inspected by the CUDA runtime system whenever the device code is launched by the host program to obtain an appropriate fat binary image for the current GPU.
 
 # Vectorisation with CUDA
 
 ## Vect Add example
 
-Consider the following `vect_add.c` example, where two vectors of size _N_ are added together (i.e. `out[i] = a[i] + b[i]`):
+Consider the following `vec_add.c` example, where two vectors of size _N_ are added together (i.e. `out[i] = a[i] + b[i]`):
 
 ```c
 #define N 1024*256
@@ -450,8 +450,8 @@ Note some irrelevant code is omitted, for example, the initialisation of `a` and
 NVIDIA provide a command-line profiler tool called `nvprof`, which gives more insight in the performance of CUDA applications. To profile our vector addition, use the following command:
 
 ```
-$ nvprof ./vector_add
-==6326== Profiling application: ./vector_add
+$ nvprof ./vec_add
+==6326== Profiling application: ./vec_add
 ==6326== Profiling result:
 Time(%)      Time     Calls       Avg       Min       Max  Name
  97.55%  1.42529s         1  1.42529s  1.42529s  1.42529s  vector_add(float*, float*, float*, int)
@@ -467,7 +467,7 @@ Note that so far, we have not exploited the full power of a GPU as we have only 
 
 The general syntax of kernel execution configuration is `<<M, T>>`, where `M` is the grid number (i.e. number of thread blocks), and `T` is the number of parallel threads within each thread block (i.e. block size). Unlike OpenMP where the workload can be automatically assigned, CUDA does require some thought over how the workload is distributed (and thus how the data is manipulated) for each grid/thread. To do this, CUDA provides 5 built-in variables:  
 
-* `gridDim` denotes the dimension of grid, and `blockDim` denotes the dimension of block; their types are `dim3`;  
+* `gridDim` denotes the dimension of the grid, and `blockDim` denotes the dimension of a block; their types are `dim3`;  
 * `blockIdx` and `threadIdx` identify the block index within the grid and thread index within the block respectively, and their types are `uint3`;
 * `warpSize` is an integer type, and identifies the warp size in threads, and it should be 32 for all compute capabilities.
 
@@ -498,7 +498,7 @@ int tid = blockIdx.x * blockDim.x + threadIdx.x;
 
 Finally, we can put everything together, like so,
 
-```c++
+```c
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -572,14 +572,14 @@ int main(int argc, char *argv[]) {
 
 > **Exercise**
 >
-> Can you do a performance comparison of `vect_add` with `<<1,1>>`, `<<1,256>>` and `<<1024,256>>`? How much speed-up can you get?
+> Can you do a performance comparison of `vec_add` with `<<1,1>>`, `<<1,256>>` and `<<1024,256>>`? How much speed-up can you get?
 {: .block-danger }
 
 # Advanced CUDA
 
 ## Kernel with 2D Indexing
 
-The kernel configuration can be 2-dimensional (as well as 3-dimensional). To access the second dimension, use `.y` attribute (and `.z` for indexing the third dimension).  
+The kernel configuration can be 2-dimensional (as well as 3-dimensional). To access the second dimension, use the `.y` attribute (and `.z` for indexing the third dimension).  
 
 For example,
 
@@ -639,7 +639,7 @@ In this unit we have still only scratched the surface of CUDA. There are a lot o
 
 GPUs typically provide _cheap FLOP/s_; but in order to make the most effective use of a GPU, the effort required may not be _cheap_.
 
-# Further Reading
+# Recommended Reading
 
 > * [CUDA C++ Programming Guide](https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html), NVIDIA.  
 > * [CUDA C++ Programming Guide (pdf version)](https://docs.nvidia.com/cuda/pdf/CUDA_C_Programming_Guide.pdf), NVIDIA.
