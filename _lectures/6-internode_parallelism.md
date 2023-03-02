@@ -598,7 +598,7 @@ For most communication functions, there is a non-blocking alternative, usually p
 
 > **Exercise**
 >
-> Write a simple MPI program to swap two arrays. Try implementing it with blocking send and recieve operations, combined send/recieve operations and non-blocking send and recieve operations. Can you make any of them deadlock?
+> Write a simple MPI program to swap two arrays. Try implementing it with blocking send and receive operations, combined send/receive operations and non-blocking send and receive operations. Can you make any of them deadlock?
 {: .block-danger }
 
 # Collective Operations
