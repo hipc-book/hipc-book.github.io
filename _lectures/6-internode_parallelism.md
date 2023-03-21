@@ -352,7 +352,7 @@ double MPI_Wtime();
 
 The `MPI_Wtime()` function simply returns a representation of the wall-clock time, since some time in the past. If we record the time before and after a function, the difference will represent how long the operation took, in seconds. You should note that in most MPI implementations, `MPI_Wtime()` is not synchronised between ranks. This must be done manually by the programmer (if required). 
 
-In order to perform more complex monitoring and analysis, you might find tools like Scalasa (available on Viking) or other MPI profiling tools useful. 
+In order to perform more complex monitoring and analysis, you might find tools like Scalasca (available on Viking) or other MPI profiling tools useful. 
 
 <iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/D0-xSWBGNAw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe> <br/>
 
