@@ -11,3 +11,7 @@ This GitBook provides all of the teaching material for the [HIPC](https://www.yo
 At the end of each academic year a snapshot of the site will be made for archival purposes, but this GitBook will be updated. Any significant changes will be documented in the Changelog.
 
 The assignment for this module will be made available via the York VLE (rather than via this site).
+
+### Previous Years
+
+* [2022-23](/~saw586/hipc/2022-23)
