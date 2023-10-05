@@ -228,6 +228,12 @@ For most communication functions, there is a non-blocking alternative, usually p
 > Write a simple MPI program to swap two arrays. Try implementing it with blocking send and receive operations, combined send/receive operations and non-blocking send and receive operations. Can you make any of them deadlock?
 {: .block-danger }
 
+
+### One-sided Communications
+
+http://wgropp.cs.illinois.edu/courses/cs598-s15/lectures/lecture34.pdf
+
+
 ### Non-Contiguous File I/O
 
 Beyond this, MPI also provides support for non-contiguous access. This is a common pattern in parallel applications. 

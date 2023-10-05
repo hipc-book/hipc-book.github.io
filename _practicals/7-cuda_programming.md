@@ -5,6 +5,9 @@ category: hipc
 layout: post
 ---
 
+> **This unit is a work-in-progress**
+{: .block-danger }
+
 # Overview
 
 In this practical, we will learn heterogeneous programming with a GPU accelerator using CUDA.
