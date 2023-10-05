@@ -427,11 +427,11 @@ Each sample counts as 0.01 seconds.
 %   cumulative   self              self     total           
 time   seconds   seconds    calls  Ts/call  Ts/call  name    
 96.09      1.46     1.46                             lup_solve
-1.97      1.49     0.03                             v_momentum_predictor
-0.66      1.50     0.01                             corrector
-0.66      1.51     0.01                             lup_decompose
-0.66      1.52     0.01                             u_momentum_predictor
-0.00      1.52     0.00        1     0.00     0.00  alloc_2d_matrix
+ 1.97      1.49     0.03                             v_momentum_predictor
+ 0.66      1.50     0.01                             corrector
+ 0.66      1.51     0.01                             lup_decompose
+ 0.66      1.52     0.01                             u_momentum_predictor
+ 0.00      1.52     0.00        1     0.00     0.00  alloc_2d_matrix
 
 ...
 ```

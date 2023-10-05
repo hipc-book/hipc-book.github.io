@@ -10,7 +10,7 @@ layout: post
 
 <iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/c7VQd9-M224" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe><br/>
 
-Over the next three units we're going to be looking at how to develop applications for homogeneous distributed systems. In this unit, we're going to start with performance and parallelism at the _core_ level. 
+Over the next few units we're going to be looking at how to develop applications for homogeneous distributed systems. In this unit, we're going to start with performance and parallelism at the _core_ level. 
 
 Specifically we're going to cover:
 
