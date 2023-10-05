@@ -5,7 +5,7 @@ category: hipc
 layout: post
 ---
 
-> **This unit is a work-in-progress**
+> **This practical is a work-in-progress**
 {: .block-danger }
 
 # Overview
