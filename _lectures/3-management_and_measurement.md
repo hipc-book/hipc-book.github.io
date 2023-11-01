@@ -198,20 +198,22 @@ The most important commands are `avail`, `list`, `load` and `unload`. On Viking,
 ```shell
 $ module avail
 
----------------------------------------------------------- /opt/apps/easybuild/modules/bio -----------------------------------------------------------
-bio/ABySS/2.0.2-foss-2018b                                      (D)    bio/Pysam/0.16.0.1-GCC-8.3.0
-bio/ADMIXTURE/1.3.0                                             (D)    bio/Pysam/0.16.0.1-GCC-9.3.0
-bio/AMPHORA2/20190730-gompi-2020b-Java-13-pthreads-avx2         (D)    bio/Pysam/0.16.0.1-GCC-10.2.0
-bio/ANGSD/0.930-foss-2018b                                      (D)    bio/Pysam/0.16.0.1-GCC-10.3.0                                (D)
-bio/ARAGORN/1.2.41-foss-2019b                                          bio/QIIME2/2018.2
-bio/ARAGORN/1.2.41-foss-2020a                                          bio/QIIME2/2018.11
-bio/ARAGORN/1.2.41-foss-2021b                                   (D)    bio/QIIME2/2019.4
-bio/AUGUSTUS/3.3.2-foss-2018b-Python-2.7.15                            bio/QIIME2/2019.7                                            (D)
-bio/AUGUSTUS/3.3.3-foss-2020a                                          bio/Qualimap/2.2.1-foss-2019b-R-3.6.2                        (D)
-bio/AUGUSTUS/3.3.3-intel-2019b                                  (D)    bio/R-bundle-Bioconductor/3.9-foss-2019a-R-3.6.0
-bio/AdapterRemoval/2.2.1-foss-2019b                                    bio/R-bundle-Bioconductor/3.10-foss-2019b
-bio/AdapterRemoval/2.3.0-foss-2018b                             (D)    bio/R-bundle-Bioconductor/3.11-foss-2020a-R-4.0.0            (D)
-bio/AdapterRemovalFixPrefix/0.0.5-Java-1.8.0_212                (D)    bio/RAxML-NG/0.9.0-gompi-2019b                               (D)
+---------------------------------------------- /opt/apps/eb/modules/base ----------------------------------------------
+   PSM2/12.0.1
+
+---------------------------------------------- /opt/apps/eb/modules/bio -----------------------------------------------
+   ADMIXTURE/1.3.0                                            PLINK/2.00a2.3-GCC-10.3.0
+   AMPHORA2/20190730-gompi-2020b-Java-13-pthreads-avx2        PoolHapX/2020-03-29-foss-2019b-Java-11
+   ARAGORN/1.2.41-foss-2019b                                  ProFit/3.3-GCC-10.3.0
+   ARAGORN/1.2.41-foss-2020a                                  Proteinortho/6.0.27-foss-2020a-Python-3.8.2
+   ARAGORN/1.2.41-foss-2021b                           (D)    Pysam/0.15.3-GCC-8.3.0
+   AUGUSTUS/3.3.3-foss-2020a                                  Pysam/0.16.0.1-GCC-8.3.0
+   AUGUSTUS/3.4.0-foss-2020b                           (D)    Pysam/0.16.0.1-GCC-9.3.0
+   AdapterRemoval/2.2.1-foss-2019b                            Pysam/0.16.0.1-GCC-10.2.0
+   AdapterRemoval/2.3.2-GCC-10.3.0                     (D)    Pysam/0.16.0.1-GCC-10.3.0
+   AdapterRemovalFixPrefix/0.0.5-Java-1.8                     Pysam/0.17.0-GCC-11.2.0
+   AdmixTools/7.0-foss-2019b-Perl-5.30.0-R-3.6.2              Pysam/0.19.1-GCC-11.3.0                             (D)
+   AlphaFold/2.0.0-foss-2020b                                 Qualimap/2.2.1-foss-2019b-R-3.6.2
 ... etc
 ```
 
@@ -345,7 +347,7 @@ $ perf stat -a -e "power/energy-ram/" -e "power/energy-cores/" -e "power/energy-
 We can also instrument our code directly to capture events through the PAPI interface. You can load the PAPI library on Viking with:
 
 ```shell
-$ module load perf/PAPI/5.6.0-GCCcore-7.3.0
+$ module load PAPI/7.0.0-GCCcore-11.3.0
 ```
 
 You can then see what performance counters are available using the `papi_avail` command. 
@@ -354,13 +356,14 @@ You can then see what performance counters are available using the `papi_avail` 
 $ papi_avail
 ...
 ================================================================================
-PAPI Preset Events
+  PAPI Preset Events
 ================================================================================
-Name         Code        Avail Deriv Description (Note)
-PAPI_L1_DCM  0x80000000  Yes   No    Level 1 data cache misses
-PAPI_L1_ICM  0x80000001  Yes   No    Level 1 instruction cache misses
-PAPI_L2_DCM  0x80000002  Yes   Yes   Level 2 data cache misses
-PAPI_L2_ICM  0x80000003  Yes   No    Level 2 instruction cache misses
+    Name        Code    Avail Deriv Description (Note)
+PAPI_L1_DCM  0x80000000  Yes   No   Level 1 data cache misses
+PAPI_L1_ICM  0x80000001  No    No   Level 1 instruction cache misses
+PAPI_L2_DCM  0x80000002  Yes   No   Level 2 data cache misses
+PAPI_L2_ICM  0x80000003  Yes   No   Level 2 instruction cache misses
+PAPI_L3_DCM  0x80000004  No    No   Level 3 data cache misses
 ...
 ```
 
@@ -376,18 +379,39 @@ You can read available counters (note above that some counters are not available
 
 ```c
 #include <papi.h>
-#define NUM_EVENTS 2
 
 ...
 
-int events[NUM_EVENTS] = { PAPI_L1_TCM, PAPI_DP_OPS };
-long long int vals[NUM_EVENTS] = { 0, 0 };
+int eventset = PAPI_NULL;
+int return_value = 0;
+return_vale = PAPI_create_eventset(&eventset);
+if (return_value != PAPI_OK) {
+	fprintf(stderr, "Error creating event set: %s\n", PAPI_strerror(return_value));
+}
 
-PAPI_start_counters(events, NUM_EVENTS);
+return_value = PAPI_add_named_event(eventset, "PAPI_L1_TCM");
+if (return_value != PAPI_OK) {
+	fprintf(stderr, "Error adding named event L1 TCM: %s\n", PAPI_strerror(return_value));
+}
+return_value = PAPI_add_named_event(eventset, "PAPI_DP_OPS");
+if (return_value != PAPI_OK) {
+	fprintf(stderr, "Error adding named event DP OPS: %s\n", PAPI_strerror(return_value));
+}
+
+long long int vals[2] = { 0, 0 };
+
+PAPI_reset(eventset);
+return_value = PAPI_start(eventset);
+if (return_value != PAPI_OK) {
+	fprintf(stderr, "Error starting PAPI collection: %s\n", PAPI_strerror(return_value));
+}
 
 ...
 
-PAPI_read_counters(vals, NUM_EVENTS);
+return_value = PAPI_stop(eventset, vals);
+if (return_value != PAPI_OK) {
+	fprintf(stderr, "Error stopping PAPI collection: %s\n", PAPI_strerror(return_value));
+}
 
 printf("I counted: %lld L1 cache misses, and %lld double precision operations\n", vals[0], vals[1]);
 ```

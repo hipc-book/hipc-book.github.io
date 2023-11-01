@@ -153,7 +153,7 @@ For now, we're going to disable compiler optimisations, so make sure you keep `-
 > 
 > Try rewriting the code using vector intrinsics. Refer to the [Intel Intrinsics Guide](https://www.intel.com/content/www/us/en/docs/intrinsics-guide/index.html) for help. 
 > 
-> You may need to use the `-mavx` or `-mavx2` command line switch to enable the compiler to generate instructions for AVX and AVX2 instruction sets. 
+> You will need to include the `immintrin.h` header file, and use the `-mavx` or `-mavx2` command line switch to enable the compiler to generate instructions for AVX and AVX2 instruction sets. 
 >
 > **Note:** On the lab machines you can almost certainly use AVX/AVX2 intrinsics. On your own machine, you may have to check what instruction sets you have available. You can do this by reviewing the output of `/proc/cpuinfo` (on Linux). e.g. 
 > 

@@ -5,14 +5,11 @@ category: hipc
 layout: post
 ---
 
-> **This unit is a work-in-progress**
-{: .block-danger }
-
 # Overview
 
 <iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/fb5IodEKbn8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe><br/>
 
-This week we're stepping off-node. We're going to look at how we can make use of an entire distrubted-memory supercomputer. 
+This week we're stepping off-node. We're going to look at how we can make use of an entire _distrubted-memory_ supercomputer. 
 
 We're going to cover: 
 
@@ -25,7 +22,7 @@ We're going to cover:
 
 # The Return of Flynn
 
-Again, we're going to start this unit with a quick revisit to Flynn's taxonomy. 
+Again, we start this unit with a quick revisit of Flynn's taxonomy. 
  
 ![Flynn's taxonomy -- SISD, SIMD, MISD, and MIMD.](../../assets/unit-6/flynns.png){: width="60%" }  
 _**Figure 1:** Flynn's taxonomy_
@@ -39,7 +36,7 @@ A **Distributed Memory System** is one where each processor has its own private 
  
 In a distributed memory system, there are typically a number of processors, each with their own memory, and some form of high speed interconnect that allows applications running on each of the processors to communicate with one another. 
  
-On HPC systems this interconnect is typically a low latency network dedicated to internode communications (e.g. Infiniband [See Unit 2]). 
+On HPC systems this interconnect is typically a low-latency network dedicated to internode communications (e.g. Infiniband [See Unit 2]). 
  
 ![A distributed memory system](../../assets/unit-6/distributed-memory.png)
 _**Figure 2:** Modern systems are typically a mix of shared and distributed memory systems, where individual ccNUMA-type shared-memory nodes are interconnected to one another to form a distibuted memory system._
@@ -52,7 +49,7 @@ From the developer's perspective, the main difference between a shared memory sy
 It should be noted that while individual nodes are ccNUMA-like shared memory systems, they can be programmed as and operate as a distributed memory system. Moreover, distributed memory systems can be programmed as and operate as shared memory systems using approaches such as **Partitioned Global Address Space (PGAS)**, where the PGAS implementation mimics a shared memory system by performing remote memory sends and receives transparently. 
 
 # The Message Passing Interface
-     
+
 The Message Passing Interface (MPI) is a portable message passing standard designed for distributed-memory parallel computers. The standard (version 4.0) currently defines an API with almost 500 functions, in C and Fortran (support for Fortran 2008 was added in the MPI 3.0 standard, while the C++ bindings were deprecated).
 
 Today, there are numerous implementations of the MPI standard available. Notable examples include the open-source implementations OpenMPI, MPICH and MVAPICH, and the vendor-developed implementations Intel MPI, Cray MPI and bullx MPI (note that many of these vendor-developed implementations are based on an open-source implementation).
@@ -83,15 +80,14 @@ MPI is available as a library on most distributed systems (including Viking); in
 On Viking, we can load an MPI implementation (in this case OpenMPI 4.0.5 with GCC 10.2.0) and then we can view the wrapped compile line with the `-show` compile time flag. 
 
 ```
-$ module load mpi/OpenMPI/4.0.5-GCC-10.2.0
+$ module load OpenMPI/4.0.5-GCC-10.2.0
 $ mpicc -show
-gcc -I/opt/apps/easybuild/software/OpenMPI/4.0.5-GCC-10.2.0/include -L/opt/app
-s/easybuild/software/hwloc/2.2.0-GCCcore-10.2.0/lib -L/opt/apps/easybuild/soft
-ware/libevent/2.1.12-GCCcore-10.2.0/lib64 -Wl,-rpath -Wl,/opt/apps/easybuild/s
-oftware/hwloc/2.2.0-GCCcore-10.2.0/lib -Wl,-rpath -Wl,/opt/apps/easybuild/soft
-ware/libevent/2.1.12-GCCcore-10.2.0/lib64 -Wl,-rpath -Wl,/opt/apps/easybuild/s
-oftware/OpenMPI/4.0.5-GCC-10.2.0/lib -Wl,--enable-new-dtags -L/opt/apps/easybu
-ild/software/OpenMPI/4.0.5-GCC-10.2.0/lib -lmpi
+gcc -I/opt/apps/eb/software/OpenMPI/4.0.5-GCC-10.2.0/include -L/opt/apps/eb/so
+ftware/hwloc/2.2.0-GCCcore-10.2.0/lib -L/opt/apps/eb/software/libevent/2.1.12-
+GCCcore-10.2.0/lib64 -Wl,-rpath -Wl,/opt/apps/eb/software/hwloc/2.2.0-GCCcore-
+10.2.0/lib -Wl,-rpath -Wl,/opt/apps/eb/software/libevent/2.1.12-GCCcore-10.2.0
+/lib64 -Wl,-rpath -Wl,/opt/apps/eb/software/OpenMPI/4.0.5-GCC-10.2.0/lib -Wl,-
+-enable-new-dtags -L/opt/apps/eb/software/OpenMPI/4.0.5-GCC-10.2.0/lib -lmpi
 ```
 
 So, every time we compile an MPI program, rather than using `gcc`, we use `mpicc` and it will use the compile line above (plus our own compile time flags). 
@@ -186,7 +182,7 @@ Hello, World! I am process 2 of 8
 
 Before moving on, we'll just briefly revisit an issue from Unit 3 -- techniques for monitoring performance. 
 
-Firstly, the MPI library provides a convenient timing function that we can use (and it's one of the few functions that doesn't return `MPI_SUCCESS` or an error!). 
+The MPI library provides a convenient timing function that we can use (and it's one of the few functions that doesn't return `MPI_SUCCESS` or an error!). 
 
 ```c
 double MPI_Wtime();
@@ -282,7 +278,7 @@ MPI_Type_commit(&mpi_particle_t);
 MPI_Type_free(&mpi_particle_t);
 ```
 
-In this example the displacement values are all set to 0, but with non-zero entries we can create holes in our data types (for example, if we didn't want/need to send the `cell_id`, we could remove it from the derived type). 
+In this example the displacement values are all set to 0, but with non-zero entries we can create "holes" in our data types (for example, if we didn't want/need to send the `cell_id`, we could remove it from the derived type). 
 
 Another example might be if we wanted to send a column of a matrix; recall that C is "column major" and so a column would be non-contiguous in memory. We can set up such a data type using the `MPI_Type_vector()` function. 
 
@@ -305,13 +301,13 @@ In this example, we've created a new data type that will contain 10 blocks, each
 _**Figure 5:** The conceptual layout of a 10 &times; 10 2D array in C_ 
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
-Using our new MPI data type, we can send any column by using the pointer address `&my_matrix[0][col]`. This will start our call at an offset column, which will then be strided by 10 for each value.
+Using our new MPI data type, we can send any column by using the pointer address `&(my_matrix[0][col])`. This will start our call at an offset column, which will then be strided by 10 for each value.
  
 ## Sending and Receiving Messages
 
 Hopefully, we've now covered plenty of the infrastructure behind MPI (setup, communicators, data types). We can now start to look at how we actually send data across our communicators to other processes. 
 
-Let's start with the simplest two function, `MPI_Send()` and `MPI_Recv()`. 
+Let's start with the simplest two functions, `MPI_Send()` and `MPI_Recv()`. 
 
 ```c
 int MPI_Send(const void *buf, int count, MPI_Datatype datatype, int dest, int tag, MPI_Comm comm);
@@ -347,7 +343,7 @@ if (rank == 0) {
 
 In many cases, point-to-point communications are used to exchange border information (e.g. a "halo-exchange") between nearest neighbours. A common pattern in such applications is to call an `MPI_Send()`, followed immediately by an `MPI_Recv()`.
 
-However, beware! In most MPI implementations it is likely that the `MPI_Send()` call will return as soon as the data has been moved into an internal send buffer; however in some implementations the send may be fully synchronous and may block until a matching receive call is issued. In this case, the application will **deadlock** (since all processes will block on their send call before issuing their receive call).  
+However, beware! In most MPI implementations it is likely that the `MPI_Send()` call will return as soon as the data has been moved into an internal send buffer; but in some implementations the send may be fully synchronous and may block until a matching receive call is issued. In this case, the application will **deadlock** (since all processes will block on their send call before issuing their receive call).  
 
 We can resolve this potential issue in a few different ways. One simple solution is that we could use an `if (rank % 2 == 0)` statement to ensure that all even numbered ranks call send before receive and all odd numbered ranks call receive before send, ensuring there's always a process expecting to receive data. 
  
@@ -364,11 +360,11 @@ This function combines the arguments for a send and a receive into a single func
 So, for example, in a 1D decomposition, where each process holds a 10 &times; 10 data array (10 &times; 12 with "ghost cells"), a halo exchange takes place in two steps. First each process sends its final column to the process to the right (and stores it in the ghost cells of that process). Then each process sends its first column to the process to the left (and again stores this in the ghost cells). The process is demonstrated in Figures 6 and 7, below. 
  
 ![The first step of a 1D halo exchange](../../assets/unit-6/halo-exchange-right.png)  
-_**Figure 6:** Step one of a 1D halo exchange_
+_**Figure 4:** Step one of a 1D halo exchange_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
 ![The second step of a 1D halo exchange](../../assets/unit-6/halo-exchange-left.png)  
-_**Figure 7:** Step two of a 1D halo exchange_
+_**Figure 5:** Step two of a 1D halo exchange_
 {: style="color:gray; font-size: 90%; text-align: center;" } 
 
 The implementation of this halo exchange requires a custom MPI data type in C (since we're exchanging columns as above), and we have to calculate the rank of our neighbours to the left and right, taking account of if we're the first or last process. The process of exchanging these columns is then simply a matter of using two send-receive calls.
@@ -427,7 +423,7 @@ int MPI_Bcast(void *buffer, int count, MPI_Datatype datatype, int root, MPI_Comm
 MPI_Bcast(buf, 100, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 ```
 
-While rank 0 is perhaps the natural "root", there is no reason that any other process cannot be the root note -- providing all processes provide the _same_ root rank. For the root, the buffer must be allocated and filled with the required data; for all other ranks, the buffer must be allocated with enough space to store the received data. 
+While rank 0 is perhaps the natural "root", there is no reason that any other process cannot be the root rank -- providing all processes provide the _same_ root rank. For the root, the buffer must be allocated and filled with the required data; for all other ranks, the buffer must be allocated with enough space to store the received data. 
 
 > **Exercise**
 >
@@ -597,12 +593,12 @@ int main(int argc, char *argv[]) {
 While most collective operations can be implemented manually using point-to-point operations, collective operations are usually optimised in the MPI library. For example, reductions can be implemented hierarchically (rather than having every process send a message to every other process). 
  
 ![Heirarchical structure of an Allreduce call](../../assets/unit-6/mpi-reduction.png)  
-_**Figure 8:** A heirarchical MPI Allreduce_
+_**Figure 6:** A heirarchical MPI Allreduce_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
 The figure above demonstrates how an Allreduce operation can be completed by 9 processes with minimal communication overhead. Compared to each process sending data to P<sub>0</sub>, followed by a reduction and a broadcast, this communication pattern is significantly more efficient. The underlying implementation of MPI collectives is vendor and release specific (and in some cases relies on specialised hardware and proprietary algorithms). Nonetheless, MPI collectives should always be favoured over alternatives. 
 
-One final note, is that collective calls are **blocking**, and so often act as synchronisation points in applications. In almost all cases, a non-blocking alternative is available, but would require that an `MPI_Request` object is checked prior to any further operations using the send and receive buffers. 
+One final note, is that collective calls are **blocking**, and so often act as synchronisation points in applications. In almost all cases, a non-blocking alternative is available, but would require that an `MPI_Request` object is checked prior to any further operations using the send and receive buffers (see the following unit for more discussion on non-blocking operations). 
    
 <iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/sahAGYPoubE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe> <br/>
 
@@ -618,14 +614,14 @@ The MPI API contains almost 500 function -- far more than we have the time or sp
 There are numerous approaches to writing output from parallel processes, and they can broadly be categorised into three approaches: N-to-N, N-to-M and N-to-1. 
  
 ![The three approaches to writing files in parallel: N to N, N to M, and N to 1](../../assets/unit-6/parallel-io.png)  
-_**Figure 9:** Three approaches to writing files in parallel_
+_**Figure 7:** Three approaches to writing files in parallel_
 {: style="color:gray; font-size: 90%; text-align: center;" }
   
-The simplest approach to implement is perhaps N-to-N, where each process writes its own file. This can be achieved using simple POSIX file I/O operations. However, this may overwhelm a file system at scale (lots of metadata operations (e.g. file create, file close, file size queries, etc.)), and may also make it difficult to manage for other applications. In particular loading from N files on a future application run (which may run on a different number of processes) may be more complicated, and parsing data spread across many files may be more complex for analysis tools. 
+The simplest approach to implement is perhaps N-to-N, where each process writes its own file. This can be achieved using simple POSIX file I/O operations. However, this may overwhelm a file system at scale (lots of metadata operations, e.g., file create, file close, file size queries, etc.), and may also make it difficult to manage for other applications. In particular loading from N files on a future application run (which may run on a different number of processes) may be more complicated, and parsing data spread across many files may be more complex for analysis tools. 
 
 The N-to-1 approach is perhaps the most natural approach following N-to-N, where all processes write to a single file. This solves many of the complexities introduced by the N-to-N case. However, orchestrating this using POSIX operations may be difficult, with each process writing to a separate "chunk" simultaneously. Since each process is writing to a single file, this approach may also add overhead or cause serialisation because of the potential need to use file locks and unlocks to prevent data corruption. 
 
-They hybrid N-to-M approach is perhaps the most complex to implement, but can strike a good balance between being usability and performance (since we can potentially reduce metadata overhead, but also reduce file locking overhead, book-keeping, etc.). 
+The hybrid N-to-M approach is perhaps the most complex to implement, but can strike a good balance between being usability and performance (since we can potentially reduce metadata overhead, but also reduce file locking overhead, book-keeping, etc.). 
 
 In this section, we're going to cover the N-to-1 approach, and we're going to do it using the `MPI_File_...()` functions. 
 

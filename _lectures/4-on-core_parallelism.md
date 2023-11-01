@@ -564,7 +564,7 @@ _mm_free(b);
 _mm_free(c);
 ```
 
-Clearly, hand-vectorising code has a significant impact on the readability (and writeability!) of our code. Luckily, an optimising compiler is usually capable of applying vectorisation to code, assuming there are no dependancies -- this process is usually called auto-vectorisation, and we're going to cover that next. 
+Clearly, hand-vectorising code has a significant impact on the readability (and writeability!) of our code. Luckily, an optimising compiler is usually capable of applying vectorisation to code, assuming there are no dependencies -- this process is usually called auto-vectorisation, and we're going to cover that next. 
 
 > **Further Reading** 
 > 
@@ -633,7 +633,7 @@ For Clang, we use the `-Rpass` (when a pass makes a transformation), `-Rpass-mis
 > **Further Reading**
 >
 > * [3.18 GCC Developer Options](https://gcc.gnu.org/onlinedocs/gcc/Developer-Options.html), GCC Developer options
-> * [Options to Emit Optimizatiopn Reports](https://clang.llvm.org/docs/UsersManual.html#id21), Clang optimisation reports
+> * [Options to Emit Optimization Reports](https://clang.llvm.org/docs/UsersManual.html#id21), Clang optimisation reports
 {: .block-tip }
 
 Let's revisit our vector-add example from earlier. If we compile this with GCC, `-O3`, and optimisation reports (`-fopt-info-all`), we should see something like the following (results may vary based on compiler version, architecture, etc): 

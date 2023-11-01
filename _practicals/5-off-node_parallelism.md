@@ -59,20 +59,23 @@ For example:
 ```bash
 #!/bin/bash
 #SBATCH --time=00:10:00                 # Maximum time (HH:MM:SS)
-#SBATCH --ntasks=40                     # run on a single CPU
+#SBATCH --ntasks=20                     # run 20 tasks
 #SBATCH --output=simple_job_%j.log      # standard output and error log
 #SBATCH --partition=teach               # run in the teaching queue
-#SBATCH --cpus-per-task=1
-#SBATCH --nodes=2
-#SBATCH --ntasks-per-node=20
-#SBATCH --mem-per-cpu=600mb
+#SBATCH --account=CS-TEACH-2023         # use the CS-TEACH account
+#SBATCH --cpus-per-task=1               # use 1 CPU per task
+#SBATCH --nodes=2                       # use 2 nodes
+#SBATCH --ntasks-per-node=10            # use 10 tasks per node
+#SBATCH --mem-per-cpu=600mb             # allocate 600mb memory per CPU
 
-mpiexec --display-map -n 40 ./my_code
+echo "Running mpi_example on ${SLURM_NTASKS} CPU cores"
+
+mpiexec --display-map -n ${SLURM_NTASKS} ./my_code
 ```
  
-This will run 40 ranks of "my_code" and will also display the mapping information (tasks to cores, etc.). It will run on 2 separate nodes, using 20 tasks on each node (**Note:** there are 40 CPU cores per Viking node). 
+This will run 20 ranks of "my_code" and will also display the mapping information (tasks to cores, etc.). It will run on 2 separate nodes, using 10 tasks on each node (**Note:** there are 96 CPU cores per Viking node). 
 
-When running you should be aware that there may be other tasks running on the same node, potentially affecting the performance of your application. If you would like exclusive access to your resources, you can specify the `--exclusive` configuration option, or ensure you request enough resources (i.e. 80 tasks, 2 nodes and 40 tasks per node should allocate 2 nodes exclusively). 
+When running you should be aware that there may be other tasks running on the same node, potentially affecting the performance of your application. If you would like exclusive access to your resources, you can specify the `--exclusive` configuration option, or ensure you request enough resources (i.e. 192 tasks, 2 nodes and 96 tasks per node _should_ allocate 2 nodes exclusively, though this is not guaranteed). 
 
 > # Exercise 3
 > 
@@ -95,10 +98,10 @@ The physical region, and the boundary conditions, are shown in Figure 1, where W
 _**Figure 1:** The spatial grid for calculating the result of the heat equation._
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
-The region is covered with a grid of M by N nodes, and an M by N array W is used to record the temperature. 
-     
+The region is covered with a grid of M by N cells, and an M by N array W is used to record the temperature. 
+
 The steady state solution to the discrete heat equation satisfies the following condition at an interior grid point: 
-        
+    
 $$
 W_{Central} = \frac{W_{North} + W_{East} + W_{South} + W_{West}}{4}
 $$ 
@@ -243,57 +246,23 @@ You may note the use of a 2D allocation function (`alloc_2d_array()`). This func
 
 At the end of execution, the result is written out to a file (in CSV). Plotting the data using Matlab produces the following result: 
 
-![The result of the steady state heat equation on a 200 x 1000 grid](../../assets/practical-5/heat-equation-grid.png)  
+![The result of the steady state heat equation on a 200 x 1000 grid](../../assets/practical-5/heat-equation.png)  
 _**Figure 2:** The result of the steady state heat equation on a 200 x 1000 grid._
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
 > # Exercise 4
 > 
-> Parallelise the Heat Equation code (in 1 dimension) using MPI. You do not need to parallelise the file output (you could disable it for the sake of this > exercise, but check that your answer is the same!). 
+> Parallelise the Heat Equation code (in 1 dimension) using MPI. You do not need to parallelise the file output (you could disable it for the sake of this exercise, but check that your answer is the same!). 
 > 
 > **Hints:** You will likely need to do the following things: 
 > 
-> * Calculate the start and end offset for each processor (which will be the problem size divided by the number of processors **plus** ghost cells). You will need a single ghost column (or row, depending on parallelisation dimension) on rank 0 and rank N-1. You will need two ghost columns on all other processes
-> * Update the allocations to only allocate the space required for each process
-> * If you're parallelising in the x-dimension, you may need a column datatype (see Unit 6 for information on halo exchanges)
-> * You will need to correct the boundary conditions (the left and right most boundary conditions are only required on processes 0 and N-1)
-> * You will need to update the calculation of the initial conditions (i.e. the mean calculation, and subsequent assignment for the grid)
-> * You will need to perform boundary exchanges. You can use `Sendrecv` operations with `MPI_PROC_NULL` to account for processes 0 and N-1
-> * You will need to take into account the parallelisation when calculating the largest difference in the grid
+> * Calculate the start and end offset for each processor (which will be the problem size divided by the number of processors **plus** ghost cells). You will need a single ghost column (or row, depending on parallelisation dimension) on rank 0 and rank N-1. You will need two ghost columns on all other processes.
+> * Update the allocations to only allocate the space required for each process.
+> * If you're parallelising in the x-dimension, you may need a column datatype (see Unit 6 for information on halo exchanges).
+> * You will need to correct the boundary conditions (the left and right most boundary conditions are only required on processes 0 and N-1).
+> * You will need to update the calculation of the initial conditions (i.e. the mean calculation, and subsequent assignment for the grid).
+> * You will need to perform boundary exchanges. You can use `Sendrecv` operations with `MPI_PROC_NULL` to account for processes 0 and N-1.
+> * You will need to take into account the parallelisation when calculating the largest difference in the grid.
 > 
 > If you're getting stuck, go back to pen and paper. Make liberal use of `printf` commands to make sure you're calculating parameters correctly.<br/><br/>
 {: .block-danger }
-
-# Profiling Your Applications in Parallel
-
-Profiling applications that are running across a supercomputer can be _**hard**_. 
-
-The easiest approach is to instrument your code with timers as before. But you should be aware that each compute node may have a different time (while NTP tends to keep nodes in check timewise, there's still a possibility of drift and even a few milliseconds of drift can affect our results). 
-
-For this reason you should note the following things: 
-
-* You should collect timing information from each rank separately (combining timers will likely skew results);
-* _**If**_ you're aggregating times, you will need to synchronise your application (perhaps an `MPI_Barrier()` followed by a call to `MPI_Wtime()`) to calculate each ranks time offset before you do anything else;
-* Because many MPI calls will block until completion, compute imbalance may skew timers. If one rank is significantly faster than another, it will still potentially wait on a blocking call.
-
-## Profiling Tools
-
-Besides manual instrumentation, there are a number of performance profiling tools available (some of which are installed on Viking!). 
-
-You can find a list of the tools available on Viking with: 
- 
-```
-$ module avail perf
-```
-
-The tools to pay closest attention to are: **Intel Advisor**, **Scalasca** and **PAPI**.  
-
-Intel Advisor will provide advice on how to optimise your application on a single node (i.e. it doesn't profile MPI applications). 
-
-Scalasca is a tracing tool designed to record and analyse the performance of parallel applications running on a cluster. You can find more information on how to use Scalasca here: [Scalasca: Getting Started](http://apps.fz-juelich.de/scalasca/releases/scalasca/2.6/docs/manual/start.html) 
-
-PAPI counters are available on Viking for you to instrument your code using CPU performance counters. More information on PAPI can be found in Unit 3. 
-
-   
-   
-     
