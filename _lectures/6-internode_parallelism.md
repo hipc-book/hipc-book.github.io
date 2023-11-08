@@ -395,6 +395,8 @@ MPI_Sendrecv(&my_matrix[0][10], 1, my_column, left, 0, &my_matrix[0][0], 1, my_c
 
 In the case where your boundaries are not cyclic, you can still use `MPI_Sendrecv()` operations (even though ranks _0_ and _N-1_ will not have neighbours to the left and right, respectively). Instead, if you can provide the special value `MPI_PROC_NULL`, the operation will still complete but no information will be sent. 
 
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/s7drX_BgLnE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe> <br/>
+
 # Collective Operations
 
 There are a number of functions in the MPI standard that rely on the participation of all processes (on a communicator). Since these functions are performed collectively, we call them _**collectives**_. In contrast to point-to-point communications, collective operations require that every process (within a communicator) calls the same routine at approximately the same time. 
