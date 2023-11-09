@@ -17,22 +17,24 @@ This week we're going to look at two of the exercises you did last week and we'r
 >
 > Implement your own reduction function using point-to-point operations, but make use of non-blocking functions, and write the application such that the order of operations does not matter.
 >
-> Extend your application to include an Allreduce equivalent (i.e. broadcast the result).<br/><br/>
+> Extend your application to include an Allreduce equivalent (i.e. broadcast the result).
+>
+> **Hint**: It is significantly easier to focus on a single data type and a single reduction operation. For example, create a reduction that performs the `MPI_SUM` operation on an array of doubles. Extending it to accept generic operations and generic data types is much more difficult.<br/><br/>
 {: .block-danger }
 
 # MPI-IO
 
-In Unit 6 and 7, MPI-IO has been covered showing how processes can work together to write a single output file in parallel. The next exercise is to make use of this functionality in one of the codes you wrote in the last practical.
+In Units 6 and 7, MPI-IO has been covered showing how processes can work together to write a single output file in parallel. The next exercise is to make use of this functionality in one of the codes you wrote in the last practical.
 
 > # Exercise 2
 > 
-> The simple steady-state heat equation applicaiton you encountered in the last practical (Exercise 4) produced a CSV file at the end of execution.
+> The simple steady-state heat equation application you encountered in the last practical (Exercise 4) produced a CSV file at the end of execution.
 >
 > When parallelising the application, it was suggested that you disable I/O at this time and just focus on the parallelisation. Assuming you have successfully parallelised the application, we can now revisit this exercise and add our I/O routines back in.
 >
 > Add MPI-IO to your application to produce an equivalent CSV file in parallel (i.e. without gathering the grid back to a single rank). Once you have achieved this, check your output file against the single-threaded implementation.
 >
-> **Hint**: It might make it easier if you fix the width of your values in both codes.<br/><br/>
+> **Hint**: To get the output in a readable format you might need to use a line buffer (i.e. a `char` array) that is allocated to be big enough to hold a large number of CSV values, and you may need to make use of functionality such as `sprintf` to generate a readable string. Alternatively, you could write out your output using the `MPI_DOUBLE` datatype, but this will be a binary file.<br/><br/>
 {: .block-danger }
 
 

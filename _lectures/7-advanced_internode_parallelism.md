@@ -202,7 +202,7 @@ After initiating a non-blocking send or receive, we can query the request object
 We could rewrite the send-receive functions in the previous unit using non-blocking send and receive functions like so: 
 
 ```c
-MPI_Request[4] requests;
+MPI_Request requests[4];
 
 // exchange column 1 with ghost column 11
 // and exchange column 10 with ghost column 0
