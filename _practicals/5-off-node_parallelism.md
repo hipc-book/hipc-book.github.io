@@ -50,9 +50,9 @@ Once you're up and running on Viking, it's time to start writing some parallel a
 
 When submitting parallel jobs to Viking, you might find that additional arguments are required. 
 
-The Viking Wiki provides a quick guide to using MPI jobs here: [Job Script Configuration: MPI Jobs](https://wiki.york.ac.uk/display/RCS/VK4%29+Job+script+configuration#VK4)Jobscriptconfiguration-MPIjobs) 
+The Viking documentation provides a quick guide to using MPI jobs here: [Jobscript Examples: MPI](https://vikingdocs.york.ac.uk/using_viking/jobscript_examples.html#mpi)
 
-In particular you may need to specify the memory per CPU, the CPUs per task and the number of tasks per node. 
+In particular, you may need to specify the memory per CPU, the CPUs per task and the number of tasks per node. 
 
 For example: 
  

@@ -143,7 +143,7 @@ $ ssh YOUR_USERNAME_HERE@viking.york.ac.uk
  
 Hopefully, this should provide you with a terminal on Viking! 
 
-If you'd like to use Viking outside of the lab (or from a Windows platform, etc.), you can find detailed log in information on the [How to log in to Viking](https://wiki.york.ac.uk/display/RCS/How+to+log+in+to+Viking) page. 
+If you'd like to use Viking outside of the lab (or from a Windows platform, etc.), you can find detailed log in information on the [Connecting to Viking](https://vikingdocs.york.ac.uk/getting_started/connecting_to_viking.html) page. 
 
 ## Loading an Environment Module
 
@@ -202,11 +202,11 @@ This is free software; see the source for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 ```
  
-Again, the Viking wiki is a good source of detailed additional information on this topic -- [Modules and the user environment](https://wiki.york.ac.uk/display/RCS/VK2%29+Modules+and+the+user+environment). 
+Again, the Viking documentation is a good source of detailed additional information on this topic -- [Software on Viking](https://vikingdocs.york.ac.uk/using_viking/software_on_viking.html). 
 
 ## Submitting a Job
 
-You'll notice that your userspace (home) on Viking is not the same as your userspace on the University's network. This is deliberate to ensure that the cluster is operational even if the University's network goes down, and that jobs don't run from a remote file system that is not designed for HPC. Instead you'll have to either write your applications on Viking (using your favourite terminal text editor, like `nano` or `vim`), or you'll have to [copy them over with scp](https://wiki.york.ac.uk/pages/viewpage.action?pageId=218794149) (or sync them with `git` etc.). You might want to copy them from a lab machine like so: 
+You'll notice that your userspace (home) on Viking is not the same as your userspace on the University's network. This is deliberate to ensure that the cluster is operational even if the University's network goes down, and that jobs don't run from a remote file system that is not designed for HPC. Instead you'll have to either write your applications on Viking (using your favourite terminal text editor, like `nano` or `vim`), or you'll have to [copy them over with scp](https://vikingdocs.york.ac.uk/getting_started/data_management_and_user_quota.html#copying-and-moving-your-data-to-viking) (or sync them with `git` etc.). You might want to copy them from a lab machine like so: 
  
 ```
 #copy a single file to the scratch folder
@@ -265,7 +265,7 @@ Alternatively, we could have specified many of the options in our command line l
 $ sbatch --partition=teach --ntasks=10 ...
 ```
  
-More information on the parameters you can use in your job submission scripts can be found here: [Job configuration script](https://wiki.york.ac.uk/display/RCS/VK4%29+Job+script+configuration) 
+More information on the parameters you can use in your job submission scripts can be found here: [Jobscript Examples](https://vikingdocs.york.ac.uk/using_viking/jobscript_examples.html) 
 
 ### Interactive Jobs
 
@@ -282,7 +282,7 @@ $
  
 You should notice that when you have been granted an interactive job, your terminal prompt will indicate that you are now on a node, rather than the viking login nodes. 
 
-Again, all things related to submitting jobs to Viking can be found on the wiki -- [Submitting Jobs to Viking](https://wiki.york.ac.uk/display/RCS/VK3%29+Submitting+Jobs+to+Viking#VK3)SubmittingJobstoViking-InteractiveSession). 
+Again, all things related to submitting jobs to Viking can be found in the documentation -- [Submitting Jobs](https://vikingdocs.york.ac.uk/using_viking/submitting_jobs.html). 
 
 ## Checking and Cancelling Jobs
 

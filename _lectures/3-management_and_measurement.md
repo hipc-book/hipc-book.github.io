@@ -235,7 +235,7 @@ On York's Viking cluster, the **Slurm** scheduler is used. Slurm was developed a
 
 > **Further Reading**
 >
-> An overview of Slurm on Viking can be found on the Viking wiki pages here: [Submitting Jobs to Viking](https://wiki.york.ac.uk/display/RCS/VK3%29+Submitting+Jobs+to+Viking) 
+> * [Slurm Quick Start User Guide](https://slurm.schedmd.com/quickstart.html) 
 {: .block-tip }
 
 <iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/K_JIPrcPHCg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe> <br/>
