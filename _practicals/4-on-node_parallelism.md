@@ -143,7 +143,7 @@ $ ssh YOUR_USERNAME_HERE@viking.york.ac.uk
  
 Hopefully, this should provide you with a terminal on Viking! 
 
-If you'd like to use Viking outside of the lab (or from a Windows platform, etc.), you can find detailed log in information on the [How to log in to Viking](https://wiki.york.ac.uk/display/RCS/How+to+log+in+to+Viking) page. 
+If you'd like to use Viking outside of the lab (or from a Windows platform, etc.), you can find detailed log in information on the [Connecting to Viking](https://vikingdocs.york.ac.uk/getting_started/connecting_to_viking.html) page. 
 
 ## Loading an Environment Module
 
@@ -151,37 +151,50 @@ OK, so hopefully we're now logged in to Viking and ready to do some work. Let's 
  
 ```
 $ module avail
----------------------------------------------------------- /opt/apps/easybuild/modules/bio -----------------------------------------------------------
-   bio/ABySS/2.0.2-foss-2018b                                      (D)    bio/Pysam/0.15.1-foss-2018b-Python-3.6.6
-   bio/ADMIXTURE/1.3.0                                             (D)    bio/Pysam/0.15.1-intel-2018b-Python-3.6.6
-   bio/AMPHORA2/20190730-gompi-2020b-Java-13-pthreads-avx2         (D)    bio/Pysam/0.15.3-GCC-8.3.0
-   bio/ANGSD/0.930-foss-2018b                                      (D)    bio/Pysam/0.16.0.1-GCC-8.3.0
-   bio/ARAGORN/1.2.41-foss-2019b                                          bio/Pysam/0.16.0.1-GCC-9.3.0
+
+---------------------------------------------- /opt/apps/eb/modules/base ----------------------------------------------
+   PSM2/12.0.1
+
+---------------------------------------------- /opt/apps/eb/modules/bio -----------------------------------------------
+   ADMIXTURE/1.3.0                                            PLINK/2.00a2.3-GCC-10.3.0
+   AMPHORA2/20190730-gompi-2020b-Java-13-pthreads-avx2        PoolHapX/2020-03-29-foss-2019b-Java-11
+   ARAGORN/1.2.41-foss-2019b                                  ProFit/3.3-GCC-10.3.0
+   ARAGORN/1.2.41-foss-2020a                                  Proteinortho/6.0.27-foss-2020a-Python-3.8.2
+   ARAGORN/1.2.41-foss-2021b                           (D)    Pysam/0.15.3-GCC-8.3.0
+   AUGUSTUS/3.3.3-foss-2020a                                  Pysam/0.16.0.1-GCC-8.3.0
 ...
 ```
  
 But notice that it's a very long list! We can search modules with the `spider` command (and we can search for a GCC compiler!): 
  
 ```
-$ module spider compiler/GCC
---------------------------------------------------------------------------------------------------------------------------------------------------
-  compiler/GCC:
---------------------------------------------------------------------------------------------------------------------------------------------------
+$ module spider GCC
+
+-------------------------------------------------------------------------------------------------------------------
+  GCC:
+-------------------------------------------------------------------------------------------------------------------
     Description:
-      The GNU Compiler Collection includes front ends for C, C++, Objective-C, Fortran, Java, and Ada, as well as libraries for these languages
-      (libstdc++, libgcj,...). 
+      The GNU Compiler Collection includes front ends for C, C++, Objective-C, Fortran, Java, and Ada, as well as
+      libraries for these languages (libstdc++, libgcj,...).
 
      Versions:
-        compiler/GCC/4.8.3
-        compiler/GCC/4.8.4
-        compiler/GCC/4.8.5
+        GCC/7.3.0-2.30
+        GCC/8.2.0-2.31.1
+        GCC/8.3.0
+        GCC/8.3.0-2.32
+
 ...
 ```
  
 Let's just load a relatively new version of GCC for now (11.2.0): 
  
 ```
-$ module load compiler/GCC/11.2.0
+$ module load GCC/11.2.0
+
+The following have been reloaded with a version change:
+  1) GCC/10.2.0 => GCC/11.2.0             3) binutils/2.35-GCCcore-10.2.0 => binutils/2.37-GCCcore-11.2.0
+  2) GCCcore/10.2.0 => GCCcore/11.2.0     4) zlib/1.2.11-GCCcore-10.2.0 => zlib/1.2.11-GCCcore-11.2.0
+
 $ gcc --version
 gcc (GCC) 11.2.0
 Copyright (C) 2021 Free Software Foundation, Inc.
@@ -189,11 +202,11 @@ This is free software; see the source for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 ```
  
-Again, the Viking wiki is a good source of detailed additional information on this topic -- [Modules and the user environment](https://wiki.york.ac.uk/display/RCS/VK2%29+Modules+and+the+user+environment). 
+Again, the Viking documentation is a good source of detailed additional information on this topic -- [Software on Viking](https://vikingdocs.york.ac.uk/using_viking/software_on_viking.html). 
 
 ## Submitting a Job
 
-You'll notice that your userspace (home) on Viking is not the same as your userspace on the University's network. This is deliberate to ensure that the cluster is operational even if the University's network goes down, and that jobs don't run from a remote file system that is not designed for HPC. Instead you'll have to either write your applications on Viking (using your favourite terminal text editor, like `nano` or `vim`), or you'll have to [copy them over with scp](https://wiki.york.ac.uk/pages/viewpage.action?pageId=218794149) (or sync them with `git` etc.). You might want to copy them from a lab machine like so: 
+You'll notice that your userspace (home) on Viking is not the same as your userspace on the University's network. This is deliberate to ensure that the cluster is operational even if the University's network goes down, and that jobs don't run from a remote file system that is not designed for HPC. Instead you'll have to either write your applications on Viking (using your favourite terminal text editor, like `nano` or `vim`), or you'll have to [copy them over with scp](https://vikingdocs.york.ac.uk/getting_started/data_management_and_user_quota.html#copying-and-moving-your-data-to-viking) (or sync them with `git` etc.). You might want to copy them from a lab machine like so: 
  
 ```
 #copy a single file to the scratch folder
@@ -226,6 +239,7 @@ Batch jobs are prepared as simple shell scripts (i.e. bash scripts), that are su
 #SBATCH --mem=1gb                       # reserve 1GB memory for job
 #SBATCH --output=simple_job_%j.log      # standard output and error log
 #SBATCH --partition=teach               # run in the teaching queue
+#SBATCH --account=CS-TEACH-2023         # specify the CS teaching account
  
 echo simple.job running on `hostname`
 sleep 600
@@ -238,11 +252,11 @@ $ sbatch simple.job
 Submitted batch job 147874
 $ squeue -u YOUR_USERNAME_HERE
 JOBID  PARTITION NAME     USER ST TIME NODES NODELIST(REASON)
-147874 teach     simple.j usr1 R  0:06 1     node170
+147874 teach     simple.j usr1 R  0:06 1     node054
 $ ls
 simple.job slurm-147874.out
 $ cat slurm-147874.out
-simple.job running on node170.pri.viking.alces.network
+simple.job running on node054.viking2.yor.alces.network
 ```
  
 Alternatively, we could have specified many of the options in our command line like so: 
@@ -251,7 +265,7 @@ Alternatively, we could have specified many of the options in our command line l
 $ sbatch --partition=teach --ntasks=10 ...
 ```
  
-More information on the parameters you can use in your job submission scripts can be found here: [Job configuration script](https://wiki.york.ac.uk/display/RCS/VK4%29+Job+script+configuration) 
+More information on the parameters you can use in your job submission scripts can be found here: [Jobscript Examples](https://vikingdocs.york.ac.uk/using_viking/jobscript_examples.html) 
 
 ### Interactive Jobs
 
@@ -260,7 +274,7 @@ Interactive jobs are useful when you are debugging code (to quickly edit, recomp
 You can get an interactive job with the `srun` command. 
  
 ```
-$ srun --ntasks=1 --time=00:30:00 --pty /bin/bash
+$ srun --account=CS-TEACH-2023 --ntasks=1 --time=00:30:00 --pty /bin/bash
 srun: job 6485884 queued and waiting for resources
 srun: job 6485884 has been allocated resources
 $
@@ -268,7 +282,7 @@ $
  
 You should notice that when you have been granted an interactive job, your terminal prompt will indicate that you are now on a node, rather than the viking login nodes. 
 
-Again, all things related to submitting jobs to Viking can be found on the wiki -- [Submitting Jobs to Viking](https://wiki.york.ac.uk/display/RCS/VK3%29+Submitting+Jobs+to+Viking#VK3)SubmittingJobstoViking-InteractiveSession). 
+Again, all things related to submitting jobs to Viking can be found in the documentation -- [Submitting Jobs](https://vikingdocs.york.ac.uk/using_viking/submitting_jobs.html). 
 
 ## Checking and Cancelling Jobs
 
@@ -306,7 +320,7 @@ And we can cancel a job using the `scancel` command. The output of our job will 
 ```
 $ scancel 17095020
 $ cat simple_job_17095020.log 
-simple.job running on node002.pri.viking.alces.network
+simple.job running on node002.yor.viking2.alces.network
 slurmstepd: error: *** JOB 17095020 ON node002 CANCELLED AT 2022-02-07T13:54:29 ***
 
 ============================

@@ -1,9 +1,12 @@
 ---
-title: 6. CUDA Programming
+title: 7. CUDA Programming
 date: 2022-07-21
 category: hipc
 layout: post
 ---
+
+> **This practical is a work-in-progress**
+{: .block-danger }
 
 # Overview
 
@@ -245,7 +248,7 @@ More details can be found in the [CUDA Programming Guide: Section 5](https://doc
 > 
 > You also need to load the CUDA module with `module load` in order to compile your applications, and in order to run your applications on an assigned node.
 > 
-> Below is an example, adapted from the [Viking documentation](https://wiki.york.ac.uk/display/RCS/VK4%29+Job+script+configuration#VK4)Jobscriptconfiguration-GPUjobs):
+> Below is an example, adapted from the [Viking documentation](https://vikingdocs.york.ac.uk/using_viking/jobscript_examples.html#gpu-jobs):
 > 
 > ```bash
 > #!/bin/bash

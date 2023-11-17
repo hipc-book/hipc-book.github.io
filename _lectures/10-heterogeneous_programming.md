@@ -1,5 +1,5 @@
 ---
-title: 8. Heterogeneous Programming
+title: 10. Heterogeneous Programming
 date: 2022-07-28
 category: hipc
 layout: post
@@ -7,11 +7,9 @@ layout: post
 
 # Overview
 
-<video width="560" class="center" controls>
-    <source src="../../assets/videos/HIPC-Unit_8-Overview.mp4" type="video/mp4">
-</video><br/> 
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/i7zsjvUoDW8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe><br/> 
 
-In the final unit of the HIPC course we'll look at the topic of _**Heterogeneous Programming**_. Modern HPC platforms are becoming more diverse and more heterogeneous, and exploiting the heirarchical parallelism that is available on these systems often requires multiple different approaches (i.e. a different programming model for an accelerator and for host code).  
+In the final unit of the HIPC course we'll look at the topic of _**Heterogeneous Programming**_. Modern HPC platforms are becoming more diverse and more heterogeneous, and exploiting the hierarchical parallelism that is available on these systems often requires multiple different approaches (i.e. a different programming model for an accelerator and for host code).  
 
 This unit will briefly cover some of the single-source approaches that are available for writing applications for these platforms. 
 
@@ -84,11 +82,11 @@ Tianhe was subsequently updated in 2018, almost doubling its performance to 61.4
 
 The Summit and Sierra systems installed at the Oak Ridge National Laboratory and the Lawrence Livermore National Laboratory, respectively, are essentially an evolution of Titan. 
 
-Both systems are comprised of IBM Power9 cores, backed by NVIDIA Tesla V100 GPUs. Upon release the systems achieved the #1 and #2 spots (and currently occupy the #4 and #5 positions (in November 2022)), with achieved performance in excess of 100 PFLOP/s. 
+Both systems are comprised of IBM Power9 cores, backed by NVIDIA Tesla V100 GPUs. Upon release the systems achieved the #1 and #2 spots (and currently occupy the #5 and #6 positions (as of the November 2022 list)), with achieved performance in excess of 100 PFLOP/s. 
 
 ### Aurora, Frontier and El Capitan
 
-The Department of Energy are currently in the process of building and installing their first three Exascale systems, namely **Aurora**, **Frontier** and **El Capitan**, to be installed at Argonne National Laboratory, Oak Ridge National Laboratory and Lawrence Livermore National Laboratory, respectively. All three systems are designed around the Cray Shasta architecture, and are heterogeneous systems, consisting of a mixture of CPUs and GPUs. 
+The Department of Energy are currently in the process of delivering their first three Exascale systems, namely **Aurora**, **Frontier** and **El Capitan**, installed at Argonne National Laboratory, Oak Ridge National Laboratory and Lawrence Livermore National Laboratory, respectively. All three systems are designed around the Cray Shasta architecture, and are heterogeneous systems, consisting of a mixture of CPUs and GPUs. 
  
 ![The design for Frontier](../../assets/unit-8/frontier.png)  
 _**Figure 4:** The design for the Frontier system, with performance in excess of 1 ExaFLOP/s_
@@ -790,7 +788,7 @@ So for example, to use a 2D array in RAJA you would first allocate the memory, t
 ```cpp
 const int DIM = 2;
 double *array = new double[num_rows * num_cols];
-RAJA::View<double, RAJA::Layout<DIM> > array_view(array, num_rows, num_cols);
+RAJA::View<double, RAJA::Layout<DIM>> array_view(array, num_rows, num_cols);
 Aview(0,0) = ...;
 ...
 delete array;
@@ -811,7 +809,7 @@ delete array;
 * CPUs will integrate some of the best parts of GPUs (in-core accelerators, wide vectors, high bandwidth memory) 
 * Programmability of heterogeneous systems is improving, but has a long way to go 
 
-Heterogeneous systems typically offer us better performance per Watt, and possibly better performance per dollar, but they are more difficult to program. The first (public) Exascale systems will be CPU-GPU hybrid systems, using CPUs and GPUs from a variety of vendors (AMD, Intel and NVIDIA), each with a preferred programming model (HIP/ROCm, OneAPI and CUDA, respectively).  
+Heterogeneous systems typically offer us better performance per Watt, and possibly better performance per dollar, but they are more difficult to program. The first Exascale systems are CPU-GPU hybrid systems, using CPUs and GPUs from a variety of vendors (AMD, Intel and NVIDIA), each with a preferred programming model (HIP/ROCm, OneAPI and CUDA, respectively).  
 
 However, application developers and scientists do not want to redevelop their applications for each machine. This has led to a big push in HPC to develop new programming models focussed on improving performance portability. Some of these programming models have subsequently been adopted by vendors (e.g. [Intel's DPC++](https://www.intel.com/content/www/us/en/developer/tools/oneapi/dpc-compiler.html) is based on SYCL), and some of the features in these programming models are being added to language specifications (e.g. [mdspan](https://github.com/kokkos/mdspan) is being added to C++23 from Kokkos).  
 
