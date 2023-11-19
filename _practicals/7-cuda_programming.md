@@ -5,9 +5,6 @@ category: hipc
 layout: post
 ---
 
-> **This practical is a work-in-progress**
-{: .block-danger }
-
 # Overview
 
 In this practical, we will learn heterogeneous programming with a GPU accelerator using CUDA.
@@ -96,13 +93,13 @@ If it says the package needs installing, give it 10 minutes, log out and log bac
 > **Part 1:** Vectorise the Monte Carlo Pi exercise we used in the previous practicals with CUDA.  
 >
 > You may want to start from the following single-thread CPU version:
-> 
+>
 > ```c
 > #include <stdio.h>
 > #include <stdlib.h>
 > #include <math.h>
 > #include <time.h>
-> 
+>
 > int main(int argc, char* argv[]) {
 >     long niter = 1000000L;
 >     double x,y;
@@ -112,9 +109,9 @@ If it says the package needs installing, give it 10 minutes, log out and log bac
 >     double pi;
 >     struct timespec tstart={0,0}, tend={0,0};
 >     srand(time(NULL));
-> 
+>
 >     clock_gettime(CLOCK_MONOTONIC, &tstart);
-> 
+>
 >     //main loop
 >     for (i = 0; i < niter; ++i) {
 >         //get random points
@@ -128,18 +125,18 @@ If it says the package needs installing, give it 10 minutes, log out and log bac
 >     }
 >     //p = 4(m/n)
 >     pi = ((double)count/(double)niter)*4.0;
-> 
+>
 >     clock_gettime(CLOCK_MONOTONIC, &tend);
-> 
+>
 >     printf("Pi: %f\n", pi);
 >     printf("Time taken %.6f ms\n",
 >            ((double)tend.tv_sec * 0.001 + 1.0e-6*tend.tv_nsec) -
 >            ((double)tstart.tv_sec * 0.001 + 1.0e-6*tstart.tv_nsec));
-> 
+>
 >     return 0;
 > }
 > ```
-> 
+>
 > Note that CUDA has its own built-in random number generators. Try to figure out how to use them. You may find [this page](https://docs.nvidia.com/cuda/curand/host-api-overview.html) useful.
 >
 > **Part 2:** Just like what we did for the OpenMP lab -- Try to understand how to implement a _reduction_ in CUDA and apply the technique to your code.
@@ -151,14 +148,14 @@ If it says the package needs installing, give it 10 minutes, log out and log bac
 > # Exercise 4
 >
 > Below is an experiment that uses an increment kernel shown in the following code, with strided accesses to the input array. Compile and run the program and check what the result looks like. Try to understand what is causing this.
-> 
-> 
+>
+>
 > ```c
 > #include <stdio.h>
 > #include <assert.h>
 > #include <cuda.h>
 > #include <cuda_runtime.h>
-> 
+>
 > // Convenience function for checking CUDA runtime API results
 > // can be wrapped around any runtime API call. No-op in release builds.
 > inline cudaError_t checkCuda(cudaError_t result) {
@@ -170,59 +167,59 @@ If it says the package needs installing, give it 10 minutes, log out and log bac
 > #endif
 >     return result;
 > }
-> 
+>
 > __global__ void stride(double* a, int s) {
 >     int i = (blockDim.x * blockIdx.x + threadIdx.x) * s;
 >     a[i] = a[i] + 1;
 > }
-> 
+>
 > void runTest(int deviceId, int nMB) {
 >     int blockSize = 256;
 >     float ms;
-> 
+>
 >     double *d_a;
 >     cudaEvent_t startEvent, stopEvent;
-> 
+>
 >     int n = nMB*1024*1024/sizeof(double);
-> 
+>
 >     // NB:  d_a(33*nMB) for stride case
 >     checkCuda( cudaMalloc(&d_a, n * 33 * sizeof(double)) );
-> 
+>
 >     checkCuda( cudaEventCreate(&startEvent) );
 >     checkCuda( cudaEventCreate(&stopEvent) );
-> 
+>
 >     printf("Stride, Bandwidth (GB/s):\n");
-> 
+>
 >     stride<<<n/blockSize, blockSize>>>(d_a, 1); // warm up
-> 
+>
 >     for (int i = 1; i <= 32; i++) {
 >         checkCuda( cudaMemset(d_a, 0, n * sizeof(double)) );
-> 
+>
 >         checkCuda( cudaEventRecord(startEvent,0) );
 >         stride<<<n/blockSize, blockSize>>>(d_a, i);
 >         checkCuda( cudaEventRecord(stopEvent,0) );
 >         checkCuda( cudaEventSynchronize(stopEvent) );
-> 
+>
 >         checkCuda( cudaEventElapsedTime(&ms, startEvent, stopEvent) );
 >         printf("%d\t%f\n", i, 2*nMB/ms);
 >     }
-> 
+>
 >     checkCuda( cudaEventDestroy(startEvent) );
 >     checkCuda( cudaEventDestroy(stopEvent) );
 >     cudaFree(d_a);
 > }
-> 
+>
 > int main(int argc, char **argv) {
 >     int nMB = 4;
 >     int deviceId = 0;
-> 
+>
 >     cudaDeviceProp prop;
-> 
+>
 >     checkCuda( cudaSetDevice(deviceId) );
 >     checkCuda( cudaGetDeviceProperties(&prop, deviceId) );
 >     printf("Device: %s\n", prop.name);
 >     printf("Transfer size (MB): %d\n", nMB);
-> 
+>
 >     runTest(deviceId, nMB);
 > }
 > ```
@@ -238,18 +235,18 @@ More details can be found in the [CUDA Programming Guide: Section 5](https://doc
 > # Exercise 5
 >
 > In this final exercise, we will try to run our CUDA programs on Viking.
-> 
+>
 > In order to run CUDA programs, you need to specify the need for GPU support so Viking will assign you a node with a GPU enabled. To do so, in your job script, add/update:
-> 
+>
 > ```bash
 > #SBATCH --partition=gpu
 > #SBATCH --gres=gpu:1
 > ```
-> 
+>
 > You also need to load the CUDA module with `module load` in order to compile your applications, and in order to run your applications on an assigned node.
-> 
+>
 > Below is an example, adapted from the [Viking documentation](https://vikingdocs.york.ac.uk/using_viking/jobscript_examples.html#gpu-jobs):
-> 
+>
 > ```bash
 > #!/bin/bash
 > #SBATCH --job-name=cuda_job                    # Job name
@@ -260,15 +257,15 @@ More details can be found in the [CUDA Programming Guide: Section 5](https://doc
 > #SBATCH --output=cuda_job_%j.log               # Standard output and error log
 > #SBATCH --partition=gpu                        # Select the GPU nodes...
 > #SBATCH --gres=gpu:1                           # ...and a single GPU
-> 
+>
 > module load system/CUDA/11.0.2-GCC-9.3.0
-> 
+>
 > echo `date`: executing gpu_test on host $HOSTNAME with $SLURM_CPUS_ON_NODE cpu cores
 > echo
 > cudaDevs=$(echo $CUDA_VISIBLE_DEVICES | sed -e 's/,/ /g')
 > echo I can see GPU devices $CUDA_VISIBLE_DEVICES
 > echo
-> 
+>
 > /users/{YOUR_USER_NAME}/scratch/{YOUR_CODE_FILENAME}
 > ```
 > <br/>

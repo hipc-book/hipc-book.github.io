@@ -5,25 +5,22 @@ category: hipc
 layout: post
 ---
 
-> **This unit is a work-in-progress**
-{: .block-danger }
-
 # Overview
 
 <iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/zOesxDOApbg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe><br/>
 
-Welcome to the 8th unit of the HIPC course.
+Welcome to the 8th unit of the HIPC course!
 
 In 2008 Roadrunner became the first supercomputer to break the PetaFLOP/s barrier. Roadrunner was perhaps the first modern heterogenous system, with each node employing PowerXCell accelerators to achieve its high performance. Today, many of the largest systems in the world are heterogeneous platforms, employing GPUs to accelerate their computational workloads. This unit covers the basics of accelerators and how to program them.
 
-Specifically, we will cover:
+Specifically, in this unit, we will cover:
 
 * Accelerators in HPC  
 * GPGPU platforms  
 * GPU models  
 * Programming with CUDA  
 
-After this unit, you are expected to have a better understanding of GPU and CUDA programming, and to be able to write CUDA programs.
+After this unit, you are expected to have a better understanding of GPUs, basics of CUDA, and to be able to program GPUs with CUDA.
 
 # A Brief Introduction to GPUs in HPC
 
@@ -88,7 +85,7 @@ A more direct comparison of their performance is given in the following graph, w
 _**Figure 3:** CPU and GPU performance comparison_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
-In 2009, the differences between CPUs and GPUs was demonstrated in the TV Show Mythbusters.
+These differences between a CPU and a GPU were demonstrated in the TV Show Mythbusters (2009).
 
 <iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/-P28LKWTzrI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
 
@@ -578,8 +575,6 @@ int main(int argc, char *argv[]) {
 > Can you do a performance comparison of `vec_add` with `<<1,1>>`, `<<1,256>>` and `<<1024,256>>`? How much speed-up can you get?
 {: .block-danger }
 
-# Advanced CUDA
-
 ## Kernel with 2D Indexing
 
 The kernel configuration can be 2-dimensional (as well as 3-dimensional). To access the second dimension, use the `.y` attribute (and `.z` for indexing the third dimension).  
@@ -607,40 +602,8 @@ grid.y = dimy / block.y;
 kernel<<<grid, block>>>(d_a, dimx, dimy);
 ```
 
-## Unified Memory
+Those we mentioned in this unit only cover the basics of CUDA. In the next unit, we will be looking at more advanced topics on CUDA programming, for example, performance considerations. We recommend you to further explore the CUDA APIs and practice these in the following lab.
 
-From _Compute Capability 3.0+_ and _CUDA 6.0+_:
-
-* Unified Memory creates a pool of managed memory that is shared between the CPU and GPU and accessible to both using a single pointer.
-* The system automatically migrates data allocated in Unified Memory between host and device.
-
-You can allocate unified memory using the `cudaMallocManaged()` function. For example,
-
-```c
-int main(int argc, char *argv[]) {
-    float *data;
-    cudaMallocManaged(&data, dataSize * sizeOf(float));
-    ...
-    cudaFree(data);
-    ...
-}
-```
-
-## Tips for Performance Considerations
-
-In this unit we have still only scratched the surface of CUDA. There are a lot of implementation details that heavily influence how well CUDA programs run on a GPU. To improve the performance, below are some tips to get you started:
-
-* Kernel Launch Configuration:
-   * Launch enough threads per SM to hide latency
-   * Launch enough thread blocks to load the GPU  
-* Global memory:
-   * Maximise throughput (the GPU has lots of bandwidth, use it effectively)
-   * Use shared memory when applicable (over 1 TB/s bandwidth)
-* GPU-CPU interaction:
-   * Minimise CPU/GPU idling, maximise PCIe throughput
-* Use analysis/profiling when optimising
-
-GPUs typically provide _cheap FLOP/s_; but in order to make the most effective use of a GPU, the effort required may not be _cheap_.
 
 # Recommended Reading
 
