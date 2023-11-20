@@ -376,7 +376,7 @@ _**Figure 3:** An example of a file view on 4 processes_
 We can specify an MPI file view using the `MPI_File_set_view()` function, which requires a displacement, an element type (`etype`), a file type, the data representation, and an `info` object. 
 
 ```c
-int MPI_File_set_view(MPI_File fh, MPI_Offset disp, MPI_Datatype etype, MPI_Datatype filetype, const char *datarep, MPI_Info info)
+int MPI_File_set_view(MPI_File fh, MPI_Offset disp, MPI_Datatype etype, MPI_Datatype filetype, const char *datarep, MPI_Info info);
 ```
 
 The file type is typically a custom type that is set up to contain elements of the `etype`, with gaps. So, assuming each block in Figure 3 is an `MPI_CHAR`, we could set up a file view like so: 
