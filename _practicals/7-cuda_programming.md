@@ -254,11 +254,12 @@ More details can be found in the [CUDA Programming Guide: Section 5](https://doc
 > #SBATCH --cpus-per-task=1                      # ...with a single CPU
 > #SBATCH --mem=1gb                              # Job memory request
 > #SBATCH --time=01:00:00                        # Time limit hrs:min:sec
+> #SBATCH --account=CS-TEACH-2023                # use the CS-TEACH account
 > #SBATCH --output=cuda_job_%j.log               # Standard output and error log
 > #SBATCH --partition=gpu                        # Select the GPU nodes...
 > #SBATCH --gres=gpu:1                           # ...and a single GPU
 >
-> module load system/CUDA/11.0.2-GCC-9.3.0
+> module load CUDA/11.0.2-GCC-9.3.0
 >
 > echo `date`: executing gpu_test on host $HOSTNAME with $SLURM_CPUS_ON_NODE cpu cores
 > echo

@@ -261,7 +261,7 @@ In the following part, we will cover how to use the CUDA toolkit and write CUDA-
 
 CUDA uses C-like syntax and adds its own primitives and API on top of C. To understand the difference, we'll first look at the classic "Hello, World" example written in C and in CUDA.
 
-First, as written in C (using a function call for the `printf()` for simplicity later:
+First, as written in C (using a function call for the `printf()` for simplicity later):
 
 ```c
 #include <stdio.h>
@@ -490,7 +490,7 @@ __global__ void vector_add(float *out, float *a, float *b, int n) {
 }
 ```
 
-Similarly, we can also change the grid size `M`. With 256 threads per thread block, we need at least `N/256` thread blocks to have a total of `N` threads. To assign a thread to a specific element, we need to know a unique index for each thread. Such an index can be computed as follow:
+Similarly, we can also change the grid size `M`. With 256 threads per thread block, we need at least `N/256` thread blocks to have a total of `N` threads. To assign a thread to a specific element, we need to know a unique index for each thread. Such an index can be computed as follows:
 
 ```c
 int tid = blockIdx.x * blockDim.x + threadIdx.x;
