@@ -30,7 +30,8 @@ $$
 Based on this equation, we can start by writing a very basic serial version of matrix multiplication:
 
 ```c
-void matrix_multiplication(double *A, double *B, double *C, int M, int N, int P) {
+void matrix_multiplication(double **A, double **B, double **C, int M, int N, int P) 
+{
   // initialization C with zeros
   for (int i = 0; i < M; i++)
     for (int j = 0; j < N; j++)
@@ -42,6 +43,12 @@ void matrix_multiplication(double *A, double *B, double *C, int M, int N, int P)
   			C[i][j] += A[i][k]*B[k][j];
 }
 ```
+
+To help you start, you can find an example C code in the following `.zip` file. In this example, the program reads the data of Matrix A and Matrix B from two files, then multiply them. 
+
+Attached File: [`matrix.zip`](../../assets/practical-8/matrix.zip)
+
+To profile your CUDA code, you will need a much larger matrix (otherwise the execution time of the kernel would be negligible compared to memory copy, etc). You can either generate your own `matrix.dat` file following the format, or use the random matrix generator provided in the code, which randomally assign a value between (0,1) to each element in the matrix.
 
 
 > # Exercise 1
