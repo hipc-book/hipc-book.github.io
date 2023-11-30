@@ -48,11 +48,14 @@ To help you start, you can find an example C code in the following `.zip` file. 
 
 Attached File: [`matrix.zip`](../../assets/practical-8/matrix.zip)
 
-To profile your CUDA code, you will need a much larger matrix (otherwise the execution time of the kernel would be negligible compared to memory copy, etc). You can either generate your own `matrix.dat` file following the format, or use the random matrix generator provided in the code, which randomally assign a value between (0,1) to each element in the matrix.
+> **Note**
+> 
+> To profile your CUDA code, you will need a much larger matrix, say 1024 x 1024 or 2048 x 2048 (otherwise the execution time of the kernel would be negligible compared to memory copy, etc). You can either generate your own `matrix.dat` file following the format, or use the random matrix generator provided in the code, which randomally assign a value between (0,1) to each element in the matrix.
+{: .block-warning }
 
 
 > # Exercise 1
-> Rewrite the above code in CUDA with 1D thread blocks. Replace the function with a kernel and write a `main` function to launch that kernel function. At this first stage, make it as simple as possible. Later on, this will be used as the baseline.
+> Rewrite the above code in CUDA with 1D thread blocks. Replace the function with a kernel and write a `main` function to launch that kernel function. At this first stage, make it as simple as possible. Later on, this will be used as the baseline and gradually improve it.
 >
 > Note that you need to design a verification process to validate the results are correct.
 {: .block-danger }
@@ -63,7 +66,7 @@ To profile your CUDA code, you will need a much larger matrix (otherwise the exe
 > Time the program you have written in Exercise 1 using `cudaEventElapsedTime()`. Then profile your code with `nvprof`. These should give you similar if not identical results.
 {: .block-danger }
 
-## Optional Exercise
+## Profiling with Visual Profiler (Optional)
 
 One of the additional profiling tools that we didn't mention in the unit is the [Visual Profiler](https://docs.nvidia.com/cuda/profiler-users-guide/index.html#visual-profiler) which allows you to analyse and visualise the performance of your application. The Visual Profiler gives you a different _view_ that helps you to understand the CPU and GPU activities. You may find it is functionally similar to Intel Advisor.
 
@@ -81,6 +84,13 @@ The other useful view is the Analysis View, which is used to control application
 _**Figure 3:** Analysis View in Visual Profiler_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
+> **Note**
+>
+> If you have a problem to run nvvp due to JVM, try to run it with a different version OpenJDK using:  
+> `> nvvp -vm /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java`
+{: .block-warning }
+
+
 > # Exercise 3
 > Rewrite your code with 2D kernels. After you have done that, use automatic block size tuning (`cudaOccupancyMaxPotentialBlockSize(...)`). Note that this only gives a block size and you have to work out your own 2D/3D block dimension to match your problem size.
 >
@@ -90,7 +100,7 @@ _**Figure 3:** Analysis View in Visual Profiler_
 Occupancy is an important concept to achieve performant CUDA programs, you can refer to the [CUDA Occupancy Calculator](https://xmartlabs.github.io/cuda-calculator/) as it would give you some insight into what to consider in terms of performance tuning.
 
 > # Exercise 4
-> Now try to improve your kernel function with Shared Memory.
+> The kernel function is not efficient as Matrix A is read N times, and B is read M times. Now try to improve your kernel function with Shared Memory.
 >
 > **Tips:**
 > - Decompose the problem: each block computes a submatrix (illustrated as below).
@@ -104,7 +114,11 @@ Occupancy is an important concept to achieve performant CUDA programs, you can r
 
 
 > # Exercise 5
-> Profile different versions of your implementations. Plot the results and make a comparison of their performance.
+> Profile different versions of your implementations. Plot the results and make a comparison of their performance. For example, you may want to compare the following different versions:
+> - Simple CPU
+> - Simple GPU
+> - GPU with optimized block size
+> - GPU with shared memory
 {: .block-danger }
 
 > **Further Reading**
