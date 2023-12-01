@@ -78,12 +78,12 @@ If it says the package needs installing, give it 10 minutes, log out and log bac
 
 > # Exercise 1
 >
-> Re-write the "hello, world" example from Unit 7. Change the `<<M , T>>` from `<<1, 1>>` to `<<3, 3>>`. Within each thread, print its own block ID and thread ID. <br/><br/>  
+> Re-write the "hello, world" example from Unit 8. Change the `<<M , T>>` from `<<1, 1>>` to `<<3, 3>>`. Within each thread, print its own block ID and thread ID. <br/><br/>  
 {: .block-danger }
 
 > # Exercise 2
 >
-> **Part 1** Practice the _vec_add_ example in Unit 7. Compare the performance of different Kernel configurations (note your code has to be adjusted according to the kernel configuration!) and report your results. Produce a diagram/table that shows how performance changes against the Kernel configuration.
+> **Part 1** Practice the _vec_add_ example in Unit 8. Compare the performance of different Kernel configurations (note your code has to be adjusted according to the kernel configuration!) and report your results. Produce a diagram/table that shows how performance changes against the Kernel configuration.
 >
 > **Part 2** One issue of _vec_add_ is that it is not friendly when _N_ is not multiples of `blockDim.x`. Adjust the code so that it can handle arbitrary vector sizes (N). <br/><br/>
 {: .block-danger }

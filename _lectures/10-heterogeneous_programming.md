@@ -24,15 +24,15 @@ We'll cover the following topics:
 
 # Heterogeneous Architectures
  
-We've already covered heterogeneous architectures in this module, in particular when discussing accelerated architectures. Many of the largest systems in the world currently are heterogeneous in nature, where the architecture is made up of more than one kind of processor or core. These systems typically gain both performance and energy efficiency by adding co-processors that are optimised for a particular task (thus being more performant, and less power hungry). 
+We've already covered heterogeneous architectures in this module, in particular when discussing accelerated architectures. Many of the largest systems in the world currently are heterogeneous in nature, where the architecture is made up of more than one kind of processor or core. These systems typically gain both performance and energy efficiency by adding co-processors that are optimised for a particular task (thus being more performant, and less power-hungry). 
 
 Of course, as we saw much earlier in this course, the idea of heterogeneous computing is not new.  
 
-* The CDC 6600 (often considered the first Supercomputer) was heterogeneous in nature.
-* Intel released the 8087 math co-processor in 1980, that was able to perform floating-point computations alongside an 8086 host processor.
+* The CDC 6600 (often considered the first Supercomputer) was heterogeneous.
+* Intel released the 8087 math co-processor in 1980, which was able to perform floating-point computations alongside an 8086 host processor.
 * Modern CPUs increasingly contain on-board graphics processors and other accelerators (e.g. the Apple M1 has a GPU and a Neural Engine). 
 
-Importantly, the majority of the next generation of supercomputers are almost all heterogeneous, accelerated architectures. 
+Importantly, the majority of the current- and next-generation supercomputers are heterogeneous, accelerated architectures. 
 
 ## Notable Examples of Heterogeneous Architectures
 
@@ -40,7 +40,7 @@ Importantly, the majority of the next generation of supercomputers are almost al
 
 One of the first modern heterogeneous platforms was the first iteration of Tsubame. Tsubame 1.0 was built by Sun Microsystems and reached #9 in the TOP500 in November 2006. Alongside AMD Opteron CPUs, it was powered by ClearSpeed X620 Accelerators -- PCIe connected accelerators each containing an array of 96 processor elements, running at 210-250 MHz. 
  
-![A ClearSpeed Accelerator card](../../assets/unit-8/clearspeed.png)  
+![A ClearSpeed Accelerator card](../../assets/unit-10/clearspeed.png)  
 _**Figure 1:** A ClearSpeed Accelerator Card_
 {: style="color:gray; font-size: 90%; text-align: center;" }
   
@@ -51,13 +51,13 @@ _**Figure 1:** A ClearSpeed Accelerator Card_
 
 ### Roadrunner
 
-We encountered Roadrunner earlier in this module, when discussing the various performance barriers that have been broken over the past 50 years. Roadrunner was the first supercomputer to break the PetaFLOP/s barrier, and did so using IBM PowerXCell 8i co-processors (a similar processor powered the Sony PlayStation 3). 
+We encountered Roadrunner earlier in this module when discussing the various performance barriers that have been broken over the past 50 years. Roadrunner was the first supercomputer to break the PetaFLOP/s barrier and did so using IBM PowerXCell 8i co-processors (a similar processor powered the Sony PlayStation 3). 
 
-![The architecture of a Roadrunner TriBlade](../../assets/unit-8/RR-TriBlade.png)  
+![The architecture of a Roadrunner TriBlade](../../assets/unit-10/RR-TriBlade.png)  
 _**Figure 2:** The architecture of a Roadrunner TriBlade_
 {: style="color:gray; font-size: 90%; text-align: center;" }
  
-![A schematic for Roadrunner's architecture](../../assets/unit-8/RR-schematic.png)  
+![A schematic for Roadrunner's architecture](../../assets/unit-10/RR-schematic.png)  
 _**Figure 3:** Schematic of Roadrunners architecture_
 {: style="color:gray; font-size: 90%; text-align: center;" }
   
@@ -65,7 +65,7 @@ _**Figure 3:** Schematic of Roadrunners architecture_
 
 Oak Ridge National Laboratory's Titan system was a supercomputer built by Cray Inc. and installed in 2012. It was an upgrade from their previous system, Jaguar. While Jaguar was an homogeneous architecture using AMD Opteron CPUs, Titan upgraded the CPUs and included an NVIDIA Tesla K20X GPU in each node. 
 
-With a total of 18,688 nodes, Titan was capable of 17.59 PFLOP/s (achieved from a theoretical peak of 27 PFLOP/s), and achieved the #1 ranking in 2012. 
+With a total of 18,688 nodes, Titan was capable of 17.59 PFLOP/s (achieved from a theoretical peak of 27 PFLOP/s) and achieved the #1 ranking in 2012. 
 
 ### Tianhe-2
 
@@ -82,21 +82,21 @@ Tianhe was subsequently updated in 2018, almost doubling its performance to 61.4
 
 The Summit and Sierra systems installed at the Oak Ridge National Laboratory and the Lawrence Livermore National Laboratory, respectively, are essentially an evolution of Titan. 
 
-Both systems are comprised of IBM Power9 cores, backed by NVIDIA Tesla V100 GPUs. Upon release the systems achieved the #1 and #2 spots (and currently occupy the #5 and #6 positions (as of the November 2022 list)), with achieved performance in excess of 100 PFLOP/s. 
+Both systems are comprised of IBM Power9 cores, backed by NVIDIA Tesla V100 GPUs. Upon release, the systems achieved the #1 and #2 spots (and are still present in the top 10 (as of the November 2023 list)), with achieved performance in excess of 100 PFLOP/s. 
 
 ### Aurora, Frontier and El Capitan
 
-The Department of Energy are currently in the process of delivering their first three Exascale systems, namely **Aurora**, **Frontier** and **El Capitan**, installed at Argonne National Laboratory, Oak Ridge National Laboratory and Lawrence Livermore National Laboratory, respectively. All three systems are designed around the Cray Shasta architecture, and are heterogeneous systems, consisting of a mixture of CPUs and GPUs. 
+The Department of Energy is currently in the process of delivering its first three Exascale systems, namely **Aurora**, **Frontier** and **El Capitan**, installed at Argonne National Laboratory, Oak Ridge National Laboratory and Lawrence Livermore National Laboratory, respectively. All three systems are designed around the Cray Shasta architecture and are heterogeneous systems, consisting of a mixture of CPUs and GPUs. 
  
-![The design for Frontier](../../assets/unit-8/frontier.png)  
+![The design for Frontier](../../assets/unit-10/frontier.png)  
 _**Figure 4:** The design for the Frontier system, with performance in excess of 1 ExaFLOP/s_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
 Frontier is a 1.1 ExaFLOP/s (achieved) system consisting of AMD EPYC Trento CPUs with AMD Radeon Instinct MI250X GPUs. 
 
-The Aurora system should come online in 2023 and will also achieve in excess of 1 ExaFLOP/s. It will be constructed with Intel CPUs and GPUs -- with each node being two Intel Xeon Sapphire Rapids CPUs, with six Intel Xe Ponte Vecchio GPUs. 
+The Aurora system came online in 2023 achieved 0.58 ExaFLOP/s in November 2023 (for approximately half of the machine). The full system will achieve in excess of 1 ExaFLOP/s. It is constructed with Intel CPUs and GPUs -- with each node containing two Intel Xeon Sapphire Rapids Max CPUs, with six Intel Xe Max (Ponte Vecchio) GPUs. 
 
-El Capitan is expected to be delivered in 2023 and will exceed 2 ExaFLOP/s. Like Frontier, El Capital will consist of AMD hardware, with EPYC Genoa CPUs and a next generation Radeon Instinct architecture. 
+El Capitan is expected to be delivered in 2024 and will exceed 2 ExaFLOP/s. Like Frontier, El Capital will consist of AMD hardware, with EPYC Genoa CPUs and a next-generation Radeon Instinct architecture. 
 
 > **Further Reading** 
 >
@@ -105,15 +105,15 @@ El Capitan is expected to be delivered in 2023 and will exceed 2 ExaFLOP/s. Like
 
 ## Issues 
 
-While heterogeneous architectures have allowed us to push the boundaries of science with ever increasing performance, they are not without issue. As we've seen in the previous units, programming accelerator architectures often requires complete re-engineering of applications, using potentially very different programming models. 
+While heterogeneous architectures have allowed us to push the boundaries of science with ever-increasing performance, they are not without issue. As we've seen in the previous units, programming accelerator architectures often requires complete re-engineering of applications, using potentially very different programming models. 
 
 Although we can target multiple different CPU architectures from a single programming language, the same is not true with accelerator architectures. Each vendor provides a specific programming model for their architectures, with no universally accepted programming model. 
 
-For NVIDIA architectures, CUDA is required; for AMD accelerators, HIP/ROCm is required; while for Intel's upcoming Xe GPUs, Data Parallel C++ (DPC++) will be required. 
+For NVIDIA architectures, CUDA is required; for AMD accelerators, HIP/ROCm is required; while for Intel's Xe GPUs, Data Parallel C++ (DPC++) is required. 
 
-This diversity of choice makes it difficult for application designers to target multiple accelerator architectures from a single code base, and means that labs that choose to re-engineer their code run the risk of becoming locked-in to a particular vendor. 
+This diversity of choice makes it difficult for application designers to target multiple accelerator architectures from a single code base and means that labs that choose to re-engineer their code run the risk of becoming locked-in to a particular vendor. 
 
-However, there are many ongoing projects that seek to alleviate this issue, by providing a single programming model that is **_portable_** between architectures. In this unit we'll take a brief look at some of these programming models. 
+However, there are many ongoing projects that seek to alleviate this issue, by providing a single programming model that is **_portable_** between architectures. In this unit, we'll take a brief look at some of these programming models. 
 
 <iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/9Z5bLxrt-H8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe><br/>
 
@@ -124,7 +124,7 @@ However, there are many ongoing projects that seek to alleviate this issue, by p
 
 # Performance Portability
     
-So far in this module we've been concerned with _**Performance**_. One of the major issues we face with heterogenity is _**Portability**_ -- the ability to maintain a single codebase that can be compiled and executed on any architecture without significant re-engineering. 
+So far in this module, we've been concerned with _**Performance**_. One of the major issues we face with heterogeneity is _**Portability**_ -- the ability to maintain a single codebase that can be compiled and executed on any architecture without significant re-engineering. 
 
 Of course, just because a piece of software is _portable_, does not mean that it is necessarily _performant_ (at least not on every possible platform!). 
 
@@ -136,17 +136,17 @@ Typically HPC software engineers are trying to achieve _the three Ps_:
 
 It is often said that these three goals exist on a triangle, where only two may be possible. 
 
-![The Three Ps plotted on a triangle](../../assets/unit-8/threePs.png)  
+![The Three Ps plotted on a triangle](../../assets/unit-10/threePs.png)  
 _**Figure 5:** The three Ps_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
-In this unit we'll look at a number of approaches to _**performance portability**_ that also aim to improve _**productivity**_, by providing a single understandable parallel programming model that can achieve high performance on both CPUs and accelerated architectures. But first we will cover what it means for an application to be _performance portable_.
+In this unit, we'll look at a number of approaches to _**performance portability**_ that also aim to improve _**productivity**_, by providing a single understandable parallel programming model that can achieve high performance on both CPUs and accelerated architectures. But first, we will cover what it means for an application to be _performance portable_.
 
 ## A Metric of Performance Portability
 
-Portable performance has been a hot topic in HPC in the last decade, and has been central to some of the US Department of Energy's Exascale Computing Projects. There are a number of (relatively) simple metrics for assessing performance (e.g. measuring runtime), while measuring portability is a typically a binary measure (it either works or it doesn't). 
+Portable performance has been a hot topic in HPC in the last decade, and has been central to some of the US Department of Energy's Exascale Computing Projects. There are a number of (relatively) simple metrics for assessing performance (e.g. measuring runtime), while measuring portability is typically a binary measure (it either works or it doesn't). 
 
-However, combining them into a single metric value is difficult. Following the first [DoE Centers of Excellence Performance Portability Meeting](https://www.osti.gov/biblio/1332474), engineers at Intel proposed such a metric that provides a score of performance portability based on an applications performance on each platform, relative to the best non-portable performance achieved on the same platform. 
+However, combining them into a single metric value is difficult. Following the first [DoE Centers of Excellence Performance Portability Meeting](https://www.osti.gov/biblio/1332474), engineers at Intel proposed such a metric that provides a score of performance portability based on an application's performance on each platform, relative to the best non-portable performance achieved on the same platform. 
 
 Pennycook et al. proposed the following equation to calculate the performance portability of an application: 
 
@@ -239,11 +239,11 @@ Pennycook et al. proposed the following equation to calculate the performance po
 
 In the equation, the performance portability (&#x239;) of an application _a_, solving problem _p_, on a given set of platforms _H_, is calculated by finding the [harmonic mean](https://en.wikipedia.org/wiki/Harmonic_mean) of an application's _performance efficiency_ ($e_i(a,p)$). The performance efficiency for each platform can be calculated by comparing the achieved performance against the best recorded (possibly non-portable) performance on each individual target platform (i.e. _the application efficiency_), or by comparing the achieved performance against the theoretical maximum performance achievable on each individual platform (i.e. _the architectural efficiency_). Should the application fail to run on one of the target platforms, a performance portability score of _0_ is awarded. 
 
-Although the equation above provides a formal definition for performance portability, this single value metric may not answer all questions a developer might have about their application. In recognising this, a number of visualisation techniques  have been proposed by Sewall et al. 
+Although the equation above provides a formal definition for performance portability, this single value metric may not answer all questions a developer might have about their application. In recognising this, a number of visualisation techniques have been proposed by Sewall et al. 
 
-These visualisations are perhaps best described with an example. The figure below presents a simple synthetic data set for six implementations of an application running across 10 platforms. 
+These are perhaps best described with an example. The figure below presents a simple synthetic data set for six implementations of an application running across 10 platforms. 
 
-![A table of data for a synthetic dataset of performance](../../assets/unit-8/synthetic-heat-map.png)  
+![A table of data for a synthetic dataset of performance](../../assets/unit-10/synthetic-heat-map.png)  
 _**Figure 6:** An example synthetic data set of performance_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -255,18 +255,12 @@ These implementations are:
   * **inconsistent** showing a range of performance across all platforms;   
   * **consistent** showing consistent low (30%) or high (70%) performance across all platforms.  
 
-We could simply apply the performance portability metric to this synthetic data but this may mean that we lose some information about how the performance portability is spread across platforms, and how the metric changes as we add and remove platforms from the evaluation set. 
+We could simply apply the performance portability metric to this synthetic data but this may mean that we lose some information about how the performance portability metric changes as we add and remove platforms from the evaluation set. 
 
-Figure 7 addresses the first concern, showing not only the median efficiency of an application, but also the spread of efficiencies (and any outliers).
+Figure 7 shows this, showing the application efficiency as systems are added to its evaluation set in descending order of efficiency.
 
-![A box plot of performance portability for a synthetic dataset](../../assets/unit-8/synthetic-box-plot.png)  
-_**Figure 7:** A box plot showing the spread of efficiencies_ 
-{: style="color:gray; font-size: 90%; text-align: center;" }
-
-The second concern is addressed by a cascade plot (demonstrated in Figure 8), where the application's performance portability and efficiency are plotted as platforms are added to the evaluation set in descending order of efficiency. 
-   
-![A cascade plot of performance portability for a synthetic dataset](../../assets/unit-8/synthetic-cascade.png)  
-_**Figure 8:** A cascade plot showing how performacne portability changes as platforms are added to the evaluation set_
+![A cascade plot of performance portability for a synthetic dataset](../../assets/unit-10/synthetic-cascade.png)  
+_**Figure 7:** A cascade plot showing how performance portability changes as platforms are added to the evaluation set_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
 > **Further Reading**
@@ -277,9 +271,9 @@ _**Figure 8:** A cascade plot showing how performacne portability changes as pla
 > * Sewall, J., Pennycook, S.J., Jacobsen, D., Deakin, T. and McIntosh-Smith, S., 2020, November. [Interpreting and visualizing performance portability metrics](https://doi.org/10.1109/P3HPC51967.2020.00007). In _2020 IEEE/ACM International Workshop on Performance, Portability and Productivity in HPC (P3HPC)_ (pp. 14-24). IEEE. 
 > * Pennycook, S.J., Sewall, J.D., Jacobsen, D.W., Deakin, T. and McIntosh-Smith, S., 2021. [Navigating Performance, Portability, and Productivity](https://doi.org/10.1109/MCSE.2021.3097276). _Computing in Science & Engineering_, _23_(5), pp.28-38.
 >
-> You can generate your own box plots and cascade plots using the tools provided by the authors here: 
+> You can generate your own box plots and cascade plots using the P3 analysis library provided by the authors here: 
 >
-> * [Intel and Bristol HPC Performance Portability Studies Github](https://github.com/UoB-HPC/performance-portability)  
+> * [Performance, Portability, and Productivity Analysis Library](https://intel.github.io/p3-analysis-library/index.html), Intel 
 >
 > And you can see the authors talking about their work in the following videos (from the [P3HPC Workshop](https://p3hpc.org)): 
 >
@@ -292,11 +286,11 @@ _**Figure 8:** A cascade plot showing how performacne portability changes as pla
      
 So far, the programming models we've looked at in this module target a single architecture (or architecture type). For example, our C-code with OpenMP directives can run on an x86 or ARM CPU; our CUDA code can run on an NVIDIA GPU. But in order for our code to be **portable**, we need a programming model that can target multiple architectures from a single code base. 
 
-## OpenMP 4.5+
+## OpenMP 4.0+
  
-A 2015 update to the OpenMP standard introduced new directives aimed at heterogeneous programming. Specifically, the OpenMP 4.5 standard introduced directives for target regions (to support accelerators), and SIMD (to support SIMD parallelism). 
+A 2015 update to the OpenMP standard introduced new directives aimed at heterogeneous programming. Specifically, the OpenMP 4.0 standard introduced directives for target regions (to support accelerators), and SIMD (to support SIMD parallelism). 
 
-Compiler support for the latest features of the OpenMP standard often lags the standard, but the majority of compilers used in HPC now support a good subset of OpenMP 4.5 directives (please refer to the list [here](https://www.openmp.org/resources/openmp-compilers-tools/)). 
+Compiler support for the latest features of the OpenMP standard often lags the standard, but the majority of compilers used in HPC now support a good subset of OpenMP 4.0+ directives (please refer to the list [here](https://www.openmp.org/resources/openmp-compilers-tools/)). 
 
 ### Device Constructs 
 
@@ -343,7 +337,7 @@ int main(int argc, char *argv[]) {
 
 Now that we've covered how to run code on a target device, we need to consider how we move data between the host and a target device. 
 
-The `target` construct offers a few ways for us to specify which data to map between the host and the device. Firstly we can specify which data to map to a device using the `map` modifier. Alternatively we can specify enter/exit data with the `enter data` and `exit data` modifiers. 
+The `target` construct offers a few ways for us to specify which data to map between the host and the device. Firstly we can specify which data to map to a device using the `map` modifier. Alternatively, we can specify enter/exit data with the `enter data` and `exit data` modifiers. 
 
 For example, 
 
@@ -355,7 +349,7 @@ for (int i = 0; i < 100; i++) {
 }
 ```
 
-In this example, the `a` and `b` variables will be copied to the target device. Upon completion of the target region, the `c` array will be copied back to the host. 
+In this example, the `a` and `b` variables will be copied to the target device. Upon completion of the target region, the `c` array will be copied back to the host.
 
 There are numerous other map types that can be specified such as: `alloc` (memory is allocated on the host (nothing is copied)), `to`, `from`, `tofrom`, and `delete` (upon completion, the data is deleted). 
 
@@ -403,11 +397,28 @@ So for example, we may have something like:
 #pragma omp target exit data map(from: b[0:N])
 ```
 
+Another addition worth noting is a simplified parallelisation construct that is likely to yield better performance on some GPUs (in particular NVIDIA GPUs with the NVHPC compiler). The OpenMP `loop` directive is preferred to `parallel for` when dealing with target regions.
+
+```c
+#pragma omp target teams loop
+for (int i = 0; i < N; i++) {
+    #pragma omp loop
+    for (int j = 0; j < M; j++) {
+        ...
+    }
+}
+```
+
+> **Further Reading**
+> 
+> * [Best Practices for OpenMP](https://www.olcf.ornl.gov/wp-content/uploads/nersc_best_practices_sep_1_2022.pdf), Chris Daley, NERSC
+{: .block-tip } 
+
 ### Runtime Support
 
 Besides the compiler directives, there are also some environment variables and OpenMP functions to support device execution.  
 
-OpenMP 4.5 adds the following target-based environment variables: 
+OpenMP 4.0+ adds the following target-based environment variables: 
 
 ```shell
 # in a multi-GPU set up, each device is numbered. This variable controls which device to use 
@@ -565,16 +576,16 @@ Much of the OpenCL API has been influenced by CUDA, but it has been generalised 
 
 However, it does have the advantage that a compute kernel can be executed on a host (if no accelerator is available) or on any accelerator that is present, assuming an OpenCL runtime library is provided for the architecture. 
 
-## SYCL
+## SYCL/DPC++
  
-More recently, the Khronos Group ratified SYCL, a higher-level programming model that builds on the underlying concepts of OpenCL, but with a focus on improving programmer productivity. SYCL is a single-source embedded domain specific language based on C++17. 
+More recently, the Khronos Group ratified SYCL, a higher-level programming model that builds on the underlying concepts of OpenCL, but with a focus on improving programmer productivity. SYCL is a single-source embedded domain-specific language based on C++17. 
 
 SYCL cuts down significantly on the amount of "boiler-plate" code that is required, and like OpenCL operates around the notion of a queue, where work items may be submitted. 
 
 In contrast to OpenCL, work items are typically written in the code as anonymous functions, rather than as self-contained kernel functions. We can achieve parallelism in SYCL through constructs such as the `parallel_for`.
  
 ```c++
-#include <CL/sycl.hpp>
+#include <sycl/sycl.hpp>
 #include <iostream>
 #include <cstdlib>
 #include <array>
@@ -588,41 +599,39 @@ int main() {
         h_b[i] = (double) rand() / RAND_MAX;
     }
 
-    auto platforms = cl::sycl::platform::get_platforms();
+    auto platforms = sycl::platform::get_platforms();
     for (auto &platform : platforms) {
-        std::cout << "Platform: " << platform.get_info<cl::sycl::info::platform::name>() << std::endl;
+        std::cout << "Platform: " << platform.get_info<sycl::info::platform::name>() << std::endl;
         auto devices = platform.get_devices();
         for (auto &device : devices) {
-            std::cout << " Device: " << device.get_info<cl::sycl::info::device::name>() << std::endl;
+            std::cout << " Device: " << device.get_info<sycl::info::device::name>() << std::endl;
         }
     }
 
     try {
 #ifndef DEBUG
-        cl::sycl::queue myqueue(cl::sycl::default_selector{});
+        sycl::queue myqueue;
 #else
-        cl::sycl::queue myqueue(cl::sycl::cpu_selector{});
+        sycl::queue myqueue{sycl::cpu_selector_v};
 #endif
 
-        std::cout << std::endl << "Selected device: " << myqueue.get_device().get_info<cl::sycl::info::device::name>() << std::endl;
+        std::cout << std::endl << "Selected device: " << myqueue.get_device().get_info<sycl::info::device::name>() << std::endl;
 
+        sycl::buffer d_a { h_a };
+        sycl::buffer d_b { h_b };
+        sycl::buffer d_c { h_c };
 
-        cl::sycl::buffer<double, 1> d_a(h_a.data(), N);
-        cl::sycl::buffer<double, 1> d_b(h_b.data(), N);
-        cl::sycl::buffer<double, 1> d_c(h_c.data(), N);
-
-        auto ev = myqueue.submit([&](cl::sycl::handler &h){
-            auto a = d_a.get_access<cl::sycl::access::mode::read>(h);
-            auto b = d_b.get_access<cl::sycl::access::mode::read>(h);
-            auto c = d_c.get_access<cl::sycl::access::mode::write>(h);
-
-            h.parallel_for<class ndim>(cl::sycl::range<1>(N), [=](cl::sycl::id<1> i){
+        myqueue.submit([&](sycl::handler &h) {
+            sycl::accessor a {d_a, h, sycl::read_only};
+            sycl::accessor b {d_b, h, sycl::read_only};
+            sycl::accessor c {d_c, h, sycl::write_only, sycl::no_init};
+            
+            h.parallel_for(sycl::range{N}, [=](sycl::id<1> i){
                 c[i] = a[i] + b[i];
             });
-        });
-        myqueue.wait();
+        }).wait();
     } catch (std::exception const& e) {
-        std::cout << "cl::sycl exception caught: " << e.what() << std::endl;
+        std::cout << "sycl exception caught: " << e.what() << std::endl;
     }
 
     for (int i=0; i < N; i++) {
@@ -635,25 +644,27 @@ int main() {
 
 Support for SYCL exists in a number of compilers, with a variety of target architectures (see the figures [here](https://www.khronos.org/sycl/)).  
 
-The ComputeCpp compiler, from Codeplay, has multiple backends, allowing it to target a range of CPUs and GPUs from Intel, AMD and Arm; the triSYCL compiler, developed by Xilinx, can generate OpenMP-compliant applications, and can additionally target Xilinx FPGAs; Heidelberg University's LLVM-based hipSYCL compiler can generate OpenMP, CUDA, ROCm or oneAPI Level Zero code, allowing it to target CPUs and GPUs from the three major hardware vendors expected to be present in post-Exascale systems. 
-
-The code above can be compiled with the hipSYCL compiler on Viking like so (specifying compilation for SM 6.0 (i.e. NVIDIA Pascal)): 
-
-```shell
-$ module load compiler/hipSYCL/0.9.1-gcccuda-2020b            # load the hipSYCL compiler
-$ syclcc vec_add.cpp -o vec_add -O3 --hipsycl-gpu-arch=sm_60
-```
+The ComputeCpp compiler, from Codeplay, has multiple backends, allowing it to target a range of CPUs and GPUs from Intel, AMD and Arm; the triSYCL compiler, developed by Xilinx, can generate OpenMP-compliant applications, and can additionally target Xilinx FPGAs; Heidelberg University's LLVM-based OpenSYCL compiler can generate OpenMP, CUDA, ROCm or oneAPI Level Zero code, allowing it to target CPUs and GPUs from the three major hardware vendors expected to be present in post-Exascale systems.
 
 SYCL has additionally been adopted and extended by Intel (as Data Parallel C++) for its oneAPI programming model. While initially appearing in Intel's (now branded "Classic") C++ Compiler in 2020, aimed primarily at Intel hardware, the adoption of an LLVM-backend in 2021 has meant that Intel's compiler can now natively support NVIDIA and AMD targets also, through CUDA and HIP, respectively. 
 
+The code above can be compiled with the Intel C++ compiler on Viking like so: 
+
+```shell
+$ module load intel-compilers/2023.1.0            # load the Intel DPC++ compiler
+$ icpx -fsycl -o vec_add vec_add.cpp
+```
+
 The maturity of SYCL toolchains has been the subject of recent work, with performance still typically lagging native alternatives. Whether this performance gap can be reduced remains an open question. 
 
-<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/9JOCLCo9T7s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe> <br/>
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/8Cs_uI-O51s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe> <br/>
 
 > **Further Reading** 
 >
-> * Reguly, Istvan Z., Andrew Owenson, Archie Powell, Stephen A. Jarvis, and Gihan R. Mudalige. "[Under the hood of SYCL - an initial performance analysis with an unstructured-mesh cfd application](https://doi.org/10.1007/978-3-030-78713-4_21)." In _International Conference on High Performance Computing_, pp. 391-410. Springer, Cham, 2021. 
-> * Lin, Wei-Chen, Tom Deakin, and Simon McIntosh-Smith. "[On measuring the maturity of SYCL implementations by tracking historical performance improvements](https://doi.org/10.1145/3456669.3456701)." In _International Workshop on OpenCL_, pp. 1-13. 2021. 
+> * James Reinders, Ben Ashbaugh, James Brodman, Michael Kinsner, John Pennycook, and Xinmin Tian. "[Data Parallel C++](https://doi.org/10.1007/978-1-4842-9691-2)". _Programming Accelerated Systems Using C++ and SYCL_, Apress Berkeley, CA, 2023.
+> * Wageesha R. Shilpage, and Steven A. Wright. "[An Investigation into the Performance and Portability of SYCL Compiler Implementations](https://doi.org/10.1007/978-3-031-40843-4_45)". In _High Performance Computing. ISC High Performance 2023_. Lecture Notes in Computer Science, vol 13999. Springer, Cham, 2023.
+> * Istvan Z. Reguly, Andrew Owenson, Archie Powell, Stephen A. Jarvis, and Gihan R. Mudalige. "[Under the hood of SYCL - an initial performance analysis with an unstructured-mesh cfd application](https://doi.org/10.1007/978-3-030-78713-4_21)." In _International Conference on High Performance Computing_, pp. 391-410. Springer, Cham, 2021. 
+> * Wei-Chen Lin, Tom Deakin, and Simon McIntosh-Smith. "[On measuring the maturity of SYCL implementations by tracking historical performance improvements](https://doi.org/10.1145/3456669.3456701)." In _International Workshop on OpenCL_, pp. 1-13. 2021. 
 {: .block-tip }
 
 # Alternative Approaches
@@ -664,7 +675,7 @@ The ECP's efforts revolve around two similar programming models, Kokkos and RAJA
 
 ## Kokkos
  
-Kokkos has been developed at Sandia National Laboratories, and is able to target CUDA, OpenMP, pthreads, HIP or SYCL. From a single code base, code can be generated for any of the backends, and can be potentially optimised at a single point (i.e. in the Kokkos library itself). 
+Kokkos has been developed at Sandia National Laboratories and is able to target CUDA, OpenMP, pthreads, HIP or SYCL. From a single code base, code can be generated for any of the backends, and can be potentially optimised at a single point (i.e. in the Kokkos library itself). 
 
 Like SYCL, Kokkos expresses parallelism through anonymous functions passed to constructs such as a `parallel_for`. So for example, a vector add can be achieved as simply as: 
 
@@ -764,7 +775,7 @@ The nature of Kokkos means that no special libraries or compilers are required (
 
 > **Further Reading** 
 >
-> * Trott, Christian R., Damien Lebrun-Grandié, Daniel Arndt, Jan Ciesko, Vinh Dang, Nathan Ellingwood, Rahulkumar Gayatri et al. "[Kokkos 3: Programming model extensions for the exascale era](https://doi.org/10.1109/TPDS.2021.3097283)." _IEEE Transactions on Parallel and Distributed Systems_ 33, no. 4 (2021): 805-817. 
+> * Christian R. Trott, Damien Lebrun-Grandié, Daniel Arndt, Jan Ciesko, Vinh Dang, Nathan Ellingwood, Rahulkumar Gayatri et al. "[Kokkos 3: Programming model extensions for the exascale era](https://doi.org/10.1109/TPDS.2021.3097283)." _IEEE Transactions on Parallel and Distributed Systems_ 33, no. 4 (2021): 805-817. 
 > * [Kokkos: The C++ Performance Portability Programming Model](https://github.com/kokkos/kokkos/wiki)  
 {: .block-tip }
 
@@ -796,7 +807,7 @@ delete array;
 
 > **Further Reading**
 >
-> * Beckingsale, David A., Jason Burmark, Rich Hornung, Holger Jones, William Killian, Adam J. Kunen, Olga Pearce, Peter Robinson, Brian S. Ryujin, and Thomas RW Scogland. "[RAJA: Portable performance for large-scale scientific applications](https://doi.org/10.1109/P3HPC49587.2019.00012)." In _2019 IEEE/ACM International Workshop on Performance, Portability and Productivity in HPC (P3HPC)_, pp. 71-81. IEEE, 2019. 
+> * David A. Beckingsale, Jason Burmark, Rich Hornung, Holger Jones, William Killian, Adam J. Kunen, Olga Pearce, Peter Robinson, Brian S. Ryujin, and Thomas RW Scogland. "[RAJA: Portable performance for large-scale scientific applications](https://doi.org/10.1109/P3HPC49587.2019.00012)." In _2019 IEEE/ACM International Workshop on Performance, Portability and Productivity in HPC (P3HPC)_, pp. 71-81. IEEE, 2019. 
 > * [RAJA Documentation](https://raja.readthedocs.io/en/develop/index.html) 
 {: .block-tip }
 
@@ -806,7 +817,7 @@ delete array;
 
 * We're likely to rely on heterogeneous systems for a while, but these systems will be "moderately diverse, not extremely diverse" 
 * We'll likely see closer integration between CPUs and GPUs (i.e. in-package GPU, cache coherence, etc.) 
-* CPUs will integrate some of the best parts of GPUs (in-core accelerators, wide vectors, high bandwidth memory) 
+* CPUs will integrate some of the best parts of GPUs (in-core accelerators, wide vectors, high bandwidth memory)
 * Programmability of heterogeneous systems is improving, but has a long way to go 
 
 Heterogeneous systems typically offer us better performance per Watt, and possibly better performance per dollar, but they are more difficult to program. The first Exascale systems are CPU-GPU hybrid systems, using CPUs and GPUs from a variety of vendors (AMD, Intel and NVIDIA), each with a preferred programming model (HIP/ROCm, OneAPI and CUDA, respectively).  
