@@ -14,7 +14,7 @@ Following this session you should be familiar with:
 * Writing basic C programs with input and output provided by `scanf` and `printf` 
 * How to write simple functions in C 
 * The basics of manipulating pointers and allocating dynamically sized arrays 
-* A basic understanding of compiling multi-file projects, and using simple make files 
+* A basic understanding of compiling multi-file projects, and using simple "makefiles" 
 * How to use GDB to find errors in C programs 
 
 
@@ -32,7 +32,7 @@ You can use any editor of your choice to write your codes. Some may prefer using
 
 ## Getting Started With C
 
-We will begin these labs with the traditional "Hello, world!" program. Remember - C is not an object-oriented language, meaning there are no classes or objects to worry about. Much like Java, C has a limited set of language features out of the box. Additional functionality is packaged into libraries which must be then be included. This keeps the core language simple and is conceptually similar Java's `import` mechanism. To perform I/O to the terminal, we use the standard IO library ([`stdio.h`](http://linux.die.net/man/3/stdio)). This contains the [`printf()`](http://linux.die.net/man/3/printf) function which is used to print a formatted string to the screen.  
+We will begin these labs with the traditional "Hello, world!" program. Remember -- C is not an object-oriented language, meaning there are no classes or objects to worry about. Much like Java, C has a limited set of language features out of the box. Additional functionality is packaged into libraries which must then be included. This keeps the core language simple and is conceptually similar Java's `import` mechanism. To perform I/O to the terminal, we use the standard I/O library ([`stdio.h`](http://linux.die.net/man/3/stdio)). This contains the [`printf()`](http://linux.die.net/man/3/printf) function which is used to print a formatted string to the screen.  
  
 **Note:** comments in C follow the same conventions as Java. `//` indicates a single line comment, `/* */` is a block comment. 
 
@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) { // main method is called when program is run
 }
 ```
 
-The `printf()` function prints a format string to standard out. Format strings can contain special control characters and variable placeholders in addition to regular text. In the example above we see `'\n'`, the newline control character. Save this code to a file called `helloworld.c` and then we can compile it. To compile the application we use the C compiler from the GNU Compiler Collection (GCC) which should already be installed on the lab machines. To compile your program and create an executable file called "helloworld", run the following command in the terminal (do not forget to change to your working directory before running the command) 
+The `printf()` function prints a format string to standard out. Format strings can contain special control characters and variable placeholders in addition to regular text. In the example above we see `'\n'`, the newline control character. Save this code to a file called `helloworld.c` and then we can compile it. To compile the application we can use the C compiler from the GNU Compiler Collection (GCC) which should already be installed on the lab machines. To compile your program and create an executable file called "helloworld", run the following command in the terminal (do not forget to change to your working directory before running the command):
  
 ```
 $ gcc -o helloworld helloworld.c
@@ -106,7 +106,7 @@ In the C language, each program consists of at least one function. Every C progr
 int factorial(int m) {  // computes the factorial of a positive integer m
     int i, prod = 1;
 
-    for(i = 2; i <= m; i++) {
+    for (i = 2; i <= m; i++) {
         prod = prod * i;
     }
     return prod;
@@ -129,7 +129,7 @@ In this example, the `factorial()` function computes the factorial of a positive
 int factorial(int m)
 ```
  
-specifies that the function `factorial()` takes one integer input and returns an integer. A C function cannot return multiple values. If you want a C function to return multiple values, use pointers (more on those in a bit). 
+specifies that the function `factorial()` takes one integer input and returns an integer. A C function cannot return multiple values. If you want a C function to return multiple values, use pointers (more on those later) or custom types (more on those later, too). 
 
 Note the use of the `scanf()` function in the above code. It scans input according to a format specifier (`"%d"` in this case). To know more about the function `scanf()` type 
  
@@ -144,7 +144,7 @@ $ man <function_name>
 ```
  
  
-where `<function_name>` specifies the name of the function you want to search for. Try pulling up the man pages for the man function itself! 
+where `<function_name>` specifies the name of the function you want to search for. Try pulling up the manual page for the `man` function itself! 
 
 > # Exercise 1
 >
@@ -153,7 +153,7 @@ where `<function_name>` specifies the name of the function you want to search fo
 
 # Pointers
 
-There are two fundamental types of variable in C: the primitive and the pointer. A pointer is something that points to a space of memory. In Java, pointers are hidden from the user and instead we talk about objects and primitives (although under the covers Java's "objects" are implemented as pointers to data in memory). In C we can manipulate memory in a much more powerful (and more dangerous!) manner. Pointers are identified using an asterisk. For example: 
+There are two fundamental types of variable in C: the primitive and the pointer. A pointer is something that points to a space in memory. In Java, pointers are hidden from the user and instead we talk about objects and primitives (although under the covers Java's "objects" are implemented as pointers to data in memory). In C we can manipulate memory in a much more powerful (and more dangerous!) manner. Pointers are identified using an asterisk. For example: 
  
 ```c
 int a;   // An integer primitive, holds a whole number from -2,147,483,648 to 2,147,483,647 on most machines
@@ -168,7 +168,7 @@ This declares a pointer (`b`) that will point to an integer in memory. Initially
 int main(int argc, char *argv[]) {
    int *a_pointer;
    int a_value = 5;
-   int x[] = { 10,1,2,5,-3 };
+   int x[] = { 10, 1, 2, 5, -3 };
 
    a_pointer = &a_value;
 
@@ -182,6 +182,7 @@ int main(int argc, char *argv[]) {
    printf("The start address of the array x is %p\n", &x); // prints the base address of the array x
    printf("The address of the first element is %p\n", &x[0]); // also prints the same
 
+   int i;
    for (i = 0; i < 5; i++) {
       printf("Value stored in address %p is %d\n", (x+i), x[i]);  // shows that array elements are stored in contiguous locations
    }
@@ -190,7 +191,9 @@ int main(int argc, char *argv[]) {
    return 0;
 }
 ```
- 
+
+**Note**: integers are formatted using `%d` in a `printf` statement; pointer memory addresses are formatted using `%p`. `%lu` is used to indicate a _long_, _unsigned integer_ (i.e. a 64-bit integer without a sign bit).
+
 The `&` de-references a particular variable to its address, and so `&a_value` gets the address in memory where `a_value` is stored and stores it in `a_pointer`. This means that `a_pointer` is now 'pointing to' `a_value`.  
 
 If we ever want to get the value being pointed to we de-reference the pointer using `*`. The statement `*a_pointer = 10` in the above code stores the value 10 in the address pointed by the pointer `a_pointer` which in this case is the address of `a_value`. Therefore, `a_value` gets updated to 10.  
@@ -211,7 +214,7 @@ While they may seem quite confusing, pointers are an incredibly powerful feature
 
 > # Exercise 2
 >
-> Given the code below, implement the `swap` function and call it correctly from the `main` function to swap the two integers (so that `a` becomes `b` and `b` becomes `a`). 
+> Given the code below, implement the `swap` function and call it correctly from the `main` function to swap the two integers (so that `a` becomes `b`, and `b` becomes `a`). 
 >
 > **Note**: even in this simple example we are beginning to see the power of C -- it is impossible to write an equivalent function to exchange primitives in Java. 
 >  
@@ -266,7 +269,7 @@ While they may seem quite confusing, pointers are an incredibly powerful feature
 
 # Memory
 
-Pointers are at their most useful and powerful when you are dealing with memory. The standard library (`stdlib.h`) contains 3 useful functions for memory management: [`malloc()`](http://linux.die.net/man/3/malloc), [`calloc()`](http://linux.die.net/man/3/calloc) and [`realloc()`](http://linux.die.net/man/3/realloc). 
+Pointers are at their most useful and powerful when you are dealing with memory. The standard library (`stdlib.h`) contains 3 useful functions for memory management: [`malloc()`](http://linux.die.net/man/3/malloc), [`calloc()`](http://linux.die.net/man/3/calloc), and [`realloc()`](http://linux.die.net/man/3/realloc). 
  
 ```c
 void * malloc(size_t size);
@@ -300,13 +303,13 @@ my_array[9] = 10;
 
 **Note**: C does no range checking -- it will not prevent you reading or writing beyond the end of an array. This can lead to serious bugs (more on this later). 
 
-These methods also work when getting values out of the array. You can also manipulate a pointer using notation such as `++`, but this will change the value of the pointer itself (meaning it will point to the second element) and when this is done, you may lose the ability to release the memory later. 
+These methods also work when getting values out of the array. You can also manipulate a pointer using notation such as `++`, but this will change the value of the pointer itself (meaning it will point to the second element) and when this is done, you may lose the ability to _release_ the memory later. 
  
 ```c
 void *calloc(size_t nmemb, size_t size);
 ```
 
-When memory is allocated using `malloc()`, there is no guarantee that the memory will be set to zeros. The `calloc()` function therefore allocates memory and also clears its contents (hence the name `calloc`). It takes two arguments, where the first is the number of elements to allocate space for and the second is the size of each element. So to allocate space for 10 integers (as we did with `malloc`) but to also set them all to zero:
+When memory is allocated using `malloc()`, there is no guarantee that the memory will be set to zeros. The `calloc()` function therefore allocates memory and also clears its contents (hence the name `calloc`). It takes two arguments, where the first is the number of elements to allocate space for and the second is the size of each element. So to allocate space for 10 integers (as we did with `malloc`), but to also set them all to zero:
  
 ```c
 int *my_array = (int *) calloc(10, sizeof(int));
@@ -341,7 +344,7 @@ The final piece of the memory allocation puzzle is that in C there is no garbage
 void free(void *ptr);
 ```
  
-The `free()` function returns no value and simply releases the memory in use by a pointer. After `free` has been called the memory at `*ptr` will be released. The value of `ptr` will not change, however, you may wish to explicitly set `ptr` to `NULL` to prevent any invalid memory accesses. 
+The `free()` function returns no value and simply releases the memory in use by a pointer. After `free()` has been called the memory at `*ptr` will be released. The value of `ptr` will not change, however, you may wish to explicitly set `ptr` to `NULL` to prevent any invalid memory accesses. 
 
 > # Exercise 4
 >   
@@ -352,9 +355,9 @@ The `free()` function returns no value and simply releases the memory in use by 
 
 # Multiple File Projects
 
-Often when working on large software projects it is convenient the break the project down into multiple source files. It makes programming and debugging much easier. In this section, we shall learn how to build an executable file from multiple source files written in C. 
+Often when working on large software projects it is convenient to break the project down into multiple source files. It makes programming and debugging much easier. In this section, we shall learn how to build an executable file from multiple source files written in C. 
 
-Write the following code in and save it as a .c file, say `main.c`: 
+Write the following code and save it as a .c file, say `main.c`: 
  
 ```c
 #include <stdio.h>
@@ -432,7 +435,7 @@ This will create the a combined excutable file called "`numbers`" by linking the
 
 # Makefiles
 
-This whole process of building the executable file from its sources can be automated using _Makefiles_. A makefile contains recipes for building the final executable file as well as for each of the intermediate files. Each recipe is written in the following format: 
+The whole process of building an executable from its sources can be automated using _Makefiles_. A makefile contains recipes for building the final executable file as well as for each of the intermediate files. Each recipe is written in the following format: 
  
 ```makefile
 target: dependencies
@@ -455,7 +458,7 @@ main.o: main.c
     gcc -c main.c
 ```
 
-Save the file as **Makefile**; again, don't forget the tabs in your make file. You can run the makefile using the command 
+Save the file as **Makefile**; again, don't forget the tabs in your makefile. You can run the makefile using the command:
  
 ```
 $ make
@@ -518,7 +521,7 @@ In the example, the `my_func()` function specified that it will return an `int`,
 
 To find such issues at compile-time, we can either enable all warnings, or we can turn all warnings into error (such that an application doesn't compile if there are warnings present). 
 
-We can enable all errors with the `-Wall` compile time flag. 
+We can enable displaying all warnings with the `-Wall` compile time flag. 
  
 ```
 $ gcc -Wall -o test test.c
@@ -585,7 +588,6 @@ Segmentation fault: 5000
  
 To debug this, we recompile the application but with the `-g` flag provided. We then run `gdb` on the application (as above). Type "`run`" into `gdb` and you may see an error like this:
  
- 
 ```
 Program received signal EXC_BAD_ACCESS, Could not access memory.
 Reason: KERN_INVALID_ADDRESS at address: 0x0000000000000000
@@ -595,7 +597,7 @@ Reason: KERN_INVALID_ADDRESS at address: 0x0000000000000000
  
 This indicates that the error is caused at line 10 in `test.c`. Looking at line 10, we see that the error occurs when trying to store a value at a location in `my_array`. Since this memory access is invalid it seems likely that the reason the program crashing is because the memory has not been allocated. 
 
-More information can be extracted using `gdb` by using the commands "`bt`" and "`print`". `bt` will produce a backtrace, which for our program was uninteresting, but would otherwise contain the call path to your function (e.g. if `main()` called `f1()`, which in turn called `f2()`, etc.). `print` can be used to print the values of variables at the time of error. Try typing `print i` into `gdb` and it will inform you that the program above crashed when the value of `i` is invalid. After you are done with debugging, to exit from the `gdb` prompt type "`quit`". 
+More information can be extracted using `gdb` by using the commands "`bt`" and "`print`". `bt` will produce a backtrace, which for our program was uninteresting, but would otherwise contain the call path to your function (e.g. if `main()` called `f1()`, which in turn called `f2()`, etc.). `print` can be used to print the values of in-scope variables at the time of error. Try typing `print i` into `gdb` and it will inform you that the program above crashed when the value of `i` is invalid. After you are done with debugging, to exit from the `gdb` prompt type "`quit`". 
 
 `gdb` is a powerful debugger with a great number of features. This [cheat sheet](https://darkdust.net/files/GDB%20Cheat%20Sheet.pdf) demonstrates many of the most important features and may come in handy in the future. 
 

@@ -15,3 +15,9 @@ layout: post
 
 * Over the last 2 months this gitbook has been edited to remove typographical issues and unify the style.
 * All videos have now been replaced by Youtube versions with correct subtitles.
+
+### 2024-09-19
+
+* The previous year of this site has been archived and is linked from the About page.
+* The course overview and Unit 1 videos have been replaced.
+* The material has been updated to reflect the current state-of-the-art.

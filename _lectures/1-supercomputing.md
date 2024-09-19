@@ -9,7 +9,7 @@ layout: post
 
 Welcome to the first unit of the HIPC course.
 
-<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/AnKz1iZzWaA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe><br/>
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/FXwO8NEzZno" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe><br/>
 
 This unit will cover:
 
@@ -48,7 +48,7 @@ Scientific computing and numerical simulation are now indispensable tools in man
 
 ## In the beginning...
 
-The first general-purpose computer was the **Electronic Numerical Integrator and Computer (ENIAC)**, built in 1939. The machine could perform between 300 and 500 floating-point operations per second (FLOP/s). Due to the prevalence and importance of floating-point operations in modern day science applications, the FLOP rate is the standard way in which modern supercomputer performance is assessed.
+The first general-purpose computer was the **Electronic Numerical Integrator and Computer (ENIAC)**, built in 1939. The machine could perform between 300 and 500 floating-point operations per second (or FLOP/s). Due to the prevalence and importance of floating-point operations in modern day science applications, the FLOP rate is the standard way in which modern supercomputer performance is assessed.
 
 ![The ENIAC](../../assets/unit-1/Eniac.jpg)  
 _**Figure 1:** ENIAC -- the first programmable, electronic, general-purpose digital computer_
@@ -72,7 +72,7 @@ Following three years of development, in 1975, Cray announced the first Cray Res
 _**Figure 3:** Seymour Cray with a Cray-1 supercomputer_
 {: style="color:gray; font-size: 90%; text-align: center;"}
 
-The Cray-1 was the first Cray machine to use integrated circuites (ICs), and contained over 60 miles of wire, with no segment longer than 3 inches to minimise signal delays (hence the curved design!). The Cray-1 was the first supercomputer to successfully implement a vector processor design, and was capable of performing 160 million floating-point operations per second (i.e. 160 MFLOP/s).
+The Cray-1 was the first Cray machine to use integrated circuits (ICs), and contained over 60 miles of wire, with no segment longer than 3 inches to minimise signal delays (hence the curved design!). The Cray-1 was the first supercomputer to successfully implement a vector processor design, and was capable of performing 160 million floating-point operations per second (i.e. 160 MFLOP/s).
 
 Having initially believed they would sell perhaps a dozen systems, and having priced the system accordingly, over 100 were sold.
 
@@ -100,7 +100,9 @@ In 1993, Fujitsu's **Numerical Wind Tunnel (NWT)** became the fastest supercompu
 _**Figure 5:** Numerical Wind Tunnel_
 {: style="color:gray; font-size: 90%; text-align: center;"}
 
-The Numerical Wind Tunnel was the second supercomputer to top the newly created TOP500 rankings (following the **CM/5** at LANL). Recognising a need to generate meaningful statistics about supercomputers, [Hans Meuer (University of Mannhein)](https://en.wikipedia.org/wiki/Hans_Meuer) joined with [Jack Dongarra (University of Tennessee)](https://en.wikipedia.org/wiki/Jack_Dongarra), and later Erich Strohmaier (National Energy Research Scientific Computing Center) and Horst Simon (Lawrence Berkeley National Laboratory), in creating the TOP500 supercomputer rankings. The TOP500 rankings are released twice a year, at the International Supercomputing Conference (ISC) in June, and then at the Supercomputing Conference (SC) in November. The rankings are based on the performance achieved running Jack Dongarra's [LINPACK benchmark](https://netlib.org/linpack/), which solves a dense system of linear equations, $Ax = b$. Where previously, supercomputers were ranked based on the theoretical maximum performance (i.e. clock speed $\times$ max FLOPs per clock cycle $\times$ number of CPUs), they could instead be ranked based on the _achieved_ performance on a "representative" problem -- including effects such as memory performance, interconnect performance, etc.
+The Numerical Wind Tunnel was the second supercomputer to top the newly created TOP500 rankings (following the **CM/5** at LANL). Recognising a need to generate meaningful statistics about supercomputers, [Hans Meuer (University of Mannhein)](https://en.wikipedia.org/wiki/Hans_Meuer) joined with [Jack Dongarra (University of Tennessee)](https://en.wikipedia.org/wiki/Jack_Dongarra), and later Erich Strohmaier (National Energy Research Scientific Computing Center) and Horst Simon (Lawrence Berkeley National Laboratory), in creating the TOP500 supercomputer rankings. The TOP500 rankings are released twice a year, at the International Supercomputing Conference (ISC) in May/June, and then at the Supercomputing Conference (SC) in November. The rankings are based on the performance achieved running Jack Dongarra's [LINPACK benchmark](https://netlib.org/linpack/), which solves a dense system of linear equations, $Ax = b$. 
+
+Where previously, supercomputers were ranked based on the theoretical maximum performance (i.e. clock speed $\times$ max FLOPs per clock cycle $\times$ number of CPUs), they could instead be ranked based on the _achieved_ performance on a "representative" problem -- including effects such as memory performance, interconnect performance, etc.
 
 The third machine to reach the #1 ranking was the **Intel Paragon XP/S140** system installed at Sandia National Laboratories. While it only persisted for a single TOP500 list, before being replaced by an upgraded NWT, it was Intel's first #1 ranked machine, and was a Multiple-Instruction, Multiple-Data (MIMD) machine, a mainstay of modern HPC.
 
@@ -132,9 +134,9 @@ The BlueGene project was focussed on trading the speed of processors for lower p
 
 In 2008 **IBM Roadrunner** became the first supercomputer to break the PetaFLOP/s barrier, achieving 1.02 PFLOP/s on the LINPACK benchmark.
 
-In contrast to many of the the large homogeneous systems that came before, Roadrunner was an AMD Opteron powered system with IBM PowerXCell accelerators connected to each core, making it perhaps the first _modern_ heterogeneous system. This heterogeneous approach has continued ever since, with a growing proportion of the fastest supercomputers in the world making use of highly-specialised computational accelerators (e.g. GPUs) alongside traditional multi-CPU hosts.
+In contrast to many of the large homogeneous systems that came before, Roadrunner was an AMD Opteron-powered system with IBM PowerXCell accelerators connected to each core, making it perhaps the first _modern_ heterogeneous system. This heterogeneous approach has continued ever since, with a growing proportion of the fastest supercomputers in the world making use of highly-specialised computational accelerators (e.g. GPUs) alongside traditional multi-CPU hosts.
 
-Roadrunner was displaced at the top of the rankings in 2010 by the Chinese supercomputer, **Tianhe-1A ("Milk Way")** -- the first Chinese system to achieve the #1 ranking. Tianhe-1A is a 7,168 node system, with each node featuring two Intel Xeon X5670 6-core processors and a single NVIDIA Tesla M2050 GPU, achieving 2.57 PFLOP/s.
+Roadrunner was displaced at the top of the rankings in 2010 by the Chinese supercomputer, **Tianhe-1A ("Milk Way")** -- the first Chinese system to achieve the #1 ranking. Tianhe-1A was a 7,168 node system, with each node featuring two Intel Xeon X5670 6-core processors and a single NVIDIA Tesla M2050 GPU, achieving 2.57 PFLOP/s.
 
 In June 2011, Tianhe-1A was overtaken by the **K-Computer** -- a Japanese 10 PFLOP/s homogeneous supercomputer, using Fujitsu SPARC64fx processors and a proprietary Torus Fusion (Tofu) interconnect.
 
@@ -170,9 +172,9 @@ _**Figure 11**: Fugaku_
 
 ## The Era of Exascale
 
-<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/kIjSJ_8NOsM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe><br/>
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/kTlLQ53Jzcw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe><br/>
 
-We are now in the era of Exascale computing. The fastest machine in the world currently is **Frontier**, installed at ORNL. Frontier entered the TOP500 in June 2022, achieving 1.1 EFLOP/s. It is an HPE Cray system, consisting of 9,472 AMD EPYC CPUs and 37,888 AMD Radeon Instinct MI250X GPUs. While Frontier is the first system to pass the Exascale threshold, it certainly will not be the last, with numerous planned post-Exascale systems currently in development (or already operating without being publicly acknowledged).
+We are now in the era of Exascale computing. The fastest machine in the world currently is **Frontier**, installed at ORNL. Frontier entered the TOP500 in June 2022, achieving 1.1 EFLOP/s. It is an HPE Cray system, consisting of 9,472 AMD EPYC CPUs and 37,888 AMD Radeon Instinct MI250X GPUs. While Frontier is the first system to pass the Exascale threshold, it certainly will not be the last, with at least one other system in production, and numerous planned post-Exascale systems currently in development (or already operating without being publicly acknowledged).
 
 ![Fugaku](../../assets/unit-1/frontier.jpg)  
 _**Figure 12**: Frontier_
@@ -195,7 +197,7 @@ As discussed in the previous section, supercomputers are typically ranked twice 
 
 ## TOP500
 
-The TOP500 was introduced by Hans Meuer and Jack Dongarra in 1993. Supercomputers are evaluated based on their floating-point operations (FLOPs) per second on the dense linear solver benchmark, LINPACK. The list is produced twice a year, at the International Supercomputing Conference in June, and at the Supercomputing Conference in November.
+The TOP500 was introduced by Hans Meuer and Jack Dongarra in 1993. Supercomputers are evaluated based on their floating-point operations (FLOPs) per second on the dense linear solver benchmark, LINPACK. The list is produced twice a year, at the International Supercomputing Conference in May/June, and at the Supercomputing Conference in November.
 
 Since the TOP500 began tracking supercomputing performance, the performance of the #1 machine has approximately doubled every two years (thus following the consequence of Moore's law, that the number of transistors in a dense integrated circuit will double approximately every two years).
 
@@ -214,17 +216,17 @@ Despite the prevalence (and perceived importance) of the TOP500, it has been not
 
 ## GREEN500
 
-The GREEN500 augments the TOP500 list by taking the performance data and the power consumption to calculate the FLOP/s/Watt. Consequently the top systems are usually smaller installations, with newer architectures. Frontier currently sits at #6 in the GREEN500, with a power efficiency of 52.23 GFLOP/s/Watt, whereas the current #1 achieves 65.09 GFLOP/s/Watt.
+The GREEN500 augments the TOP500 list by taking the performance data and the power consumption to calculate the FLOP/s/Watt. Consequently the top systems are usually smaller installations, with newer architectures. Frontier currently sits at #7 in the GREEN500, with a power efficiency of 62.68 GFLOP/s/Watt, whereas the current #1 achieves 72.73 GFLOP/s/Watt.
 
 <div class="table-wrapper" markdown="block">
 
 | Rank | TOP500 Rank | System | Cores | Rmax (TFlop/s) | Power (kW) | Power Efficiency (GFlops/watts) |
 |:-:|:-:|:-:|:-:|:-:|:-:|:-:|
-| 1 | 405 | Henri - Lenovo ThinkSystem SR670 V2, Intel Xeon Platinum 8362 2800Mhz (32C), NVIDIA H100 80GB PCIe, Infiniband HDR, Lenovo | 5,920 | 2.04 | 31 | 65.091 |
-| 2 | 32 | Frontier TDS - HPE Cray EX235a, AMD Optimized 3rd Generation EPYC 64C 2GHz, AMD Instinct MI250X, Slingshot-11, HPE | 120,832 | 19.20 | 309 | 62.684 |
-| 3 | 11 | Adastra - HPE Cray EX235a, AMD Optimized 3rd Generation EPYC 64C 2GHz, AMD Instinct MI250X, Slingshot-11, HPE | 319,072 | 46.10 | 921 | 58.021 |
-| 4 | 15 | Setonix – GPU - HPE Cray EX235a, AMD Optimized 3rd Generation EPYC 64C 2GHz, AMD Instinct MI250X, Slingshot-11, HPE | 181,248 | 27.16 | 477 | 56.983 |
-| 5 | 68 | Dardel GPU - HPE Cray EX235a, AMD Optimized 3rd Generation EPYC 64C 2GHz, AMD Instinct MI250X, Slingshot-11, HPE | 52,864 | 8.26 | 146 | 56.491 |
+| 1 | 189 | JEDI - BullSequana XH3000, Grace Hopper Superchip 72C 3GHz, NVIDIA GH200 Superchip, Quad-Rail NVIDIA InfiniBand NDR200, ParTec/EVIDEN | 19,584 | 4.50 | 67 | 72.733 |
+| 2 | 128 | Isambard-AI phase 1 - HPE Cray EX254n, NVIDIA Grace 72C 3.1GHz, NVIDIA GH200 Superchip, Slingshot-11, HPE | 34,272 | 7.42 | 117 | 68.835 |
+| 3 | 55 | Helios GPU - HPE Cray EX254n, NVIDIA Grace 72C 3.1GHz, NVIDIA GH200 Superchip, Slingshot-11, HPE | 89,760 | 19.14 | 317 | 66.948 |
+| 4 | 328 | Henri - ThinkSystem SR670 V2, Intel Xeon Platinum 8362 32C 2.8GHz, NVIDIA H100 80GB PCIe, Infiniband HDR, Lenovo | 8,288 | 2.88 | 44 | 65.396 |
+| 5 | 71 | preAlps - HPE Cray EX254n, NVIDIA Grace 72C 3.1GHz, NVIDIA GH200 Superchip, Slingshot-11, HPE | 81,600 | 15.47 | 240 | 64.381 |
 
 </div>
 
@@ -233,7 +235,7 @@ _**Table 1:** The current top 5 GREEN500 supercomputers_
 
 > **Further Reading**
 >
-> * [The current GREEN500 list](https://www.top500.org/lists/green500/list/2022/11/)
+> * [The current GREEN500 list](https://www.top500.org/lists/green500/list/2024/06/)
 {: .block-tip }
 
 ## HPCG List
@@ -244,7 +246,7 @@ The HPCG rankings are hosted (and announced) alongside the TOP500 and GREEN500 l
 
 > **Further Reading** 
 >
-> * [The current HPCG list](https://www.top500.org/lists/hpcg/2022/11/)
+> * [The current HPCG list](https://www.top500.org/lists/hpcg/2024/06/)
 > * [Towards a new metric for ranking high performance computing systems](https://doi.org/10.2172/1089988)
 {: .block-tip }
 
@@ -252,21 +254,21 @@ The HPCG rankings are hosted (and announced) alongside the TOP500 and GREEN500 l
 
 While LINPACK and HPCG both measure performance in FLOP/s, there are a number of HPC applications that are less reliant on floating-point arithmetic. The Graph500 is an alternative ranking that is instead focussed on data intensive applications. The current Graph500 benchmark performs a concurrent breadth-first search and ranks systems based on the number of traversed edges per second (TEPS).
 
-The current #1 system is Fugaku, capable of performing 102,956 GTEPS.
+The current #1 system is Fugaku, capable of performing 166,029 GTEPS.
 
 <div class="table-wrapper" markdown="block">
 
 | Rank | Machine | Vendor | Installation Site | Location | Country | Year | Nodes | Cores | Scale | GTEPS |
 |:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
-| 1 | Supercomputer Fugaku | Fujitsu | RIKEN Center for Computational Science (R-CCS) | Kobe Hyogo | Japan | 2020 | 158976 | 7630848 | 41 | 102956 |
-| 2	| Pengcheng Cloudbrain-II	| HUST-Pengcheng Lab-HUAWEI | Pengcheng Lab | ShenZhen | China | 2022 | 488 | 93696	999424 | 40 | 25242.9 |
-| 3 | Sunway TaihuLight | NRCPC | National Supercomputing Center in Wuxi | Wuxi | China | 2015 | 40768 | 10599680 | 40 | 23755.7 |
-| 4 | Wisteria/BDEC-01 (Odyssey) | Fujitsu | Information Technology Center The University of Tokyo | Kashiwa Chiba | Japan | 2021 | 7680 | 368640 | 37 | 16118 |
-| 5 | TOKI-SORA | Fujitsu | Japan Aerospace eXploration Agency (JAXA) | Tokyo | Japan | 2020 | 5760 | 276480 | 36 | 10813 |
+| 1 | Supercomputer Fugaku | Fujitsu | RIKEN Center for Computational Science (R-CCS) | Kobe Hyogo | Japan | 2020 | 152064 | 7299072 | 42 | 166029 |
+| 2 | Wuhan Supercomputer | HUST | Wuhan Supercomputing Center | Wuhan | China | 2023 | 252 | 6999552 | 41 | 115357.6 |
+| 3 | Frontier | HPE | DOE/SC/Oak Ridge National Laboratory | Oak Ridge TN | United States | 2021 | 9248 | 8730112 | 40 | 29654.6 | 
+| 4 | Pengcheng Cloudbrain-II | HUST-Pengcheng Lab-HUAWEI | Pengcheng Lab | ShenZhen | China | 2022 | 488 | 93696 | 40 | 28463.1 |
+| 5 | Aurora | Intel/HPE | DOE/SC/Argonne National Laboratory | Argonne IL | United States | 2023 | 4096 | 25591808 | 40 | 24250.2 |
 
 </div>
 
-_**Table 2:** Graph500 in November 2022_
+_**Table 2:** Graph500 in June 2024_
 {: style="color:gray; font-size: 90%; text-align: center;"}
 
 > **Further Reading** 
@@ -278,7 +280,7 @@ _**Table 2:** Graph500 in November 2022_
 
 In recognising the recent emergence of AI workloads on HPC systems, the HPL-MxP rankings were introduced in 2019 (as HPC-AI initially, before becoming the HPC-MxP Mixed Precision Benchmark in 2022). The HPL-MxP benchmark strives to unite traditional HPC workloads with AI workloads, and it does this by performing a combination of LINPACK-like double-precision calculations alongside low-precision AI-like calculations. The rankings are reported in FLOP/s, but are not limited to double-precision operations like LINPACK and HPCG.
 
-The current #1 system is Frontier, achieving 6.861 ExaFLOP/s on HPL-MxP.
+The current #1 system is Aurora, achieving 10.6 ExaFLOP/s on HPL-MxP.
 
 > **Further Reading** 
 >
@@ -293,7 +295,7 @@ In 1966, Michael Flynn proposed a classification system for computer architectur
 
 In Flynn's 1972 paper, "[Some Computer Organizations and Their Effectiveness](https://doi.org/10.1109/TC.1972.5009071)", four classifications were provided based on the number of concurrent instruction streams and data streams that were available in hardware.
 
-### Single instruction stream, single data stream (SISD)
+#### Single instruction stream, single data stream (SISD)
 
 ![Single instruction stream, single data stream](../../assets/unit-1/sisd.png){: width="35%" style="display: block; margin: 0 auto" }
 
@@ -335,7 +337,7 @@ A typical example of SPMD can be seen in Figure 14 below. In this example, a par
 _**Figure 14:** A parallelised particle simulation_
 {: style="color:gray; font-size: 90%; text-align: center;"}
 
-Each processor subproblem could potentially make use of SIMD parallelism to calculate the movement of the particles in parallel on a processor, and by distributing the computation across processors, a SPMD approach is being used to provide parallel performance across a system.
+Each processor subproblem could potentially make use of SIMD parallelism to calculate the movement of the particles in parallel on a processor, and by distributing the computation across processors, an SPMD approach is being used to provide parallel performance across a system.
 
 Should any particles leave the domain of a particular processor, a communication phase may be necessary to move the particle to another process. Additionally, if a particle interacts with another particle not in its domain, a communication phase may be necessary to communicate this data. While each processor can operate independently of any other processors, any communication between processors will likely enforce some form of synchronisation (such that one processor does not get out of sync with the global time step).
 
@@ -363,7 +365,7 @@ $p$ is the proportion of the application that is amenable to parallelisation.
 
 #### An Example
 
-Given an application of which 40% of the execution may be amenable to parallelisation, and that parallelisation improves performance of that proportion by a factor of 2, Amdahl's law states that the speed up will be:
+Given an application of which 40% of the execution may be amenable to parallelisation, and that parallelisation improves performance of that proportion by a factor of 2, Amdahl's law states that the speedup will be:
 
 $$
 S = \frac{1}{1 - 0.4 + \frac{0.4}{2}} = 1.25 
@@ -431,13 +433,13 @@ The important differentiation between the two laws is that Gustafson's law assum
 
 # Performance Engineering
 
-Maximising performance is paramount in scientific computing. Higher performance means more calculations can be carried out, allowing scientists to increase the size, complexity or resolution of their simulations. The field of High Performance Computing exists to improve the performance of distributed systems and the software running on distributed systems. HPC covers a broad spectrum of disciplines. At one extreme, domain experts write high-level simulation software to model phenomena of interest. At the other, hardware engineers design the processors and other components that make up supercomputers.
+Maximising performance is paramount in scientific computing. Higher performance means more calculations can be carried out, allowing scientists to increase the size, complexity, or resolution of their simulations. The field of High Performance Computing exists to improve the performance of distributed systems and the software running on distributed systems. HPC covers a broad spectrum of disciplines. At one extreme, domain experts write high-level simulation software to model phenomena of interest. At the other, hardware engineers design the processors and other components that make up supercomputers.
 
-_Performance engineering_ is the collection of processes by which an application's or computing system's performance is measured, predicted and optimised. This module will be primarily focussed on the discipline of performance engineering, and throughout the remainder of the course you will learn how to:
+_Performance engineering_ is the collection of processes by which an application's or computing system's performance is measured, predicted, and optimised. This module will be primarily focussed on the discipline of performance engineering, and throughout the remainder of the course you will learn how to:
 
 * Accurately measure and reason about the performance of an application or system
-* Execute batch jobs on large scale shared systems
-* Exploit the parallelisation available on-core, on-node and off-node
+* Execute batch jobs on large-scale shared systems
+* Exploit the parallelisation available on-core, on-node, and off-node
 * Build applications for execution on accelerator devices
 * Write applications that can target multiple types of hardware from a single codebase
 
@@ -462,7 +464,7 @@ Throughout these fields there are a number of key algorithms or computational pa
 
 ## The Seven Dwarfs
 
-In his 2004 talk, Phillip Colella outlined the _seven dwarfs of scientific computing_ -- seven computational motifs that were common in almost all fields of scientific computing.
+In his 2004 talk, Phillip Colella outlined the _seven dwarfs of scientific computing_ -- seven computational motifs that are common in almost all fields of scientific computing.
 
 1. Dense Linear Algebra -- classic vector and matrix operations
 2. Sparse Linear Algebra -- multiplication involving matrices composed primarily of zeros
