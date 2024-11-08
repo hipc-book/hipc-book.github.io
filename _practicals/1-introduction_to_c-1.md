@@ -7,7 +7,7 @@ layout: post
 
 # Summary
      
-This practical session should give you some familarity with many of the core features of the C programming language and how to perform some simple debugging. 
+This practical session should give you some familiarity with many of the core features of the C programming language and how to perform some simple debugging. 
 
 Following this session you should be familiar with: 
  
@@ -386,7 +386,7 @@ $ gcc -c main.c
  
 This will create the object file called "`main.o`" in the same folder. Note that the `-c` option is used to tell the gcc compiler to stop after building the `.o` file so that it does not attempt to build an executable file at this stage. 
 
-Next, create (in the same folder) two new source files containing the definitions of the functions `sum()` and `sum_squares()`. Call them `sum.c` and `sum_squares.c`, repectively. The files should contain the following code: 
+Next, create (in the same folder) two new source files containing the definitions of the functions `sum()` and `sum_squares()`. Call them `sum.c` and `sum_squares.c`, respectively. The files should contain the following code: 
 
 **`sum.c`** 
  
@@ -431,7 +431,7 @@ We shall now link all the three object files that we have created so far to buil
 $ gcc main.o sum.o sum_squares.o -o numbers
 ```
 
-This will create the a combined excutable file called "`numbers`" by linking the three object files. Try running the executable file and see what it does. 
+This will create the a combined executable file called "`numbers`" by linking the three object files. Try running the executable file and see what it does. 
 
 # Makefiles
 

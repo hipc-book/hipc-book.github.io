@@ -30,7 +30,7 @@ For example, the Babylonian devised an algorithm for calculating square roots th
 
 > **Further Reading**
 >
-> * Donald E. Knuth. 1972. [Ancient Babylonian Algorithms](https://doi.org/10.1145/361454.361514). _Commununications of the ACM_ 15, 7, 671-677.
+> * Donald E. Knuth. 1972. [Ancient Babylonian Algorithms](https://doi.org/10.1145/361454.361514). _Communications of the ACM_ 15, 7, 671-677.
 {: .block-tip }
 
 A more modern example of algorithmic optimisation was used during the Manhattan Project at the Los Alamos National Laboratory (LANL). Richard Feynman devised a method for distributing the calculations for the energy released by different designs of the implosion bomb. Through Feynman's use of pipelining, his team of human computers were able to produce the results to 9 calculations in only 3 months, where 3 calculations had previously taken 9 months to produce -- representing a 9$\times$ speed-up. Distributed computation in this manner is one form of what is now commonly called _parallel computation_.
@@ -144,19 +144,19 @@ In June 2011, Tianhe-1A was overtaken by the **K-Computer** -- a Japanese 10 PFL
 _**Figure 9:** K-Computer_
 {: style="color:gray; font-size: 90%; text-align: center;"}
 
-K-Computer comprised of 88,128 2.0 GHz eight-core processors, for a total of 705,024 cores, with each node being interconnected by Tofu's six-dimensional mesh/torus topology. The system drew 10 MW of power (compared to the 115 kW of a Cray-1). Even when the system was decomissioned in 2018, it was still only 18th in the TOP500 list and achieved a performance efficiency of 93% (i.e. achieved performance vs. theoretical max) on LINPACK.
+K-Computer comprised of 88,128 2.0 GHz eight-core processors, for a total of 705,024 cores, with each node being interconnected by Tofu's six-dimensional mesh/torus topology. The system drew 10 MW of power (compared to the 115 kW of a Cray-1). Even when the system was decommissioned in 2018, it was still only 18th in the TOP500 list and achieved a performance efficiency of 93% (i.e. achieved performance vs. theoretical max) on LINPACK.
 
 The United States regained the top spot in the TOP500 in June 2012 with the third iteration of the IBM BlueGene. **IBM Sequoia** was a BlueGene/Q system installed at LLNL, and achieved a peak performance of 17.17 PFLOP/s. Like previous BlueGene systems it achieved this performance using lower power, massively parallel processors -- with 98,304 compute nodes, each with a 16-core IBM A2 processor, for 1,572,864 processor cores in total.
 
-Sequoia's position at the top was shortlived, being replaced in November 2012 by another US system. **Titan** was a supercomputer installed at Oak Ridge National Laboratory (ORNL), achieving a peak performance of 17.59 PFLOP/s. Similar to Tianhe-1A, it was a heterogeneous platform, consisting of 18,688 AMD Opteron CPUs in conjunction with an equal number of NVIDIA Tesla K20x GPUs.
+Sequoia's position at the top was short-lived, being replaced in November 2012 by another US system. **Titan** was a supercomputer installed at Oak Ridge National Laboratory (ORNL), achieving a peak performance of 17.59 PFLOP/s. Similar to Tianhe-1A, it was a heterogeneous platform, consisting of 18,688 AMD Opteron CPUs in conjunction with an equal number of NVIDIA Tesla K20x GPUs.
 
 ![Titan](../../assets/unit-1/titan.jpeg)  
 _**Figure 10:** Titan_
 {: style="color:gray; font-size: 90%; text-align: center;"}
 
-In June 2013, the **Tianhe-2** system achieved 33.86 PFLOP/s, approximately twice the performance of Titan and Sequoia. It did so using Intel Xeon CPUs, alongside Intel's Xeon Phi manycore co-processor architecture (Knights Corner).
+In June 2013, the **Tianhe-2** system achieved 33.86 PFLOP/s, approximately twice the performance of Titan and Sequoia. It did so using Intel Xeon CPUs, alongside Intel's Xeon Phi many-core co-processor architecture (Knights Corner).
 
-China surpassed its own Tianhe-2 system in 2016 with the **Sunway TaihuLight** supercomputer, achieving 93 PFLOP/s with a custom Chinese-designed Sunway manycore CPU in 2016. The system consists of 40,960 processors, with each processor containing 256 processing cores.
+China surpassed its own Tianhe-2 system in 2016 with the **Sunway TaihuLight** supercomputer, achieving 93 PFLOP/s with a custom Chinese-designed Sunway many-core CPU in 2016. The system consists of 40,960 processors, with each processor containing 256 processing cores.
 
 The TOP500 crown returned to the United States in 2018, when the heterogeneous **Summit** supercomputer was installed at ORNL. Alongside Summit, the similarly architected **Sierra**, at LLNL, also took the #2 spot. Both Summit and Sierra are IBM systems, with IBM Power9 CPUs connected to NVIDIA V100 GPUs; in the case of Summit there are 2 CPUs and 6 GPUs per node, and in Sierra there are 2 CPUs and 4 GPUs per node. Summit can achieve a peak performance of 148 PFLOP/s, while Sierra can achieve 95 PFLOP/s.
 
@@ -297,25 +297,25 @@ In Flynn's 1972 paper, "[Some Computer Organizations and Their Effectiveness](ht
 
 #### Single instruction stream, single data stream (SISD)
 
-![Single instruction stream, single data stream](../../assets/unit-1/sisd.png){: width="35%" style="display: block; margin: 0 auto" }
+![Single instruction stream, single data stream](../../assets/unit-1/sisd.png){: width="35%" style="background-color:white; display: block; margin: 0 auto" }
 
 Each processor fetches a single instruction and operates on a single data stream.
 
 #### Single instruction stream, multiple data streams (SIMD)
 
-![Single instruction stream, multiple data streams](../../assets/unit-1/simd.png){: width="35%" style="display: block; margin: 0 auto" }
+![Single instruction stream, multiple data streams](../../assets/unit-1/simd.png){: width="35%" style="background-color:white; display: block; margin: 0 auto" }
 
 Each processor applies the same instruction on multiple pieces of data simultaneously.
 
 #### Multiple instruction streams, single data stream (MISD)
 
-![Multiple instruction streams, single data stream](../../assets/unit-1/misd.png){: width="35%" style="display: block; margin: 0 auto" }
+![Multiple instruction streams, single data stream](../../assets/unit-1/misd.png){: width="35%" style="background-color:white; display: block; margin: 0 auto" }
 
 Each processor applies potentially different instructions on a single piece of data simultaneously.
 
 #### Multiple instruction streams, multiple data streams (MIMD)
 
-![Multiple instruction streams, multiple data streams](../../assets/unit-1/mimd.png){: width="35%" style="display: block; margin: 0 auto" }
+![Multiple instruction streams, multiple data streams](../../assets/unit-1/mimd.png){: width="35%" style="background-color:white; display: block; margin: 0 auto" }
 
 Each processor applies potentially different instructions to different pieces of data simultaneously.
 
@@ -333,7 +333,7 @@ SPMD is the most common style of parallel programming, and is the style that thi
 
 A typical example of SPMD can be seen in Figure 14 below. In this example, a particle simulation is being performed in parallel. First the problem domain is divided into four and distributed to four processors. Each processor independently calculates the position of the particles in the next time step. The problem space can then be reconstructed to show the final state.
 
-![A parallelised particle simulation](../../assets/unit-1/ParallelComputing.png)  
+![A parallelised particle simulation](../../assets/unit-1/ParallelComputing.png){: style="background-color:white;" }   
 _**Figure 14:** A parallelised particle simulation_
 {: style="color:gray; font-size: 90%; text-align: center;"}
 
@@ -500,7 +500,7 @@ In recognising the expansion of scientific computing to new domains such as AI, 
 9. Graph Traversal -- traverse objects and examine them as they are traversed
 10. Dynamic Programming -- compute solution by solving simpler overlapping subproblems
 11. Backtrack and Branch-and-Bound -- branch-and-bound algorithms used to solve search and global optimisation
-12. Construct Graphical Models -- construct graps that represent random variables as nodes and conditionals as dependancies as edges
+12. Construct Graphical Models -- construct graphs that represent random variables as nodes and conditionals as dependancies as edges
 13. Finite State Machines -- interconnected states which transition between one another
 
 > **Further Reading** 
@@ -517,7 +517,7 @@ These 13 computational methods are broadly representative of many of the applica
 
 # Recommended Viewing
 
-> In 2021, Jack Dongarra recieved the ACM A.M. Turing Award (often referred to as the "Nobel Prize of Computing") for his pioneering contributions to numerical algorithms and libraries that have enabled high performance computational software to keep pace with exponential hardware improvements for over four decades.
+> In 2021, Jack Dongarra received the ACM A.M. Turing Award (often referred to as the "Nobel Prize of Computing") for his pioneering contributions to numerical algorithms and libraries that have enabled high performance computational software to keep pace with exponential hardware improvements for over four decades.
 >
 > He delivered his Turing Lecture, "A Not So Simple Matter of Software", at the [2022 Supercomputing Conference](https://sc22.supercomputing.org).
 >

@@ -7,7 +7,7 @@ layout: post
 
 # Overview
 
-<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/i7zsjvUoDW8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe><br/> 
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/-XoVegW8jcI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe><br/> 
 
 In the final unit of the HIPC course we'll look at the topic of _**Heterogeneous Programming**_. Modern HPC platforms are becoming more diverse and more heterogeneous, and exploiting the hierarchical parallelism that is available on these systems often requires multiple different approaches (i.e. a different programming model for an accelerator and for host code).  
 
@@ -53,11 +53,11 @@ _**Figure 1:** A ClearSpeed Accelerator Card_
 
 We encountered Roadrunner earlier in this module when discussing the various performance barriers that have been broken over the past 50 years. Roadrunner was the first supercomputer to break the PetaFLOP/s barrier and did so using IBM PowerXCell 8i co-processors (a similar processor powered the Sony PlayStation 3). 
 
-![The architecture of a Roadrunner TriBlade](../../assets/unit-10/RR-TriBlade.png)  
+![The architecture of a Roadrunner TriBlade](../../assets/unit-10/RR-TriBlade.png){: style="background:white" }  
 _**Figure 2:** The architecture of a Roadrunner TriBlade_
 {: style="color:gray; font-size: 90%; text-align: center;" }
  
-![A schematic for Roadrunner's architecture](../../assets/unit-10/RR-schematic.png)  
+![A schematic for Roadrunner's architecture](../../assets/unit-10/RR-schematic.png){: style="background:white" }  
 _**Figure 3:** Schematic of Roadrunners architecture_
 {: style="color:gray; font-size: 90%; text-align: center;" }
   
@@ -82,7 +82,7 @@ Tianhe was subsequently updated in 2018, almost doubling its performance to 61.4
 
 The Summit and Sierra systems installed at the Oak Ridge National Laboratory and the Lawrence Livermore National Laboratory, respectively, are essentially an evolution of Titan. 
 
-Both systems are comprised of IBM Power9 cores, backed by NVIDIA Tesla V100 GPUs. Upon release, the systems achieved the #1 and #2 spots (and are still present in the top 10 (as of the November 2023 list)), with achieved performance in excess of 100 PFLOP/s. 
+Both systems are comprised of IBM Power9 cores, backed by NVIDIA Tesla V100 GPUs. Upon release, the systems achieved the #1 and #2 spots, with achieved performance in excess of 100 PFLOP/s. 
 
 ### Aurora, Frontier and El Capitan
 
@@ -92,9 +92,9 @@ The Department of Energy is currently in the process of delivering its first thr
 _**Figure 4:** The design for the Frontier system, with performance in excess of 1 ExaFLOP/s_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
-Frontier is a 1.1 ExaFLOP/s (achieved) system consisting of AMD EPYC Trento CPUs with AMD Radeon Instinct MI250X GPUs. 
+Frontier is a 1.1 ExaFLOP/s (achieved) system consisting of AMD EPYC "Trento" CPUs with AMD Radeon Instinct MI250X GPUs. 
 
-The Aurora system came online in 2023 achieved 0.58 ExaFLOP/s in November 2023 (for approximately half of the machine). The full system will achieve in excess of 1 ExaFLOP/s. It is constructed with Intel CPUs and GPUs -- with each node containing two Intel Xeon Sapphire Rapids Max CPUs, with six Intel Xe Max (Ponte Vecchio) GPUs. 
+The Aurora system came online in 2023 achieved 0.58 ExaFLOP/s in November 2023 (for approximately half of the machine). The machine officially broke the ExaFLOP barrier in June 2024, achieving 1.01 ExaFLOP/s. It is constructed with Intel CPUs and GPUs -- with each node containing two Intel Xeon Sapphire Rapids Max CPUs, with six Intel Xe Max (Ponte Vecchio) GPUs. 
 
 El Capitan is expected to be delivered in 2024 and will exceed 2 ExaFLOP/s. Like Frontier, El Capital will consist of AMD hardware, with EPYC Genoa CPUs and a next-generation Radeon Instinct architecture. 
 
@@ -136,7 +136,7 @@ Typically HPC software engineers are trying to achieve _the three Ps_:
 
 It is often said that these three goals exist on a triangle, where only two may be possible. 
 
-![The Three Ps plotted on a triangle](../../assets/unit-10/threePs.png)  
+![The Three Ps plotted on a triangle](../../assets/unit-10/threePs.png){: style="background:white;" }  
 _**Figure 5:** The three Ps_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -284,7 +284,7 @@ _**Figure 7:** A cascade plot showing how performance portability changes as pla
 
 # OpenMP with Offload
      
-So far, the programming models we've looked at in this module target a single architecture (or architecture type). For example, our C-code with OpenMP directives can run on an x86 or ARM CPU; our CUDA code can run on an NVIDIA GPU. But in order for our code to be **portable**, we need a programming model that can target multiple architectures from a single code base. 
+So far, the programming models we've looked at in this module target a single architecture (or architecture type). For example, our C-code with OpenMP directives can run on an x86 or ARM CPU, our CUDA code can run on an NVIDIA GPU. But in order for our code to be **portable**, we need a programming model that can target multiple architectures from a single code base. 
 
 ## OpenMP 4.0+
  
@@ -363,8 +363,9 @@ double array[N];
 #pragma omp end declare target
 
 void init_array() {
-    for (int i=0; i<N; i++)
-        array[i] = I;
+    for (int i=0; i<N; i++) {
+        array[i] = i;
+    }
 }
 
 int main(int argc, char *argv[]) {
@@ -416,7 +417,7 @@ for (int i = 0; i < N; i++) {
 
 ### Runtime Support
 
-Besides the compiler directives, there are also some environment variables and OpenMP functions to support device execution.  
+Besides the compiler directives above, there are also some environment variables and OpenMP functions to support device execution.
 
 OpenMP 4.0+ adds the following target-based environment variables: 
 
@@ -443,17 +444,17 @@ int omp_is_initial_device(); // returns true if the current task is executing on
 > **Further Reading**  
 >
 > * [OpenMP 4.5 Target](https://www.exascaleproject.org/wp-content/uploads/2017/05/OpenMP-4.5-and-Beyond-SOLLVE-part-21.pdf), Tom Scogland, Oscar Hernandez 
-> * [Advanced OpenMP](https://www.archer.ac.uk/training/course-material/2019/06/AdvOpenMP-manch/L10-OpenMPTargetOffload.pdf), ARCHER Training Course 
+> * [Advanced OpenMP](http://www.archer.ac.uk/training/course-material/2019/06/AdvOpenMP-manch/L10-OpenMPTargetOffload.pdf), ARCHER Training Course 
 > * [OpenMP 5.0 Syntax Reference Guide](https://www.openmp.org/wp-content/uploads/OpenMPRef-5.0-111802-web.pdf) 
 {: .block-tip }
 
 # OpenCL and SYCL
 
-Besides OpenMP, there are two portable programming models maintained by the Khronos Group, a non-profit consortium of 170 organisations, including AMD, Apple, Arm, Intel and NVIDIA, among many others. 
+Besides OpenMP, there are two portable programming models maintained by the Khronos Group, a non-profit consortium of 170 organisations, including AMD, Apple, Arm, Intel, and NVIDIA, among many others. 
 
 ## OpenCL
  
-The Open Computing Language (OpenCL) is a vendor-neutral framework for writing applications that can execute across heterogeneous architectures comprising of CPUs, GPUs, FPGAs and other hardware accelerators. The OpenCL programming language is based on the C99, C++14 and C++17 standards. 
+The Open Computing Language (OpenCL) is a vendor-neutral framework for writing applications that can execute across heterogeneous architectures comprising of CPUs, GPUs, FPGAs, and other hardware accelerators. The OpenCL programming language is based on the C99, C++14, and C++17 standards. 
 
 Typically in an OpenCL application, the host code is written in C++, while kernels are written in an OpenCL variant of the C or C++ languages. These kernels are then compiled _just-in-time_ (JIT) at runtime by the OpenCL runtime library.  
 
@@ -564,7 +565,7 @@ int main() {
 }
 ```
 
-We won't delve into this code in too much detail, but what should be clear is that the kernel's code is stored in a string variable (source) and is built on-demand before being executed on the device (see the `cl::Program` object and the `program.build(device)` function call).
+We won't delve into this code in too much detail, but what should be clear is that in this example the kernel's code is stored in a string variable (source) and is built on-demand before being executed on the device (see the `cl::Program` object and the `program.build(device)` function call).
 
 You can compile the above code on a system with an OpenCL implementation installed using the following: 
 
@@ -644,7 +645,7 @@ int main() {
 
 Support for SYCL exists in a number of compilers, with a variety of target architectures (see the figures [here](https://www.khronos.org/sycl/)).  
 
-The ComputeCpp compiler, from Codeplay, has multiple backends, allowing it to target a range of CPUs and GPUs from Intel, AMD and Arm; the triSYCL compiler, developed by Xilinx, can generate OpenMP-compliant applications, and can additionally target Xilinx FPGAs; Heidelberg University's LLVM-based OpenSYCL compiler can generate OpenMP, CUDA, ROCm or oneAPI Level Zero code, allowing it to target CPUs and GPUs from the three major hardware vendors expected to be present in post-Exascale systems.
+The ComputeCpp compiler, from Codeplay, has multiple backends, allowing it to target a range of CPUs and GPUs from Intel, AMD, and Arm; the triSYCL compiler, developed by Xilinx, can generate OpenMP-compliant applications, and can additionally target Xilinx FPGAs; Heidelberg University's LLVM-based OpenSYCL compiler can generate OpenMP, CUDA, ROCm, or oneAPI Level Zero code, allowing it to target CPUs and GPUs from the three major hardware vendors expected to be present in post-Exascale systems.
 
 SYCL has additionally been adopted and extended by Intel (as Data Parallel C++) for its oneAPI programming model. While initially appearing in Intel's (now branded "Classic") C++ Compiler in 2020, aimed primarily at Intel hardware, the adoption of an LLVM-backend in 2021 has meant that Intel's compiler can now natively support NVIDIA and AMD targets also, through CUDA and HIP, respectively. 
 
@@ -669,13 +670,13 @@ The maturity of SYCL toolchains has been the subject of recent work, with perfor
 
 # Alternative Approaches
 
-The US Department of Energy has taken a different approach to heterogeneous computing. Rather than adopting the OpenMP or SYCL programming models, they have instead developed their own open-source programming models as part of the Exascale Computing Project. 
+The US Department of Energy has taken a different approach to heterogeneous computing. Rather than adopting the OpenMP or SYCL programming models, they have instead developed their own open-source programming models as part of the Exascale Computing Project (ECP). 
 
 The ECP's efforts revolve around two similar programming models, Kokkos and RAJA. Both are programming models based on template metaprogramming in C++. 
 
 ## Kokkos
  
-Kokkos has been developed at Sandia National Laboratories and is able to target CUDA, OpenMP, pthreads, HIP or SYCL. From a single code base, code can be generated for any of the backends, and can be potentially optimised at a single point (i.e. in the Kokkos library itself). 
+Kokkos has been developed at Sandia National Laboratories and is able to target CUDA, OpenMP, pthreads, HIP, or SYCL. From a single code base, code can be generated for any of the backends, and can be potentially optimised at a single point (i.e. in the Kokkos library itself). 
 
 Like SYCL, Kokkos expresses parallelism through anonymous functions passed to constructs such as a `parallel_for`. So for example, a vector add can be achieved as simply as: 
 
@@ -771,17 +772,17 @@ int main(int argc, char *argv[]) {
 }
 ```
 
-The nature of Kokkos means that no special libraries or compilers are required (beyond GCC/Clang/CUDA/etc). Kokkos provides a number of methods to aid in the building of your software and there is an in-depth guide to using Kokkos on their website. 
+The nature of Kokkos means that no special libraries or compilers are required (beyond GCC/Clang/CUDA/etc.). Kokkos provides a number of methods to aid in the building of your software and there is an in-depth guide to using Kokkos on their website. 
 
 > **Further Reading** 
 >
 > * Christian R. Trott, Damien Lebrun-Grandié, Daniel Arndt, Jan Ciesko, Vinh Dang, Nathan Ellingwood, Rahulkumar Gayatri et al. "[Kokkos 3: Programming model extensions for the exascale era](https://doi.org/10.1109/TPDS.2021.3097283)." _IEEE Transactions on Parallel and Distributed Systems_ 33, no. 4 (2021): 805-817. 
-> * [Kokkos: The C++ Performance Portability Programming Model](https://github.com/kokkos/kokkos/wiki)  
+> * [Kokkos: The Programming Model](https://kokkos.org/kokkos-core-wiki/)  
 {: .block-tip }
 
 ## RAJA
 
-RAJA is the approach taken by the Lawrence Livermore National Laboratory. Again, it is based on C++ template metaprogramming and it is able to target OpenMP, Intel Thread Building Blocks (TBB), CUDA and other programming models. 
+RAJA is the approach taken by the Lawrence Livermore National Laboratory. Again, it is based on C++ template metaprogramming and it is able to target OpenMP, Intel Thread Building Blocks (TBB), CUDA, and other programming models. 
 
 The semantics of RAJA are similar to Kokkos, with parallelism expressed through loop constructs with anonymous functions. For example, a simple vector add could be implemented as follows: 
 
@@ -820,8 +821,8 @@ delete array;
 * CPUs will integrate some of the best parts of GPUs (in-core accelerators, wide vectors, high bandwidth memory)
 * Programmability of heterogeneous systems is improving, but has a long way to go 
 
-Heterogeneous systems typically offer us better performance per Watt, and possibly better performance per dollar, but they are more difficult to program. The first Exascale systems are CPU-GPU hybrid systems, using CPUs and GPUs from a variety of vendors (AMD, Intel and NVIDIA), each with a preferred programming model (HIP/ROCm, OneAPI and CUDA, respectively).  
+Heterogeneous systems typically offer us better performance per Watt, and possibly better performance per dollar, but they are more difficult to program. The first Exascale systems are CPU-GPU hybrid systems, using CPUs and GPUs from a variety of vendors (AMD, Intel, and NVIDIA), each with a preferred programming model (HIP/ROCm, OneAPI, and CUDA, respectively).  
 
-However, application developers and scientists do not want to redevelop their applications for each machine. This has led to a big push in HPC to develop new programming models focussed on improving performance portability. Some of these programming models have subsequently been adopted by vendors (e.g. [Intel's DPC++](https://www.intel.com/content/www/us/en/developer/tools/oneapi/dpc-compiler.html) is based on SYCL), and some of the features in these programming models are being added to language specifications (e.g. [mdspan](https://github.com/kokkos/mdspan) is being added to C++23 from Kokkos).  
+However, application developers and scientists do not want to redevelop their applications for each machine. This has led to a big push in HPC to develop programming models focussed on improving performance portability. Some of these programming models have subsequently been adopted by vendors (e.g. [Intel's DPC++](https://www.intel.com/content/www/us/en/developer/tools/oneapi/dpc-compiler.html) is based on SYCL), and some of the features in these programming models are being added to language specifications (e.g. [mdspan](https://github.com/kokkos/mdspan) is being added to C++23 from Kokkos).  
 
 However, in the ever-changing world of HPC, there is always more work to be done. 
