@@ -7,7 +7,7 @@ layout: post
 
 # Overview
 
-<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/zOesxDOApbg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe><br/>
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/2DYeiqaQyrw?si=aLrjyEg7Zagmv4Mj" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe><br/>
 
 Welcome to Unit 8 of the HIPC course!
 
@@ -145,13 +145,13 @@ The global work scheduler distributes CUDA thread blocks to SMs with available c
 
 ## CUDA Software Stack
 
-CUDA is implemented and deployed in multiple software layers. It consists of:  
+CUDA is implemented and deployed across multiple software layers, including:  
 
-* The CUDA hardware driver;
-* The CUDA API and its runtime: The CUDA API is an extension of the C programming language that adds the ability to specify thread-level parallelism in C and also to specify GPU device-specific operations (like moving data between the CPU and the GPU);
-* Mathematical libraries that have been optimised to run using CUDA.  
+* __The CUDA hardware driver__;
+* __The CUDA API and its runtime__: The CUDA API extends the C programming language, allowing developers to specify thread-level parallelism and GPU-specific operations, such as data transfer between the CPU and GPU.
+* __Optimised mathematical libraries__ designed to leverage CUDA for improved performance.  
 
-The CUDA Toolkit SDK (software development kit) comes with the software driver, the CUDA toolkit (compiler, debugger, profiler), and code samples.
+The CUDA Toolkit SDK (software development kit) includes the hardware driver, the CUDA toolkit (compiler, debugger, profiler), and code samples.
 
 ![The CUDA Software Stack](../../assets/unit-8/The-CUDA-software-stack.png)  
 _**Figure 7:** CUDA Software Stack_
@@ -204,13 +204,13 @@ It is noted that the version of components differs version by version. In this u
 
 ## CUDA Memory Model
 
-CUDAs memory model is organised as follows:
+THe CUDA memory model is organised as follows:
 
 ![CUDA's Memory Model](../../assets/unit-8/cuda_memory.png)  
 _**Figure 8:** CUDA Memory Model_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
-Because of the nature of data allocation in shared memory, two concurrent threads in a warp can access different words in the same bank at the same time, causing a bank conflict that makes a GPU serialise the accesses issued to this bank. Since serialisation in a GPU is undesirable and clock-cycle costly, this access pattern should be avoided.
+Due the nature of data allocation in shared memory, two concurrent threads within a warp can access different words in the same bank simultaneously, causing a bank conflict that forces a GPU to serialise the accesses issued to this bank. Since serialisation in a GPU is undesirable and clock-cycle costly, this access pattern should be avoided.
 
 The amount of memory that is available to the CUDA application is (in most cases) specific to the _compute capability_ of the device. For each compute capability, the size restrictions of each type of memory (except global memory) is defined in the table below. The application programmer is encouraged to query the device properties in the application using the `cudaGetDeviceProperties()` method.
 
@@ -247,15 +247,15 @@ The following table summarises the different memory types and the properties of 
 
 ## CUDA Operation Procedure
 
-The programming model of CUDA provides a SIMT (single instruction, multiple threads) model. In CUDA, the CPU and the GPU have to be worked in a pre-defined sequence. Data has to be transferred from a CPU (i.e. the host) to a GPU (i.e. the device), usually over a PCIe bus, before the computation is offloaded, and the result transferred back to the main memory. A typical sequence of operations for a CUDA C program is:
+The CUDA programming model follows a SIMT (single instruction, multiple threads) approach. In CUDA, the CPU and the GPU have to be worked in a predefined sequence. Data must be transferred from a CPU (i.e. the host) to the GPU (i.e. the device), typically over a PCIe bus, before offloading computation to the GPU; afterward, the result transferred back to the host's main memory. A typical sequence of operations for a CUDA C program is as follows:
 
 1. Declare and allocate the host and device memory.
 2. Initialise host data.
-3. Transfer data from the host memory to the device memory.
-4. Load GPU program and execute one or more kernels. Data is cached on-chip for performance.
-5. Transfer results from the device to the host.
+3. Transfer data from the host memory to device memory.
+4. Load the GPU program and execute one or more kernels, with data cached on-chip for performance.
+5. Transfer results from the device memoery to the host memory.
 
-In the following part, we will cover how to use the CUDA toolkit and write CUDA-accelerated programs.
+In the following section, we will cover how to use the CUDA toolkit and write CUDA-accelerated programs.
 
 ## First CUDA Example
 
@@ -302,9 +302,9 @@ kernel_routine<<<griddim, blockdim>>>(args);
 
 where,
 
-* `griddim` is the number of instances of the kernel (the "grid" size)  
-* `blockdim` is the number of threads within each instance  
-* `args` is a limited number of arguments, usually mainly pointers to arrays in the GPUs memory, and some constants which get copied by-value
+- `griddim` is the number of instances of the kernel (the "grid" size)  
+- `blockdim` is the number of threads within each instance  
+- `args` is a limited number of arguments, usually mainly pointers to arrays in the GPUs memory, and some constants which get copied by-value
 
 The more general form allows `griddim` and `blockdim` to be 2D or 3D to simplify more complex configurations.
 

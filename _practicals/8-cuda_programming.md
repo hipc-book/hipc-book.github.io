@@ -7,23 +7,23 @@ layout: post
 
 # Overview
 
-In this practical, we will learn heterogeneous programming with a GPU accelerator using CUDA.
+In this practical session, we will explore heterogeneous programming with a GPU accelerator using CUDA.
 
-We'll start with some basic CUDA programs, and gradually move towards more advanced features and functions of CUDA. Through this lab, you will learn how to run CUDA on a local machine as well as on Viking.
+We'll begin with some basic CUDA programs and gradually progress to more advanced features and functions of CUDA. Through this lab, you will learn how to run CUDA both on a local machine and on Viking.
 
-**Note:** You will find the official [NVIDIA CUDA Programming Guide](https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#abstract) extremely handy during this lab.
+*Note: You will find the official* [NVIDIA CUDA Programming Guide](https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#abstract) *extremely handy during this lab.*
 
 # Prepration
 
-**Check the Driver**
+**Check the driver**
 
-Before we start, we need to first check the information of the NVIDIA graphics driver and CUDA. In a new terminal:
+Before we start, we first need to check the information for the NVIDIA graphics driver and CUDA. Open a new terminal and execute the following commands:
 
 ```
 $ nvidia-smi
 ```
 
-An example output (note the output is just an example; your machine could print something different depending on the hardware and the version of the graphics driver):
+An example output (note that the output is just an example; your machine may display something different depending on the hardware and the graphics driver version):
 
 ```
 +-----------------------------------------------------------------------------+
@@ -70,7 +70,7 @@ Cuda compilation tools, release 11.0, V11.0.194
 Build cuda_11.0_bu.TC445_37.28540450_0
 ```
 
-If it says the package needs installing, give it 10 minutes, log out and log back in again. Report to the instructors if there are still problems with the environment after 10 minutes.
+If the output indicates the package needs installed, allow approximate 10 minutes for the installation. Then, log out and log back in. If issues with the environment persist after 10 minutes, please inform the instructors.
 
 > **Note for mac users:** If you are running macOS, then it is very unlikely you have CUDA installed on your machine, and with a CUDA-compatible GPU in your Mac. Since CUDA 11.0, macOS is not a supported environment for CUDA. The last supported macOS version would be 10.13.x (based on 10.2). If you have a CUDA-compatible GPU in your Mac, and you would like to continue, you are encouraged to try but we can provide no support on this. Here are [some instructions for installing CUDA on Mac](https://developer.download.nvidia.com/compute/cuda/6_5/rel/docs/CUDA_Getting_Started_Mac.pdf). Alternatively, you can use a managed PC or Viking. <br/><br/>
 {: .block-warning }
@@ -228,7 +228,7 @@ If it says the package needs installing, give it 10 minutes, log out and log bac
 
 ### Memory Coalescing
 
-One terminology that you won't hear very often in CPU programming is memory coalescing. In CUDA, you typically have 32 threads (a warp) working together in unison. So often, you have 32 threads, each wanting to write a 32-bit result to the main GPU memory. In order to accomplish this task with an absolute minimum number of memory transactions, it is best if the memory accesses are coalesced such that there are no bank conflicts.
+One term you won’t often encounter in CPU programming is *memory coalescing*. In CUDA, 32 threads (a warp) typically operate together in unison. Frequently, these 32 threads each need to write a 32-bit result to the main GPU memory. To minimize the number of memory transactions, it is optimal for memory accesses to be coalesced, ensuring no bank conflicts.
 
 More details can be found in the [CUDA Programming Guide: Section 5](https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#device-memory-accesses).
 
