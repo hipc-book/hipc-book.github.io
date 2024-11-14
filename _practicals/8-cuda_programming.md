@@ -70,7 +70,7 @@ Cuda compilation tools, release 11.0, V11.0.194
 Build cuda_11.0_bu.TC445_37.28540450_0
 ```
 
-If the output indicates the package needs installed, allow approximate 10 minutes for the installation. Then, log out and log back in. If issues with the environment persist after 10 minutes, please inform the instructors.
+If the output indicates the package needs to be installed, allow approximate 10 minutes for the installation. Then, log out and log back in. If issues with the environment persist after 10 minutes, please inform the instructors.
 
 > **Note for mac users:** If you are running macOS, then it is very unlikely you have CUDA installed on your machine, and with a CUDA-compatible GPU in your Mac. Since CUDA 11.0, macOS is not a supported environment for CUDA. The last supported macOS version would be 10.13.x (based on 10.2). If you have a CUDA-compatible GPU in your Mac, and you would like to continue, you are encouraged to try but we can provide no support on this. Here are [some instructions for installing CUDA on Mac](https://developer.download.nvidia.com/compute/cuda/6_5/rel/docs/CUDA_Getting_Started_Mac.pdf). Alternatively, you can use a managed PC or Viking. <br/><br/>
 {: .block-warning }
