@@ -148,7 +148,7 @@ The global work scheduler distributes CUDA thread blocks to SMs with available c
 CUDA is implemented and deployed across multiple software layers, including:  
 
 * __The CUDA hardware driver__;
-* __The CUDA API and its runtime__: The CUDA API extends the C programming language, allowing developers to specify thread-level parallelism and GPU-specific operations, such as data transfer between the CPU and GPU.
+* __The CUDA API and its runtime__: The CUDA API extends the C programming language, allowing developers to specify thread-level parallelism and GPU-specific operations, such as data transfer between the CPU and GPU;
 * __Optimised mathematical libraries__ designed to leverage CUDA for improved performance.  
 
 The CUDA Toolkit SDK (software development kit) includes the hardware driver, the CUDA toolkit (compiler, debugger, profiler), and code samples.
@@ -253,13 +253,13 @@ The CUDA programming model follows a SIMT (single instruction, multiple threads)
 2. Initialise host data.
 3. Transfer data from the host memory to device memory.
 4. Load the GPU program and execute one or more kernels, with data cached on-chip for performance.
-5. Transfer results from the device memoery to the host memory.
+5. Transfer results from the device memory to the host memory.
 
 In the following section, we will cover how to use the CUDA toolkit and write CUDA-accelerated programs.
 
 ## First CUDA Example
 
-CUDA uses C-like syntax and adds its own primitives and API on top of C. To understand the difference, we'll first look at the classic "Hello, World" example written in C and in CUDA.
+CUDA uses a C-like syntax and adds its own primitives and API on top of C. To understand the difference, we'll first look at the classic "Hello, World" example written in C and in CUDA.
 
 First, as written in C (using a function call for the `printf()` for simplicity later):
 
@@ -292,7 +292,7 @@ int main(int argc, char *argv[]) {
 }
 ```
 
-A CUDA program has two parts: (1) host code on the CPU which interfaces with the GPU and (2) kernel code which runs on the GPU. In the CUDA version, the `__global__` specifier indicates a function that runs on the device (GPU). Such a function can be called through host code, e.g. from the `main()` method in the example, and is also known as a "kernel". The `<<<...>>>` specifies its execution configuration, and in CUDA terminology, this is called a "kernel launch".
+A CUDA program has two parts: (1) host code on the CPU which interfaces with the GPU and (2) kernel code which runs on the GPU. In the CUDA version, the `__global__` specifier indicates a function that runs on the device (GPU). Such a function can be called through host code, e.g., from the `main()` method in the example, and is also known as a "kernel". The `<<<...>>>` specifies its execution configuration, and in CUDA terminology, this is called a "kernel launch".
 
 In its simplest format, this looks like:
 
@@ -342,7 +342,7 @@ $ ./hello
 
 CUDA compilation works as follows: the input program is preprocessed for device compilation and is compiled to a CUDA binary (`cubin`) and/or PTX intermediate code, which are placed in a _fat binary_. The input program is preprocessed once again for host compilation and is synthesised to embed the fat binary and transform CUDA specific C++ extensions into standard C++ constructs. Then, the C++ host compiler compiles the synthesised host code with the embedded fat binary into a host object. The exact steps that are followed to achieve this are displayed in the Figure 9:
 
-![The CUDA Compilation process](../../assets/unit-8/cuda-compilation-from-cu-to-executable.png)  
+![The CUDA Compilation process](../../assets/unit-8/cuda-compilation-from-cu-to-executable.png){: style="background-color: white" }  
 _**Figure 9:** The CUDA compilation process -- from `.cu` to a binary_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -350,7 +350,7 @@ The embedded fat binary is inspected by the CUDA runtime system whenever the dev
 
 # Vectorisation with CUDA
 
-## Vect Add example
+## Vector Add example
 
 Consider the following `vec_add.c` example, where two vectors of size _N_ are added together (i.e. `out[i] = a[i] + b[i]`):
 
@@ -602,7 +602,7 @@ grid.y = dimy / block.y;
 kernel<<<grid, block>>>(d_a, dimx, dimy);
 ```
 
-Those we mentioned in this unit only cover the basics of CUDA. In the next unit, we will be looking at more advanced topics on CUDA programming, for example, performance considerations. We recommend you to further explore the CUDA APIs and practice these in the following lab.
+The features mentioned in this unit only cover the basics of CUDA. In the next unit, we will be looking at more advanced topics on CUDA programming, for example, performance considerations. We recommend you further explore the CUDA APIs and practice these in the practical sessions.
 
 
 # Recommended Reading
