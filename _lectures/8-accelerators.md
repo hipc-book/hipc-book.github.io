@@ -7,11 +7,11 @@ layout: post
 
 # Overview
 
-<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/2DYeiqaQyrw?si=aLrjyEg7Zagmv4Mj" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe><br/>
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/2DYeiqaQyrw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe><br/>
 
-Welcome to Unit 8 of the HIPC course!
+Welcome to Unit 8 of the HIPC course.
 
-In 2008, the Roadrunner became the first supercomputer to surpass the petaflop barrier, marking a milestone in high-performance computing. Roadrunner was one of the earliest modern heterogeneous systems, utilizing PowerXCell accelerators to achieve unprecedented performance. Today, many of the world’s largest computing systems are heterogeneous, employing GPUs to accelerate computational workloads. This unit introduces the fundamentals of accelerators and their programming.
+In 2008, Roadrunner became the first supercomputer to surpass the PetaFLOP barrier, marking a milestone in high-performance computing. Roadrunner was one of the earliest modern heterogeneous systems, utilising PowerXCell accelerators to achieve unprecedented performance. Today, many of the world's largest computing systems are heterogeneous, employing GPUs to accelerate computational workloads. This unit introduces the fundamentals of accelerators and how to program them.
 
 Specifically, in this unit, we will cover:
 
@@ -26,9 +26,9 @@ By the end of this unit, you will have a foundational understanding of GPUs and 
 
 As the name suggests, an _accelerator_ is a device designed to speed up specific computations in an HPC application. Accelerators act as peripheral processors, capable of performing additional tasks in the background, thereby releasing resources on the main processor.   
 
-In the June 2016 TOP500 list, 19% of state-of-the-art HPC systems utilized GPUs (graphics processing units) or other types of accelerators, such as FPGA-based HPC accelerators. Broadly, accelerators can be classified into (1) general-purpose or (2) domain-specific categories. Using accelerators often requires the collaborative design of both software and hardware (known as SW & HW co-design). This close coupling between software applications and specific hardware platforms can make porting and maintenance more challenging.
+In the June 2016 TOP500 list, 19% of the state-of-the-art HPC systems utilised GPUs (graphics processing units) or other types of accelerators, such as FPGA-based HPC accelerators. Broadly, accelerators can be classified as (1) general-purpose or (2) domain-specific. Using accelerators often requires the collaborative design of both software and hardware (known as SW & HW co-design). This close coupling between software applications and specific hardware platforms can make porting and maintenance more challenging.
 
-Accelerated computing began gaining popularity with the release of the first petascale system, Roadrunner, which featured IBM PowerXCell 8i accelerators connected to each core.
+Accelerated computing began gaining popularity with the release of the first Petascale system, Roadrunner, which featured IBM PowerXCell 8i accelerators connected to each core.
 
 ![Roadrunner's architecture](../../assets/unit-8/The-structure-of-a-Roadrunner-compute-node-triblade.png)  
 _**Figure 1:** Roadrunner's architecture_
@@ -36,17 +36,17 @@ _**Figure 1:** Roadrunner's architecture_
 
 In the following years, the trend shifted rapidly toward the use of GPUs, driven by their versatility and relatively low cost. The widespread adoption of GPUs as accelerators has also helped address programmability challenges, due to their general-purpose design and well-supported programming infrastructure. GPUs used for general computation are often referred to as _GPGPUs_ (General-Purpose Graphics Processing Units).
 
-In 2007, NVIDIA introduced _CUDA_ development environment, the first widely adopted programming model for GPU computing. Two years later, OpenCL became widely supported, providing a framework for developing code that runs on both GPUs and CPUs, with a strong emphasis on portability. This development helped establish GPUs as a more generalized computing device.
+In 2007, NVIDIA introduced the _CUDA_ development environment, the first widely adopted programming model for GPU computing. Two years later, OpenCL became widely supported, providing a framework for developing code that runs on both GPUs and CPUs, with a strong emphasis on portability. This development helped establish GPUs as a more generalised computing device.
 
 Despite competition from other companies (e.g., AMD and Intel), the combination of NVIDIA GPUs and CUDA continues to dominate several application areas, including scientific computing, deep learning, and animation rendering. NVIDIA GPUs form the backbone of some of the fastest computers in the world.
 
-As mentioned earlier, CUDA is a parallel computing platform and programming model developed by NVIDIA for general-purpose computing on its GPUs. CUDA enables developers to accelerate compute-intensive applications by utilizing GPUs for the parallelizable portions of computations. In this unit, we will focus on NVIDIA GPUs and CUDA programming; however, many of the concepts will be applicable to other GPUs and GPU programming models as well.
+As mentioned earlier, CUDA is a parallel computing platform and programming model developed by NVIDIA for general-purpose computing on its GPUs. CUDA enables developers to accelerate compute-intensive applications by utilising GPUs for the parallelisable portions of computations. In this unit, we will focus on NVIDIA GPUs and CUDA programming; however, many of the concepts will be applicable to other GPUs and GPU programming models as well.
 
 ## GPU vs CPU: What's the difference?
 
 GPUs were initially designed to accelerate 3D graphics rendering. Over the past few decades, researchers have leveraged GPUs to perform complex scientific computations, including fluid dynamics simulations using the Lattice Boltzmann model, cloud dynamics simulations, finite-element analyses, and ice crystal growth modeling, among many others.
 
-A common question is: why use a GPU alongside a CPU? While a CPU is well-suited for general-purpose computing and optimized for serial tasks, a GPU is designed for parallel processing. This makes the GPU exceptionally powerful for executing numerous smaller, simpler tasks simultaneously.
+A common question is: why use a GPU alongside a CPU? While a CPU is well-suited for general-purpose computing and optimised for serial tasks, a GPU is designed for parallel processing. This makes the GPU exceptionally powerful for executing numerous smaller, simpler tasks simultaneously.
 
 Architecturally, GPUs often contain hundreds of arithmetic logic units (ALUs), whereas CPUs have a limited number of ALUs, typically corresponding to their core count. This architectural difference shapes their distinct approaches to processing tasks and determines their suitability for different types of workloads.
 
@@ -77,7 +77,7 @@ The table below provides a comparison of the main weaknesses of CPUs and GPUs:
 
 </div>
 
-Modern CPUs are optimized for sequential, serial processing with high operational frequencies and benefit from large cache sizes. Their general-purpose architecture makes them suitable for a wide range of tasks. However, CPUs are less effective for highly parallelizable programs. In such cases, GPUs can be 100 times or more faster than CPUs due to their fine-grained parallelism, making GPUs ideal for offloading workloads that are less suited to CPUs.
+Modern CPUs are optimised for sequential, serial processing with high operational frequencies and benefit from large cache sizes. Their general-purpose architecture makes them suitable for a wide range of tasks. However, CPUs are less effective for highly parallelisable programs. In such cases, GPUs can be 100 times or more faster than CPUs due to their fine-grained parallelism, making GPUs ideal for offloading workloads that are less suited to CPUs.
 
 The following graph provides a direct comparison of their performance, showing the single- and double-precision floating-point performance (left) and memory performance (right) of NVIDIA Tesla GPUs compared to various x86 CPUs:
 
@@ -91,7 +91,7 @@ These differences between a CPU and a GPU were demonstrated in the TV Show Mythb
 
 # The Microarchitecture of NVIDIA GPUs
 
-The architecture of NVIDIA GPUs has evolved over several years. Since 2006, NVIDIA has introduced a range of GPU microarchitectures, which are: [Tesla](https://en.wikipedia.org/wiki/Tesla_(microarchitecture)) (2006), [Fermi](https://en.wikipedia.org/wiki/Fermi_(microarchitecture)) (2010), [Kepler](https://en.wikipedia.org/wiki/Kepler_(microarchitecture)) (2012), [Maxwell](https://en.wikipedia.org/wiki/Maxwell_(microarchitecture)) (2014), [Pascal](https://en.wikipedia.org/wiki/Pascal_(microarchitecture)) (2016), [Volta](https://en.wikipedia.org/wiki/Volta_(microarchitecture)) (2017), [Turing](https://en.wikipedia.org/wiki/Turing_(microarchitecture)) (2018), [Ampere](https://en.wikipedia.org/wiki/Ampere_(microarchitecture)) (2020) and [Hopper](https://en.wikipedia.org/wiki/Hopper_(microarchitecture)) (2022).
+The architecture of NVIDIA GPUs has evolved over several years. Since 2006, NVIDIA has introduced a range of GPU microarchitectures, which are: [Tesla](https://en.wikipedia.org/wiki/Tesla_(microarchitecture)) (2006), [Fermi](https://en.wikipedia.org/wiki/Fermi_(microarchitecture)) (2010), [Kepler](https://en.wikipedia.org/wiki/Kepler_(microarchitecture)) (2012), [Maxwell](https://en.wikipedia.org/wiki/Maxwell_(microarchitecture)) (2014), [Pascal](https://en.wikipedia.org/wiki/Pascal_(microarchitecture)) (2016), [Volta](https://en.wikipedia.org/wiki/Volta_(microarchitecture)) (2017), [Turing](https://en.wikipedia.org/wiki/Turing_(microarchitecture)) (2018), [Ampere](https://en.wikipedia.org/wiki/Ampere_(microarchitecture)) (2020), [Hopper](https://en.wikipedia.org/wiki/Hopper_(microarchitecture)) (2022), and [Blackwell](https://en.wikipedia.org/wiki/Blackwell_(microarchitecture)) (2024).
 
 An overview of NVIDIAs GPU architecture is given in Figure 4:
 
@@ -99,9 +99,9 @@ An overview of NVIDIAs GPU architecture is given in Figure 4:
 _**Figure 4:** GPU Hardware Model -- Overview (A100)_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
-At a high level, a GPU resembles a CPU in terms of memory hierarchy. However, when examining the low-level microarchitecture, significant differences emerge in how GPUs are organized and designed compared to CPUs.
+At a high level, a GPU resembles a CPU in terms of memory hierarchy. However, when examining the low-level microarchitecture, significant differences emerge in how GPUs are organised and designed compared to CPUs.
 
-An NVIDIA chip consists of one or more _streaming multiprocessors_ (SMs). Each SM has a dedicated L1 cache, while all SMs share a unified L2 cache. Within each SM, there are 1-4 _warp schedulers_, each equipped with a register file and multiple execution units. These execution units may be dedicated to a specfic warp scheduler or shared among schedulers. The execution units include _CUDA cores_ (FP/INT), _special function units_ (SPU), _texture units_, and _load-store units_ (LD/ST).   
+An NVIDIA chip consists of one or more _streaming multiprocessors_ (SMs). Each SM has a dedicated L1 cache, while all SMs share a unified L2 cache. Within each SM, there are 1-4 _warp schedulers_, each equipped with a register file and multiple execution units. These execution units may be dedicated to a specfic warp scheduler or shared among schedulers. The execution units include _CUDA cores_ (FP/INT), _special function units_ (SFU), _texture units_, and _load-store units_ (LD/ST).   
 
 Figure 5 illustrates the internal structure of an SM, using the Pascal computing architecture (e.g., GeForce GTX 1080, Tesla P100) as an example. The diagrammatic structure is shown below.
 
@@ -109,7 +109,7 @@ Figure 5 illustrates the internal structure of an SM, using the Pascal computing
 _**Figure 5:** GPU Hardware Model -- SM (of a GP104/Pascal)_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
-As shown, the number of CUDA cores within an SM is substantial. In a GeForce GTX 1080, there are 20 streaming multiprocessors (SMs), each containing 128 CUDA processor cores, for a total of 2,560 cores. To efficiently manage and utilize this large number of cores, each SM employs a _single-instruction, multiple-thread_ (SIMT) approach, concurrent threads are created, managed, scheduled, and executed in a group of parallel threads, known as _warps_.
+As shown, the number of CUDA cores within an SM is substantial. In a GeForce GTX 1080, there are 20 streaming multiprocessors (SMs), each containing 128 CUDA processor cores, for a total of 2,560 cores. To efficiently manage and utilise this large number of cores, each SM employs a _single-instruction, multiple-thread_ (SIMT) approach, concurrent threads are created, managed, scheduled, and executed in a group of parallel threads, known as _warps_.
 
 We will explore these details in the following section.
 
@@ -117,7 +117,7 @@ We will explore these details in the following section.
 
 ## What is CUDA?
 
-CUDA (Compute Unified Device Architecture) is a parallel computing platform and application programming interface (API) that enables software to leverage certain types of graphics processing units (GPUs) for general-purpose processing -- a method known as general-purpose computing on GPUs (GPGPU). CUDA provides a software layer with a C-like programming interface, granting direct access to the GPU's virtual instruction set and parallel computing elements for executing compute kernels. First released by NVIDIA in 2007, CUDA was designed not for graphics but for parallel computation, allowing GPUs to handle many parallelized floating-point computations.
+CUDA (Compute Unified Device Architecture) is a parallel computing platform and application programming interface (API) that enables software to leverage certain types of graphics processing units (GPUs) for general-purpose processing -- a method known as general-purpose computing on GPUs (GPGPU). CUDA provides a software layer with a C-like programming interface, granting direct access to the GPU's virtual instruction set and parallel computing elements for executing compute kernels. First released by NVIDIA in 2007, CUDA was designed not for graphics but for parallel computation, allowing GPUs to handle many parallelised floating-point computations.
 
 <iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/IzU4AVcMFys" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
 
@@ -131,11 +131,11 @@ _**Figure 6:** CUDA Parallel Thread Architecture_
 
 ### _(1) Thread and Thread Block_
 
-A CUDA program consists of a host program, which includes one or more sequential _threads_ running on the host, and one or more parallel kernels (functions that execute on the device) optimized for parallel GPU execution. Only one kernel runs at a time, and it is executed by a set of lightweight parallel threads. For efficient resource allocation (e.g., minimizing redundant computation and reducing shared memory bandwidth), threads are organized into thread blocks. A _thread block_ is a programming abstraction representing a group of threads that can execute either serially or in parallel.
+A CUDA program consists of a host program, which includes one or more sequential _threads_ running on the host, and one or more parallel kernels (functions that execute on the device) optimised for parallel GPU execution. Only one kernel runs at a time, and it is executed by a set of lightweight parallel threads. For efficient resource allocation (e.g., minimising redundant computation and reducing shared memory bandwidth), threads are organised into thread blocks. A _thread block_ is a programming abstraction representing a group of threads that can execute either serially or in parallel.
 
 ### _(2) Grid_
 
-Multiple thread blocks are grouped together to form a _grid_. Threads from different blocks within the same grid can coordinate using atomic operations on a globally shared memory space. Sequentially dependent kernel grids can synchronize through global barriers and coordinate via global shared memory. Thread blocks implement coarse-grained, scalable data parallelism and provide task parallelism when executing different kernels, while the lightweight threads within each thread block implement fine-grained data parallelism and offer fine-grained thread-level parallelism when executing different execution paths.
+Multiple thread blocks are grouped together to form a _grid_. Threads from different blocks within the same grid can coordinate using atomic operations on a globally shared memory space. Sequentially dependent kernel grids can synchronise through global barriers and coordinate via global shared memory. Thread blocks implement coarse-grained, scalable data parallelism and provide task parallelism when executing different kernels, while the lightweight threads within each thread block implement fine-grained data parallelism and offer fine-grained thread-level parallelism when executing different execution paths.
 
 ### _(3) Scheduling of CUDA thread blocks_
 
