@@ -8,16 +8,16 @@ layout: post
 
 # Overview
 
-In this lab, we will look at advanced CUDA topics including shared memory and asynchronous execution. We will also look at how to profile and fine-tune the performance of a parallel GPU program. If you haven't done the previous lab, you should work on that first as the topics here are considered to be more _advanced_.
+In this lab, we will explore advanced CUDA topics, including shared memory and asynchronous execution. Additionally, we will delve into profiling and fine-tuning the performance of parallel GPU programs. If you have not completed the previous lab, it is recommended to do so first, as the concepts covered here are more _advanced_.
 
-Good luck and enjoy!
+Good luck, and enjoy the lab!
 
 # Matrix Multiplication
 
 Consider a matrix-matrix multiplication problem, i.e., $C = A \times B$.
-To multiply an $m \times n$ matrix ($A$) by an $n \times p$ matrix ($B$), the $n$s must be the same, and the result is an $m \times p$ matrix ($C$).
+To multiply an $m \times n$ matrix ($A$) by an $n \times p$ matrix ($B$), the $n$s of the two matrices must be the same, and the result is an $m \times p$ matrix ($C$).
 
-![Matrix Multiplication](../../assets/practical-8/matrix-multiplication.png)  
+![Matrix Multiplication](../../assets/practical-9/matrix-multiplication.png)  
 _**Figure 1:** Matrix Multiplication_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -27,10 +27,10 @@ $$
 C_{i,j} = \sum_k A_{i,k}B_{k,j}
 $$
 
-Based on this equation, we can start by writing a very basic serial version of matrix multiplication:
+Using this equation as a foundation, we can begin by implementing a simple serial version of matrix multiplication:
 
 ```c
-void matrix_multiplication(double **A, double **B, double **C, int M, int N, int P) 
+void matrix_multiplication(double **A, double **B, double **C, int M, int N, int P)
 {
   // initialization C with zeros
   for (int i = 0; i < M; i++)
@@ -44,18 +44,18 @@ void matrix_multiplication(double **A, double **B, double **C, int M, int N, int
 }
 ```
 
-To help you start, you can find an example C code in the following `.zip` file. In this example, the program reads the data of Matrix A and Matrix B from two files, then multiply them. 
+To help you start, you can find an example C code in the following `.zip` file. In this example, the program reads the data of Matrix A and Matrix B from two files, then multiply them.
 
-Attached File: [`matrix.zip`](../../assets/practical-8/matrix.zip)
+Attached File: [`matrix.zip`](../../assets/practical-9/matrix.zip)
 
 > **Note**
-> 
+>
 > To profile your CUDA code, you will need a much larger matrix, say 1024 x 1024 or 2048 x 2048 (otherwise the execution time of the kernel would be negligible compared to memory copy, etc). You can either generate your own `matrix.dat` file following the format, or use the random matrix generator provided in the code, which randomally assign a value between (0,1) to each element in the matrix.
 {: .block-warning }
 
 
 > # Exercise 1
-> Rewrite the above code in CUDA with 1D thread blocks. Replace the function with a kernel and write a `main` function to launch that kernel function. At this first stage, make it as simple as possible. Later on, this will be used as the baseline and gradually improve it.
+> Rewrite the above code in CUDA with 1D thread blocks. Replace the function with a kernel and write a `main()` function to launch that kernel function. At this first stage, make it as simple as possible. Later on, this will be used as the baseline and gradually improve it.
 >
 > Note that you need to design a verification process to validate the results are correct.
 {: .block-danger }
@@ -66,28 +66,34 @@ Attached File: [`matrix.zip`](../../assets/practical-8/matrix.zip)
 > Time the program you have written in Exercise 1 using `cudaEventElapsedTime()`. Then profile your code with `nvprof`. These should give you similar if not identical results.
 {: .block-danger }
 
-## Profiling with Visual Profiler (Optional)
+## Profiling with Nvidia Visual Profiler (Optional)
 
-One of the additional profiling tools that we didn't mention in the unit is the [Visual Profiler](https://docs.nvidia.com/cuda/profiler-users-guide/index.html#visual-profiler) which allows you to analyse and visualise the performance of your application. The Visual Profiler gives you a different _view_ that helps you to understand the CPU and GPU activities. You may find it is functionally similar to Intel Advisor.
+One of the additional profiling tools that we did not mention in the unit is the [Visual Profiler](https://docs.nvidia.com/cuda/profiler-users-guide/index.html#visual-profiler) which allows you to analyse and visualise the performance of your application. The Visual Profiler gives you a different _view_ that helps you to understand the CPU and GPU activities. You may find it is functionally similar to Intel Advisor.
 
 For example, a Timeline view shows GPU events with elapsed time:
 
-![Timeline View](../../assets/practical-8/timeline-view.png)  
+![Timeline View](../../assets/practical-9/timeline-view.png)  
 _**Figure 2:** Timeline View in Visual Profiler_  
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
-The other useful view is the Analysis View, which is used to control application analysis and to display the analysis results. Two analysis modes exist in Analysis View, which are guided and unguided:
-- Guided mode: the analysis system will guide you through multiple analysis stages to help you understand the likely performance limiters and optimization opportunities in your application.
-- Unguided mode: let you manually explore all the analysis results collected for your application.
+Another valuable feature is the Analysis View, which is used to manage application analysis and display the corresponding results. The Analysis View offers two modes: guided and unguided:
+- **Guided mode**: This mode guides you through multiple analysis stages, helping you identify potential performance bottlenecks and optimisation opportunities in your application.
+- **Unguided mode**: This mode allows you to manually explore the full set of analysis results collected for your application.
 
-![Analysis View](../../assets/practical-8/analysis-view.png)  
+![Analysis View](../../assets/practical-9/analysis-view.png)  
 _**Figure 3:** Analysis View in Visual Profiler_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
-> **Note**
+> **Note 1**
 >
-> If you have a problem to run nvvp due to JVM, try to run it with a different version OpenJDK using:  
+> If you have a problem to run `nvvp` and receive an error related to JVM, try launching it with a different version of OpenJDK using:  
 > `> nvvp -vm /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java`
+{: .block-warning }
+
+> **Note 2**
+>
+> Running `nvvp` requires a graphic interface. If you do need to profile your code on Viking, you can use `nvprof` to generate a profile file, then download the file to your local machine and open it with `nvvp`.
+> `nvprof -o profile.out -s ./prog args`
 {: .block-warning }
 
 
@@ -100,14 +106,14 @@ _**Figure 3:** Analysis View in Visual Profiler_
 Occupancy is an important concept to achieve performant CUDA programs, you can refer to the [CUDA Occupancy Calculator](https://xmartlabs.github.io/cuda-calculator/) as it would give you some insight into what to consider in terms of performance tuning.
 
 > # Exercise 4
-> The kernel function is not efficient as Matrix A is read N times, and B is read M times. Now try to improve your kernel function with Shared Memory.
+> The current kernel function is inefficient because Matrix A is read N times, and Matrix B is read M times. To enhance its efficiency, try optimising your kernel function by utilising Shared Memory.
 >
 > **Tips:**
 > - Decompose the problem: each block computes a submatrix (illustrated as below).
 > - Make sure that data is only loaded once from the main memory and then stored in shared memory.
 > - Use `__syncthreads()` where appropriate to avoid race condition.
 >
-> ![Sub-Matrix Multiplication](../../assets/practical-8/sub-matrix-multiplication.png)  
+> ![Sub-Matrix Multiplication](../../assets/practical-9/sub-matrix-multiplication.png)  
 > _**Figure 4:** Sub-Matrix Multiplication_
 > {: style="color:gray; font-size: 90%; text-align: center;" }
 {: .block-danger }
