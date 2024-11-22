@@ -9,18 +9,18 @@ layout: post
 
 <iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/RdLqsNAUxTI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe><br/>
 
-Welcome to Unit 9 of HIPC!
+Welcome to Unit 9 of HIPC.
 
-In the previous lecture, we introduced the fundamentals of GPU hardware and CUDA programming. While we only scratched the surface of CUDA's capabilities, there remains significant untapped potential. In this lecture, we will explore more advanced aspects of CUDA, focusing on performance considerations, scheduling strategies, and memory models.
+In the previous unit, we introduced the fundamentals of GPU hardware and CUDA programming. While we only scratched the surface of CUDA's capabilities, there remains significant untapped potential. In this unit, we will explore more advanced aspects of CUDA, focusing on performance considerations, scheduling strategies, and memory models.
 
-Before proceeding, ensure you have thoroughly understood the material from the previous unit, as a strong foundation is crucial for tackling the topics in this lecture.
+Before proceeding, ensure you have thoroughly understood the material from the previous unit, as a strong foundation is crucial for tackling the topics in this unit.
 
 This unit will cover the following topics:
 
 * Advanced Scheduling
 * Advanced Execution
 * Advanced Memory Models
-* Performance Profiling, Tuning and Optimization
+* Performance Profiling, Tuning, and Optimisation
 
 # Advanced Scheduling
 
@@ -44,7 +44,7 @@ Mapping from the software abstraction into the hardware is done by CUDA, with a 
 
 ## Warp Scheduling
 
-In CUDA, threads are scheduled in group of 32, referred to as _warp_, to improve efficiency and reduce the scheduling and instruction dispatching overhead. A warp, sometimes called a sub-group, consists of 32 threads within a thread block, all of which execute the same instruction simultaneously on a Stream Multiprocessor (SM).
+In CUDA, threads are scheduled in group of 32, referred to as _warp_, to improve efficiency and reduce the scheduling and instruction dispatching overhead. A warp, sometimes called a sub-group, consists of 32 threads within a thread block, all of which execute the same instruction simultaneously on a Streaming Multiprocessor (SM).
 
 Organising threads into warps offers several key advantages:
 
@@ -54,7 +54,7 @@ Organising threads into warps offers several key advantages:
 
 Once a thread block is launched on a Stream Multiprocessor (SM), all its warps remain resident until their execution is complete. A new block will not be launched on the SM until there is sufficient free shared memory and an adequate number of available registers to accommodate all the warps.
 
-If the currently executing warp stalls (e.g., while waiting for a memory reques or access to an under-pressure functional unit), the scheduler suspends this warp and executes the next ready warp. This process, known as a _context switching_, transfers control from one warp to another. The data associated with the suspended warp remains in the register file, allowing for quick resumption once its operands become ready.
+If the currently executing warp stalls (e.g., while waiting for a memory request or access to an under-pressure functional unit), the scheduler suspends this warp and executes the next ready warp. This process, known as _context switching_, transfers control from one warp to another. The data associated with the suspended warp remains in the register file, allowing for quick resumption once its operands become ready.
 
 As all register values and the program counter (PC) for a warp are stored in the register file, and shared memory (and cache) is accessible to all warps within a thread block, context switching on a GPU is significantly more lightweight than traditional CPU context switching.
 
@@ -74,10 +74,10 @@ In order to take advantage of the warp architecture, we need to understand _(a) 
 
 ## Block Partitioning
 
-We now understand that a warp consists of 32 threads, but how are these threads selected? Generally, they are determined by the thread index, with each warp comprising 32 threads with consecutive `threadIdx` values. However, certain complexities arise depending on the dimensions of the thread block, as outlined below:
+We now know that a warp consists of 32 threads, but how are these threads selected? Generally, they are determined by the thread index, with each warp comprising 32 threads with consecutive `threadIdx` values. However, certain complexities arise depending on the dimensions of the thread block, as outlined below:
 
 1. For 1D thread blocks:
-	- only `threadIdx.x` is used, `threadIdx.x` values within a warp are consecutive and increasing.
+	- Only `threadIdx.x` is used, `threadIdx.x` values within a warp are consecutive and increasing.
 	- For a warp size of 32:
 		- warp 0: thread 0 ~ thread 31
 		- warp 1: thread 32 ~ thread 63
@@ -85,10 +85,10 @@ We now understand that a warp consists of 32 threads, but how are these threads 
 	- For a block of which the size is not a multiple of 32:
 		- the last warp will be padded with extra threads to fill up the 32 threads.
 2. For 2D thread blocks:
-	- the dimensions will be projected into a linear order before partitioning into warps
-	- determine the linear order: place the rows with larger y and z coordinates after those with lower ones.
+	- The dimensions will be projected into a linear order before partitioning into warps
+	- Determine the linear order: place the rows with larger y and z coordinates after those with lower ones.
 3. For 3D thread blocks:
-	- first place all threads of which the `threadIdx.z` value is 0 in to a linear order. Among these threads, they are treated as a 2D block.
+	- First place all threads of which the `threadIdx.z` value is 0 in to a linear order. Among these threads, they are treated as a 2D block.
 	- Example: a 3D thread block of dimensions 2 × 8 × 4 (total 64 threads):
 		- warp 0: T(0,0,0) ~ T(0,7,3)
 		- warp 1: T(1,0,0) ~ T(1,7,3)
@@ -100,10 +100,11 @@ Conditional branch instructions can lead to thread divergence. However, a GPU's 
 Assuming we have something in a kernel function as:
 
 ```c
-if (some_condition):
+if (some_condition) {
     do_stuff_A();
-else:
-    do_stuff_B()
+} else {
+    do_stuff_B();
+}
 ```
 
 The `if` condition would cause divengence based on if `some_condition` is satisfied or not. Say if `some_condition` is if the working thread is an odd-number, then half of the threads will run `do_stuff_A()` and the other half are masked (this means consuming resources without actually running anything), after that is finished, the warp starts to execute the next instruction, in which case the even-number threads will execute `do_stuff_B()`, while the odd-number threads are masked. This is illustrated as follows:
@@ -165,12 +166,12 @@ for (int i = 0; i < 2; ++i)
     cudaStreamDestroy(stream[i]);
 ```
 
-### Synchronization of Streams
+### Synchronisation of Streams
 
-With asynchronous execution, it is important to synchronous the threads to ensure data is properly transferred or processed, and to reduce race conditions. For CUDA streams, synchronisation can be done explicitly with:
+With asynchronous execution, it is important to synchronise the threads to ensure data is properly transferred or processed, and to reduce race conditions. For CUDA streams, synchronisation can be done explicitly with:
 
 * `cudaDeviceSynchronize()` waits until all preceding commands in all streams of all host threads have been completed.
-* `cudaStreamSynchronize()` takes a stream as a parameter and waits until all preceding commands in the given stream have been completed. It can be used to synchronize the host with a specific stream, allowing other streams to continue executing on the device.
+* `cudaStreamSynchronize()` takes a stream as a parameter and waits until all preceding commands in the given stream have been completed. It can be used to synchronise the host with a specific stream, allowing other streams to continue executing on the device.
 * `cudaStreamWaitEvent()` takes a stream and an event as parameters (see [**Time a CUDA Program**](#time-a-cuda-program) later in this unit to see how to define an event) and makes all the commands added to the given stream after the call to `cudaStreamWaitEvent()` delay their execution until the given event has been completed.
 * `cudaStreamQuery()` provides applications with a way to know if all preceding commands in a stream have been completed.
 
@@ -189,13 +190,13 @@ _**Figure 5:** Multiple GPUs_
 
 You can find more information on NVLink and NVSwitch [here](https://www.nvidia.com/en-gb/data-center/nvlink/).
 
-One of the examples to utilise multiple GPUs is the OpenMP-CUDA framework, which has a two-level scheme of parallelization:
+One of the examples to utilise multiple GPUs is the OpenMP-CUDA framework, which has a two-level scheme of parallelisation:
 
 ![OpenMP-CUDA](../../assets/unit-9/openmp-cuda.png)  
 _**Figure 6:** (a) The two-level scheme of parallelization with OpenMP-CUDA. (b) Architecture 2×CPU + 6×GPU._
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
-Below is another example of TensorFlow to use multiple GPUs in training a Neural Network. The gradient losses are aggregated and used to update the model parameters:
+Below is another example of TensorFlow using multiple GPUs in training a Neural Network. The gradient losses are aggregated and used to update the model parameters:
 
 ![TesnsorFlow with Multiple GPUs](../../assets/unit-9/tensorflow-multi-gpu.png)  
 _**Figure 7:** TesnsorFlow with Multiple GPUs_
@@ -217,7 +218,7 @@ Recall the memory structure in CUDA, we have local, shared, and global memory, e
 Shared memory has much less latency than the global memory, and can be accessed by all the threads in a block. To use the shared memory, we rely on the following:
 
 * `__shared__`: Annotation that denotes shared memory
-* `__syncthreads()`: Synchronizes all threads __in a block__
+* `__syncthreads()`: Synchronises all threads __in a block__
 
 
 An example of using (static) shared memory is given below, for a reverse function:
@@ -259,7 +260,7 @@ Here is a very useful YouTube video on shared memory and bank conflicts by Peter
 
 In CUDA, memory accesses are called _coalesced_ if all 32 threads in a warp access a contiguous chunk of memory. The following image shows coalesced memory access by all threads of a warp.
 
-![Memory Coalescing](../../assets/unit-9/memory-coalescing.png)  
+![Memory Coalescing](../../assets/unit-9/memory-coalescing.png){: style="background-color: white" }  
 _**Figure 10:** Memory Coalescing_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -333,14 +334,14 @@ cudaEventDestroy(start);
 cudaEventDestroy(stop);
 ```
 
-## More on Profiling with nvprof
+## Profiling with nvprof
 
-The `nvprof` profiling tool enables you to collect and view profiling data from the command-line. `nvprof` enables the collection of a timeline of CUDA-related activities on both CPU and GPU, including kernel execution, memory transfers, memory set and CUDA API calls and events or metrics for CUDA kernels. Profiling options are provided through command-line options. Profiling results are displayed in the console after the profiling data is collected, and may also be saved for later viewing by either `nvprof` or the Visual Profiler.
+The `nvprof` profiling tool is a component of the Nsight Systems performance analysis tool that enables you to collect and view profiling data from the command-line. `nvprof` enables the collection of a timeline of CUDA-related activities on both CPU and GPU, including kernel execution, memory transfers, memory set and CUDA API calls and events or metrics for CUDA kernels. Profiling options are provided through command-line options. Profiling results are displayed in the console after the profiling data is collected, and may also be saved for later viewing by either `nvprof` or the Visual Profiler.
 
 To use nvprof, simply in a new command line:
 
-```sh
-nvprof [options] [application] [application-arguments]
+```
+$ nsys nvprof [options] [application] [application-arguments]
 ```
 
 The `nvprof` command takes options, the name of the application, and then any parameters that need to be passed to the application. The most useful options for `nvprof` is `--print-gpu-trace`, which prints individual kernel invocations (including CUDA memcpys/memsets) and sorts them in chronological order. In event/metric profiling mode, it shows events/metrics for each kernel invocation.
@@ -348,7 +349,7 @@ The `nvprof` command takes options, the name of the application, and then any pa
 Below is an example output from `nvprof`:
 
 ```
-$ nvprof matrixMul
+$ nsys nvprof ./matrixMul
 [Matrix Multiply Using CUDA] - Starting...
 ==27694== NVPROF is profiling process 27694, command: matrixMul
 GPU Device 0: "GeForce GT 640M LE" with compute capability 3.0
@@ -409,7 +410,7 @@ myKernel<<<...>>>(...);
 cudaProfilerStop();
 ```
 
-Full documentation on `nvprof`, including a full list of command line options, can be found in the [Profiler's Guide](https://docs.nvidia.com/cuda/profiler-users-guide/index.html#nvprof).
+Full documentation on `nvprof`, including a full list of command line options, can be found in the [User Guide]([https://docs.nvidia.com/cuda/profiler-users-guide/index.html#nvprof](https://docs.nvidia.com/nsight-systems/UserGuide/index.html#migrating-from-nvidia-nvprof)).
 
 ## Automatic Block Size Tuning
 
@@ -533,7 +534,7 @@ There are a lot of implementation details that heavily influence how well CUDA p
 
 * Kernel Launch Configuration:
     - Launch enough threads per SM to hide latency
-    - Launch enough thread blocks to load the GPU
+    - Launch enough thread blocks to fill the GPU
 * Global memory:
     - Maximise throughput (the GPU has lots of bandwidth, use it effectively)
     - Use shared memory when applicable (over 1 TB/s bandwidth)
@@ -545,7 +546,7 @@ GPUs typically provide *cheap FLOP/s*; but in order to make the most effective u
 
 # Higher Level GPU Programming
 
-Programming with CUDA is considered as *low-level programming*. Although CUDA provides generality and more flexibility in terms of memory and execution, there is a bunch of *high-level programming languages/libraries/tools* that provide a simpler interface to program a GPU. These tools are often designed for a specific purpose, such as machine learning or signal processing, so they are more *application-oritented*:
+Programming with CUDA is considered to be *low-level programming*. Although CUDA provides generality and more flexibility in terms of memory and execution, there is a bunch of *high-level programming languages/libraries/tools* that provide a simpler interface to program a GPU. These tools are often designed for a specific purpose, such as machine learning or signal processing, so they are more *application-oriented*:
 
 * Linear Algebra
     - CuBLAS, MAGMA, CUTLASS, Eigen, CuSPARSE, ...
@@ -558,7 +559,7 @@ Programming with CUDA is considered as *low-level programming*. Although CUDA pr
 * Algorithms and Data Structures
     - Thrust, RAJA, Kokkos, OpenACC, OpenMP, ...
 
-Note that some of these are part of the CUDA toolchain (libraries with name starting with *Cuxx*), and some are using CUDA as the backend (e.g., OpenCV, TensorRT). If you want to move a step further into the world of GPU programming, pick one of these, do some research, and try to write/run some code!
+Note that some of these are part of the CUDA toolchain (libraries with name starting with *CuXX*), and some are using CUDA as the backend (e.g., OpenCV, TensorRT). If you want to move a step further into the world of GPU programming, pick one of these, do some research, and try to write/run some code!
 
 # Recommended Reading
 
