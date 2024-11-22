@@ -7,20 +7,26 @@ layout: post
 
 # Overview
 
-In the last lecture, we introduced the basics of GPU hardware and CUDA programming. We only touched the surface of CUDA and it is far from reaching its full potential. In this lecture, we will look at some more advanced topics in CUDA, including performance considerations, and more scheduling and memory. Before we start, make sure you have understood everything in the last unit as otherwise it will be difficult to proceed.
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/RdLqsNAUxTI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe><br/>
 
-The following topics will be covered in this unit:
+Welcome to Unit 9 of HIPC.
+
+In the previous unit, we introduced the fundamentals of GPU hardware and CUDA programming. While we only scratched the surface of CUDA's capabilities, there remains significant untapped potential. In this unit, we will explore more advanced aspects of CUDA, focusing on performance considerations, scheduling strategies, and memory models.
+
+Before proceeding, ensure you have thoroughly understood the material from the previous unit, as a strong foundation is crucial for tackling the topics in this unit.
+
+This unit will cover the following topics:
 
 * Advanced Scheduling
 * Advanced Execution
 * Advanced Memory Models
-* Performance Profiling, Tuning and Optimization
+* Performance Profiling, Tuning, and Optimisation
 
 # Advanced Scheduling
 
 ## Introduction
 
-Before we start, let's recap what we learned at the end of the last unit on thread block organisation. The kernel configuration can be 2-dimensional (as well as 3-dimensional). This is useful for algorithms that use 2D or 3D data layouts. To access the second (and the third) dimension, use the `.y` attribute (and `.z` for indexing the third dimension) with a 3-vector (`dim3`).
+Before we begin, let us recap the key concepts covered at the end of the previous unit regarding thread block organisation. Kernel configuration can be two-dimensional or even three-dimensional, which is particularly beneficial for algorithms operating on 2D or 3D data layouts. To access the second and third dimensions, use the `.y` and `.z` attributes, respectively, in conjunction with a 3-vector (`dim3`).
 
 To illustrate this layout:
 
@@ -28,7 +34,7 @@ To illustrate this layout:
 _**Figure 1:** 3D Kernel Indexing_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
-The thread-block-grid hierarchy forms the basic concept of the CUDA execution model from the software perspective. As explained earlier, this software abstraction facilitates GPU programming in a way that the programmer does not need to know every detail of the hardware. This also improves compatibility, as otherwise one program written for one GPU would not work for another GPU, due to the difference in their hardware specifications.
+The thread-block-grid hierarchy constitutes a fundamental aspect of the CUDA execution model from a software perspective. As previously discussed, this software abstraction simplifies GPU programming by shielding the programmer from the intricacies of the underlying hardware. Moreover, it enhances compatibility, ensuring that a program designed for one GPU can function seamlessly on another, despite differences in hardware specifications.
 
 ![Execution Model of CUDA](../../assets/unit-9/execution-model.png)  
 _**Figure 2:** Execution Model of CUDA_  
@@ -38,24 +44,26 @@ Mapping from the software abstraction into the hardware is done by CUDA, with a 
 
 ## Warp Scheduling
 
-In CUDA, threads are scheduled in a group of 32 (known as a _warp_) to improve efficiency and reduce the scheduling and instruction dispatching overhead. A wrap (sometimes known as a sub-group) is thus a set of 32 threads, within a thread block, and all threads in the warp execute the same instruction on a Stream Multiprocessor (SM).
+In CUDA, threads are scheduled in group of 32, referred to as _warp_, to improve efficiency and reduce the scheduling and instruction dispatching overhead. A warp, sometimes called a sub-group, consists of 32 threads within a thread block, all of which execute the same instruction simultaneously on a Streaming Multiprocessor (SM).
 
-Organising threads into warps has the following major benefits:
+Organising threads into warps offers several key advantages:
 
-* reducing hardware manufacturing cost
-* lowering runtime operation electricity cost
-* enabling coalescing of memory accesses (which will be discussed later)
+* Reduces hardware manufacturing costs
+* Lowers runtime energy consumption
+* Enables the coalescing of memory accesses (which will be discussed later)
 
-Once a thread block is launched on an SM, all of its warps are resident until their execution finishes. A new block will not be launched on an SM until there is enough free shared memory and a sufficient number of free registers for all warps.
+Once a thread block is launched on a Stream Multiprocessor (SM), all its warps remain resident until their execution is complete. A new block will not be launched on the SM until there is sufficient free shared memory and an adequate number of available registers to accommodate all the warps.
 
-Once the currently executing warp stalls (e.g., waiting for a memory request, waiting to run on a particular under-pressure functional unit, etc.), the scheduler pends this warp and runs the next one available that is ready to run. This process is known as a _context switching_, which transfers control from one warp to another warp. The data from the previous warp remains in the register file and can be quickly resumed when its operands become ready later. As all of a warp's register values and PC (program counter) are stored in the register file, and the shared memory (and cache) remain in place, since these are shared between all the warps in the thread block, context switching on a GPU is much more light-weight than traditional CPU context switching.
+If the currently executing warp stalls (e.g., while waiting for a memory request or access to an under-pressure functional unit), the scheduler suspends this warp and executes the next ready warp. This process, known as _context switching_, transfers control from one warp to another. The data associated with the suspended warp remains in the register file, allowing for quick resumption once its operands become ready.
 
-If more than one warp is eligible for execution, the parent SM uses a warp scheduling policy to decide which warp gets the next fetched instruction. There are a number of different scheduling algorithms that are eligible for execution:
+As all register values and the program counter (PC) for a warp are stored in the register file, and shared memory (and cache) is accessible to all warps within a thread block, context switching on a GPU is significantly more lightweight than traditional CPU context switching.
 
-* Round Robin (RR) - Instructions are fetched in a round-robin manner. RR makes sure that SMs are kept busy and that no clock cycles are wasted on memory latencies.
-* Least Recently Fetched (LRF) - In this policy, a warp for which an instruction has not been fetched for the longest time gets priority in the fetching of an instruction.
-* Fair (FAIR) - In this policy, the scheduler makes sure all warps are given 'fair' opportunity in the number of instructions fetched for them. It fetches instructions to a warp for which the minimum number of instructions have been fetched.
-* Thread block-based CAWS (criticality aware warp scheduling) - The emphasis of this scheduling policy is on improving the execution time of the thread blocks. It allocates more time resources to the warp that will take the longest time to execute. By giving priority to the most critical warp, this policy allows thread blocks to finish faster, such that the resources become available quicker.
+If multiple warps are eligible for execution, the parent SM employs a warp scheduling policy to determine which warp is assigned the next instruction. Several scheduling algorithms are commonly used:
+
+* Round Robin (RR): Instructions are fetched in a round-robin fashion. This approach ensures that SMs remain busy and avoids wasting clock cycles due to memory latencies.
+* Least Recently Fetched (LRF): Under this policy, priority is given to the warp that has waited the longest since its last instruction fetch.
+* Fair (FAIR): This policy ensures that all warps receive an equitable opportunity for instruction fetching. The scheduler prioritises the warp with the fewest instructions fetched so far.
+* Thread block-based CAWS (criticality-aware warp scheduling): This policy focuses on improving the overall execution time of thread blocks. It allocates more resources to the warp expected to take the longest to execute. By prioritising the most critical warp, CAWS accelerates the completion of thread blocks, enabling resources to become available more quickly for other tasks.
 
 > **Note**
 >
@@ -66,10 +74,10 @@ In order to take advantage of the warp architecture, we need to understand _(a) 
 
 ## Block Partitioning
 
-We now know a warp is composed of 32 threads but how does it pick the threads? Generally, it is based on the thread index (each warp consists of 32 threads of consecutive `threadIdx` values). There are a few complications based on the dimensions of the thread block, which are discussed below:
+We now know that a warp consists of 32 threads, but how are these threads selected? Generally, they are determined by the thread index, with each warp comprising 32 threads with consecutive `threadIdx` values. However, certain complexities arise depending on the dimensions of the thread block, as outlined below:
 
 1. For 1D thread blocks:
-	- only `threadIdx.x` is used, `threadIdx.x` values within a warp are consecutive and increasing.
+	- Only `threadIdx.x` is used, `threadIdx.x` values within a warp are consecutive and increasing.
 	- For a warp size of 32:
 		- warp 0: thread 0 ~ thread 31
 		- warp 1: thread 32 ~ thread 63
@@ -77,25 +85,26 @@ We now know a warp is composed of 32 threads but how does it pick the threads? G
 	- For a block of which the size is not a multiple of 32:
 		- the last warp will be padded with extra threads to fill up the 32 threads.
 2. For 2D thread blocks:
-	- the dimensions will be projected into a linear order before partitioning into warps
-	- determine the linear order: place the rows with larger y and z coordinates after those with lower ones.
+	- The dimensions will be projected into a linear order before partitioning into warps
+	- Determine the linear order: place the rows with larger y and z coordinates after those with lower ones.
 3. For 3D thread blocks:
-	- first place all threads of which the `threadIdx.z` value is 0 in to a linear order. Among these threads, they are treated as a 2D block.
+	- First place all threads of which the `threadIdx.z` value is 0 in to a linear order. Among these threads, they are treated as a 2D block.
 	- Example: a 3D thread block of dimensions 2 × 8 × 4 (total 64 threads):
 		- warp 0: T(0,0,0) ~ T(0,7,3)
 		- warp 1: T(1,0,0) ~ T(1,7,3)
 
 ## Dealing with Divergence
 
-Conditional branch instructions cause threads to diverge. However, the implementation of a GPU allows only one PC (program counter) at a time inside a warp. An obvious question would then be: what happens if there is divergence inside a warp?
+Conditional branch instructions can lead to thread divergence. However, a GPU's architecture allows only one program counter (PC) to be active within a warp at any given time. This naturally raises the question: what occurs when divergence happens within a warp?
 
 Assuming we have something in a kernel function as:
 
 ```c
-if (some_condition):
+if (some_condition) {
     do_stuff_A();
-else:
-    do_stuff_B()
+} else {
+    do_stuff_B();
+}
 ```
 
 The `if` condition would cause divengence based on if `some_condition` is satisfied or not. Say if `some_condition` is if the working thread is an odd-number, then half of the threads will run `do_stuff_A()` and the other half are masked (this means consuming resources without actually running anything), after that is finished, the warp starts to execute the next instruction, in which case the even-number threads will execute `do_stuff_B()`, while the odd-number threads are masked. This is illustrated as follows:
@@ -108,7 +117,7 @@ You may already notice this is not particularly efficient as the total execution
 
 ## Dynamic Parallelism
 
-*Dynamic Parallelism* is an extension to the CUDA programming model enabling a CUDA kernel to create and synchronise with new work directly on the GPU. It allows dynamic creation of parallel threads in-the-air, based on decisions that are made at runtime based on the incoming data. This extension can take advantage of the GPU's hardware schedulers and load balancers dynamically, as parallel threads can be generated inline within a kernel at run-time.
+*Dynamic Parallelism* is an extension of the CUDA programming model that enables a CUDA kernel to directly create and synchronise new workloads on the GPU. This feature allows the dynamic creation of parallel threads during runtime, based on decisions driven by the incoming data. By leveraging the GPU's hardware schedulers and load balancers, this extension facilitates the generation of parallel threads inline within a kernel, optimising execution dynamically at runtime.
 
 > **Note**
 >
@@ -121,7 +130,7 @@ The discussion of dynamic parallelism is slightly beyond what we will deliver he
 
 ## Asynchronous Execution
 
-Concurrency with asynchronous execution can significantly improve the throughput as it minimises the latency by formulating a pipeline. Asynchronous execution adds the ability to perform multiple CUDA operations simultaneously, allowing overlap of data transfer and kernel execution.
+Concurrency through asynchronous execution can significantly enhance throughput by minimising latency and establishing a pipeline. Asynchronous execution enables multiple CUDA operations to occur simultaneously, allowing data transfer and kernel execution to overlap efficiently.
 
 ![Concurrent vs Serial Model](../../assets/unit-9/concurrent-model.png)  
 _**Figure 4:** Concurrent vs Serial Model_
@@ -157,12 +166,12 @@ for (int i = 0; i < 2; ++i)
     cudaStreamDestroy(stream[i]);
 ```
 
-### Synchronization of Streams
+### Synchronisation of Streams
 
-With asynchronous execution, it is important to synchronous the threads to ensure data is properly transferred or processed, and to reduce race conditions. For CUDA streams, synchronisation can be done explicitly with:
+With asynchronous execution, it is important to synchronise the threads to ensure data is properly transferred or processed, and to reduce race conditions. For CUDA streams, synchronisation can be done explicitly with:
 
 * `cudaDeviceSynchronize()` waits until all preceding commands in all streams of all host threads have been completed.
-* `cudaStreamSynchronize()` takes a stream as a parameter and waits until all preceding commands in the given stream have been completed. It can be used to synchronize the host with a specific stream, allowing other streams to continue executing on the device.
+* `cudaStreamSynchronize()` takes a stream as a parameter and waits until all preceding commands in the given stream have been completed. It can be used to synchronise the host with a specific stream, allowing other streams to continue executing on the device.
 * `cudaStreamWaitEvent()` takes a stream and an event as parameters (see [**Time a CUDA Program**](#time-a-cuda-program) later in this unit to see how to define an event) and makes all the commands added to the given stream after the call to `cudaStreamWaitEvent()` delay their execution until the given event has been completed.
 * `cudaStreamQuery()` provides applications with a way to know if all preceding commands in a stream have been completed.
 
@@ -171,7 +180,7 @@ There will also be implicit synchronisation if two streams cannot run concurrent
 
 ## Multiple GPUs
 
-Another way to achieve concurrency is to have more than one GPU. With the high demand of emerging applications including Large Language Models (LLM), etc., we need more CUDA cores and more GPU memory. To do that, we need to scale the GPU so they can provide a higher throughput and support larger applications. A multi-GPU system can be built in a number different ways, which are related to interconnect choices. For example, NVIDIA provides NVLink and NVSwitch to connect their own GPUs.
+Another approach to achieving concurrency is through the use of multiple GPUs. The growing demand for resource-intensive applications, such as Large Language Models (LLMs), necessitates additional CUDA cores and greater GPU memory. To meet these requirements, scaling GPUs becomes essential, enabling higher throughput and support for larger applications. Multi-GPU systems can be constructed in various ways, primarily determined by interconnect options. For instance, NVIDIA offers technologies such as NVLink and NVSwitch for interconnecting their GPUs efficiently.
 
 ![Multiple GPUs](../../assets/unit-9/multigpu.png)  
 _**Figure 5:** Multiple GPUs_
@@ -181,13 +190,13 @@ _**Figure 5:** Multiple GPUs_
 
 You can find more information on NVLink and NVSwitch [here](https://www.nvidia.com/en-gb/data-center/nvlink/).
 
-One of the examples to utilise multiple GPUs is the OpenMP-CUDA framework, which has a two-level scheme of parallelization:
+One of the examples to utilise multiple GPUs is the OpenMP-CUDA framework, which has a two-level scheme of parallelisation:
 
 ![OpenMP-CUDA](../../assets/unit-9/openmp-cuda.png)  
 _**Figure 6:** (a) The two-level scheme of parallelization with OpenMP-CUDA. (b) Architecture 2×CPU + 6×GPU._
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
-Below is another example of TensorFlow to use multiple GPUs in training a Neural Network. The gradient losses are aggregated and used to update the model parameters:
+Below is another example of TensorFlow using multiple GPUs in training a Neural Network. The gradient losses are aggregated and used to update the model parameters:
 
 ![TesnsorFlow with Multiple GPUs](../../assets/unit-9/tensorflow-multi-gpu.png)  
 _**Figure 7:** TesnsorFlow with Multiple GPUs_
@@ -209,7 +218,7 @@ Recall the memory structure in CUDA, we have local, shared, and global memory, e
 Shared memory has much less latency than the global memory, and can be accessed by all the threads in a block. To use the shared memory, we rely on the following:
 
 * `__shared__`: Annotation that denotes shared memory
-* `__syncthreads()`: Synchronizes all threads __in a block__
+* `__syncthreads()`: Synchronises all threads __in a block__
 
 
 An example of using (static) shared memory is given below, for a reverse function:
@@ -226,7 +235,7 @@ __global__ void Reverse(int *d, int n)
 }
 ```
 
-As many threads are accessing the shared memory at the same, to avoid conflict, memory is divided into **banks**, which is essential to achieve high bandwidth. Each bank can service one address per cycle, and thus a memory can service as many simultaneous accesses as it has banks. However, multiple simultaneous accesses to a bank will result in a **bank conflict**. In which case, these conflicting accesses are serialised.
+Since many threads access shared memory simultaneously, the memory is divided into **banks** to prevent conflicts and ensure high bandwidth. Each bank can handle one address per cycle, enabling the memory to support as many concurrent accesses as there are banks. However, if multiple threads attempt to access the same bank simultaneously, a **bank conflict** occurs, causing these conflicting accesses to be serialised.
 
 When there are no bank conflicts, memory accesses can be run in full parallel:
 
@@ -234,7 +243,7 @@ When there are no bank conflicts, memory accesses can be run in full parallel:
 _**Figure 8:** Bank conflicts free_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
-However, if two or more threads access the same bank, a bank conflict will occur. To give an example, look at Figure 9 below. In the memory access pattern, it is clearer that two threads in a warp access the same bank memory location, like thread 0 accessing bank 0 and thread 8 accessing bank 0, and so on. Clearly, these requests must be serialised; this is known as a 2-way bank conflict.
+If two or more threads access the same memory bank, a bank conflict occurs. For example, consider Figure 9 below. In the illustrated memory access pattern, it is evident that two threads within a warp access the same bank memory location -- for instance, thread 0 accessing bank 0 and thread 8 also accessing bank 0, and so forth. Such overlapping requests must be serialised, resulting in what is referred to as a 2-way bank conflict.
 
 ![2-way bank conflicts](../../assets/unit-9/bank-conflicts.png)  
 _**Figure 9:** 2-way bank conflicts_
@@ -251,7 +260,7 @@ Here is a very useful YouTube video on shared memory and bank conflicts by Peter
 
 In CUDA, memory accesses are called _coalesced_ if all 32 threads in a warp access a contiguous chunk of memory. The following image shows coalesced memory access by all threads of a warp.
 
-![Memory Coalescing](../../assets/unit-9/memory-coalescing.png)  
+![Memory Coalescing](../../assets/unit-9/memory-coalescing.png){: style="background-color: white" }  
 _**Figure 10:** Memory Coalescing_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -283,7 +292,7 @@ More information on unified memory can be found [here](https://developer.nvidia.
 
 ## Time a CUDA program
 
-A CUDA program can be timed with high-precision CPU timers, e.g., `clock_gettime()`. However, as CUDA functions run asynchronously with the CPU, the timer on the CPU is not always accurate (in terms of capturing the actual starting and completion points). To time a CUDA program in a more effective way, there is a built-in timer for events that can be utilised for this purpose.
+A CUDA program can be timed using high-precision CPU timers, such as `clock_gettime()`. However, since CUDA functions execute asynchronously with the CPU, CPU-based timers may not always provide accurate measurements of the actual start and completion points of CUDA operations. To achieve more precise timing, CUDA provides a built-in event-based timer specifically designed for this purpose.
 
 The event timer measures the elapsed time between two events. An event can be created with `cudaEventCreate()`:
 
@@ -306,7 +315,7 @@ After an event is created, one can record the event with `cudaEventRecord()`:
 cudaEventRecord(cudaEvent_t event, cudaStream_t stream = 0)
 ```
 
-Below is an example of how to time code using `cudaEventElapsedTime()`:
+Below is an example of how to time a code using `cudaEventElapsedTime()`:
 
 ```c
 cudaEvent_t start, stop;
@@ -325,14 +334,14 @@ cudaEventDestroy(start);
 cudaEventDestroy(stop);
 ```
 
-## More on Profiling with nvprof
+## Profiling with nvprof
 
-The `nvprof` profiling tool enables you to collect and view profiling data from the command-line. `nvprof` enables the collection of a timeline of CUDA-related activities on both CPU and GPU, including kernel execution, memory transfers, memory set and CUDA API calls and events or metrics for CUDA kernels. Profiling options are provided through command-line options. Profiling results are displayed in the console after the profiling data is collected, and may also be saved for later viewing by either `nvprof` or the Visual Profiler.
+The `nvprof` profiling tool is a component of the Nsight Systems performance analysis tool that enables you to collect and view profiling data from the command-line. `nvprof` enables the collection of a timeline of CUDA-related activities on both CPU and GPU, including kernel execution, memory transfers, memory set and CUDA API calls and events or metrics for CUDA kernels. Profiling options are provided through command-line options. Profiling results are displayed in the console after the profiling data is collected, and may also be saved for later viewing by either `nvprof` or the Visual Profiler.
 
 To use nvprof, simply in a new command line:
 
-```sh
-nvprof [options] [application] [application-arguments]
+```
+$ nsys nvprof [options] [application] [application-arguments]
 ```
 
 The `nvprof` command takes options, the name of the application, and then any parameters that need to be passed to the application. The most useful options for `nvprof` is `--print-gpu-trace`, which prints individual kernel invocations (including CUDA memcpys/memsets) and sorts them in chronological order. In event/metric profiling mode, it shows events/metrics for each kernel invocation.
@@ -340,7 +349,7 @@ The `nvprof` command takes options, the name of the application, and then any pa
 Below is an example output from `nvprof`:
 
 ```
-$ nvprof matrixMul
+$ nsys nvprof ./matrixMul
 [Matrix Multiply Using CUDA] - Starting...
 ==27694== NVPROF is profiling process 27694, command: matrixMul
 GPU Device 0: "GeForce GT 640M LE" with compute capability 3.0
@@ -401,7 +410,7 @@ myKernel<<<...>>>(...);
 cudaProfilerStop();
 ```
 
-Full documentation on `nvprof`, including a full list of command line options, can be found in the [Profiler's Guide](https://docs.nvidia.com/cuda/profiler-users-guide/index.html#nvprof).
+Full documentation on `nvprof`, including a full list of command line options, can be found in the [User Guide]([https://docs.nvidia.com/cuda/profiler-users-guide/index.html#nvprof](https://docs.nvidia.com/nsight-systems/UserGuide/index.html#migrating-from-nvidia-nvprof)).
 
 ## Automatic Block Size Tuning
 
@@ -442,8 +451,8 @@ Below you can find a full example of the automatic tuning process:
 /************************/
 __global__ void MyKernel(int *a, int *b, int *c, int N) {
     int idx = threadIdx.x + blockIdx.x * blockDim.x;
-    if (idx < N) { 
-        c[idx] = a[idx] + b[idx]; 
+    if (idx < N) {
+        c[idx] = a[idx] + b[idx];
     }
 }
 
@@ -505,9 +514,9 @@ void main() {
     cudaMemcpy(h_vec3, d_vec3, N*sizeof(int), cudaMemcpyDeviceToHost);
 
     for (int i=0; i<N; i++) {
-        if (h_vec3[i] != h_vec4[i]) { 
-            printf("Error at i = %i! Host = %i; Device = %i\n", i, h_vec4[i], h_vec3[i]); 
-            return; 
+        if (h_vec3[i] != h_vec4[i]) {
+            printf("Error at i = %i! Host = %i; Device = %i\n", i, h_vec4[i], h_vec3[i]);
+            return;
         }
     }
 
@@ -525,7 +534,7 @@ There are a lot of implementation details that heavily influence how well CUDA p
 
 * Kernel Launch Configuration:
     - Launch enough threads per SM to hide latency
-    - Launch enough thread blocks to load the GPU
+    - Launch enough thread blocks to fill the GPU
 * Global memory:
     - Maximise throughput (the GPU has lots of bandwidth, use it effectively)
     - Use shared memory when applicable (over 1 TB/s bandwidth)
@@ -537,10 +546,10 @@ GPUs typically provide *cheap FLOP/s*; but in order to make the most effective u
 
 # Higher Level GPU Programming
 
-Programming with CUDA is considered as *low-level programming*. Although CUDA provides generality and more flexibility in terms of memory and execution, there is a bunch of *high-level programming languages/libraries/tools* that provide a simpler interface to program a GPU. These tools are often designed for a specific purpose, such as machine learning or signal processing, so they are more *application-oritented*:
+Programming with CUDA is considered to be *low-level programming*. Although CUDA provides generality and more flexibility in terms of memory and execution, there is a bunch of *high-level programming languages/libraries/tools* that provide a simpler interface to program a GPU. These tools are often designed for a specific purpose, such as machine learning or signal processing, so they are more *application-oriented*:
 
 * Linear Algebra
-    - CuBLAS, MAGMA,CUTLASS, Eigen, CuSPARSE, ...
+    - CuBLAS, MAGMA, CUTLASS, Eigen, CuSPARSE, ...
 * Signal Processing
     - CuFFT, ArrayFire, ...
 * Deep Learning
@@ -550,7 +559,7 @@ Programming with CUDA is considered as *low-level programming*. Although CUDA pr
 * Algorithms and Data Structures
     - Thrust, RAJA, Kokkos, OpenACC, OpenMP, ...
 
-Note that some of these are part of the CUDA toolchain (libraries with name starting with *Cuxx*), and some are using CUDA as the backend (e.g., OpenCV, TensorRT). If you want to move a step further into the world of GPU programming, pick one of these, do some research, and try to write/run some code!
+Note that some of these are part of the CUDA toolchain (libraries with name starting with *CuXX*), and some are using CUDA as the backend (e.g., OpenCV, TensorRT). If you want to move a step further into the world of GPU programming, pick one of these, do some research, and try to write/run some code!
 
 # Recommended Reading
 
