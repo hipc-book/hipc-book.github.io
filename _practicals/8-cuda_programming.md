@@ -13,7 +13,7 @@ We'll begin with some basic CUDA programs and gradually progress to more advance
 
 **Note:** You will find the official [NVIDIA CUDA Programming Guide](https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#abstract) extremely handy during this lab.
 
-# Prepration
+# Preparation
 
 **Check the driver**
 
