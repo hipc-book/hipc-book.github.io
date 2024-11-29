@@ -53,11 +53,11 @@ _**Figure 1:** A ClearSpeed Accelerator Card_
 
 We encountered Roadrunner earlier in this module when discussing the various performance barriers that have been broken over the past 50 years. Roadrunner was the first supercomputer to break the PetaFLOP/s barrier and did so using IBM PowerXCell 8i co-processors (a similar processor powered the Sony PlayStation 3). 
 
-![The architecture of a Roadrunner TriBlade](../../assets/unit-10/RR-TriBlade.png){: style="background:white" }  
+![The architecture of a Roadrunner TriBlade](../../assets/unit-10/RR-TriBlade.png){: style="background-color:white" }  
 _**Figure 2:** The architecture of a Roadrunner TriBlade_
 {: style="color:gray; font-size: 90%; text-align: center;" }
  
-![A schematic for Roadrunner's architecture](../../assets/unit-10/RR-schematic.png){: style="background:white" }  
+![A schematic for Roadrunner's architecture](../../assets/unit-10/RR-schematic.png){: style="background-color:white" }  
 _**Figure 3:** Schematic of Roadrunners architecture_
 {: style="color:gray; font-size: 90%; text-align: center;" }
   
@@ -80,13 +80,13 @@ Tianhe was subsequently updated in 2018, almost doubling its performance to 61.4
 
 ### Summit/Sierra
 
-The Summit and Sierra systems installed at the Oak Ridge National Laboratory and the Lawrence Livermore National Laboratory, respectively, are essentially an evolution of Titan. 
+The Summit [retired November 2024] and Sierra systems installed at the Oak Ridge National Laboratory and the Lawrence Livermore National Laboratory, respectively, are essentially an evolution of Titan. 
 
 Both systems are comprised of IBM Power9 cores, backed by NVIDIA Tesla V100 GPUs. Upon release, the systems achieved the #1 and #2 spots, with achieved performance in excess of 100 PFLOP/s. 
 
 ### Aurora, Frontier and El Capitan
 
-The Department of Energy is currently in the process of delivering its first three Exascale systems, namely **Aurora**, **Frontier** and **El Capitan**, installed at Argonne National Laboratory, Oak Ridge National Laboratory and Lawrence Livermore National Laboratory, respectively. All three systems are designed around the Cray Shasta architecture and are heterogeneous systems, consisting of a mixture of CPUs and GPUs. 
+The Department of Energy has recently delivered its first three Exascale systems, namely **Aurora**, **Frontier** and **El Capitan**, installed at Argonne National Laboratory, Oak Ridge National Laboratory and Lawrence Livermore National Laboratory, respectively. All three systems are designed around the Cray Shasta architecture and are heterogeneous systems, consisting of a mixture of CPUs and GPUs. 
  
 ![The design for Frontier](../../assets/unit-10/frontier.png)  
 _**Figure 4:** The design for the Frontier system, with performance in excess of 1 ExaFLOP/s_
@@ -94,9 +94,9 @@ _**Figure 4:** The design for the Frontier system, with performance in excess of
 
 Frontier is a 1.1 ExaFLOP/s (achieved) system consisting of AMD EPYC "Trento" CPUs with AMD Radeon Instinct MI250X GPUs. 
 
-The Aurora system came online in 2023 achieved 0.58 ExaFLOP/s in November 2023 (for approximately half of the machine). The machine officially broke the ExaFLOP barrier in June 2024, achieving 1.01 ExaFLOP/s. It is constructed with Intel CPUs and GPUs -- with each node containing two Intel Xeon Sapphire Rapids Max CPUs, with six Intel Xe Max (Ponte Vecchio) GPUs. 
+The Aurora system came online in 2023 and achieved 0.58 ExaFLOP/s in November 2023 (for approximately half of the machine). The machine officially broke the ExaFLOP barrier in June 2024, achieving 1.01 ExaFLOP/s. It is constructed with Intel CPUs and GPUs -- with each node containing two Intel Xeon Sapphire Rapids Max CPUs, with six Intel Xe Max (Ponte Vecchio) GPUs. 
 
-El Capitan is expected to be delivered in 2024 and will exceed 2 ExaFLOP/s. Like Frontier, El Capital will consist of AMD hardware, with EPYC Genoa CPUs and a next-generation Radeon Instinct architecture. 
+El Capitan is a 1.7 ExaFLOP/s (achieved) system that came online in November 2024. Like Frontier, El Capital consists of AMD hardware, making use of the MI300A APU (accelerated processing unit). The MI300A integrates an AMD CPU and GPU on a single device.
 
 > **Further Reading** 
 >
@@ -136,7 +136,7 @@ Typically HPC software engineers are trying to achieve _the three Ps_:
 
 It is often said that these three goals exist on a triangle, where only two may be possible. 
 
-![The Three Ps plotted on a triangle](../../assets/unit-10/threePs.png){: style="background:white;" }  
+![The Three Ps plotted on a triangle](../../assets/unit-10/threePs.png){: style="background-color:white;" }  
 _**Figure 5:** The three Ps_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
@@ -271,7 +271,7 @@ _**Figure 7:** A cascade plot showing how performance portability changes as pla
 > * Sewall, J., Pennycook, S.J., Jacobsen, D., Deakin, T. and McIntosh-Smith, S., 2020, November. [Interpreting and visualizing performance portability metrics](https://doi.org/10.1109/P3HPC51967.2020.00007). In _2020 IEEE/ACM International Workshop on Performance, Portability and Productivity in HPC (P3HPC)_ (pp. 14-24). IEEE. 
 > * Pennycook, S.J., Sewall, J.D., Jacobsen, D.W., Deakin, T. and McIntosh-Smith, S., 2021. [Navigating Performance, Portability, and Productivity](https://doi.org/10.1109/MCSE.2021.3097276). _Computing in Science & Engineering_, _23_(5), pp.28-38.
 >
-> You can generate your own box plots and cascade plots using the P3 analysis library provided by the authors here: 
+> You can generate your own cascade plots using the P3 Analysis Library provided by the authors here: 
 >
 > * [Performance, Portability, and Productivity Analysis Library](https://intel.github.io/p3-analysis-library/index.html), Intel 
 >
@@ -645,7 +645,7 @@ int main() {
 
 Support for SYCL exists in a number of compilers, with a variety of target architectures (see the figures [here](https://www.khronos.org/sycl/)).  
 
-The ComputeCpp compiler, from Codeplay, has multiple backends, allowing it to target a range of CPUs and GPUs from Intel, AMD, and Arm; the triSYCL compiler, developed by Xilinx, can generate OpenMP-compliant applications, and can additionally target Xilinx FPGAs; Heidelberg University's LLVM-based OpenSYCL compiler can generate OpenMP, CUDA, ROCm, or oneAPI Level Zero code, allowing it to target CPUs and GPUs from the three major hardware vendors expected to be present in post-Exascale systems.
+The ComputeCpp compiler, from Codeplay, has multiple backends, allowing it to target a range of CPUs and GPUs from Intel, AMD, and Arm; the triSYCL compiler, developed by Xilinx, can generate OpenMP-compliant applications, and can additionally target AMD/Xilinx FPGAs; Heidelberg University's LLVM-based AdaptiveCpp (previously hipSYCL and OpenSYCL) compiler can generate OpenMP, CUDA, ROCm, or oneAPI Level Zero code, allowing it to target CPUs and GPUs from the three major hardware vendors present in post-Exascale systems.
 
 SYCL has additionally been adopted and extended by Intel (as Data Parallel C++) for its oneAPI programming model. While initially appearing in Intel's (now branded "Classic") C++ Compiler in 2020, aimed primarily at Intel hardware, the adoption of an LLVM-backend in 2021 has meant that Intel's compiler can now natively support NVIDIA and AMD targets also, through CUDA and HIP, respectively. 
 
@@ -672,7 +672,7 @@ The maturity of SYCL toolchains has been the subject of recent work, with perfor
 
 The US Department of Energy has taken a different approach to heterogeneous computing. Rather than adopting the OpenMP or SYCL programming models, they have instead developed their own open-source programming models as part of the Exascale Computing Project (ECP). 
 
-The ECP's efforts revolve around two similar programming models, Kokkos and RAJA. Both are programming models based on template metaprogramming in C++. 
+The ECP's efforts revolve around two similar programming models, Kokkos and RAJA. Both are programming models based on [template metaprogramming](https://en.wikipedia.org/wiki/Template_metaprogramming) in C++. 
 
 ## Kokkos
  

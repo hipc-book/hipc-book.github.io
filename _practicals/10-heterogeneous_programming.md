@@ -7,7 +7,7 @@ layout: post
 
 # Overview
 
-In this practical, we're going to start working on targetting multiple heterogeneous architectures from a single-source application. We're going to do this through two approaches: OpenMP with target offload directives and SYCL/Data Parallel C++.
+In this practical, we're going to start working on targeting multiple heterogeneous architectures from a single-source application. We're going to do this through two approaches: OpenMP with target offload directives and SYCL/Data Parallel C++.
 
 > Both exercises this week are based on the [heat equation code](../../assets/practical-10/heat.c) from Practical 6. However, in the code linked here, the 2D array has been flattened for you.
 {: .block-tip }
@@ -18,7 +18,7 @@ We've covered OpenMP in earlier units and practicals, showing how we can achieve
 
 ## Using a Compliant Compiler and the Right Hardware
 
-To complete this practical, we're going to need the right hardware and software -- that is to say, we're going to need a compiler with support for target offload directives, and we're going to need hardware it is capable of targetting.
+To complete this practical, we're going to need the right hardware and software -- that is to say, we're going to need a compiler with support for target offload directives, and we're going to need hardware it is capable of targeting.
 
 The best OpenMP 4.0+ compliant compiler available on Viking (with the ability to target NVIDIA GPUs) is the NVHPC compiler from the NVIDIA HPC SDK. We can load it on Viking like so:
 
@@ -43,7 +43,7 @@ One important thing to note is that the NVIDIA HPC compiler with target offload 
 For this reason, we should instead use Viking's GPU nodes, that contain A40s (Ampere) or H100s (Hopper) GPUs. You can request an interactive session on one of these nodes like so:
 
 ```
-$ srun --time=00:10:00 --account=CS-TEACH-2023 --partition=gpu --gres=gpu:1 --mem=10G --pty /bin/bash
+$ srun --time=00:10:00 --account=CS-TEACH-2024 --partition=gpu --gres=gpu:1 --mem=10G --pty /bin/bash
 ```
 
 ## Prescriptive Parallelism vs. Descriptive Parallelism
