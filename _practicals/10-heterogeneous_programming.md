@@ -1,6 +1,6 @@
 ---
 title: 10. Heterogeneous Programming 
-date: 2022-07-21
+date: 2023-07-21
 category: hipc
 layout: post
 ---
