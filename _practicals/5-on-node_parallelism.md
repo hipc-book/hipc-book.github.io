@@ -8,8 +8,6 @@ layout: post
 
 # Overview
 
-Welcome to the fifth practical.
-
 This week, we're entering the world of multicore. We'll still be using some of the skills developed in the last practical to ensure we make optimal use of a single core, but we'll also be expanding this to multi-core and multi-processor systems. 
 
 We'll start by revisiting an exercise from last week, and then we'll develop a new code based on a [Monte Carlo method](https://en.wikipedia.org/wiki/Monte_Carlo_method). 

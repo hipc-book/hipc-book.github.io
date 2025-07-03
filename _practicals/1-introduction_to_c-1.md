@@ -5,7 +5,7 @@ category: hipc
 layout: post
 ---
 
-# Summary
+# Overview
      
 This practical session should give you some familiarity with many of the core features of the C programming language and how to perform some simple debugging. 
 
