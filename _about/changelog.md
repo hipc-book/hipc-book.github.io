@@ -13,7 +13,7 @@ layout: post
 
 ### 2023-02-27
 
-* Over the last 2 months this gitbook has been edited to remove typographical issues and unify the style.
+* Over the last 2 months this GitBook has been edited to remove typographical issues and unify the style.
 * All videos have now been replaced by Youtube versions with correct subtitles.
 
 ### 2024-09-19
@@ -21,3 +21,12 @@ layout: post
 * The previous year of this site has been archived and is linked from the About page.
 * The course overview and Unit 1 videos have been replaced.
 * The material has been updated to reflect the current state-of-the-art.
+
+### 2024-12-01
+
+* All course videos have been replaced by higher quality videos.
+
+### 2025-07-03
+
+* A new practical on Scientific Computing has been added for the 2025-26 run of this module.
+* Numerous corrections have been made throughout the material.

@@ -16,3 +16,4 @@ The assignment for this module will be made available via the York VLE (rather t
 
 * [2022-23](/~saw586/hipc/2022-23)
 * [2023-24](/~saw586/hipc/2023-24)
+* [2024-25](/~saw586/hipc/2024-25)
