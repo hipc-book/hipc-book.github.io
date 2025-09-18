@@ -28,7 +28,7 @@ You should type out the code samples below, compile them and make sure you know 
 
 Almost every HPC system in use today uses the Linux operating system (or a Unix variant). For this reason, it is expected that you will complete these practicals and the coursework on a Unix/Linux-based system. If you are unfamiliar with the Linux command line, there are many guides available (e.g. [The Linux command line for beginners](https://ubuntu.com/tutorials/command-line-for-beginners#1-overview)). If you are currently using a Windows lab machine, you should consider rebooting into Linux. If you are using a machine without Linux installed, perhaps consider SSHing to a Linux machine (e.g. the **csteach** machines). You may complete many of the exercises successfully on a MacOS system, but will likely find differences between the commands in this lab session and those required on a Mac. 
 
-You can use any editor of your choice to write your codes. Some may prefer using advanced IDEs like VScode while others might prefer terminal based editors such as `vim` or `nano`. Whatever you use, you must learn how to use the editor/IDE by yourself. 
+You can use any editor of your choice to write your codes. Some may prefer using advanced IDEs like VS Code while others might prefer terminal based editors such as `vim` or `nano`. Whatever you use, you must learn how to use the editor/IDE by yourself. 
 
 ## Getting Started With C
 
@@ -93,7 +93,7 @@ int main(int argc, char *argv[]) {
 }
 ```
  
-**Note**: The format string provided to the `printf()` function is very different to Java's println function. 
+**Note**: The format string provided to the `printf()` function is very different to Java's `println` function. 
 
 # Functions
 

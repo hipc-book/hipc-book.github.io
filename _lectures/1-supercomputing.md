@@ -174,9 +174,15 @@ _**Figure 11**: Fugaku_
 
 <iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/kTlLQ53Jzcw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe><br/>
 
-We are now in the era of Exascale computing. The fastest machine in the world currently is **Frontier**, installed at ORNL. Frontier entered the TOP500 in June 2022, achieving 1.1 EFLOP/s. It is an HPE Cray system, consisting of 9,472 AMD EPYC CPUs and 37,888 AMD Radeon Instinct MI250X GPUs. While Frontier is the first system to pass the Exascale threshold, it certainly will not be the last, with at least one other system in production, and numerous planned post-Exascale systems currently in development (or already operating without being publicly acknowledged).
+We are now in the era of Exascale computing. There are currently three publicly acknowledged Exascale systems, all operated by the US Department of Energy (DoE). The fastest machine in the world currently is **El Capitan** at LLNL, followed by **Frontier** at ORNL, and **Aurora** at ANL. 
 
-![Fugaku](../../assets/unit-1/frontier.jpg)  
+Frontier was the first Exascale system, entering the TOP500 in June 2022, achieving 1.1 EFLOP/s. It is an HPE Cray system, consisting of 9,472 AMD EPYC CPUs and 37,888 AMD Radeon Instinct MI250X GPUs. 
+
+Aurora surpassed an ExaFLOP/s in the June 2024 list. Like Frontier, it is an HPE Cray "Shasta" system, but consists of 21,248 Intel "Sapphire Rapids" Xeon CPUs and 63,744 Intel "Ponte Vecchio" Xe GPUs.
+
+El Capitan first topped the November 2024 list, posting a peak performance of 1.74 ExaFLOP/s. Again, it is an HPE Cray system, consisting of 42,808 AMD Instinct MI300A APUs (Accelerated Processing Unit).
+
+![Frontier](../../assets/unit-1/frontier.jpg)  
 _**Figure 12**: Frontier_
 {: style="color:gray; font-size: 90%; text-align: center;"}
 
@@ -197,7 +203,7 @@ As discussed in the previous section, supercomputers are typically ranked twice 
 
 ## TOP500
 
-The TOP500 was introduced by Hans Meuer and Jack Dongarra in 1993. Supercomputers are evaluated based on their floating-point operations (FLOPs) per second on the dense linear solver benchmark, LINPACK. The list is produced twice a year, at the International Supercomputing Conference in May/June, and at the Supercomputing Conference in November.
+The TOP500 was introduced by Hans Meuer and Jack Dongarra in 1993. Supercomputers are evaluated based on their floating-point operations (FLOPs) per second on the dense linear solver benchmark, LINPACK. The list is produced twice a year, at the International Supercomputing Conference (ISC) in May/June, and at the Supercomputing Conference (SC) in November.
 
 Since the TOP500 began tracking supercomputing performance, the performance of the #1 machine has approximately doubled every two years (thus following the consequence of Moore's law, that the number of transistors in a dense integrated circuit will double approximately every two years).
 
@@ -216,17 +222,17 @@ Despite the prevalence (and perceived importance) of the TOP500, it has been not
 
 ## GREEN500
 
-The GREEN500 augments the TOP500 list by taking the performance data and the power consumption to calculate the FLOP/s/Watt. Consequently the top systems are usually smaller installations, with newer architectures. Frontier currently sits at #7 in the GREEN500, with a power efficiency of 62.68 GFLOP/s/Watt, whereas the current #1 achieves 72.73 GFLOP/s/Watt.
+The GREEN500 augments the TOP500 list by taking the performance data and the power consumption to calculate the FLOP/s/Watt. Consequently the top systems are usually smaller installations, with newer architectures. El Capitan currently sits at #25 in the GREEN500, with a power efficiency of 58.89 GFLOP/s/Watt, whereas the current #1 achieves 72.73 GFLOP/s/Watt.
 
 <div class="table-wrapper" markdown="block">
 
 | Rank | TOP500 Rank | System | Cores | Rmax (TFlop/s) | Power (kW) | Power Efficiency (GFlops/watts) |
 |:-:|:-:|:-:|:-:|:-:|:-:|:-:|
 | 1 | 189 | JEDI - BullSequana XH3000, Grace Hopper Superchip 72C 3GHz, NVIDIA GH200 Superchip, Quad-Rail NVIDIA InfiniBand NDR200, ParTec/EVIDEN | 19,584 | 4.50 | 67 | 72.733 |
-| 2 | 128 | Isambard-AI phase 1 - HPE Cray EX254n, NVIDIA Grace 72C 3.1GHz, NVIDIA GH200 Superchip, Slingshot-11, HPE | 34,272 | 7.42 | 117 | 68.835 |
-| 3 | 55 | Helios GPU - HPE Cray EX254n, NVIDIA Grace 72C 3.1GHz, NVIDIA GH200 Superchip, Slingshot-11, HPE | 89,760 | 19.14 | 317 | 66.948 |
-| 4 | 328 | Henri - ThinkSystem SR670 V2, Intel Xeon Platinum 8362 32C 2.8GHz, NVIDIA H100 80GB PCIe, Infiniband HDR, Lenovo | 8,288 | 2.88 | 44 | 65.396 |
-| 5 | 71 | preAlps - HPE Cray EX254n, NVIDIA Grace 72C 3.1GHz, NVIDIA GH200 Superchip, Slingshot-11, HPE | 81,600 | 15.47 | 240 | 64.381 |
+| 2 | 148 | ROMEO-2025 - BullSequana XH3000, Grace Hopper Superchip 72C 3GHz, NVIDIA GH200 Superchip, Quad-Rail NVIDIA InfiniBand NDR200, EVIDEN | 47,328 | 9.86 | 160 | 70.912 |
+| 3 | 484 | Adastra 2 - HPE Cray EX255a, AMD 4th Gen EPYC 24C 1.8GHz, AMD Instinct MI300A, Slingshot-11, RHEL, HPE | 16,128 | 2.53 | 37 | 69.098 |
+| 4 | 183 | Isambard-AI phase 1 - HPE Cray EX254n, NVIDIA Grace 72C 3.1GHz, NVIDIA GH200 Superchip, Slingshot-11, HPE | 34,272 | 7.42 | 117 | 68.835 |
+| 5 | 255 | Otus (GPU only) - ThinkSystem SD665-N V3, AMD EPYC 9655 96C 2.6GHz, NVIDIA H100 SXM5 80GB, Infiniband NDR, Rocky Linux 9.4, Lenovo | 19,440 | 4.66 |   | 68.177 |
 
 </div>
 
@@ -254,21 +260,21 @@ The HPCG rankings are hosted (and announced) alongside the TOP500 and GREEN500 l
 
 While LINPACK and HPCG both measure performance in FLOP/s, there are a number of HPC applications that are less reliant on floating-point arithmetic. The Graph500 is an alternative ranking that is instead focussed on data intensive applications. The current Graph500 benchmark performs a concurrent breadth-first search and ranks systems based on the number of traversed edges per second (TEPS).
 
-The current #1 system is Fugaku, capable of performing 166,029 GTEPS.
+The current #1 system is Fugaku, capable of performing 204,068 GTEPS.
 
 <div class="table-wrapper" markdown="block">
 
 | Rank | Machine | Vendor | Installation Site | Location | Country | Year | Nodes | Cores | Scale | GTEPS |
 |:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
-| 1 | Supercomputer Fugaku | Fujitsu | RIKEN Center for Computational Science (R-CCS) | Kobe Hyogo | Japan | 2020 | 152064 | 7299072 | 42 | 166029 |
-| 2 | Wuhan Supercomputer | HUST | Wuhan Supercomputing Center | Wuhan | China | 2023 | 252 | 6999552 | 41 | 115357.6 |
-| 3 | Frontier | HPE | DOE/SC/Oak Ridge National Laboratory | Oak Ridge TN | United States | 2021 | 9248 | 8730112 | 40 | 29654.6 | 
-| 4 | Pengcheng Cloudbrain-II | HUST-Pengcheng Lab-HUAWEI | Pengcheng Lab | ShenZhen | China | 2022 | 488 | 93696 | 40 | 28463.1 |
-| 5 | Aurora | Intel/HPE | DOE/SC/Argonne National Laboratory | Argonne IL | United States | 2023 | 4096 | 25591808 | 40 | 24250.2 |
+| 1 | Supercomputer Fugaku | Fujitsu | RIKEN Center for Computational Science (R-CCS) | Kobe Hyogo | Japan | 2020 | 152064 | 7299072 | 43 | 204068 |
+| 2 | eos-dfw | N/A | CoreWeave datacenter, Dallas | Dallas TX | United States | 2023 | 512 | 606208 | 40 | 126815 |
+| 3 | Wuhan Supercomputer | HUST | Wuhan Supercomputing Center | Wuhan | China | 2023 | 252 | 6999552 | 41 | 115357.6 |
+| 4 | Aurora | Intel/HPE | DOE/SC/Argonne National Laboratory | Argonne IL | United States | 2023 | 8192 | 51183616 | 42 | 69373 |
+| 5 | EOS NVIDIA DGX | NVIDIA | NVIDIA Corp | Santa Clara | United States | 2023 | 416 | 485888 | 38 | 39085 |
 
 </div>
 
-_**Table 2:** Graph500 in June 2024_
+_**Table 2:** Graph500 in June 2025_
 {: style="color:gray; font-size: 90%; text-align: center;"}
 
 > **Further Reading** 
@@ -280,7 +286,7 @@ _**Table 2:** Graph500 in June 2024_
 
 In recognising the recent emergence of AI workloads on HPC systems, the HPL-MxP rankings were introduced in 2019 (as HPC-AI initially, before becoming the HPC-MxP Mixed Precision Benchmark in 2022). The HPL-MxP benchmark strives to unite traditional HPC workloads with AI workloads, and it does this by performing a combination of LINPACK-like double-precision calculations alongside low-precision AI-like calculations. The rankings are reported in FLOP/s, but are not limited to double-precision operations like LINPACK and HPCG.
 
-The current #1 system is Aurora, achieving 10.6 ExaFLOP/s on HPL-MxP.
+The current #1 system is El Capitan, achieving 16.68 ExaFLOP/s on HPL-MxP.
 
 > **Further Reading** 
 >
