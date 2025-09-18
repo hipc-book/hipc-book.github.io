@@ -296,21 +296,41 @@ The more iterations we perform of this formula, the closer our approximation to 
 >
 > Modify your code to allow the problem size (in terms of $n$) to be specified on the command line.
 >
-> You will need to update your code to generate an `A` matrix (that is diagonally dominant) and a `b` vector. You could leave `x` in its original state, or you could set it to all ones or zeros. One possible approach might be:
-> ```c
-> for (int i = 0; i < n; i++) {
->    b[i] = 2*n;
->    for (int j = 0; j < n; j++) {
->       if (i == j) A[i*n+j] = n + 1;
->       else A[i*n+j] = 1;
->    }
-> }
-> ```
+> You will need to update your code to generate an `A` matrix (that is diagonally dominant) and a `b` vector. You could leave `x` in its original state, or you could set it to all ones or zeros. 
+>
+> You can test your solver with the following conditions:
+>
+> $$
+> A = 
+> \begin{bmatrix}
+> n + 1  & 1      & \cdots & 1 \\
+> 1      & n + 1  & \cdots & 1 \\
+> \vdots & \vdots & \ddots & \vdots \\
+> 1      & 1      & 1      & n + 1
+> \end{bmatrix}, b = \begin{bmatrix}
+> 2n \\
+> \vdots \\
+> 2n
+> \end{bmatrix}
+> $$
+> 
+> The solver should converge with the following answer:
+>
+> $$
+> x = \begin{bmatrix}
+> 1 \\
+> \vdots \\
+> 1 
+> \end{bmatrix}
+> $$
 >
 > You can now evaluate how well your solver scales with problem size.
 > <br/><br/>
 {: .block-danger }
 
+Depending on your initial values for `x` in Exercise 3 (your "guess"), you may find that your code converges quickly (if your initial guess was $[ 1.0, ..., 1.0 ]^{T}$ for the test problem), or quite slowly (if your initial guess was $[ 0.0, ..., 0.0 ]^{T}$ for the test problem).
+
+Providing an initial guess is known as "[preconditioning](https://en.wikipedia.org/wiki/Preconditioner)". Preconditioning is an active area of research within HPC, and within scientific computing. The better your preconditioning, the faster your solver might converge (and thus, the less computation you might require).
 
 # The Gauss-Seidel Method
 
