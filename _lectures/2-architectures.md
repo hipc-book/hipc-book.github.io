@@ -54,7 +54,7 @@ In 1976, the Cray-1 was released, featuring a number of architectural optimisati
 _**Figure 2:** Cray-1 block diagram_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
-In the Cray-1, data was moved from main memory into vector registers (data storage on the CPU that is much faster than main memory). Vector instructions were then applied to the vector registers, essentially applying the same mathematical operation to multiple operands simultaneously. Additionally, the Cray design used pipeline parallelism to implement vector instructions, rather than multiple ALUs. 
+In the Cray-1, data was moved from main memory into vector registers (data storage on the CPU that is much faster than main memory). Vector instructions were then applied to the vector registers, essentially applying the same mathematical operation to multiple operands simultaneously. Additionally, the Cray design used pipeline parallelism to implement vector instructions, rather than multiple arithmetic logic units (ALUs). 
 
 SIMD instructions can now be found on almost all modern CPUs -- as we'll see later in this course. 
 
@@ -243,7 +243,7 @@ So, now we know the basics of how modern CPUs work, how do we calculate the theo
 
 First, we make a basic assumption that in the best case we can perform 1 instruction per clock cycle. Of course, most instructions take multiple clock cycles, but (in the best case) we hope that these are amortised by superscalar architectures, pipelining, etc. 
 
-Then we can consider the number of FLOP/s we can perform _per instruction_. If we consider a [Fused Multiply-Add (FMA)](https://en.wikipedia.org/wiki/Multiply-accumulate_operation) instruction (e.g. $a = a + (b \times c)$), we can perform 2 FLOP/s per instruction (i.e. an addition and a multiplication). Add in SIMD instruction sets and we can perform multiple FMA instructions simultaneously on a vector of inputs. With AVX, with a vector width of 128 bits, we can perform 2 double-precision (64-bit) FMA instructions per clock cycle; with AVX-2, we can double this to 4 double-prevision FMA instructions per cycle, and with AVX-512, we can double this again to 8. 
+Then we can consider the number of FLOP/s we can perform _per instruction_. If we consider a [Fused Multiply-Add (FMA)](https://en.wikipedia.org/wiki/Multiply-accumulate_operation) instruction (e.g. $a = a + (b \times c)$), we can perform 2 FLOP/s per instruction (i.e. an addition and a multiplication). Add in SIMD instruction sets and we can perform multiple FMA instructions simultaneously on a vector of inputs. With SSE, with a vector width of 128 bits, we can perform 2 double-precision (64-bit) FMA instructions per clock cycle; with AVX/AVX-2, we can double this to 4 double-precision FMA instructions per cycle, and with AVX-512, we can double this again to 8. 
 
 Next, we must consider whether there are multiple floating point units per core. In many cases, there will only be a single unit available, but in some HPC processors, we may be able to use simultaneous multithreading (SMT) to increase performance. A good example of this is in the [Intel Xeon Gold 6252](https://ark.intel.com/content/www/us/en/ark/products/192447/intel-xeon-gold-6252-processor-35-75m-cache-2-10-ghz.html) processor, where "# of AVX-512 FMA Units" is 2 (i.e. there are 2 AVX-512 FMA units available for each core).
 
@@ -297,15 +297,15 @@ Cloud systems typically require the ability to be "elastic", i.e., to grow and s
 
 Most HPC systems today are distributed memory architectures, where each node operates independently on a subproblem, with a communication phase each time step, to communicate boundary information, or to perform simple reduction calculations. Communications are typically small, but time sensitive. Because of this, there is a focus in HPC on low-latency interconnects. 
 
-All modern networks are *switched fabric* -- nodes communicate through one of more network switches (particularly crossbar switches). 
+All modern networks are *switched fabric* -- nodes communicate through one or more network switches (particularly crossbar switches). 
 
 #### Infiniband
  
 Infiniband originated in 1999 from a merger of Next Generation I/O (Intel, Sun and Dell) and Future I/O (Compaq, IBM and HP). Infiniband is a switched fabric topology focussed on low latency, that was originally designed to replace PCI. 
 
-In infiniband, the physical connections can be made with copper (up to 10 meters) or optical fibre (up to 10 km), and links can be aggregated to achieve higher bandwidth. 
+In Infiniband, the physical connections can be made with copper (up to 10 meters) or optical fibre (up to 10 km), and links can be aggregated to achieve higher bandwidth. 
 
-The initial release of infiniband was single-data rate (SDR) with a theoretical throughput of 2 Gbit/s per link, and an adapter latency of 5 $\mu$s. Subsequently this has been extended to double-data rate (DDR), quad-data rate (QDR), fourteen-data rate (FDR), enhanced-data rate (EDR) and high-data rate (HDR), with each update increasing the throughput, up to 50 Gbits/s per link, and reducing the latency to around 0.5 $\mu$s. 
+The initial release of Infiniband was single-data rate (SDR) with a theoretical throughput of 2 Gbit/s per link, and an adapter latency of 5 $\mu$s. Subsequently this has been extended to double-data rate (DDR), quad-data rate (QDR), fourteen-data rate (FDR), enhanced-data rate (EDR) and high-data rate (HDR), with each update increasing the throughput, up to 50 Gbits/s per link, and reducing the latency to around 0.5 $\mu$s. 
 
 <div class="table-wrapper" markdown="block">
 
@@ -351,7 +351,7 @@ The performance of the interconnect in a distributed system is primarily dictate
 
 #### Fat Tree 
 
-Fat trees are shaped similarly to a tree, and have root switches and leaf switches (see Figure 7). Typical implementations are 2 or 3 level and may be tapered between the root and leaf switches, reducing cost and increasing the number of available endpoints but at the expense of global bandwidth. 
+Fat trees are shaped similarly to a tree, and have root switches and leaf switches (see Figure 7). Typical implementations are 2 or 3 level and may be tapered between the root and leaf switches, reducing cost and increasing the number of available endpoints, but at the expense of global bandwidth. 
 
 ![A simple 2-level fat tree](../../assets/unit-2/fattree.png){: style="background-color:white" }  
 _**Figure 7:** A simple 2-level fat-tree configuration_
@@ -487,7 +487,7 @@ _**Figure 12:** CPUs vs GPUs for computation_
 
 > **Further Reading**
 >
-> * [https://www10.mcadcafe.com/blogs/jeffrowe/2017/03/16/the-continuing-importance-of-gpus-for-more-than-just-pretty-pictures/](The Continuing Importance of GPUs For More Than Just Pretty Pictures) 
+> * [The rise and rise of GPUs](https://www.ingenia.org.uk/articles/the-rise-and-rise-of-gpus/) 
 {: .block-tip }
 
 ### GPGPUs 
@@ -502,7 +502,7 @@ These programmable shaders were the focus of the Brook programming language, dev
 
 In 2007, inspired by Brook, NVIDIA created the CUDA (Compute Unified Device Architecture) programming language -- a C-like programming language aimed at programming NVIDIA GPUs not for visual output, but for parallel computation. While a GPU lacks much of the functionality required to operate an entire operating system, they can perform many floating-point operations in parallel when data and instructions are provided in a SIMD-like fashion. 
 
-<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/JkvqWe1ZT2w" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe><br/>
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/pPStdjuYzSI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe><br/>
 
 GPUs began to take a footing in the Top500 list from June 2010, with two systems appearing in the top 10 powered partially by NVIDIA or ATI Radeon GPUs. From these humble beginning, many of the largest systems are now powered by NVIDIA GPUs, and a number of planned Exascale systems will use GPUs from AMD (formerly ATI) and Intel. 
 
