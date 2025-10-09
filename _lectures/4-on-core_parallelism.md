@@ -128,7 +128,7 @@ for (int i = 0; i < 13; i++) { // do this once
 ...
 <loop kernel> {
     edelz = iL + iR + iU + iO + iS + iN;
-    BF = tanh_table[edelz];
+    BF = tanh_table[edelz + 6]; // add 6 to edelz to account for range from -6 to 6
 }
 ```
 
@@ -277,7 +277,7 @@ my_array[x][y] = ...;
 
 This will provide us with an _n &times; m_ array that we can index using square brackets. However, each row is its own allocation and therefore **the rows are not stored contiguously** in memory. 
 
-Another approach that is often used, is to store a 2D/3D/etc array in a 1D array and then calculate offsets manually or using a macro. For example, 
+Another approach that is often used, is to store a 2D/3D/etc. array in a 1D array and then calculate offsets manually or using a macro. For example, 
 
 ```c
 double *my_array = (double *) malloc(sizeof(double) * rows * cols);
@@ -372,7 +372,7 @@ for (int i = 0; i < N; i++) {
 }
 ```
 
-In this code we're simply adding successive elements of `a` to `b` and storing the result in `c`. Unrolling this loop by a factor of 4 would mean copying the body of the loop 3 times and increasing the loop step function to account for the new much larger steps. In other words, each new iteration would do the work of 4 iterations in the previous example.
+In this code we're simply adding successive elements of `a` to `b` and storing the result in `c`. Unrolling this loop by a factor of 4 would mean copying the body of the loop 3 times and increasing the loop step function to account for the now much larger steps. In other words, each new iteration would do the work of 4 iterations in the previous example.
 
 ```c
 for (int i = 0; i < N; i += 4) { // the loop now steps forward 4 at a time.
@@ -597,7 +597,7 @@ Generally speaking, an optimising compiler can usually perform the following _ty
 
 ## Optimisation Level
 
-We can control many of the types of optimisation through compiler flags; flags specified on the command line at compile time. For example, if we wanted to inline small functions (functions where the body of the call is smaller than the expected function call code), we could include the `-finline-small-functions` compiler flag to our command line. 
+We can control many of the types of optimisation through compiler flags -- flags specified on the command line at compile time. For example, if we wanted to inline small functions (functions where the body of the call is smaller than the expected function call code), we could include the `-finline-small-functions` compiler flag to our command line. 
 
 But usually we don't want to write out a exhaustive list of compiler options, and so instead we choose to specify an optimisation level that turns on a particular subset of optimisation flags for us. 
 
@@ -605,7 +605,7 @@ We will not list all of the optimisation levels and what options are enabled her
 
 > **Further Reading**
 >
-> * [3.11 Options That Control Optimization](https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html), GCC Optimisation Options 
+> * [3.12 Options That Control Optimization](https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html), GCC Optimisation Options 
 {: .block-tip }
 
 In general, Clang tries to copy the command line options of GCC, and so many of the same options are available in Clang/LLVM. However, the options enabled by each of the optimisation levels may differ slightly between the two compilers. Code compiled with `-O2` by Clang may not have the same optimisations applied as an equivalent compiled by GCC. 
@@ -624,8 +624,8 @@ We can also use the `-mtune=` compiler flag to allow the compiler to tune an app
 
 > **Further Reading**
 >
-> * [3.19.59 x86 Options](https://gcc.gnu.org/onlinedocs/gcc/x86-Options.html#x86-Options), GCC list of x86 options
-> * [3.19 Machine-Dependent Options](https://gcc.gnu.org/onlinedocs/gcc/Submodel-Options.html#Submodel-Options), GCC list of Submodel options
+> * [3.20.54 x86 Options](https://gcc.gnu.org/onlinedocs/gcc/x86-Options.html#x86-Options), GCC list of x86 options
+> * [3.20 Machine-Dependent Options](https://gcc.gnu.org/onlinedocs/gcc/Submodel-Options.html#Submodel-Options), GCC list of Submodel options
 {: .block-tip }
 
 ## Optimisation Reports
@@ -640,8 +640,8 @@ For Clang, we use the `-Rpass` (when a pass makes a transformation), `-Rpass-mis
 
 > **Further Reading**
 >
-> * [3.18 GCC Developer Options](https://gcc.gnu.org/onlinedocs/gcc/Developer-Options.html), GCC Developer options
-> * [Options to Emit Optimization Reports](https://clang.llvm.org/docs/UsersManual.html#id21), Clang optimisation reports
+> * [3.19 GCC Developer Options](https://gcc.gnu.org/onlinedocs/gcc/Developer-Options.html), GCC Developer options
+> * [Options to Emit Optimization Reports](https://clang.llvm.org/docs/UsersManual.html#options-to-emit-optimization-reports), Clang optimisation reports
 {: .block-tip }
 
 Let's revisit our vector-add example from earlier. If we compile this with GCC, `-O3`, and optimisation reports (`-fopt-info-all`), we should see something like the following (results may vary based on compiler version, architecture, etc.): 

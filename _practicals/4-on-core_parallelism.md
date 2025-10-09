@@ -154,7 +154,7 @@ Intel Advisor is available on the departmental machines. You can use it to perfo
 You can start the Advisor GUI by first 'sourcing' the `setvars` script, and then launching the GUI like so: 
  
 ```
-$ source /opt/york/cs/net/intel-oneapi-2022-x86_64-1/setvars.sh 
+$ source /opt/intel-advisor/setvars.sh 
 $ advisor-gui
 ```
  
@@ -176,7 +176,7 @@ In the project properties, you should find the compiler's binary and select that
 
 **Note:** You will need to compile your application with debug symbols (i.e. `-g`) 
 
-You can provide some arguments to the application in the parameters field. So for the nbody code, with 1000 particles for 100 time steps: 
+You can provide some arguments to the application in the parameters field. So for the nbody code (see **Bonus Exercise** below), with 1000 particles for 100 time steps: 
  
 ![IProviding application parameters](../../assets/practical-4/intel-advisor-3.png)  
 _**Figure 3:** Providing application parameters_
@@ -399,5 +399,11 @@ _**Figure 7:** Performing a Roofline Analysis in Intel Advisor_
 > }
 > ```
 >  
+> The program takes two input parameters from the command line. The number of particles, `N`, and the number of time steps, `steps`. You can run your compiled code like so:
+>
+> ```
+> $ ./nbody 1000 100
+> ```
+>
 > Add timers to the application and then optimise it as best as you can. Bonus marks if you are able to make use of vector intrinsics in the main loop body.  <br/><br/>
 {: .block-danger }

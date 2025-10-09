@@ -149,9 +149,9 @@ The remainder of this practical will focus on two iterative methods and their im
 
 # The Jacobi method
 
-One of the simplest methods for solving linear systems was devised by [Carl Gustav Jacob Jacobi](https://en.wikipedia.org/wiki/Carl_Gustav_Jacob_Jacobi) in around 1845. The Jacobi method works on matrices that are _diagonally dominant_. That is to say, matrices where the diagonal entry in a row is greater than or equal to the sum of the magnitudes of all other entries in that row. Or, more formally:
+One of the simplest methods for solving linear systems was devised by [Carl Gustav Jacob Jacobi](https://en.wikipedia.org/wiki/Carl_Gustav_Jacob_Jacobi) in around 1845. The Jacobi method works on matrices that are _diagonally dominant_. That is to say, matrices where the magnitude of the diagonal entry in a row is greater than or equal to the sum of the magnitudes of all other entries in that row. Or, more formally:
 
-$$a_{ii}  \geq \sum_{j\ne i} | a_{ij} | ~ ~ \forall i$$
+$$| a_{ii} |  \geq \sum_{j\ne i} | a_{ij} | ~ ~ \forall i$$
 
 Consider the linear system $A\vec{x} = \vec{b}$, where $A$ is a square matrix. We can decompose $A$ to be the sum of three components, a diagonal component $D$, a lower triangular part $L$ and an upper triangular part $U$. **Note:** This is not the same $L$ and $U$ as in the LU decomposition above.
 
@@ -228,7 +228,7 @@ The more iterations we perform of this formula, the closer our approximation to 
 > #include <stdlib.h>
 > #include <string.h>
 > 
-> #define MAX_ITERS 25;
+> #define MAX_ITERS 25
 >
 > void jacobi_solve(double* A, double* b, double* x, int n) {
 >    // check that A is diagonally dominant

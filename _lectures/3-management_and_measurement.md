@@ -315,7 +315,7 @@ clock_gettime(CLOCK_MONOTONIC, &start);
 clock_gettime(CLOCK_MONOTONIC, &stop); 
 
 // calculate time taken for loop 
-duration = (double) (stop.tv_sec * 1000000000 + stop.tv_nsec) - (start.tv_sec * 1000000000 + start.tv_nsec);
+duration = (double) ((stop.tv_sec * 1000000000 + stop.tv_nsec) - (start.tv_sec * 1000000000 + start.tv_nsec)) / 1000000000.0;
 ```
 
 Different methods will provide different levels of fidelity (`clock()` will typically give an answer in microseconds, while `clock_gettime()` will provide nanosecond resolution), and different systems may support different methods. There is are platform independent methods provided by both OpenMP and the MPI standard, and we will cover these later in the module. 
