@@ -18,7 +18,7 @@ Finally, we'll get started with [Viking](https://vikingdocs.york.ac.uk/), the Un
 > 
 > We'll start this week with the Spheres application from the previous two practicals. If you didn't manage to complete the previous exercises, now is the time to catch up!
 > 
-> **Note:** You can complete this exercise from any of the Sphere exercises from the previous two practicals (though working from the last Spheres exercise is preferrable).
+> **Note:** You can complete this exercise from any of the Sphere exercises from the previous two practicals (though working from the last Spheres exercise is preferable).
 >
 > This exercise has two parts. 
 > 
@@ -76,10 +76,10 @@ Our value of Pi is then calculated by: (in / total experiments) * 4.0.
 > 
 > Optimise your MC-Pi code with SIMD and OpenMP. How much can you improve its performance? 
 > 
-> **Hint:** C's math.h `rand()` function _**is not thread safe**_. It relies on shared hidden state that may affect its performance and randomness (i.e. two or more threads may generate the same random sequence or a race condition could skew the distribution of random numbers). Instead, you could use an alternative random number generator with visible state (such that each thread can maintain its own state). You could use the random number generator below, taken (and modified) from [Numerical Recipes](http://numerical.recipes/book/book.html) (page 340). 
+> **Hint:** C's math.h `rand()` function _**is not thread safe**_. It relies on shared hidden state that may affect its performance and randomness (i.e. two or more threads may generate the same random sequence or a race condition could skew the distribution of random numbers). Instead, you could use an alternative random number generator with visible state (such that each thread can maintain its own state). You could use the random number generator below, taken (and modified) from [Numerical Recipes](https://numerical.recipes/book.html) (page 340). 
 >  
 > ```c
-> // Modified from Numerical Recipes Page 340 http://numerical.recipes/book/book.html
+> // Modified from Numerical Recipes Page 340 https://numerical.recipes/book.html
 > typedef struct {
 >     unsigned long long u;
 >     unsigned long long v;
@@ -236,7 +236,7 @@ Batch jobs are prepared as simple shell scripts (e.g. bash scripts), that are su
 #SBATCH --mem=1gb                       # reserve 1GB memory for job
 #SBATCH --output=simple_job_%j.log      # standard output and error log
 #SBATCH --partition=teach               # run in the teaching queue
-#SBATCH --account=cs-teach-2024         # specify the CS teaching account
+#SBATCH --account=cs-teach-2025         # specify the CS teaching account
  
 echo simple.job running on `hostname`
 sleep 600
@@ -259,7 +259,7 @@ simple.job running on node054.viking2.yor.alces.network
 Alternatively, we could have specified many of the options in our command line like so: 
  
 ```
-$ sbatch --partition=teach --account=cs-teach-2024 --ntasks=10 ...
+$ sbatch --partition=teach --account=cs-teach-2025 --ntasks=10 ...
 ```
  
 More information on the parameters you can use in your job submission scripts can be found here: [Jobscript Examples](https://vikingdocs.york.ac.uk/using_viking/jobscript_examples.html)
@@ -271,7 +271,7 @@ Interactive jobs are useful when you are debugging code (to quickly edit, recomp
 You can get an interactive job with the `srun` command. 
  
 ```
-$ srun --account=cs-teach-2024 --ntasks=1 --time=00:30:00 --pty /bin/bash
+$ srun --account=cs-teach-2025 --ntasks=1 --time=00:30:00 --pty /bin/bash
 srun: job 6485884 queued and waiting for resources
 srun: job 6485884 has been allocated resources
 $

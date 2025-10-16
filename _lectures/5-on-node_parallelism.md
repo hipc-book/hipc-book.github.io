@@ -280,7 +280,7 @@ The pthreads API contains around 100 procedures, but we're only going to cover t
  
 OpenMP (Open Multi-Processing) is an API that supports shared memory multiprocessing in C, C++, and Fortran. It provides an implementation of the Fork-Join model alongside some other parallel execution schemes, and was first released for Fortran in 1997. The C/C++ specification was released in 2002 (part of version 2.0), two years after the release of version 2.0 of the Fortran specification.  
 
-The current version is 5.2, and was released in November 2021. While the initial release was primarily focussed on parallelising highly regular loops, the modern standard now includes support for tasking, accelerators, atomics, reductions, SIMD, and more. 
+The current version is 6.0, and was released in November 2024. While the initial release was primarily focussed on parallelising highly regular loops, the modern standard now includes support for tasking, accelerators, atomics, reductions, SIMD, and more. 
 
 The central concept of the OpenMP standard is the use of [_**compiler directives**_](https://en.wikipedia.org/wiki/Directive_(programming)). Rather than explicitly starting and subsequently rejoining threads (like with pthreads), code meant for parallel dispatch is marked accordingly with a directive that the compiler can understand. The most commonly used directives are focussed on _data parallelism_ (i.e. SPMD). 
 
@@ -410,7 +410,7 @@ _**reduction**_: a safe way of joining work from all threads
 
 As we've already seen in Unit 4, loops are omnipresent in scientific applications and are therefore natural candidates for parallelisation. OpenMP was originally designed around exploiting loop-level parallelism, and this is still where it is predominantly used today. 
 
-To enable work-sharing, OpenMP provides the `parallel for` pragma. Given a loop structure, the `parallel for` pragma will divide the iterations evenly between the available threads, with each thread operating independently on a sub range. For example, to apply this to the vector addition example above, 
+To enable work-sharing, OpenMP provides the `parallel for` pragma. Given a loop structure, the `parallel for` pragma will divide the iterations evenly between the available threads, with each thread operating independently on a sub range. For example, to apply this to the vector addition example above: 
 
 ```c
 #pragma omp parallel for
