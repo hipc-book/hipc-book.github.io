@@ -877,7 +877,7 @@ Like any other method of parallelising code, OpenMP is prone to a number of perf
 
 ### Avoid unnecessary parallelisation 
 
-Any parallel region of code has an associated cost as well as a benefit. Upon encountering a parallel region, the runtime will incur a penalty in either spawning threads, or in waking them from an idle state. If the work being parallelised is suitably small, it may be the case that this cost outweighs the benefit. For these instances, there are a few potential solutions. 
+Any parallel region of code has an associated cost as well as a benefit. Upon encountering a parallel region, the runtime will incur a penalty in either spawning threads, or in waking them from an idle state. If the work being parallelised is suitably small, it may be the case that this cost outweighs the benefit. For these instances, there are a few potential solutions.
 
 Firstly, we could avoid running a region in parallel if its unlikely to pay off. We can control this with the `if` clause, restricting our parallel region to a certain condition. For example, 
 

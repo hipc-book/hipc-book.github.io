@@ -382,9 +382,11 @@ You can read available counters (note above that some counters are not available
 
 ...
 
+PAPI_library_init(PAPI_VER_CURRENT);
+
 int eventset = PAPI_NULL;
 int return_value = 0;
-return_vale = PAPI_create_eventset(&eventset);
+return_value = PAPI_create_eventset(&eventset);
 if (return_value != PAPI_OK) {
 	fprintf(stderr, "Error creating event set: %s\n", PAPI_strerror(return_value));
 }
