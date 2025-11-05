@@ -28,7 +28,7 @@ Again, we start this unit with a quick revisit of Flynn's taxonomy.
 _**Figure 1:** Flynn's taxonomy_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
-In the last unit we talked about the two extensions to the taxonomy -- **SIMT (Single Instruction, Multiple Threads)** and **SPMD (Single Program, Multiple Data)**. In this unit we're working primarily in the SPMD world, only now our Single Program is running across multiple compute nodes simultaneously, and our memory space is _distributed_ across those compute nodes (i.e. distributed memory, rather than shared memory). 
+In the last unit we talked about two extensions to the taxonomy -- **SIMT (Single Instruction, Multiple Threads)** and **SPMD (Single Program, Multiple Data)**. In this unit we're working primarily in the SPMD world, only now our Single Program is running across multiple compute nodes simultaneously, and our memory space is _distributed_ across those compute nodes (i.e. distributed memory, rather than shared memory). 
  
 # Distributed Memory Systems
  
@@ -36,7 +36,7 @@ A **Distributed Memory System** is one where each processor has its own private 
  
 In a distributed memory system, there are typically a number of processors, each with their own memory, and some form of high-speed interconnect that allows applications running on each of the processors to communicate with one another. 
  
-On HPC systems this interconnect is typically a low-latency network dedicated to internode communications (e.g. Infiniband [See Unit 2]). 
+On HPC systems this interconnect is typically a low-latency network dedicated to internode communications (e.g. InfiniBand [See Unit 2]). 
  
 ![A distributed memory system](../../assets/unit-6/distributed-memory.png)
 _**Figure 2:** Modern systems are typically a mix of shared and distributed memory systems, where individual ccNUMA-type shared-memory nodes are interconnected to one another to form a distributed memory system._
@@ -66,7 +66,7 @@ _**Figure 3:** Version 1.0 of the MPI Standard_
 
 The MPI effort involved around 80 people from 40 organisations, mainly in the United States and Europe. It was funded heavily by DARPA, the U.S. National Science Foundation (NSF), and the European commission (among others). 
  
-Since its creation, MPI has become the _de facto_ standard for communications on distributed memory systems. The standard is maintained by the MPI Forum, and the current version of the standard is 4.1; the 4.2 and 5.0 standards are a work in progress. 
+Since its creation, MPI has become the _de facto_ standard for communications on distributed memory systems. The standard is maintained by the MPI Forum, and the current version of the standard is 5.0. 
 
 > **Further Reading** 
 >
@@ -77,17 +77,14 @@ Since its creation, MPI has become the _de facto_ standard for communications on
  
 MPI is available as a library on most distributed systems (including Viking); in order to compile and link an MPI program, the compiler must be aware that the MPI library is required, and where its header files and libraries can be found. Luckily, most MPI implementations provide a compiler wrapper for this purpose (often called `mpicc`, `mpif90`, etc.). 
 
-On Viking, we can load an MPI implementation (in this case OpenMPI 4.0.5 with GCC 10.2.0) and then we can view the wrapped compile line with the `-show` compile time flag. 
+On Viking, we can load an MPI implementation (in this case OpenMPI 5.0.3 with GCC 13.3.0) and then we can view the wrapped compile line with the `-show` compile time flag. 
 
 ```
-$ module load OpenMPI/4.0.5-GCC-10.2.0
+$ module load OpenMPI/5.0.3-GCC-13.3.0
 $ mpicc -show
-gcc -I/opt/apps/eb/software/OpenMPI/4.0.5-GCC-10.2.0/include -L/opt/apps/eb/so
-ftware/hwloc/2.2.0-GCCcore-10.2.0/lib -L/opt/apps/eb/software/libevent/2.1.12-
-GCCcore-10.2.0/lib64 -Wl,-rpath -Wl,/opt/apps/eb/software/hwloc/2.2.0-GCCcore-
-10.2.0/lib -Wl,-rpath -Wl,/opt/apps/eb/software/libevent/2.1.12-GCCcore-10.2.0
-/lib64 -Wl,-rpath -Wl,/opt/apps/eb/software/OpenMPI/4.0.5-GCC-10.2.0/lib -Wl,-
--enable-new-dtags -L/opt/apps/eb/software/OpenMPI/4.0.5-GCC-10.2.0/lib -lmpi
+gcc -I/opt/apps/eb/software/OpenMPI/5.0.3-GCC-13.3.0/include -L/opt/apps/eb/so
+ftware/OpenMPI/5.0.3-GCC-13.3.0/lib -Wl,-rpath -Wl,/opt/apps/eb/software/OpenM
+PI/5.0.3-GCC-13.3.0/lib -Wl,--enable-new-dtags -lmpi
 ```
 
 So, every time we compile an MPI program, rather than using `gcc`, we use `mpicc` and it will use the compile line above (plus our own compile time flags). 
@@ -266,7 +263,7 @@ In order to send a particle from one process to another, a custom type must be d
 MPI_Datatype mpi_particle_t;
 
 int blocklengths[3] = { 3, 1, 4 };
-int displacements[3] = { 0, 0, 0 };
+int displacements[3] = { 0, offsetof(struct particle_t, cell_id), offsetof(struct particle_t, weight) };
 MPI_Datatype types[3] = { MPI_DOUBLE, MPI_INT, MPI_DOUBLE };
 
 MPI_Type_create_struct(3, blocklengths, displacements, types, &mpi_particle_t);
@@ -278,9 +275,9 @@ MPI_Type_commit(&mpi_particle_t);
 MPI_Type_free(&mpi_particle_t);
 ```
 
-In this example the displacement values are all set to 0, but with non-zero entries we can create "holes" in our data types (for example, if we didn't want/need to send the `cell_id`, we could remove it from the derived type). 
+In this example the displacement values are set using the offsetof macro, to find the byte offset of the next element in the struct of a different type. However, we can also manually set displacement values to create "holes" in our data types (for example, if we didn't want/need to send the `cell_id`, we could remove it from the derived type). 
 
-Another example might be if we wanted to send a column of a matrix; recall that C is "column major" and so a column would be non-contiguous in memory. We can set up such a data type using the `MPI_Type_vector()` function. 
+Another example might be if we wanted to send a column of a matrix; recall that C is "row major" and so a column would be non-contiguous in memory. We can set up such a data type using the `MPI_Type_vector()` function. 
 
 ```c
 double my_matrix[10][10];
@@ -298,11 +295,11 @@ MPI_Type_free(&my_column);
 In this example, we've created a new data type that will contain 10 blocks, each with a size of 1 data type (in this case 1 double), strided by 10 elements. On a 10 &times; 10 matrix this would correspond to a column (i.e. one value in every 10). 
  
 ![Conceptual layour of a 10 x 10 array in C](../../assets/unit-6/2d-array-col.png){: style="background-color: white" }  
-_**Figure 5:** The conceptual layout of a 10 &times; 10 2D array in C_ 
+_**Figure 5:** The conceptual layout of a 10 &times; 10 2D array in C_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
 Using our new MPI data type, we can send any column by using the pointer address `&(my_matrix[0][col])`. This will start our call at an offset column, which will then be strided by 10 for each value.
- 
+
 ## Sending and Receiving Messages
 
 Hopefully, we've now covered plenty of the infrastructure behind MPI (setup, communicators, data types). We can now start to look at how we actually send data across our communicators to other processes. 
@@ -357,7 +354,7 @@ int MPI_Sendrecv(const void *sendbuf, int sendcount, MPI_Datatype sendtype, int 
 
 This function combines the arguments for a send and a receive into a single function call, where the MPI library can handle the potential for deadlock.  
 
-So, for example, in a 1D decomposition, where each process holds a 10 &times; 10 data array (10 &times; 12 with "ghost cells"), a halo exchange takes place in two steps. First each process sends its final column to the process to the right (and stores it in the ghost cells of that process). Then each process sends its first column to the process to the left (and again stores this in the ghost cells). The process is demonstrated in Figures 6 and 7, below. 
+For example, in a 1D decomposition, where each process holds a 10 &times; 10 data array (10 &times; 12 with "ghost cells"), a halo exchange takes place in two steps. First, each process sends its final column to the process to the right (and stores it in the ghost cells of that process). Then each process sends its first column to the process to the left (and again stores this in the ghost cells). The process is demonstrated in Figures 6 and 7, below. 
  
 ![The first step of a 1D halo exchange](../../assets/unit-6/halo-exchange-right.png){: style="background-color: white" }  
 _**Figure 4:** Step one of a 1D halo exchange_
@@ -594,8 +591,8 @@ int main(int argc, char *argv[]) {
 
 While most collective operations can be implemented manually using point-to-point operations, collective operations are usually optimised in the MPI library. For example, reductions can be implemented hierarchically (rather than having every process send a message to every other process). 
  
-![Heirarchical structure of an Allreduce call](../../assets/unit-6/mpi-reduction.png){: style="background-color: white" }  
-_**Figure 6:** A heirarchical MPI Allreduce_
+![Hierarchical structure of an Allreduce call](../../assets/unit-6/mpi-reduction.png){: style="background-color: white" }  
+_**Figure 6:** A hierarchical MPI Allreduce_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
 The figure above demonstrates how an Allreduce operation can be completed by 9 processes with minimal communication overhead. Compared to each process sending data to P<sub>0</sub>, followed by a reduction and a broadcast, this communication pattern is significantly more efficient. The underlying implementation of MPI collectives is vendor and release specific (and in some cases relies on specialised hardware and proprietary algorithms). Nonetheless, MPI collectives should always be favoured over alternatives. 
@@ -606,7 +603,7 @@ One final note, is that collective calls are **blocking**, and so often act as s
 
 # Parallel I/O
      
-The MPI API contains almost 500 function -- far more than we have the time or space to cover. But before we move on, we'll briefly cover a few more of those functions, specifically targetted at performing file I/O in parallel. 
+The MPI API contains almost 500 function -- far more than we have the time or space to cover. But before we move on, we'll briefly cover a few more of those functions, specifically targeted at performing file I/O in parallel. 
  
 > **Note** 
 >

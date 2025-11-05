@@ -25,7 +25,7 @@ Once you're up and running on Viking, it's time to start writing some parallel a
 >  * Make it so that between each round it checks how close it is to `M_PI`
 >  * Make it so that it finishes its computation if the difference between its calculated value of Pi and `M_PI` is less than 1e-7
 >    
-> As an example, you might like to make your program look approximately like the following psuedocode (where n is the size of a trial): 
+> As an example, you might like to make your program look approximately like the following pseudocode (where n is the size of a trial): 
 >  
 > ```
 > while abs(pi - M_PI) > tolerance:
@@ -62,7 +62,7 @@ For example:
 #SBATCH --ntasks=20                     # run 20 tasks
 #SBATCH --output=simple_job_%j.log      # standard output and error log
 #SBATCH --partition=teach               # run in the teaching queue
-#SBATCH --account=CS-TEACH-2024         # use the CS-TEACH account
+#SBATCH --account=cs-teach-2025         # use the CS-TEACH account
 #SBATCH --cpus-per-task=1               # use 1 CPU per task
 #SBATCH --nodes=2                       # use 2 nodes
 #SBATCH --ntasks-per-node=10            # use 10 tasks per node
@@ -75,7 +75,7 @@ mpiexec --display-map -n ${SLURM_NTASKS} ./my_code
  
 This will run 20 ranks of "my_code" and will also display the mapping information (tasks to cores, etc.). It will run on 2 separate nodes, using 10 tasks on each node (**Note:** there are 96 CPU cores per Viking node). 
 
-When running you should be aware that there may be other tasks running on the same node, potentially affecting the performance of your application. If you would like exclusive access to your resources, you can specify the `--exclusive` configuration option, or ensure you request enough resources (i.e. 192 tasks, 2 nodes and 96 tasks per node _should_ allocate 2 nodes exclusively, though this is not guaranteed). 
+When running you should be aware that there may be other tasks running on the same node, potentially affecting the performance of your application. If you would like exclusive access to your resources, you can specify the `--exclusive` configuration option. 
 
 > # Exercise 3
 > 
