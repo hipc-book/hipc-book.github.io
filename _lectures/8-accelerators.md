@@ -87,7 +87,7 @@ _**Figure 3:** CPU and GPU performance comparison_
 
 These differences between a CPU and a GPU were demonstrated in the TV Show Mythbusters (2009).
 
-<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/-P28LKWTzrI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/_QBVcoloC1Q?si=FoqvOnGkdViKTrA8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
 
 # The Microarchitecture of NVIDIA GPUs
 
