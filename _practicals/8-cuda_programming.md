@@ -78,7 +78,7 @@ If the output indicates the package needs to be installed, allow approximately 1
 
 > # Exercise 1
 >
-> Re-write the "hello, world" example from Unit 8. Change the `<<M , T>>` from `<<1, 1>>` to `<<3, 3>>`. Within each thread, print its own block ID and thread ID. <br/><br/>  
+> Rewrite the "hello, world" example from Unit 8. Change the `<<<M, T>>>` from `<<<1, 1>>>` to `<<<3, 3>>>`. Within each thread, print its own block ID and thread ID. <br/><br/>  
 {: .block-danger }
 
 > # Exercise 2
@@ -254,7 +254,7 @@ More details can be found in the [CUDA Programming Guide: Section 5](https://doc
 > #SBATCH --cpus-per-task=1                      # ...with a single CPU
 > #SBATCH --mem=1gb                              # Job memory request
 > #SBATCH --time=01:00:00                        # Time limit hrs:min:sec
-> #SBATCH --account=CS-TEACH-2024                # use the CS-TEACH account
+> #SBATCH --account=CS-TEACH-2025                # use the CS-TEACH account
 > #SBATCH --output=cuda_job_%j.log               # Standard output and error log
 > #SBATCH --partition=gpu                        # Select the GPU nodes...
 > #SBATCH --gres=gpu:1                           # ...and a single GPU

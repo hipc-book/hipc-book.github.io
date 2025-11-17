@@ -37,7 +37,7 @@ If you have any questions about the module, please direct them to [Steven Wright
 
 * #### [Unit 8 - Accelerators](lectures/8-accelerators/)
 
-* #### [Unit 9 - More Accelerators](lectures/9-more_accelerators/)
+* #### [Unit 9 - More Accelerators](lectures/9-advanced_accelerators/)
 
 * #### [Unit 10 - Heterogenous Programming](lectures/10-heterogeneous_programming/)
 

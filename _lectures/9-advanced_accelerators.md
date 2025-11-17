@@ -107,7 +107,7 @@ if (some_condition) {
 }
 ```
 
-The `if` condition would cause divengence based on if `some_condition` is satisfied or not. Say if `some_condition` is if the working thread is an odd-number, then half of the threads will run `do_stuff_A()` and the other half are masked (this means consuming resources without actually running anything), after that is finished, the warp starts to execute the next instruction, in which case the even-number threads will execute `do_stuff_B()`, while the odd-number threads are masked. This is illustrated as follows:
+The `if` condition would cause divergence based on whether `some_condition` is satisfied or not. For example, if `some_condition` checks whether the working thread is odd-numbered, then half of the threads will run `do_stuff_A()` and the other half are masked (this means consuming resources without actually running anything). After that is finished, the warp starts to execute the next instruction, in which case the even-numbered threads will execute `do_stuff_B()`, while the odd-numbered threads are masked. This is illustrated as follows:
 
 ![Branch Divergence](../../assets/unit-9/branch-divergence.png)  
 _**Figure 3:** Branch Divergence_  
@@ -121,7 +121,7 @@ You may already notice this is not particularly efficient as the total execution
 
 > **Note**
 >
-> Dynamical parallelism is only supported by devices with Compute Capability >= 3.5.  
+> Dynamic parallelism is only supported by devices with Compute Capability >= 3.5.  
 {: .block-warning }
 
 The discussion of dynamic parallelism is slightly beyond what we will deliver here due to its complexity. However, if you are interested in dynamic parallelism on a GPU, more information can be found in the [CUDA Programming Guide](https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html?highlight=scheduling#cuda-dynamic-parallelism).
@@ -159,7 +159,7 @@ cudaMemcpyAsync(dst2, src2, size, dir, stream2);
 kernel<<<grid, block, 0, stream2>>>(…);
 ```
 
-Finally, we can destrory the streams with `cudaStreamDestroy()`:
+Finally, we can destroy the streams with `cudaStreamDestroy()`:
 
 ```c
 for (int i = 0; i < 2; ++i)
@@ -198,8 +198,8 @@ _**Figure 6:** (a) The two-level scheme of parallelization with OpenMP-CUDA. (b)
 
 Below is another example of TensorFlow using multiple GPUs in training a Neural Network. The gradient losses are aggregated and used to update the model parameters:
 
-![TesnsorFlow with Multiple GPUs](../../assets/unit-9/tensorflow-multi-gpu.png)  
-_**Figure 7:** TesnsorFlow with Multiple GPUs_
+![TensorFlow with Multiple GPUs](../../assets/unit-9/tensorflow-multi-gpu.png)  
+_**Figure 7:** TensorFlow with Multiple GPUs_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
 # Advanced Topics on Memory
@@ -279,7 +279,7 @@ You can allocate unified memory using the `cudaMallocManaged()` function. For ex
 ```c
 int main(int argc, char *argv[]) {
     float *data;
-    cudaMallocManaged(&data, dataSize * sizeOf(float));
+    cudaMallocManaged(&data, dataSize * sizeof(float));
     ...
     cudaFree(data);
     ...
@@ -288,7 +288,7 @@ int main(int argc, char *argv[]) {
 
 More information on unified memory can be found [here](https://developer.nvidia.com/blog/unified-memory-cuda-beginners/).
 
-# Profling and Performance Tuning
+# Profiling and Performance Tuning
 
 ## Time a CUDA program
 
@@ -337,6 +337,13 @@ cudaEventDestroy(stop);
 ## Profiling with nvprof
 
 The `nvprof` profiling tool is a component of the Nsight Systems performance analysis tool that enables you to collect and view profiling data from the command-line. `nvprof` enables the collection of a timeline of CUDA-related activities on both CPU and GPU, including kernel execution, memory transfers, memory set and CUDA API calls and events or metrics for CUDA kernels. Profiling options are provided through command-line options. Profiling results are displayed in the console after the profiling data is collected, and may also be saved for later viewing by either `nvprof` or the Visual Profiler.
+
+
+> **Note**
+>
+> `nvprof` has been deprecated for devices with Compute Capability > 7.0. For the lab PCs, as the graphic card is CC==6.1, we will stick with `nvprof`, by simply remove the leading `nsys` from the following examples. For these newer GPUs (on Viking), you should use **Nsight Systems** (`nsys`) instead for profiling. Nsight Systems provides improved performance analysis capabilities and is the recommended profiling tool for modern NVIDIA GPUs. All the instructions below assume `nsys`. 
+{: .block-warning }
+
 
 To use nvprof, simply in a new command line:
 
@@ -391,7 +398,7 @@ Time(%)      Time     Calls       Avg       Min       Max  Name
   0.00%  1.9970us         2     998ns     520ns  1.4770us  cuDeviceGet
 ```
 
-This gives an overview of the performance, enabling us to understand which function spends more time than the others, and then locate the performance bottleneck. To have a finer granularity of profiling, you can maunally turn on/off profiling within an executable using the CUDA runtime API (defined in `cuda_profiler_api.h`):
+This gives an overview of the performance, enabling us to understand which function spends more time than the others, and then locate the performance bottleneck. To have a finer granularity of profiling, you can manually turn on/off profiling within an executable using the CUDA runtime API (defined in `cuda_profiler_api.h`):
 
 ```c
 cudaProfilerStart()
@@ -410,7 +417,11 @@ myKernel<<<...>>>(...);
 cudaProfilerStop();
 ```
 
-Full documentation on `nvprof`, including a full list of command line options, can be found in the [User Guide]([https://docs.nvidia.com/cuda/profiler-users-guide/index.html#nvprof](https://docs.nvidia.com/nsight-systems/UserGuide/index.html#migrating-from-nvidia-nvprof)).
+Full documentation on `nvprof`, including a full list of command line options, can be found in the [User Guide](https://docs.nvidia.com/nsight-systems/UserGuide/index.html#migrating-from-nvidia-nvprof).
+
+
+
+
 
 ## Automatic Block Size Tuning
 
@@ -459,7 +470,7 @@ __global__ void MyKernel(int *a, int *b, int *c, int N) {
 /********/
 /* MAIN */
 /********/
-void main() {
+int main() {
     const int N = 1000000;
 
     int blockSize;      // The launch configurator returned block size
@@ -516,12 +527,12 @@ void main() {
     for (int i=0; i<N; i++) {
         if (h_vec3[i] != h_vec4[i]) {
             printf("Error at i = %i! Host = %i; Device = %i\n", i, h_vec4[i], h_vec3[i]);
-            return;
+            return 1;
         }
     }
 
     printf("Test passed\n");
-
+    return 0;
 }
 ```
 
