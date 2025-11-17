@@ -93,7 +93,7 @@ These differences between a CPU and a GPU were demonstrated in the TV Show Mythb
 
 The architecture of NVIDIA GPUs has evolved over several years. Since 2006, NVIDIA has introduced a range of GPU microarchitectures, which are: [Tesla](https://en.wikipedia.org/wiki/Tesla_(microarchitecture)) (2006), [Fermi](https://en.wikipedia.org/wiki/Fermi_(microarchitecture)) (2010), [Kepler](https://en.wikipedia.org/wiki/Kepler_(microarchitecture)) (2012), [Maxwell](https://en.wikipedia.org/wiki/Maxwell_(microarchitecture)) (2014), [Pascal](https://en.wikipedia.org/wiki/Pascal_(microarchitecture)) (2016), [Volta](https://en.wikipedia.org/wiki/Volta_(microarchitecture)) (2017), [Turing](https://en.wikipedia.org/wiki/Turing_(microarchitecture)) (2018), [Ampere](https://en.wikipedia.org/wiki/Ampere_(microarchitecture)) (2020), [Hopper](https://en.wikipedia.org/wiki/Hopper_(microarchitecture)) (2022), and [Blackwell](https://en.wikipedia.org/wiki/Blackwell_(microarchitecture)) (2024).
 
-An overview of NVIDIAs GPU architecture is given in Figure 4:
+An overview of NVIDIA's GPU architecture is given in Figure 4:
 
 ![The GPU Hardware model for an NVIDIA A100](../../assets/unit-8/memory-hierarchy-in-gpus-2.png)  
 _**Figure 4:** GPU Hardware Model -- Overview (A100)_
@@ -101,7 +101,7 @@ _**Figure 4:** GPU Hardware Model -- Overview (A100)_
 
 At a high level, a GPU resembles a CPU in terms of memory hierarchy. However, when examining the low-level microarchitecture, significant differences emerge in how GPUs are organised and designed compared to CPUs.
 
-An NVIDIA chip consists of one or more _streaming multiprocessors_ (SMs). Each SM has a dedicated L1 cache, while all SMs share a unified L2 cache. Within each SM, there are 1-4 _warp schedulers_, each equipped with a register file and multiple execution units. These execution units may be dedicated to a specfic warp scheduler or shared among schedulers. The execution units include _CUDA cores_ (FP/INT), _special function units_ (SFU), _texture units_, and _load-store units_ (LD/ST).   
+An NVIDIA chip consists of one or more _streaming multiprocessors_ (SMs). Each SM has a dedicated L1 cache, while all SMs share a unified L2 cache. Within each SM, there are 1-4 _warp schedulers_, each equipped with a register file and multiple execution units. These execution units may be dedicated to a specific warp scheduler or shared among schedulers. The execution units include _CUDA cores_ (FP/INT), _special function units_ (SFU), _texture units_, and _load-store units_ (LD/ST).   
 
 Figure 5 illustrates the internal structure of an SM, using the Pascal computing architecture (e.g., GeForce GTX 1080, Tesla P100) as an example. The diagrammatic structure is shown below.
 
@@ -204,13 +204,13 @@ It is noted that the version of components differs version by version. In this u
 
 ## CUDA Memory Model
 
-THe CUDA memory model is organised as follows:
+The CUDA memory model is organised as follows:
 
 ![CUDA's Memory Model](../../assets/unit-8/cuda_memory.png)  
 _**Figure 8:** CUDA Memory Model_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
-Due the nature of data allocation in shared memory, two concurrent threads within a warp can access different words in the same bank simultaneously, causing a bank conflict that forces a GPU to serialise the accesses issued to this bank. Since serialisation in a GPU is undesirable and clock-cycle costly, this access pattern should be avoided.
+Due to the nature of data allocation in shared memory, two concurrent threads within a warp can access different words in the same bank simultaneously, causing a bank conflict that forces a GPU to serialise the accesses issued to this bank. Since serialisation in a GPU is undesirable and clock-cycle costly, this access pattern should be avoided.
 
 The amount of memory that is available to the CUDA application is (in most cases) specific to the _compute capability_ of the device. For each compute capability, the size restrictions of each type of memory (except global memory) is defined in the table below. The application programmer is encouraged to query the device properties in the application using the `cudaGetDeviceProperties()` method.
 
@@ -247,7 +247,7 @@ The following table summarises the different memory types and the properties of 
 
 ## CUDA Operation Procedure
 
-The CUDA programming model follows a SIMT (single instruction, multiple threads) approach. In CUDA, the CPU and the GPU have to be worked in a predefined sequence. Data must be transferred from a CPU (i.e. the host) to the GPU (i.e. the device), typically over a PCIe bus, before offloading computation to the GPU; afterward, the result transferred back to the host's main memory. A typical sequence of operations for a CUDA C program is as follows:
+The CUDA programming model follows a SIMT (single instruction, multiple threads) approach. In CUDA, the CPU and GPU must work together in a predefined sequence. Data must be transferred from a CPU (i.e. the host) to the GPU (i.e. the device), typically over a PCIe bus, before offloading computation to the GPU; afterward, the result is transferred back to the host's main memory. A typical sequence of operations for a CUDA C program is as follows:
 
 1. Declare and allocate the host and device memory.
 2. Initialise host data.
@@ -413,7 +413,7 @@ __global__ void vector_add(float *out, float *a, float *b, int n) {
 And then in the `main()` function, call the `vector_add()` kernel:
 
 ```c
-void main(int argc, char *argv[]) {
+int main(int argc, char *argv[]) {
     float *a, *b, *out;
     float *d_a, *d_b, *d_out;
 
@@ -426,6 +426,7 @@ void main(int argc, char *argv[]) {
     // Allocate device memory for a
     cudaMalloc((void **) &d_a, sizeof(float) * N);
     cudaMalloc((void **) &d_b, sizeof(float) * N);
+    cudaMalloc((void **) &d_out, sizeof(float) * N);
 
     // Transfer data from host to device memory
     cudaMemcpy(d_a, a, sizeof(float) * N, cudaMemcpyHostToDevice);
@@ -463,15 +464,15 @@ To get a more detailed trace, you could use the `--print-gpu-trace` flag.
 
 ## Kernel Execution Configuration
 
-Note that so far, we have not exploited the full power of a GPU as we have only used `<<1,1>>` as the kernel execution configuration, which means we have only used one GPU thread. CUDA organises threads into a group called a _thread block_. Kernels can launch multiple thread blocks, organised into a _grid_ structure. This is specified by the kernel execution configuration.
+Note that so far, we have not exploited the full power of a GPU as we have only used `<<<1,1>>>` as the kernel execution configuration, which means we have only used one GPU thread. CUDA organises threads into a group called a _thread block_. Kernels can launch multiple thread blocks, organised into a _grid_ structure. This is specified by the kernel execution configuration.
 
-The general syntax of kernel execution configuration is `<<M, T>>`, where `M` is the grid number (i.e. number of thread blocks), and `T` is the number of parallel threads within each thread block (i.e. block size). Unlike OpenMP where the workload can be automatically assigned, CUDA does require some thought over how the workload is distributed (and thus how the data is manipulated) for each grid/thread. To do this, CUDA provides 5 built-in variables:  
+The general syntax of kernel execution configuration is `<<<M, T>>>`, where `M` is the grid number (i.e. number of thread blocks), and `T` is the number of parallel threads within each thread block (i.e. block size). Unlike OpenMP where the workload can be automatically assigned, CUDA does require some thought over how the workload is distributed (and thus how the data is manipulated) for each grid/thread. To do this, CUDA provides 5 built-in variables:  
 
 * `gridDim` denotes the dimension of the grid, and `blockDim` denotes the dimension of a block; their types are `dim3`;  
 * `blockIdx` and `threadIdx` identify the block index within the grid and thread index within the block respectively, and their types are `uint3`;
 * `warpSize` is an integer type, and identifies the warp size in threads, and it should be 32 for all compute capabilities.
 
-To give it a try, we can change the configuration of the `vector_add` from `<<1,1>>` to `<<1,256>>`, i.e., one block with 256 threads:
+To give it a try, we can change the configuration of the `vector_add` from `<<<1,1>>>` to `<<<1,256>>>`, i.e., one block with 256 threads:
 
 ```c
 vector_add<<<1, 256>>>(d_out, d_a, d_b, N);
@@ -572,7 +573,7 @@ int main(int argc, char *argv[]) {
 
 > **Exercise**
 >
-> Can you do a performance comparison of `vec_add` with `<<1,1>>`, `<<1,256>>` and `<<1024,256>>`? How much speed-up can you get?
+> Can you do a performance comparison of `vec_add` with `<<<1,1>>>`, `<<<1,256>>>` and `<<<1024,256>>>`? How much speed-up can you get?
 {: .block-danger }
 
 ## Kernel with 2D Indexing
