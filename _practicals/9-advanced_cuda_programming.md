@@ -70,7 +70,7 @@ Attached File: [`matrix.zip`](../../assets/practical-9/matrix.zip)
 > Time the program you have written in Exercise 1 using `cudaEventElapsedTime()`. Then profile your code with `nvprof`. These should give you similar if not identical results.
 {: .block-danger }
 
-## Profiling with NVIDIA Visual Profiler (Optional)
+## Profiling with NVIDIA Visual Profiler
 
 One of the additional profiling tools that we did not mention in the unit is the [Visual Profiler](https://docs.nvidia.com/cuda/profiler-users-guide/index.html#visual-profiler) which allows you to analyse and visualise the performance of your application. The Visual Profiler gives you a different _view_ that helps you to understand the CPU and GPU activities. You may find it is functionally similar to Intel Advisor.
 
@@ -96,8 +96,7 @@ _**Figure 3:** Analysis View in Visual Profiler_
 
 > **Note 2**
 >
-> Running `nvvp` requires a graphic interface. If you do need to profile your code on Viking, you can use `nvprof` to generate a profile file, then download the file to your local machine and open it with `nvvp`.
-> `nsys nvprof -o profile.out -s ./prog args`
+> Running `nvvp` requires a graphic interface. This is okay for the lab PCs, but if you do need to profile your code on Viking with `nvvp`, you should first use `nvprof` to generate a profile file (`nsys nvprof -o profile.out -s ./prog args`), download the file to your local machine, and then open it with `nvvp`.
 {: .block-warning }
 
 
