@@ -31,7 +31,7 @@ Using this equation as a foundation, we can begin by implementing a simple seria
 
 ```c
 void matrix_multiplication(double **A, double **B, double **C, int M, int N, int P) {
-    // initialisation C with zeros
+    // initialize C with zeros
     for (int i = 0; i < M; i++) {
         for (int j = 0; j < N; j++) {
             C[i][j] = 0;
@@ -67,7 +67,7 @@ Attached File: [`matrix.zip`](../../assets/practical-9/matrix.zip)
 
 
 > # Exercise 2
-> Time the program you have written in Exercise 1 using `cudaEventElapsedTime()`. Then profile your code with `nvprof`. These should give you similar if not identical results.
+> Time the program you have written in Exercise 1 using `cudaEventElapsedTime()`. Then profile your code with `nvprof` (or `nsys` for devices with Compute Capability > 7.0, e.g., on Viking). These should give you similar if not identical results.
 {: .block-danger }
 
 ## Profiling with NVIDIA Visual Profiler
@@ -109,7 +109,7 @@ _**Figure 3:** Analysis View in Visual Profiler_
 Occupancy is an important concept to achieve performant CUDA programs, you can refer to the [CUDA Occupancy Calculator](https://xmartlabs.github.io/cuda-calculator/) as it would give you some insight into what to consider in terms of performance tuning.
 
 > # Exercise 4
-> The current kernel function is inefficient because Matrix A is read N times, and Matrix B is read M times. To enhance its efficiency, try optimising your kernel function by using Shared Memory.
+> The current kernel function is inefficient because each element of Matrix A is read N times (once for each column of B), and each element of Matrix B is read M times (once for each row of A). To enhance its efficiency, try optimising your kernel function by using Shared Memory.
 >
 > **Tips:**
 > - Decompose the problem: each block computes a submatrix (illustrated as below).
