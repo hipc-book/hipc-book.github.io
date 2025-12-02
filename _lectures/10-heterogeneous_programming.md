@@ -82,11 +82,11 @@ Tianhe was subsequently updated in 2018, almost doubling its performance to 61.4
 
 The Summit [retired November 2024] and Sierra systems installed at the Oak Ridge National Laboratory and the Lawrence Livermore National Laboratory, respectively, are essentially an evolution of Titan. 
 
-Both systems are comprised of IBM Power9 cores, backed by NVIDIA Tesla V100 GPUs. Upon release, the systems achieved the #1 and #2 spots, with achieved performance in excess of 100 PFLOP/s. 
+Both systems were comprised of IBM Power9 cores, backed by NVIDIA Tesla V100 GPUs. Upon release, the systems achieved the #1 and #2 spots, with achieved performance in excess of 100 PFLOP/s. 
 
 ### Aurora, Frontier and El Capitan
 
-The Department of Energy has recently delivered its first three Exascale systems, namely **Aurora**, **Frontier** and **El Capitan**, installed at Argonne National Laboratory, Oak Ridge National Laboratory and Lawrence Livermore National Laboratory, respectively. All three systems are designed around the Cray Shasta architecture and are heterogeneous systems, consisting of a mixture of CPUs and GPUs. 
+The Department of Energy has recently delivered its first three Exascale systems, namely **Aurora**, **Frontier** and **El Capitan**, installed at Argonne National Laboratory, Oak Ridge National Laboratory, and Lawrence Livermore National Laboratory, respectively. All three systems are designed around the Cray Shasta architecture and are heterogeneous systems, consisting of a mixture of CPUs and GPUs. 
  
 ![The design for Frontier](../../assets/unit-10/frontier.png)  
 _**Figure 4:** The design for the Frontier system, with performance in excess of 1 ExaFLOP/s_
@@ -101,6 +101,19 @@ El Capitan is a 1.7 ExaFLOP/s (achieved) system that came online in November 202
 > **Further Reading** 
 >
 > * [First look at Oak Ridge's "Frontier" Exascaler, contrasted to Argonne's "Aurora"](https://www.nextplatform.com/2021/10/04/first-look-at-oak-ridges-frontier-exascaler-contrasted-to-argonnes-aurora/) 
+{: .block-tip }
+
+### JUPITER
+
+Exascale officially arrived in Europe in the November 2025 Top500 list. The JUPITER system is installed in Forschungszentrum Jülich, and when complete, will consist of two compute modules: a booster module and a cluster module.
+
+Its "booster module" has been installed and currently ranks #4, using NVIDIA GH200 Grace Hopper superchips. These chips embody a similar principle to El Capitans AMD MI300As, containing a Grace Arm Neoverse CPU and a Hopper NVIDIA GPU on a single die.
+
+The "cluster module" will use the first European HPC Processor, _Rhea1_ by SiPearl. This module will provide high memory bandwidth for memory intensive workloads.
+
+> **Further Reading**
+>
+> * [JUPITER Technical Overview](https://www.fz-juelich.de/en/jsc/jupiter/tech)
 {: .block-tip }
 
 ## Issues 
@@ -257,7 +270,7 @@ These implementations are:
 
 We could simply apply the performance portability metric to this synthetic data but this may mean that we lose some information about how the performance portability metric changes as we add and remove platforms from the evaluation set. 
 
-Figure 7 shows this, showing the application efficiency as systems are added to its evaluation set in descending order of efficiency.
+Figure 7 shows a _cascade plot_, where we can observe the application efficiency as systems are added to the evaluation set in descending order of efficiency. In the plot on the right side we can see the single value performance portability, but with the left side of the plot, we can see how the application efficiency changes as new systems are added, and we can easily highlight which platforms might be most damaging to our performance portability (e.g. we can see that the "Multi-Target" application achieves very good efficiency until platform "B" is added to the evaluation set).
 
 ![A cascade plot of performance portability for a synthetic dataset](../../assets/unit-10/synthetic-cascade.png)  
 _**Figure 7:** A cascade plot showing how performance portability changes as platforms are added to the evaluation set_
@@ -273,7 +286,7 @@ _**Figure 7:** A cascade plot showing how performance portability changes as pla
 >
 > You can generate your own cascade plots using the P3 Analysis Library provided by the authors here: 
 >
-> * [Performance, Portability, and Productivity Analysis Library](https://intel.github.io/p3-analysis-library/index.html), Intel 
+> * [Performance, Portability, and Productivity Analysis Library](https://p3hpc.org/p3-analysis-library/), P3HPC 
 >
 > And you can see the authors talking about their work in the following videos (from the [P3HPC Workshop](https://p3hpc.org)): 
 >
@@ -445,7 +458,7 @@ int omp_is_initial_device(); // returns true if the current task is executing on
 >
 > * [OpenMP 4.5 Target](https://www.exascaleproject.org/wp-content/uploads/2017/05/OpenMP-4.5-and-Beyond-SOLLVE-part-21.pdf), Tom Scogland, Oscar Hernandez 
 > * [Advanced OpenMP](http://www.archer.ac.uk/training/course-material/2019/06/AdvOpenMP-manch/L10-OpenMPTargetOffload.pdf), ARCHER Training Course 
-> * [OpenMP 5.0 Syntax Reference Guide](https://www.openmp.org/wp-content/uploads/OpenMPRef-5.0-111802-web.pdf) 
+> * [OpenMP 6.0 Syntax Reference Guide](https://www.openmp.org/wp-content/uploads/OpenMP-RefGuide-6.0-OMP60SC24-web.pdf) 
 {: .block-tip }
 
 # OpenCL and SYCL
@@ -456,7 +469,7 @@ Besides OpenMP, there are two portable programming models maintained by the Khro
  
 The Open Computing Language (OpenCL) is a vendor-neutral framework for writing applications that can execute across heterogeneous architectures comprising of CPUs, GPUs, FPGAs, and other hardware accelerators. The OpenCL programming language is based on the C99, C++14, and C++17 standards. 
 
-Typically in an OpenCL application, the host code is written in C++, while kernels are written in an OpenCL variant of the C or C++ languages. These kernels are then compiled _just-in-time_ (JIT) at runtime by the OpenCL runtime library.  
+Typically in an OpenCL application, the host code is written in C++, while kernels are written in an OpenCL variant of the C or C++ languages. These kernels are then compiled _just-in-time_ (JIT) by the OpenCL runtime library.  
 
 Take the following, for example: 
 
@@ -583,7 +596,7 @@ More recently, the Khronos Group ratified SYCL, a higher-level programming model
 
 SYCL cuts down significantly on the amount of "boiler-plate" code that is required, and like OpenCL operates around the notion of a queue, where work items may be submitted. 
 
-In contrast to OpenCL, work items are typically written in the code as anonymous functions, rather than as self-contained kernel functions. We can achieve parallelism in SYCL through constructs such as the `parallel_for`.
+In contrast to OpenCL, work items are typically written in the code as [anonymous functions](https://en.wikipedia.org/wiki/Anonymous_function), rather than as self-contained kernel functions. We can achieve parallelism in SYCL through constructs such as the `parallel_for`.
  
 ```c++
 #include <sycl/sycl.hpp>
@@ -643,9 +656,9 @@ int main() {
 }
 ```
 
-Support for SYCL exists in a number of compilers, with a variety of target architectures (see the figures [here](https://www.khronos.org/sycl/)).  
+Support for SYCL exists in a number of compilers, with a variety of target architectures (see the list of SYCL Implementations [here](https://www.khronos.org/sycl/#sycl-implementations)).  
 
-The ComputeCpp compiler, from Codeplay, has multiple backends, allowing it to target a range of CPUs and GPUs from Intel, AMD, and Arm; the triSYCL compiler, developed by Xilinx, can generate OpenMP-compliant applications, and can additionally target AMD/Xilinx FPGAs; Heidelberg University's LLVM-based AdaptiveCpp (previously hipSYCL and OpenSYCL) compiler can generate OpenMP, CUDA, ROCm, or oneAPI Level Zero code, allowing it to target CPUs and GPUs from the three major hardware vendors present in post-Exascale systems.
+Heidelberg University's LLVM-based AdaptiveCpp (previously hipSYCL and OpenSYCL) compiler can generate OpenMP, CUDA, ROCm, or oneAPI Level Zero code, allowing it to target CPUs and GPUs from the three major hardware vendors present in post-Exascale systems; the triSYCL compiler, developed by Xilinx, can generate OpenMP-compliant applications, and can additionally target AMD/Xilinx FPGAs; 
 
 SYCL has additionally been adopted and extended by Intel (as Data Parallel C++) for its oneAPI programming model. While initially appearing in Intel's (now branded "Classic") C++ Compiler in 2020, aimed primarily at Intel hardware, the adoption of an LLVM-backend in 2021 has meant that Intel's compiler can now natively support NVIDIA and AMD targets also, through CUDA and HIP, respectively. 
 

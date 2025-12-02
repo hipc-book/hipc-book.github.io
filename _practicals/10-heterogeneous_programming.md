@@ -43,7 +43,7 @@ One important thing to note is that the NVIDIA HPC compiler with target offload 
 For this reason, we should instead use Viking's GPU nodes, that contain A40s (Ampere) or H100s (Hopper) GPUs. You can request an interactive session on one of these nodes like so:
 
 ```
-$ srun --time=00:10:00 --account=CS-TEACH-2024 --partition=gpu --gres=gpu:1 --mem=10G --pty /bin/bash
+$ srun --time=00:10:00 --account=CS-TEACH-2025 --partition=gpu --gres=gpu:1 --mem=10G --pty /bin/bash
 ```
 
 ## Prescriptive Parallelism vs. Descriptive Parallelism
@@ -54,7 +54,7 @@ Using target offload semantics, we can expand upon our typical list of pragmas t
 
 ```c
 #pragma omp target       // map variables to a device and execute on that device
-#pragma omp teams        // create a leaug of teams where initial thread of each team executes the region
+#pragma omp teams        // create a league of teams where initial thread of each team executes the region
 #pragma omp parallel     // create team of parallel threads to execute a region
 #pragma omp distribute   // distribute loop iterations across teams
 #pragma omp for          // distribute loop iterations across threads
@@ -134,20 +134,32 @@ Here we can see that for the GPU it has created a loop parallelised across teams
 
 # SYCL/Data Parallel C++
 
-Another approach to single-source portable code is SYCL. The SYCL standard has been adopted by Intel for its new Xe GPU line, and is supported by all major GPUs through various compilers and frameworks.
+Another approach to single-source portable code is SYCL. The SYCL standard has been adopted by Intel for its Xe GPU line, and is supported by all major GPUs through various compilers and frameworks.
 
-On Viking, SYCL is supported by the Intel Compiler. Unfortunately, this version of the compiler does not support the NVIDIA GPUs on Viking, but nonetheless we can test the principles of SYCL with this compiler.
+On Viking, SYCL is supported by the Intel Compiler.
 
-You can load the Intel compiler like so:
+To target the CPU, you can load the Intel compiler like so:
 
 ```
 $ module load intel-compilers/2023.1.0
 ```
 
-This will give us access to the Intel C/C++ compiler, and we can compile SYCL code with the following:
+To target the NVIDIA GPUs, you can load an alternative version of the Intel compiler like so:
+
+```
+$ module load intel-compilers/2025.2.0-CUDA-12.9.0
+```
+
+Either of these modules will give you access to the Intel C/C++ compiler, and you can compile SYCL code with the following:
 
 ```
 $ icpx -fsycl ...
+```
+
+If you'd like to target a GPU through CUDA, you must additionally specify that you would like to target a CUDA device like so:
+
+```
+$ icpx -fsycl -fsycl-targets=nvptx64-nvidia-cuda ...
 ```
 
 ## The SYCL Programming Model
