@@ -1,0 +1,818 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+<meta charset="UTF-8">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<title>5. Programming Off-node Parallelism · HIPC</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="HIPC
+">
+<meta name="generator" content="Jekyll (using style of GitBook 3.2.3)">
+<meta name="author" content="Steven Wright">
+<link rel="stylesheet" href="/~saw586/hipc/2023-24//assets/gitbook/style.css">
+<link rel="stylesheet" href="/~saw586/hipc/2023-24//assets/gitbook/gitbook-plugin-fontsettings/website.css">
+<link rel="stylesheet" href="/~saw586/hipc/2023-24//assets/gitbook/gitbook-plugin-search-pro/search.css">
+<link rel="stylesheet" href="/~saw586/hipc/2023-24//assets/gitbook/gitbook-plugin-back-to-top-button/plugin.css">
+
+<link rel="stylesheet" href="/~saw586/hipc/2023-24//assets/gitbook/rouge/github.css">
+
+<link rel="stylesheet" href="/~saw586/hipc/2023-24//assets/gitbook/custom.css">
+
+<meta name="HandheldFriendly" content="true">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="apple-touch-icon-precomposed" sizes="152x152" href="/~saw586/hipc/2023-24//assets/gitbook/images/apple-touch-icon-precomposed-152.png">
+<link rel="shortcut icon" href="/~saw586/hipc/2023-24//assets/gitbook/images/favicon.ico" type="image/x-icon">
+
+
+
+
+
+<script>
+    MathJax = {
+        tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        svg: {
+            fontCache: 'global'
+        }
+    };
+</script>
+            <link rel="prev" href="/~saw586/hipc/2023-24//practicals/4-on-node_parallelism/">
+        
+
+        
+            <link rel="next" href="/~saw586/hipc/2023-24//practicals/6-advanced_mpi/">
+        
+    </head>
+    <body>
+        <div class="book">
+<div class="book-summary">
+    <nav role="navigation">
+        <div id="book-search-input" role="search">
+            <input type="text" placeholder="Type to search">
+        </div>
+        <div id="book-search-input-link" role="search">
+            <a href="/~saw586/hipc/2023-24//assets/search.html">Click to Search</a>
+        </div>
+        <ul class="summary">
+            
+            <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24/">
+            
+                <a href="/~saw586/hipc/2023-24//">
+                    HIPC
+                </a>
+            </li>
+
+            <li class="divider">
+
+            
+             
+                
+                <!-- <li class="chapter" data-level="1.1"><a>about</a></li> -->
+             
+                
+                    
+
+                    
+                        
+                        </li>
+<li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//about/about/">
+                        
+                            <a href="/~saw586/hipc/2023-24//about/about/">
+                                About
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//about/changelog/">
+                        
+                            <a href="/~saw586/hipc/2023-24//about/changelog/">
+                                Changelog
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+
+                    
+                        <li class="divider">
+                    
+                
+            
+             
+                
+                </li>
+<li><a><strong>Units</strong></a></li>
+                
+                <!-- <li class="chapter" data-level="1.1"><a>lectures</a></li> -->
+             
+                
+                    
+
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//lectures/1-supercomputing/">
+                        
+                            <a href="/~saw586/hipc/2023-24//lectures/1-supercomputing/">
+                                1. Supercomputing and Scientific Computing
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//lectures/2-architectures/">
+                        
+                            <a href="/~saw586/hipc/2023-24//lectures/2-architectures/">
+                                2. The Architectures of Distributed Systems
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//lectures/3-management_and_measurement/">
+                        
+                            <a href="/~saw586/hipc/2023-24//lectures/3-management_and_measurement/">
+                                3. Management and Measurement of Distributed Systems
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//lectures/4-on-core_parallelism/">
+                        
+                            <a href="/~saw586/hipc/2023-24//lectures/4-on-core_parallelism/">
+                                4. On-core Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//lectures/5-on-node_parallelism/">
+                        
+                            <a href="/~saw586/hipc/2023-24//lectures/5-on-node_parallelism/">
+                                5. On-node Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//lectures/6-internode_parallelism/">
+                        
+                            <a href="/~saw586/hipc/2023-24//lectures/6-internode_parallelism/">
+                                6. Internode Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//lectures/7-advanced_internode_parallelism/">
+                        
+                            <a href="/~saw586/hipc/2023-24//lectures/7-advanced_internode_parallelism/">
+                                7. Advanced Internode Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//lectures/8-accelerators/">
+                        
+                            <a href="/~saw586/hipc/2023-24//lectures/8-accelerators/">
+                                8. Accelerators
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//lectures/9-more_accelerators/">
+                        
+                            <a href="/~saw586/hipc/2023-24//lectures/9-more_accelerators/">
+                                9. Advanced Accelerators
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//lectures/10-heterogeneous_programming/">
+                        
+                            <a href="/~saw586/hipc/2023-24//lectures/10-heterogeneous_programming/">
+                                10. Heterogeneous Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+
+                    
+                        <li class="divider">
+                    
+                
+            
+             
+                
+                <!-- <li class="chapter" data-level="1.1"><a>posts</a></li> -->
+             
+                
+                    
+
+                    
+
+                    
+                
+            
+             
+                
+                </li>
+<li><a><strong>Practicals</strong></a></li>
+                
+                <!-- <li class="chapter" data-level="1.1"><a>practicals</a></li> -->
+             
+                
+                    
+
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//practicals/1-introduction_to_c-1/">
+                        
+                            <a href="/~saw586/hipc/2023-24//practicals/1-introduction_to_c-1/">
+                                1. Introduction to C (part 1)
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//practicals/2-introduction_to_c-2/">
+                        
+                            <a href="/~saw586/hipc/2023-24//practicals/2-introduction_to_c-2/">
+                                2. Introduction to C (part 2)
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//practicals/3-on-core_parallelism/">
+                        
+                            <a href="/~saw586/hipc/2023-24//practicals/3-on-core_parallelism/">
+                                3. Programming On-core Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//practicals/4-on-node_parallelism/">
+                        
+                            <a href="/~saw586/hipc/2023-24//practicals/4-on-node_parallelism/">
+                                4. Programming On-node Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter active" data-level="1.2" data-path="/~saw586/hipc/2023-24//practicals/5-off-node_parallelism/">
+                        
+                            <a href="/~saw586/hipc/2023-24//practicals/5-off-node_parallelism/">
+                                5. Programming Off-node Parallelism
+                            </a>
+                            
+                                
+                                    <ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#exercise-1">Exercise 1</a></li>
+<li><a href="#exercise-2">Exercise 2</a></li>
+<li><a href="#submitting-parallelmpi-jobs-to-viking">Submitting Parallel/MPI Jobs to Viking</a></li>
+<li><a href="#exercise-3">Exercise 3</a></li>
+<li><a href="#a-simple-steady-state-heat-equation">A Simple Steady-state Heat Equation</a></li>
+<li><a href="#exercise-4">Exercise 4</a></li>
+</ul>
+
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//practicals/6-advanced_mpi/">
+                        
+                            <a href="/~saw586/hipc/2023-24//practicals/6-advanced_mpi/">
+                                6. Advanced MPI Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//practicals/7-cuda_programming/">
+                        
+                            <a href="/~saw586/hipc/2023-24//practicals/7-cuda_programming/">
+                                7. CUDA Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//practicals/8-advanced_cuda_programming/">
+                        
+                            <a href="/~saw586/hipc/2023-24//practicals/8-advanced_cuda_programming/">
+                                8. Advanced CUDA Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//practicals/9-heterogeneous_programming/">
+                        
+                            <a href="/~saw586/hipc/2023-24//practicals/9-heterogeneous_programming/">
+                                9. Heterogeneous Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+
+                    
+                        <li class="divider">
+                    
+                
+            
+        </li>
+</ul>
+    </nav>
+</div>
+<div class="book-body">
+                <div class="book-header" role="navigation">
+                    <!-- Title -->
+                    <h1>
+                        <i class="fa fa-circle-o-notch fa-spin"></i>
+                        
+                            <a href=".">5. Programming Off-node Parallelism</a>
+                        
+                    </h1>
+                </div>
+
+                <div class="body-inner">
+<div class="page-wrapper" tabindex="-1" role="main">
+    
+
+    <div class="page-inner">
+        <div id="book-search-results">
+            <div class="search-noresults">
+                <section class="normal markdown-section">
+                    
+                        <h1 id="/practicals/5-off-node_parallelism">5. Programming Off-node Parallelism</h1>
+                    
+
+                    <h1 id="overview">Overview</h1>
+
+<p>This week we’re going to move off-node.</p>
+
+<p>If you’ve not already completed the last exercise in the previous session, you should begin there (even if you didn’t finish all of the lab session). This will ensure you are able to log in to Viking, load modules, and submit jobs to the queue.</p>
+
+<p>Once you’re up and running on Viking, it’s time to start writing some parallel applications and submitting job scripts.</p>
+
+<p><strong>Note:</strong> You should <em><strong>NEVER</strong></em> run parallel jobs on Vikings login nodes. These should always be done in job scripts or interactive sessions. Doing otherwise may result in a ban (which will significantly affect your ability to complete the assessment!)</p>
+
+<blockquote class="block-danger">
+  <h1 id="exercise-1">Exercise 1</h1>
+
+  <p>For this week’s first exercise, we’re going to revisit the Monte Carlo Pi code you wrote in the last session. You can start from your original (non parallel) version, or the OpenMP version (if you completed that exercise).</p>
+
+  <p>Take your code from last time and transform it in the following ways (in preparation for parallelising it over a cluster):</p>
+
+  <ul>
+    <li>Make it so that it operates in “rounds” (where a round is a set number of trials)</li>
+    <li>Make it so that between each round it checks how close it is to <code class="language-plaintext highlighter-rouge">M_PI</code>
+</li>
+    <li>Make it so that it finishes its computation if the difference between its calculated value of Pi and <code class="language-plaintext highlighter-rouge">M_PI</code> is less than 1e-7</li>
+  </ul>
+
+  <p>As an example, you might like to make your program look approximately like the following psuedocode (where n is the size of a trial):</p>
+
+  <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>while abs(pi - M_PI) &gt; tolerance:
+    rounds = rounds + 1
+    for i: 0-&gt;n:
+        perform a trial
+    end for
+    pi = (number in / total number) * 4
+    print "After $rounds rounds, the value of Pi is: $pi"
+end while
+</code></pre></div>  </div>
+
+  <p>You may like to experiment with the number of trials in each round (n) and the tolerance. Your answer will depend upon the randomness of your random number generator (based on the random seed), and the accuracy of floating point numbers. You may find that sometimes your code coverges very quickly while other times it never seems to converge. You might like to ignore the tolerance, and instead just perform a set number of rounds and report the answer after each round.<br><br></p>
+</blockquote>
+
+<blockquote class="block-danger">
+  <h1 id="exercise-2">Exercise 2</h1>
+
+  <p>Add MPI to your Monte Carlo Pi code. You could use point-to-point operations or collective operations to have each process perform their own set of rounds, aggregating their answers after each round. <br><br></p>
+</blockquote>
+
+<h1 id="submitting-parallelmpi-jobs-to-viking">Submitting Parallel/MPI Jobs to Viking</h1>
+
+<p>When submitting parallel jobs to Viking, you might find that additional arguments are required.</p>
+
+<p>The Viking documentation provides a quick guide to using MPI jobs here: <a href="https://vikingdocs.york.ac.uk/using_viking/jobscript_examples.html#mpi">Jobscript Examples: MPI</a></p>
+
+<p>In particular, you may need to specify the memory per CPU, the CPUs per task and the number of tasks per node.</p>
+
+<p>For example:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="c">#SBATCH --time=00:10:00                 # Maximum time (HH:MM:SS)</span>
+<span class="c">#SBATCH --ntasks=20                     # run 20 tasks</span>
+<span class="c">#SBATCH --output=simple_job_%j.log      # standard output and error log</span>
+<span class="c">#SBATCH --partition=teach               # run in the teaching queue</span>
+<span class="c">#SBATCH --account=CS-TEACH-2023         # use the CS-TEACH account</span>
+<span class="c">#SBATCH --cpus-per-task=1               # use 1 CPU per task</span>
+<span class="c">#SBATCH --nodes=2                       # use 2 nodes</span>
+<span class="c">#SBATCH --ntasks-per-node=10            # use 10 tasks per node</span>
+<span class="c">#SBATCH --mem-per-cpu=600mb             # allocate 600mb memory per CPU</span>
+
+<span class="nb">echo</span> <span class="s2">"Running mpi_example on </span><span class="k">${</span><span class="nv">SLURM_NTASKS</span><span class="k">}</span><span class="s2"> CPU cores"</span>
+
+mpiexec <span class="nt">--display-map</span> <span class="nt">-n</span> <span class="k">${</span><span class="nv">SLURM_NTASKS</span><span class="k">}</span> ./my_code
+</code></pre></div></div>
+
+<p>This will run 20 ranks of “my_code” and will also display the mapping information (tasks to cores, etc.). It will run on 2 separate nodes, using 10 tasks on each node (<strong>Note:</strong> there are 96 CPU cores per Viking node).</p>
+
+<p>When running you should be aware that there may be other tasks running on the same node, potentially affecting the performance of your application. If you would like exclusive access to your resources, you can specify the <code class="language-plaintext highlighter-rouge">--exclusive</code> configuration option, or ensure you request enough resources (i.e. 192 tasks, 2 nodes and 96 tasks per node <em>should</em> allocate 2 nodes exclusively, though this is not guaranteed).</p>
+
+<blockquote class="block-danger">
+  <h1 id="exercise-3">Exercise 3</h1>
+
+  <p>When benchmarking and analysing the performance of parallel applications, we are often interested in identifying performance bottlenecks. One common bottleneck is the network itself. It is often desireable to measure the performance of the communication channel, in order to understand whether communication latency or bandwidth is a bottleneck.</p>
+
+  <p>Build a simple network benchmark that tests the performance of point-to-point communications (often called a ping-pong test).</p>
+
+  <p>Vary the parameters (message sizes, etc.) and placement of processes on Viking (i.e. try to get the two processes running on different compute nodes so that communications have to travel over the InfiniBand network). Plot your answers on a graph. See how bandwidth varies with message size.<br><br></p>
+</blockquote>
+
+<h1 id="a-simple-steady-state-heat-equation">A Simple Steady-state Heat Equation</h1>
+
+<p>Attached File: <a href="../../assets/practical-5/heat_equation.c"><code class="language-plaintext highlighter-rouge">heat_equation.c</code></a></p>
+
+<p>The final problem for this week is to solve the steady state heat equation on a rectangular region, representing a plate heated along three edges to 100°C, and cooled to 0°C along the fourth edge.</p>
+
+<p>The physical region, and the boundary conditions, are shown in Figure 1, where W represents the temperature.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/practical-5/heat-equation-grid.png" alt="The spatial grid for calculating the result of the heat equation"><br>
+<em><strong>Figure 1:</strong> The spatial grid for calculating the result of the heat equation.</em></p>
+
+<p>The region is covered with a grid of M by N cells, and an M by N array W is used to record the temperature.</p>
+
+<p>The steady state solution to the discrete heat equation satisfies the following condition at an interior grid point:</p>
+
+\[W_{Central} = \frac{W_{North} + W_{East} + W_{South} + W_{West}}{4}\]
+
+<p>In other words, we calculate the value for any given grid point by taking the average of its 4 surrounding neighbours.</p>
+
+<p>In our simulation, we begin with an initial guess for the solution (which is just the average of all the boundaries). We then iteratively find a ‘better’ solution, by replacing each interior point with the average of its 4 neighbours.</p>
+
+<p>If this process is repeated often enough, the difference between successive estimates of the solution will go towards zero.</p>
+
+<p>Below is a single-processor, single-threaded implementation of this solution to the problem.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;math.h&gt;</span><span class="cp">
+</span>
+<span class="c1">//size of plate</span>
+<span class="cp">#define M 200
+#define N 1000
+</span>
+<span class="kt">double</span> <span class="o">**</span><span class="nf">alloc_2d_array</span><span class="p">(</span><span class="kt">int</span> <span class="n">m</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+  	<span class="kt">double</span> <span class="o">**</span><span class="n">x</span><span class="p">;</span>
+  	<span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+
+  	<span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span> <span class="o">**</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="n">m</span><span class="o">*</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">double</span> <span class="o">*</span><span class="p">));</span>
+  	<span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span> <span class="o">*</span><span class="p">)</span><span class="n">calloc</span><span class="p">(</span><span class="n">m</span><span class="o">*</span><span class="n">n</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">double</span><span class="p">));</span>
+  	<span class="k">for</span> <span class="p">(</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">m</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span> <span class="p">)</span>
+    	<span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="o">*</span><span class="n">n</span><span class="p">];</span>
+	<span class="k">return</span> <span class="n">x</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">free_2d_array</span><span class="p">(</span><span class="kt">double</span> <span class="o">**</span> <span class="n">array</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">free</span><span class="p">(</span><span class="n">array</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+	<span class="n">free</span><span class="p">(</span><span class="n">array</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Heated Plate calculation</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+	<span class="c1">// arrays for recording temperatures</span>
+	<span class="kt">double</span><span class="o">**</span> <span class="n">u</span> <span class="o">=</span> <span class="n">alloc_2d_array</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">N</span><span class="p">);</span>	
+	<span class="kt">double</span><span class="o">**</span> <span class="n">w</span> <span class="o">=</span> <span class="n">alloc_2d_array</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">N</span><span class="p">);</span>	
+
+	<span class="kt">double</span> <span class="n">diff</span><span class="p">;</span>
+	<span class="kt">double</span> <span class="n">epsilon</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mo">00001</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">iterations</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">iterations_print</span><span class="p">;</span>
+	<span class="kt">double</span> <span class="n">mean</span><span class="p">;</span>
+  
+	<span class="n">printf</span><span class="p">(</span><span class="s">"  Spatial grid of %d by %d points.</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">N</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"  The iteration will be repeated until the change is &lt;= %lf</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">);</span> 
+
+    <span class="c1">// Set the boundary values, which don't change.</span>
+	<span class="n">mean</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">M</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+        <span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">w</span><span class="p">[</span><span class="n">M</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+        <span class="n">w</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Average the boundary values, to come up with a reasonable initial value for the interior. </span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">M</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>		
+        <span class="n">mean</span> <span class="o">+=</span> <span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
+	<span class="p">}</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">mean</span> <span class="o">+=</span> <span class="n">w</span><span class="p">[</span><span class="n">M</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="n">w</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
+	<span class="p">}</span> 
+
+	<span class="n">mean</span> <span class="o">=</span> <span class="n">mean</span> <span class="o">/</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span> <span class="p">(</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">M</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">N</span> <span class="o">-</span> <span class="mi">4</span> <span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s"> MEAN = %lf</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">mean</span><span class="p">);</span>
+
+    <span class="c1">// Initialize the interior solution to the mean value. </span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">M</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    	 		<span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">mean</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+    <span class="c1">// iterate until the new solution W differs from the old solution U by no more than EPSILON. </span>
+	<span class="n">iterations</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="n">iterations_print</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">;</span> <span class="c1">// print an update every 1000 iterations</span>
+
+	<span class="n">diff</span> <span class="o">=</span> <span class="n">epsilon</span><span class="p">;</span>
+
+	<span class="k">while</span> <span class="p">(</span><span class="n">epsilon</span> <span class="o">&lt;=</span> <span class="n">diff</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Save the old solution in U. </span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">M</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+     		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        		<span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
+        	<span class="p">}</span>
+      	<span class="p">}</span>
+
+        <span class="c1">// Determine the new estimate of the solution at the interior points. </span>
+        <span class="c1">// The new solution W is the average of north, south, east and west neighbors.</span>
+      	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">M</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        		<span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="mi">4</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+        	<span class="p">}</span>
+      	<span class="p">}</span>
+
+        <span class="c1">// find the largest diff between the old and new values</span>
+		<span class="n">diff</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">M</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		     	<span class="k">if</span> <span class="p">(</span><span class="n">diff</span> <span class="o">&lt;</span> <span class="n">fabs</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">-</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]))</span> <span class="p">{</span>
+	          		<span class="n">diff</span> <span class="o">=</span> <span class="n">fabs</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">-</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]);</span>
+     			<span class="p">}</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+
+		<span class="n">iterations</span><span class="o">++</span><span class="p">;</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">iterations</span> <span class="o">%</span> <span class="n">iterations_print</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">printf</span><span class="p">(</span><span class="s">"  %8d  %f</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">iterations</span><span class="p">,</span> <span class="n">diff</span><span class="p">);</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="n">printf</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">  %8d  %f</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">iterations</span><span class="p">,</span> <span class="n">diff</span><span class="p">);</span>
+
+	<span class="n">printf</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">  End of execution.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+    <span class="c1">// write output to a csv file</span>
+    <span class="kt">FILE</span> <span class="o">*</span><span class="n">output</span> <span class="o">=</span> <span class="n">fopen</span><span class="p">(</span><span class="s">"./output.csv"</span><span class="p">,</span> <span class="s">"w"</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">M</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">fprintf</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="s">"%lf,"</span><span class="p">,</span> <span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]);</span>
+        <span class="p">}</span>
+        <span class="n">fprintf</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="s">"%lf</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">]);</span>
+    <span class="p">}</span>
+    <span class="n">fclose</span><span class="p">(</span><span class="n">output</span><span class="p">);</span>
+
+    <span class="n">free_2d_array</span><span class="p">(</span><span class="n">w</span><span class="p">);</span>
+    <span class="n">free_2d_array</span><span class="p">(</span><span class="n">u</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>You may note the use of a 2D allocation function (<code class="language-plaintext highlighter-rouge">alloc_2d_array()</code>). This function is a “hack” that allocates a contiguous block of memory for the 2D grid and allows us to reference values using square brackets.</p>
+
+<p>At the end of execution, the result is written out to a file (in CSV). Plotting the data using Matlab produces the following result:</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/practical-5/heat-equation.png" alt="The result of the steady state heat equation on a 200 x 1000 grid"><br>
+<em><strong>Figure 2:</strong> The result of the steady state heat equation on a 200 x 1000 grid.</em></p>
+
+<blockquote class="block-danger">
+  <h1 id="exercise-4">Exercise 4</h1>
+
+  <p>Parallelise the Heat Equation code (in 1 dimension) using MPI. You do not need to parallelise the file output (you could disable it for the sake of this exercise, but check that your answer is the same!).</p>
+
+  <p><strong>Hints:</strong> You will likely need to do the following things:</p>
+
+  <ul>
+    <li>Calculate the start and end offset for each processor (which will be the problem size divided by the number of processors <strong>plus</strong> ghost cells). You will need a single ghost column (or row, depending on parallelisation dimension) on rank 0 and rank N-1. You will need two ghost columns on all other processes.</li>
+    <li>Update the allocations to only allocate the space required for each process.</li>
+    <li>If you’re parallelising in the x-dimension, you may need a column datatype (see Unit 6 for information on halo exchanges).</li>
+    <li>You will need to correct the boundary conditions (the left and right most boundary conditions are only required on processes 0 and N-1).</li>
+    <li>You will need to update the calculation of the initial conditions (i.e. the mean calculation, and subsequent assignment for the grid).</li>
+    <li>You will need to perform boundary exchanges. You can use <code class="language-plaintext highlighter-rouge">Sendrecv</code> operations with <code class="language-plaintext highlighter-rouge">MPI_PROC_NULL</code> to account for processes 0 and N-1.</li>
+    <li>You will need to take into account the parallelisation when calculating the largest difference in the grid.</li>
+  </ul>
+
+  <p>If you’re getting stuck, go back to pen and paper. Make liberal use of <code class="language-plaintext highlighter-rouge">printf</code> commands to make sure you’re calculating parameters correctly.<br><br></p>
+</blockquote>
+
+                </section>
+            </div>
+<div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title">
+<span class="search-results-count"></span> results matching "<span class="search-query"></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class="search-query"></span>"</h1>
+    </div>
+</div>
+</div>
+    </div>
+</div>
+
+                        <a href="/~saw586/hipc/2023-24//practicals/4-on-node_parallelism/" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 4. Programming On-node Parallelism">
+                            <i class="fa fa-angle-left"></i>
+                        </a>
+                    
+
+                    
+                        <a href="/~saw586/hipc/2023-24//practicals/6-advanced_mpi/" class="navigation navigation-next navigation-unique" aria-label="Next page: 6. Advanced MPI Programming">
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    
+                </div>
+            </div>
+
+            <script>
+            var gitbook = gitbook || [];
+            gitbook.push(function() {
+                gitbook.page.hasChanged({
+    "page": {
+        "title": "Introduction",
+        "level": "1.1",
+        "depth": 1,
+        
+        "next": {
+            "title": "6. Advanced MPI Programming",
+            "level": "1.2",
+            "depth": 1,
+            "path": "_practicals/6-advanced_mpi.md",
+            "ref": "_practicals/6-advanced_mpi.md",
+            "articles": []
+        },
+        
+        "dir": "ltr"
+    },    "config": {
+        "plugins": ["fontsettings", "highlight", "livereload", "lunr", "search", "sharing", "theme-default", "livereload"],
+        "styles": {
+            "ebook": "styles/ebook.css",
+            "epub": "styles/epub.css",
+            "mobi": "styles/mobi.css",
+            "pdf": "styles/pdf.css",
+            "print": "styles/print.css",
+            "website": "styles/website.css"
+        },
+        "pluginsConfig": {
+            "fontsettings": {
+                "family": "sans",
+                "size": 2,
+                "theme": "white"
+            },
+            "highlight": {},
+            "livereload": {},
+            "lunr": {
+                "ignoreSpecialCharacters": false,
+                "maxIndexSize": 1000000
+            },
+            "search": {},
+            "sharing": {
+                "all": ["facebook", "google", "twitter", "weibo", "instapaper"],
+                "facebook": true,
+                "google": false,
+                "instapaper": true,
+                "twitter": true,
+                "vk": false,
+                "weibo": false
+            },
+            "theme-default": {
+                "showLevel": false,
+                "styles": {
+                    "ebook": "styles/ebook.css",
+                    "epub": "styles/epub.css",
+                    "mobi": "styles/mobi.css",
+                    "pdf": "styles/pdf.css",
+                    "print": "styles/print.css",
+                    "website": "styles/website.css"
+                }
+            }
+        },
+        "theme": "default",
+        "author": "Tao He",
+        "pdf": {
+            "pageNumbers": true,
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "paperSize": "a4",
+            "chapterMark": "pagebreak",
+            "pageBreaksBefore": "/",
+            "margin": {
+                "right": 62,
+                "left": 62,
+                "top": 56,
+                "bottom": 56
+            }
+        },
+        "structure": {
+            "langs": "LANGS.md",
+            "readme": "README.md",
+        },
+        "variables": {},
+        "title": "HIPC",
+        "language": "en",
+        "gitbook": "*"
+    },
+    "file": {
+        "path": "_practicals/5-off-node_parallelism.md",
+        "mtime": "2022-07-21 00:00:00 +0100",
+        "type": "markdown"
+    },
+    "gitbook": {
+        "version": "3.2.3",
+        "time": "2023-12-01 15:53:33 +0000"
+    },
+    "basePath": "/~saw586/hipc/2023-24/",
+    "book": {
+        "language": ""
+    }
+});
+            });
+            </script>
+        </div>
+<script src="/~saw586/hipc/2023-24//assets/gitbook/gitbook.js"></script>
+<script src="/~saw586/hipc/2023-24//assets/gitbook/theme.js"></script>
+
+<script src="/~saw586/hipc/2023-24//assets/gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+<script src="/~saw586/hipc/2023-24//assets/gitbook/gitbook-plugin-sharing/buttons.js"></script>
+
+<!-- <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+<script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+<script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+<script src="../gitbook/gitbook-plugin-search/search.js"></script> -->
+
+<script src="/~saw586/hipc/2023-24//assets/gitbook/gitbook-plugin-search-pro/jquery.mark.min.js"></script>
+<script src="/~saw586/hipc/2023-24//assets/gitbook/gitbook-plugin-search-pro/search.js"></script>
+<script src="/~saw586/hipc/2023-24//assets/gitbook/gitbook-plugin-back-to-top-button/plugin.js"></script>
+
+<script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+</body>
+</html>

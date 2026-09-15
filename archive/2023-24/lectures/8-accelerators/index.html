@@ -1,0 +1,1627 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+<meta charset="UTF-8">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<title>8. Accelerators · HIPC</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="HIPC
+">
+<meta name="generator" content="Jekyll (using style of GitBook 3.2.3)">
+<meta name="author" content="Steven Wright">
+<link rel="stylesheet" href="/~saw586/hipc/2023-24//assets/gitbook/style.css">
+<link rel="stylesheet" href="/~saw586/hipc/2023-24//assets/gitbook/gitbook-plugin-fontsettings/website.css">
+<link rel="stylesheet" href="/~saw586/hipc/2023-24//assets/gitbook/gitbook-plugin-search-pro/search.css">
+<link rel="stylesheet" href="/~saw586/hipc/2023-24//assets/gitbook/gitbook-plugin-back-to-top-button/plugin.css">
+
+<link rel="stylesheet" href="/~saw586/hipc/2023-24//assets/gitbook/rouge/github.css">
+
+<link rel="stylesheet" href="/~saw586/hipc/2023-24//assets/gitbook/custom.css">
+
+<meta name="HandheldFriendly" content="true">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="apple-touch-icon-precomposed" sizes="152x152" href="/~saw586/hipc/2023-24//assets/gitbook/images/apple-touch-icon-precomposed-152.png">
+<link rel="shortcut icon" href="/~saw586/hipc/2023-24//assets/gitbook/images/favicon.ico" type="image/x-icon">
+
+
+
+
+
+<script>
+    MathJax = {
+        tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        svg: {
+            fontCache: 'global'
+        }
+    };
+</script>
+            <link rel="prev" href="/~saw586/hipc/2023-24//lectures/7-advanced_internode_parallelism/">
+        
+
+        
+            <link rel="next" href="/~saw586/hipc/2023-24//lectures/9-more_accelerators/">
+        
+    </head>
+    <body>
+        <div class="book">
+<div class="book-summary">
+    <nav role="navigation">
+        <div id="book-search-input" role="search">
+            <input type="text" placeholder="Type to search">
+        </div>
+        <div id="book-search-input-link" role="search">
+            <a href="/~saw586/hipc/2023-24//assets/search.html">Click to Search</a>
+        </div>
+        <ul class="summary">
+            
+            <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24/">
+            
+                <a href="/~saw586/hipc/2023-24//">
+                    HIPC
+                </a>
+            </li>
+
+            <li class="divider">
+
+            
+             
+                
+                <!-- <li class="chapter" data-level="1.1"><a>about</a></li> -->
+             
+                
+                    
+
+                    
+                        
+                        </li>
+<li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//about/about/">
+                        
+                            <a href="/~saw586/hipc/2023-24//about/about/">
+                                About
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//about/changelog/">
+                        
+                            <a href="/~saw586/hipc/2023-24//about/changelog/">
+                                Changelog
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+
+                    
+                        <li class="divider">
+                    
+                
+            
+             
+                
+                </li>
+<li><a><strong>Units</strong></a></li>
+                
+                <!-- <li class="chapter" data-level="1.1"><a>lectures</a></li> -->
+             
+                
+                    
+
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//lectures/1-supercomputing/">
+                        
+                            <a href="/~saw586/hipc/2023-24//lectures/1-supercomputing/">
+                                1. Supercomputing and Scientific Computing
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//lectures/2-architectures/">
+                        
+                            <a href="/~saw586/hipc/2023-24//lectures/2-architectures/">
+                                2. The Architectures of Distributed Systems
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//lectures/3-management_and_measurement/">
+                        
+                            <a href="/~saw586/hipc/2023-24//lectures/3-management_and_measurement/">
+                                3. Management and Measurement of Distributed Systems
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//lectures/4-on-core_parallelism/">
+                        
+                            <a href="/~saw586/hipc/2023-24//lectures/4-on-core_parallelism/">
+                                4. On-core Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//lectures/5-on-node_parallelism/">
+                        
+                            <a href="/~saw586/hipc/2023-24//lectures/5-on-node_parallelism/">
+                                5. On-node Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//lectures/6-internode_parallelism/">
+                        
+                            <a href="/~saw586/hipc/2023-24//lectures/6-internode_parallelism/">
+                                6. Internode Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//lectures/7-advanced_internode_parallelism/">
+                        
+                            <a href="/~saw586/hipc/2023-24//lectures/7-advanced_internode_parallelism/">
+                                7. Advanced Internode Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter active" data-level="1.2" data-path="/~saw586/hipc/2023-24//lectures/8-accelerators/">
+                        
+                            <a href="/~saw586/hipc/2023-24//lectures/8-accelerators/">
+                                8. Accelerators
+                            </a>
+                            
+                                
+                                    <ul>
+<li><a href="#overview">Overview</a></li>
+<li>
+<a href="#a-brief-introduction-to-gpus-in-hpc">A Brief Introduction to GPUs in HPC</a><ul><li><a href="#gpu-vs-cpu-whats-the-difference">GPU vs CPU: What’s the difference?</a></li></ul>
+</li>
+<li><a href="#the-microarchitecture-of-nvidia-gpus">The Microarchitecture of NVIDIA GPUs</a></li>
+<li>
+<a href="#gpu-programming-with-cuda">GPU Programming with CUDA</a><ul>
+<li><a href="#what-is-cuda">What is CUDA?</a></li>
+<li><a href="#cuda-scalable-parallel-architecture">CUDA Scalable Parallel Architecture</a></li>
+</ul>
+</li>
+<li>
+<a href="#cuda-software-and-memory">CUDA Software and Memory</a><ul>
+<li><a href="#cuda-software-stack">CUDA Software Stack</a></li>
+<li><a href="#cuda-memory-model">CUDA Memory Model</a></li>
+</ul>
+</li>
+<li>
+<a href="#cuda-basic-usage">CUDA Basic Usage</a><ul>
+<li><a href="#cuda-operation-procedure">CUDA Operation Procedure</a></li>
+<li><a href="#first-cuda-example">First CUDA Example</a></li>
+<li><a href="#compiling-cuda-programs">Compiling CUDA Programs</a></li>
+</ul>
+</li>
+<li>
+<a href="#vectorisation-with-cuda">Vectorisation with CUDA</a><ul>
+<li><a href="#vect-add-example">Vect Add example</a></li>
+<li><a href="#profiling-performance">Profiling Performance</a></li>
+<li><a href="#kernel-execution-configuration">Kernel Execution Configuration</a></li>
+<li><a href="#kernel-with-2d-indexing">Kernel with 2D Indexing</a></li>
+</ul>
+</li>
+<li><a href="#recommended-reading">Recommended Reading</a></li>
+</ul>
+
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//lectures/9-more_accelerators/">
+                        
+                            <a href="/~saw586/hipc/2023-24//lectures/9-more_accelerators/">
+                                9. Advanced Accelerators
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//lectures/10-heterogeneous_programming/">
+                        
+                            <a href="/~saw586/hipc/2023-24//lectures/10-heterogeneous_programming/">
+                                10. Heterogeneous Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+
+                    
+                        <li class="divider">
+                    
+                
+            
+             
+                
+                <!-- <li class="chapter" data-level="1.1"><a>posts</a></li> -->
+             
+                
+                    
+
+                    
+
+                    
+                
+            
+             
+                
+                </li>
+<li><a><strong>Practicals</strong></a></li>
+                
+                <!-- <li class="chapter" data-level="1.1"><a>practicals</a></li> -->
+             
+                
+                    
+
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//practicals/1-introduction_to_c-1/">
+                        
+                            <a href="/~saw586/hipc/2023-24//practicals/1-introduction_to_c-1/">
+                                1. Introduction to C (part 1)
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//practicals/2-introduction_to_c-2/">
+                        
+                            <a href="/~saw586/hipc/2023-24//practicals/2-introduction_to_c-2/">
+                                2. Introduction to C (part 2)
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//practicals/3-on-core_parallelism/">
+                        
+                            <a href="/~saw586/hipc/2023-24//practicals/3-on-core_parallelism/">
+                                3. Programming On-core Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//practicals/4-on-node_parallelism/">
+                        
+                            <a href="/~saw586/hipc/2023-24//practicals/4-on-node_parallelism/">
+                                4. Programming On-node Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//practicals/5-off-node_parallelism/">
+                        
+                            <a href="/~saw586/hipc/2023-24//practicals/5-off-node_parallelism/">
+                                5. Programming Off-node Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//practicals/6-advanced_mpi/">
+                        
+                            <a href="/~saw586/hipc/2023-24//practicals/6-advanced_mpi/">
+                                6. Advanced MPI Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//practicals/7-cuda_programming/">
+                        
+                            <a href="/~saw586/hipc/2023-24//practicals/7-cuda_programming/">
+                                7. CUDA Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//practicals/8-advanced_cuda_programming/">
+                        
+                            <a href="/~saw586/hipc/2023-24//practicals/8-advanced_cuda_programming/">
+                                8. Advanced CUDA Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//practicals/9-heterogeneous_programming/">
+                        
+                            <a href="/~saw586/hipc/2023-24//practicals/9-heterogeneous_programming/">
+                                9. Heterogeneous Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+
+                    
+                        <li class="divider">
+                    
+                
+            
+        </li>
+</ul>
+    </nav>
+</div>
+<div class="book-body">
+                <div class="book-header" role="navigation">
+                    <!-- Title -->
+                    <h1>
+                        <i class="fa fa-circle-o-notch fa-spin"></i>
+                        
+                            <a href=".">8. Accelerators</a>
+                        
+                    </h1>
+                </div>
+
+                <div class="body-inner">
+<div class="page-wrapper" tabindex="-1" role="main">
+    
+
+    <div class="page-inner">
+        <div id="book-search-results">
+            <div class="search-noresults">
+                <section class="normal markdown-section">
+                    
+                        <h1 id="/lectures/8-accelerators">8. Accelerators</h1>
+                    
+
+                    <h1 id="overview">Overview</h1>
+
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/zOesxDOApbg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""></iframe>
+<p><br></p>
+
+<p>Welcome to the 8th unit of the HIPC course!</p>
+
+<p>In 2008 Roadrunner became the first supercomputer to break the PetaFLOP/s barrier. Roadrunner was perhaps the first modern heterogenous system, with each node employing PowerXCell accelerators to achieve its high performance. Today, many of the largest systems in the world are heterogeneous platforms, employing GPUs to accelerate their computational workloads. This unit covers the basics of accelerators and how to program them.</p>
+
+<p>Specifically, in this unit, we will cover:</p>
+
+<ul>
+  <li>Accelerators in HPC</li>
+  <li>GPGPU platforms</li>
+  <li>GPU models</li>
+  <li>Programming with CUDA</li>
+</ul>
+
+<p>After this unit, you are expected to have a better understanding of GPUs, basics of CUDA, and to be able to program GPUs with CUDA.</p>
+
+<h1 id="a-brief-introduction-to-gpus-in-hpc">A Brief Introduction to GPUs in HPC</h1>
+
+<p>An <em>accelerator</em> is, as the name indicates, a device to speed up certain computations in an HPC application. Accelerators are peripheral processors that are able to perform additional work in the background, while releasing the resources of the main processor.</p>
+
+<p>In the June 2016 TOP500 list, 19% of state-of-the-art HPC systems used GPUs (graphics processing units) or other accelerators (e.g. FPGA-based HPC accelerators). In general, accelerators can be classified as (1) general-purpose, or (2) domain-specific. The use of accelerators involves the cooperative design of software and hardware (or SW &amp; HW co-design), which sometimes makes porting and maintenance difficult, as the software and hardware are coupled for a specific software application and hardware platform.</p>
+
+<p>Accelerated computing started to gain popularity with the release of the first Petascale system, Roadrunner, which had IBM PowerXCell 8i accelerators connected to each core.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-8/The-structure-of-a-Roadrunner-compute-node-triblade.png" alt="Roadrunner's architecture"><br>
+<em><strong>Figure 1:</strong> Roadrunner’s architecture</em></p>
+
+<p>In the following years, the trend rapidly moved towards the use of GPUs, due to their versatility and relatively low cost. The prevalence of GPUs as accelerators has significantly improved the programmability issue due to their general-purpose nature and well supported programming infrastructure. These GPUs that can be used for calculation are sometimes referred to as <em>GPGPUs</em> (General Purpose Graphic Processing Units).</p>
+
+<p>In 2007, NVIDIA released its <em>CUDA</em> development environment, the earliest widely adopted programming model for GPU computing. Two years later, OpenCL became widely supported. The OpenCL framework allows for the development of code for both GPUs and CPUs with an emphasis on portability. Thus, GPUs became a more generalised computing device.</p>
+
+<p>Despite other competitors in the market (e.g. AMD, Intel), the combination of NVIDIA GPUs and CUDA dominates several application areas, including scientific computing, deep learning, and animation rendering. NVIDIA GPUs are the foundation for some of the fastest computers in the world.</p>
+
+<p>CUDA, as already mentioned, is a parallel computing platform and programming model developed by NVIDIA for general computing on its own GPUs. CUDA enables developers to speed up compute-intensive applications by harnessing the power of GPUs for the parallelisable part of the computation. In this unit, we will focus on NVIDIA GPUs and CUDA programming, but many of the concepts will apply to other GPUs and GPU programming models.</p>
+
+<h2 id="gpu-vs-cpu-whats-the-difference">GPU vs CPU: What’s the difference?</h2>
+
+<p>GPUs were originally designed to accelerate the rendering of 3D graphics. During the last few decades, researchers have used GPUs to perform complex scientific computations, including fluid flow simulation using the Lattice Boltzman model, cloud dynamics simulation, finite-element simulations, and ice crystal growth, among many others.</p>
+
+<p>However, an obvious question to ask is why we need to use a GPU in addition to a CPU? Well, we know a CPU is good for general-purpose computing, however, it is optimised for serial tasks. On the other hand, a GPU is optimised for parallel tasks and it is extremely powerful at running smaller (and simpler) jobs simultaneously.</p>
+
+<p>Architecturally, in a GPU there are often hundreds of arithmetic logic units (ALUs). While for a CPU there are only a limited number of ALUs, usually correlated to the number of cores. This architectural difference leads to their different approaches to processing tasks, and therefore dictates which purposes they are good/bad for.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-8/gpuvscpu2.jpg" alt="Comparison between CPUs and GPUs"><br>
+<em><strong>Figure 2:</strong> The key differences between CPUs and GPUs</em></p>
+
+<p>To make it clearer, the following table lists the mains strengths of CPUs and GPUs:</p>
+
+<div class="table-wrapper">
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>CPU strengths</strong></td>
+        <td><strong>GPU strengths</strong></td>
+      </tr>
+      <tr>
+        <td>Very large main memory</td>
+        <td>High bandwidth main memory</td>
+      </tr>
+      <tr>
+        <td>Very fast clock speeds</td>
+        <td>Latency tolerant via parallelism</td>
+      </tr>
+      <tr>
+        <td>Latency optimized via large caches</td>
+        <td>Significantly more compute resources</td>
+      </tr>
+      <tr>
+        <td>Small number of threads can run very quickly</td>
+        <td>High throughput</td>
+      </tr>
+      <tr>
+        <td> </td>
+        <td>High performance/watt</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
+<p>The table below makes a similar comparison in terms of their weaknesses:</p>
+
+<div class="table-wrapper">
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>CPU weaknesses</strong></td>
+        <td><strong>GPU weaknesses</strong></td>
+      </tr>
+      <tr>
+        <td>Relatively low memory bandwidth</td>
+        <td>Relatively low memory capacity</td>
+      </tr>
+      <tr>
+        <td>Low performance/watt</td>
+        <td>Low per-thread performance</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
+<p>Modern CPUs strongly favour sequential serial processing with high operational frequency and get a boost from the large size of caches. The range of tasks they are appropriate for is wide, as the architecture is very general-purpose. However, a CPU is not great at everything, especially in the case of highly parallelisable programs. In some cases, GPUs can be 100× or more faster than CPUs with fine-grained parallelism. This makes GPUs a great candidate for offloading workloads that CPUs are not good at.</p>
+
+<p>A more direct comparison of their performance is given in the following graph, where the single- and double-precision floating-point performance (left) and memory performance (right) of NVIDIA Tesla GPUs are compared with some x86 CPUs:</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-8/gpuvscpu.png" alt="Graph of performance differences between a CPU and a GPU"><br>
+<em><strong>Figure 3:</strong> CPU and GPU performance comparison</em></p>
+
+<p>These differences between a CPU and a GPU were demonstrated in the TV Show Mythbusters (2009).</p>
+
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/-P28LKWTzrI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h1 id="the-microarchitecture-of-nvidia-gpus">The Microarchitecture of NVIDIA GPUs</h1>
+
+<p>The architecture of NVIDIA GPUs has been evolving for serval years. Since 2006, NVIDIA has released a number of different GPU microarchitectures, which are: <a href="https://en.wikipedia.org/wiki/Tesla_(microarchitecture)">Tesla</a> (2006), <a href="https://en.wikipedia.org/wiki/Fermi_(microarchitecture)">Fermi</a> (2010), <a href="https://en.wikipedia.org/wiki/Kepler_(microarchitecture)">Kepler</a> (2012), <a href="https://en.wikipedia.org/wiki/Maxwell_(microarchitecture)">Maxwell</a> (2014), <a href="https://en.wikipedia.org/wiki/Pascal_(microarchitecture)">Pascal</a> (2016), <a href="https://en.wikipedia.org/wiki/Volta_(microarchitecture)">Volta</a> (2017), <a href="https://en.wikipedia.org/wiki/Turing_(microarchitecture)">Turing</a> (2018), <a href="https://en.wikipedia.org/wiki/Ampere_(microarchitecture)">Ampere</a> (2020) and <a href="https://en.wikipedia.org/wiki/Hopper_(microarchitecture)">Hopper</a> (2022).</p>
+
+<p>An overview of NVIDIAs GPU architecture is given in Figure 4:</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-8/memory-hierarchy-in-gpus-2.png" alt="The GPU Hardware model for an NVIDIA A100"><br>
+<em><strong>Figure 4:</strong> GPU Hardware Model – Overview (A100)</em></p>
+
+<p>It can be seen that from the top level, a GPU is similar to a CPU with respect to the memory hierarchy. But when looking down into the low-level microarchitecture, a GPU is very different from how a CPU is organised and designed.</p>
+
+<p>An NVIDIA chip consists of one or more <em>streaming multiprocessors</em> (SMs). Each SM has a dedicated L1 cache, and all SMs share a unified L2 cache. An SM then has 1-4 <em>warp schedulers</em>. Each warp scheduler has a register file and multiple execution units. The execution units may be exclusive to the warp scheduler or shared between schedulers. Execution units include <em>CUDA cores</em> (FP/INT), <em>special function units</em> (SPU), <em>texture</em>, and <em>load-store units</em> (LD/ST).</p>
+
+<p>In Figure 5, we take the Pascal computing architecture (GeForce GTX 1080, Telsa P100, etc.) as an example to look inside an SM. The diagrammatic structure is shown below.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-8/GeForce_GTX_1080_SM_Diagram_FINAL.png" alt="GPU Hardware model for a GeForce GTX 1080, Pascal"><br>
+<em><strong>Figure 5:</strong> GPU Hardware Model – SM (of a GP104/Pascal)</em></p>
+
+<p>As can be seen, the number of CUDA cores within an SM is huge. In a GeForce GTX 1080, there are 20 streaming multiprocessors (SM), each with 128 CUDA processor cores, for a total of 2560 cores. To efficiently manage and use this many cores, each SM uses a <em>single-instruction, multiple-thread</em> (SIMT) approach, where concurrent threads are created, managed, scheduled, and executed in a group of parallel threads, or <em>warps</em>.</p>
+
+<p>We will cover these in detail in the following section.</p>
+
+<h1 id="gpu-programming-with-cuda">GPU Programming with CUDA</h1>
+
+<h2 id="what-is-cuda">What is CUDA?</h2>
+
+<p>CUDA (Compute Unified Device Architecture) is a parallel computing platform and application programming interface (API) that allows software to use certain types of the graphics processing unit (GPU) for general-purpose processing – an approach called general-purpose computing on GPUs (GPGPU). CUDA is a software layer with a C-like programming interface that gives direct access to the GPU’s virtual instruction set and parallel computational elements for the execution of compute kernels. CUDA was first released in 2007 by NVIDIA, and the vision of CUDA is not for graphics but for parallel computation. It enables GPUs to perform many parallelised floating-point computations.</p>
+
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/IzU4AVcMFys" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="cuda-scalable-parallel-architecture">CUDA Scalable Parallel Architecture</h2>
+
+<p>Before we move on to more details about CUDA programming, we’ll first look at the programming model of CUDA:</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-8/cuda_parallel_model.png" alt="CUDA's parallel thread model"><br>
+<em><strong>Figure 6:</strong> CUDA Parallel Thread Architecture</em></p>
+
+<h3 id="1-thread-and-thread-block"><em>(1) Thread and Thread Block</em></h3>
+
+<p>A CUDA program comprises of a host program, consisting of one or more sequential <em>threads</em> running on a host, and one or more parallel kernels (a kernel acts as a function that runs on the device) suitable for execution on a parallel computing GPU. Only one kernel is executed at a time, and that kernel is executed on a set of lightweight parallel threads. For better resource allocation (i.e. to avoid redundant computation, reduce bandwidth from shared memory) threads are grouped into thread blocks. A <em>thread block</em> is a programming abstraction that represents a group of threads that can be executed serially or in parallel.</p>
+
+<h3 id="2-grid"><em>(2) Grid</em></h3>
+
+<p>Multiple thread blocks are grouped to form a <em>grid</em>. Threads from different blocks in the same grid can coordinate using atomic operations on a global memory space shared by all threads. Sequentially dependent kernel grids can synchronise through global barriers and coordinate through global shared memory. Thread blocks implement coarse-grained scalable data parallelism and provide task parallelism when executing different kernels, while lightweight threads within each thread block implement fine-grained data parallelism and provide fine-grained thread-level parallelism when executing different paths.</p>
+
+<h3 id="3-scheduling-of-cuda-thread-blocks"><em>(3) Scheduling of CUDA thread blocks</em></h3>
+
+<p>The global work scheduler distributes CUDA thread blocks to SMs with available capacity, balancing load across a GPU, and running multiple kernel tasks in parallel if appropriate. The multithreaded SMs schedule and execute CUDA thread blocks and individual threads. Each SM can process multiple concurrent threads to hide long-latency loads from DRAM memory. Each thread block completes executing its kernel program and releases its SM resources before the work scheduler assigns a new thread block to that SM. A block is assigned to and executed on a single SM.</p>
+
+<h1 id="cuda-software-and-memory">CUDA Software and Memory</h1>
+
+<h2 id="cuda-software-stack">CUDA Software Stack</h2>
+
+<p>CUDA is implemented and deployed in multiple software layers. It consists of:</p>
+
+<ul>
+  <li>The CUDA hardware driver;</li>
+  <li>The CUDA API and its runtime: The CUDA API is an extension of the C programming language that adds the ability to specify thread-level parallelism in C and also to specify GPU device-specific operations (like moving data between the CPU and the GPU);</li>
+  <li>Mathematical libraries that have been optimised to run using CUDA.</li>
+</ul>
+
+<p>The CUDA Toolkit SDK (software development kit) comes with the software driver, the CUDA toolkit (compiler, debugger, profiler), and code samples.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-8/The-CUDA-software-stack.png" alt="The CUDA Software Stack"><br>
+<em><strong>Figure 7:</strong> CUDA Software Stack</em></p>
+
+<p>The CUDA Toolkit includes many sub-components. For example, for CUDA 11.6, the components are listed in the table below:</p>
+
+<div class="table-wrapper">
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Component Name</strong></td>
+        <td><strong>Version Information</strong></td>
+        <td><strong>Supported Architectures</strong></td>
+      </tr>
+      <tr>
+        <td>CUDA C++ Core Compute Libraries</td>
+        <td>11.6.55</td>
+        <td>x86_64, POWER, Arm64</td>
+      </tr>
+      <tr>
+        <td>CUDA Runtime (cudart)</td>
+        <td>11.6.55</td>
+        <td>x86_64, POWER, Arm64</td>
+      </tr>
+      <tr>
+        <td>cuobjdump</td>
+        <td>11.6.55</td>
+        <td>x86_64, POWER, Arm64</td>
+      </tr>
+      <tr>
+        <td>CUPTI</td>
+        <td>11.6.55</td>
+        <td>x86_64, POWER, Arm64</td>
+      </tr>
+      <tr>
+        <td>CUDA cuxxfilt (demangler)</td>
+        <td>11.6.55</td>
+        <td>x86_64, POWER, Arm64</td>
+      </tr>
+      <tr>
+        <td>CUDA Demo Suite</td>
+        <td>11.6.55</td>
+        <td>x86_64</td>
+      </tr>
+      <tr>
+        <td>CUDA GDB</td>
+        <td>11.6.55</td>
+        <td>x86_64, POWER, Arm64</td>
+      </tr>
+      <tr>
+        <td>CUDA Memcheck</td>
+        <td>11.6.55</td>
+        <td>x86_64, POWER</td>
+      </tr>
+      <tr>
+        <td>CUDA Nsight</td>
+        <td>11.6.55</td>
+        <td>x86_64, POWER</td>
+      </tr>
+      <tr>
+        <td>CUDA NVCC</td>
+        <td>11.6.55</td>
+        <td>x86_64, POWER, Arm64</td>
+      </tr>
+      <tr>
+        <td>CUDA nvdisasm</td>
+        <td>11.6.55</td>
+        <td>x86_64, POWER, Arm64</td>
+      </tr>
+      <tr>
+        <td>CUDA NVML Headers</td>
+        <td>11.6.55</td>
+        <td>x86_64, POWER, Arm64</td>
+      </tr>
+      <tr>
+        <td>CUDA nvprof</td>
+        <td>11.6.55</td>
+        <td>x86_64, POWER, Arm64</td>
+      </tr>
+      <tr>
+        <td>CUDA nvprune</td>
+        <td>11.6.55</td>
+        <td>x86_64, POWER, Arm64</td>
+      </tr>
+      <tr>
+        <td>CUDA NVRTC</td>
+        <td>11.6.55</td>
+        <td>x86_64, POWER, Arm64</td>
+      </tr>
+      <tr>
+        <td>CUDA NVTX</td>
+        <td>11.6.55</td>
+        <td>x86_64, POWER, Arm64</td>
+      </tr>
+      <tr>
+        <td>CUDA NVVP</td>
+        <td>11.6.58</td>
+        <td>x86_64, POWER</td>
+      </tr>
+      <tr>
+        <td>CUDA Samples</td>
+        <td>11.6.101</td>
+        <td>x86_64, POWER, Arm64</td>
+      </tr>
+      <tr>
+        <td>CUDA Compute Sanitizer API</td>
+        <td>11.6.55</td>
+        <td>x86_64, POWER, Arm64</td>
+      </tr>
+      <tr>
+        <td>CUDA cuBLAS</td>
+        <td>11.8.1.74</td>
+        <td>x86_64, POWER, Arm64</td>
+      </tr>
+      <tr>
+        <td>CUDA cuFFT</td>
+        <td>10.7.0.55</td>
+        <td>x86_64, POWER, Arm64</td>
+      </tr>
+      <tr>
+        <td>CUDA cuFile</td>
+        <td>1.2.0.100</td>
+        <td>x86_64</td>
+      </tr>
+      <tr>
+        <td>CUDA cuRAND</td>
+        <td>10.2.9.55</td>
+        <td>x86_64, POWER, Arm64</td>
+      </tr>
+      <tr>
+        <td>CUDA cuSOLVER</td>
+        <td>11.3.2.55</td>
+        <td>x86_64, POWER, Arm64</td>
+      </tr>
+      <tr>
+        <td>CUDA cuSPARSE</td>
+        <td>11.7.1.55</td>
+        <td>x86_64, POWER, Arm64</td>
+      </tr>
+      <tr>
+        <td>CUDA NPP</td>
+        <td>11.6.0.55</td>
+        <td>x86_64, POWER, Arm64</td>
+      </tr>
+      <tr>
+        <td>CUDA nvJPEG</td>
+        <td>11.6.0.55</td>
+        <td>x86_64, POWER, Arm64</td>
+      </tr>
+      <tr>
+        <td>Nsight Compute</td>
+        <td>2022.1.0.12</td>
+        <td>x86_64, POWER, Arm64 (CLI only)</td>
+      </tr>
+      <tr>
+        <td>NVTX</td>
+        <td>1.21018621</td>
+        <td>x86_64, POWER, Arm64</td>
+      </tr>
+      <tr>
+        <td>Nsight Systems</td>
+        <td>2021.5.2.53</td>
+        <td>x86_64, POWER, Arm64 (CLI only)</td>
+      </tr>
+      <tr>
+        <td>Nsight Visual Studio Edition (VSE)</td>
+        <td>2022.1.0.21343</td>
+        <td>x86_64 (Windows)</td>
+      </tr>
+      <tr>
+        <td>nvidia_fs</td>
+        <td>2.10.3</td>
+        <td>x86_64</td>
+      </tr>
+      <tr>
+        <td>Visual Studio Integration</td>
+        <td>11.6.55</td>
+        <td>x86_64 (Windows)</td>
+      </tr>
+      <tr>
+        <td>NVIDIA Linux Driver</td>
+        <td>510.39.01</td>
+        <td>x86_64, POWER, Arm64</td>
+      </tr>
+      <tr>
+        <td>NVIDIA Windows Driver</td>
+        <td>511.23</td>
+        <td>x86_64 (Windows)</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
+<p>It is noted that the version of components differs version by version. In this unit, we will only cover a subset of these components, but if you are interested in any of them, you can find details in the <a href="https://docs.nvidia.com/cuda/">CUDA Toolkit Documentation</a>.</p>
+
+<h2 id="cuda-memory-model">CUDA Memory Model</h2>
+
+<p>CUDAs memory model is organised as follows:</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-8/cuda_memory.png" alt="CUDA's Memory Model"><br>
+<em><strong>Figure 8:</strong> CUDA Memory Model</em></p>
+
+<p>Because of the nature of data allocation in shared memory, two concurrent threads in a warp can access different words in the same bank at the same time, causing a bank conflict that makes a GPU serialise the accesses issued to this bank. Since serialisation in a GPU is undesirable and clock-cycle costly, this access pattern should be avoided.</p>
+
+<p>The amount of memory that is available to the CUDA application is (in most cases) specific to the <em>compute capability</em> of the device. For each compute capability, the size restrictions of each type of memory (except global memory) is defined in the table below. The application programmer is encouraged to query the device properties in the application using the <code class="language-plaintext highlighter-rouge">cudaGetDeviceProperties()</code> method.</p>
+
+<div class="table-wrapper">
+
+  <table>
+    <tbody>
+      <tr>
+        <td rowspan="2">
+<strong>Technical Specifications</strong>
+<br>
+</td>
+        <td colspan="5" style="text-align: center"><em>Compute Capability</em></td>
+        
+        
+        
+        
+      </tr>
+      <tr>
+        
+        <td style="text-align: center"><strong>1.0</strong></td>
+        <td style="text-align: center"><strong>1.1</strong></td>
+        <td style="text-align: center"><strong>1.2</strong></td>
+        <td style="text-align: center"><strong>1.3</strong></td>
+        <td style="text-align: center"><strong>2.0</strong></td>
+      </tr>
+      <tr>
+        <td>Number of 32-bit registers per MP</td>
+        <td colspan="2" style="text-align: center">8 K</td>
+        <td colspan="2" style="text-align: center">16 K</td>
+        <td style="text-align: center">32 K</td>
+        
+        
+      </tr>
+      <tr>
+        <td>Maximum amount of shared memory per MP</td>
+        <td colspan="4" style="text-align: center">16 KB</td>
+        <td style="text-align: center">48 KB</td>
+        
+        
+        
+      </tr>
+      <tr>
+        <td>Amount of local memory per thread</td>
+        <td colspan="4" style="text-align: center">16 KB</td>
+        <td style="text-align: center">512 KB</td>
+        
+        
+        
+      </tr>
+      <tr>
+        <td>Constant memory size</td>
+        <td colspan="5" style="text-align: center">64 KB</td>
+        
+        
+        
+        
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
+<p>The following table summarises the different memory types and the properties of those types:</p>
+
+<div class="table-wrapper">
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Memory</strong></td>
+        <td><strong>Located</strong></td>
+        <td><strong>Cached</strong></td>
+        <td><strong>Access</strong></td>
+        <td><strong>Scope</strong></td>
+        <td><strong>Lifetime</strong></td>
+      </tr>
+      <tr>
+        <td rowspan="2">Register
+<br>
+</td>
+        <td rowspan="2">cache
+<br>
+</td>
+        <td rowspan="2">n/a
+<br>
+</td>
+        <td rowspan="2">Host: None
+<br>
+Kernel: R/W</td>
+        <td rowspan="2">thread
+<br>
+</td>
+        <td rowspan="2">thread
+<br>
+</td>
+      </tr>
+      <tr>
+        
+        
+        
+        
+        
+        
+      </tr>
+      <tr>
+        <td rowspan="2">Local
+<br>
+</td>
+        <td rowspan="2">device
+<br>
+</td>
+        <td rowspan="2">1.x: No
+<br>
+2.x: Yes</td>
+        <td rowspan="2">Host: None
+<br>
+Kernel: R/W</td>
+        <td rowspan="2">thread
+<br>
+</td>
+        <td rowspan="2">thread
+<br>
+</td>
+      </tr>
+      <tr>
+        
+        
+        
+        
+        
+        
+      </tr>
+      <tr>
+        <td rowspan="2">Shared
+<br>
+</td>
+        <td rowspan="2">cache
+<br>
+</td>
+        <td rowspan="2">n/a
+<br>
+</td>
+        <td rowspan="2">Host: None
+<br>
+Kernel: R/W</td>
+        <td rowspan="2">block
+<br>
+</td>
+        <td rowspan="2">block
+<br>
+</td>
+      </tr>
+      <tr>
+        
+        
+        
+        
+        
+        
+      </tr>
+      <tr>
+        <td rowspan="2">Global
+<br>
+</td>
+        <td rowspan="2">device
+<br>
+</td>
+        <td rowspan="2">1.x: No
+<br>
+2.x: Yes</td>
+        <td rowspan="2">Host: R/W
+<br>
+Kernel: R/W</td>
+        <td rowspan="2">application
+<br>
+</td>
+        <td rowspan="2">application
+<br>
+</td>
+      </tr>
+      <tr>
+        
+        
+        
+        
+        
+        
+      </tr>
+      <tr>
+        <td rowspan="2">Constant
+<br>
+</td>
+        <td rowspan="2">device
+<br>
+</td>
+        <td rowspan="2">Yes
+<br>
+</td>
+        <td rowspan="2">Host: R/W
+<br>
+Kernel: R</td>
+        <td rowspan="2">application
+<br>
+</td>
+        <td rowspan="2">application
+<br>
+</td>
+      </tr>
+      <tr>
+        
+        
+        
+        
+        
+        
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
+<h1 id="cuda-basic-usage">CUDA Basic Usage</h1>
+
+<h2 id="cuda-operation-procedure">CUDA Operation Procedure</h2>
+
+<p>The programming model of CUDA provides a SIMT (single instruction, multiple threads) model. In CUDA, the CPU and the GPU have to be worked in a pre-defined sequence. Data has to be transferred from a CPU (i.e. the host) to a GPU (i.e. the device), usually over a PCIe bus, before the computation is offloaded, and the result transferred back to the main memory. A typical sequence of operations for a CUDA C program is:</p>
+
+<ol>
+  <li>Declare and allocate the host and device memory.</li>
+  <li>Initialise host data.</li>
+  <li>Transfer data from the host memory to the device memory.</li>
+  <li>Load GPU program and execute one or more kernels. Data is cached on-chip for performance.</li>
+  <li>Transfer results from the device to the host.</li>
+</ol>
+
+<p>In the following part, we will cover how to use the CUDA toolkit and write CUDA-accelerated programs.</p>
+
+<h2 id="first-cuda-example">First CUDA Example</h2>
+
+<p>CUDA uses C-like syntax and adds its own primitives and API on top of C. To understand the difference, we’ll first look at the classic “Hello, World” example written in C and in CUDA.</p>
+
+<p>First, as written in C (using a function call for the <code class="language-plaintext highlighter-rouge">printf()</code> for simplicity later):</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span>
+<span class="kt">void</span> <span class="nf">c_hello</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"Hello, World!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+    <span class="n">c_hello</span><span class="p">();</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>… and now in CUDA:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span>
+<span class="n">__global__</span> <span class="kt">void</span> <span class="nf">cuda_hello</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"Hello, World! From GPU!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+    <span class="n">cuda_hello</span><span class="o">&lt;&lt;&lt;</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="o">&gt;&gt;&gt;</span><span class="p">();</span>
+    <span class="n">cudaDeviceSynchronize</span><span class="p">();</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>A CUDA program has two parts: (1) host code on the CPU which interfaces with the GPU and (2) kernel code which runs on the GPU. In the CUDA version, the <code class="language-plaintext highlighter-rouge">__global__</code> specifier indicates a function that runs on the device (GPU). Such a function can be called through host code, e.g. from the <code class="language-plaintext highlighter-rouge">main()</code> method in the example, and is also known as a “kernel”. The <code class="language-plaintext highlighter-rouge">&lt;&lt;&lt;...&gt;&gt;&gt;</code> specifies its execution configuration, and in CUDA terminology, this is called a “kernel launch”.</p>
+
+<p>In its simplest format, this looks like:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">kernel_routine</span><span class="o">&lt;&lt;&lt;</span><span class="n">griddim</span><span class="p">,</span> <span class="n">blockdim</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="n">args</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>where,</p>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">griddim</code> is the number of instances of the kernel (the “grid” size)</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">blockdim</code> is the number of threads within each instance</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">args</code> is a limited number of arguments, usually mainly pointers to arrays in the GPUs memory, and some constants which get copied by-value</li>
+</ul>
+
+<p>The more general form allows <code class="language-plaintext highlighter-rouge">griddim</code> and <code class="language-plaintext highlighter-rouge">blockdim</code> to be 2D or 3D to simplify more complex configurations.</p>
+
+<h2 id="compiling-cuda-programs">Compiling CUDA Programs</h2>
+
+<p>To compile a CUDA program, the <code class="language-plaintext highlighter-rouge">nvcc</code> compiler should be used. Just like <code class="language-plaintext highlighter-rouge">gcc</code>, <code class="language-plaintext highlighter-rouge">nvcc</code> can take parameters to, for example, change the output file name, or to include libraries. Note that the source file extension is <code class="language-plaintext highlighter-rouge">.cu</code> for CUDA programs. Below is a table of input file extensions/types that <code class="language-plaintext highlighter-rouge">nvcc</code> accepts:</p>
+
+<div class="table-wrapper">
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Input File Prefix</strong></td>
+        <td><strong>Description</strong></td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">.cu</code></td>
+        <td>CUDA source file, containing host code and device functions</td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">.c</code></td>
+        <td>C source file</td>
+      </tr>
+      <tr>
+        <td>
+<code class="language-plaintext highlighter-rouge">.cc</code>, <code class="language-plaintext highlighter-rouge">.cxx</code>, <code class="language-plaintext highlighter-rouge">.cpp</code>
+</td>
+        <td>C++ source file</td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">.ptx</code></td>
+        <td>PTX intermediate assembly file (see Figure 9)</td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">.cubin</code></td>
+        <td>CUDA device code binary file (CUBIN) for a single GPU architecture (see Figure 9)</td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">.fatbin</code></td>
+        <td>CUDA fat binary file that may contain multiple PTX and CUBIN files (see Figure 9)</td>
+      </tr>
+      <tr>
+        <td>
+<code class="language-plaintext highlighter-rouge">.o</code>, <code class="language-plaintext highlighter-rouge">.obj</code>
+</td>
+        <td>Object file</td>
+      </tr>
+      <tr>
+        <td>
+<code class="language-plaintext highlighter-rouge">.a</code>, <code class="language-plaintext highlighter-rouge">.lib</code>
+</td>
+        <td>Library file</td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">.res</code></td>
+        <td>Resource file</td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">.so</code></td>
+        <td>Shared object file</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
+<p>To compile the “hello, world” example, in a new terminal:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ nvcc hello.cu -o hello
+</code></pre></div></div>
+
+<p>Once the compilation is finished, the program can be run with:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ./hello
+</code></pre></div></div>
+
+<p>CUDA compilation works as follows: the input program is preprocessed for device compilation and is compiled to a CUDA binary (<code class="language-plaintext highlighter-rouge">cubin</code>) and/or PTX intermediate code, which are placed in a <em>fat binary</em>. The input program is preprocessed once again for host compilation and is synthesised to embed the fat binary and transform CUDA specific C++ extensions into standard C++ constructs. Then, the C++ host compiler compiles the synthesised host code with the embedded fat binary into a host object. The exact steps that are followed to achieve this are displayed in the Figure 9:</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-8/cuda-compilation-from-cu-to-executable.png" alt="The CUDA Compilation process"><br>
+<em><strong>Figure 9:</strong> The CUDA compilation process – from <code class="language-plaintext highlighter-rouge">.cu</code> to a binary</em></p>
+
+<p>The embedded fat binary is inspected by the CUDA runtime system whenever the device code is launched by the host program to obtain an appropriate fat binary image for the current GPU.</p>
+
+<h1 id="vectorisation-with-cuda">Vectorisation with CUDA</h1>
+
+<h2 id="vect-add-example">Vect Add example</h2>
+
+<p>Consider the following <code class="language-plaintext highlighter-rouge">vec_add.c</code> example, where two vectors of size <em>N</em> are added together (i.e. <code class="language-plaintext highlighter-rouge">out[i] = a[i] + b[i]</code>):</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define N 1024*256
+</span>
+<span class="kt">void</span> <span class="nf">vector_add</span><span class="p">(</span><span class="kt">float</span> <span class="o">*</span><span class="n">out</span><span class="p">,</span> <span class="kt">float</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="kt">float</span> <span class="o">*</span><span class="n">b</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">out</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+    <span class="kt">float</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="o">*</span><span class="n">b</span><span class="p">,</span> <span class="o">*</span><span class="n">out</span><span class="p">;</span>
+
+    <span class="c1">// Allocate memory</span>
+    <span class="n">a</span>   <span class="o">=</span> <span class="p">(</span><span class="kt">float</span> <span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="o">*</span> <span class="n">N</span><span class="p">);</span>
+    <span class="n">b</span>   <span class="o">=</span> <span class="p">(</span><span class="kt">float</span> <span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="o">*</span> <span class="n">N</span><span class="p">);</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">(</span><span class="kt">float</span> <span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="o">*</span> <span class="n">N</span><span class="p">);</span>
+
+    <span class="c1">// Initialize array</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">;</span>
+        <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Main function</span>
+    <span class="n">vector_add</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">N</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>To vectorise this operation in CUDA, we first need to allocate memory on the GPU. This is because host and device memory are separate entities, and to run programs on the device, we need the memory to be allocated on the device. CUDA provides some memory management functions that are similar to C equivalents. The most important ones are:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">cudaMalloc</span><span class="p">(</span><span class="kt">void</span> <span class="o">**</span><span class="n">devPtr</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">size</span><span class="p">);</span>      <span class="c1">// equivalent to malloc()</span>
+<span class="n">cudaFree</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">devPtr</span><span class="p">);</span>                      <span class="c1">// equivalent to free()</span>
+<span class="n">cudaMemcpy</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">dst</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">src</span><span class="p">,</span>
+    <span class="kt">size_t</span> <span class="n">count</span><span class="p">,</span> <span class="k">enum</span> <span class="n">cudaMemcpyKind</span> <span class="n">kind</span><span class="p">)</span>  <span class="c1">// equivalent to memcpy()</span>
+</code></pre></div></div>
+
+<p>For the memory copy function, depending on where the source and target data are, there are different values for the <code class="language-plaintext highlighter-rouge">kind</code> argument. A full list is given below:</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td><strong><code class="language-plaintext highlighter-rouge">kind</code></strong></td>
+      <td><strong>Source and Destination</strong></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">cudaMemcpyHostToHost</code></td>
+      <td>Host → Host</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">cudaMemcpyHostToDevice</code></td>
+      <td>Host → Device</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">cudaMemcpyDeviceToHost</code></td>
+      <td>Device → Host</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">cudaMemcpyDeviceToDevice</code></td>
+      <td>Device → Device</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">cudaMemcpyDefault</code></td>
+      <td>Default based unified virtual address space</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>We can now write a kernel function with the decorator <code class="language-plaintext highlighter-rouge">__global__</code> to indicate that this is a device program:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">__global__</span> <span class="kt">void</span> <span class="nf">vector_add</span><span class="p">(</span><span class="kt">float</span> <span class="o">*</span><span class="n">out</span><span class="p">,</span> <span class="kt">float</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="kt">float</span> <span class="o">*</span><span class="n">b</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">out</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>And then in the <code class="language-plaintext highlighter-rouge">main()</code> function, call the <code class="language-plaintext highlighter-rouge">vector_add()</code> kernel:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+    <span class="kt">float</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="o">*</span><span class="n">b</span><span class="p">,</span> <span class="o">*</span><span class="n">out</span><span class="p">;</span>
+    <span class="kt">float</span> <span class="o">*</span><span class="n">d_a</span><span class="p">,</span> <span class="o">*</span><span class="n">d_b</span><span class="p">,</span> <span class="o">*</span><span class="n">d_out</span><span class="p">;</span>
+
+    <span class="c1">// Allocate host memory for a</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="kt">float</span> <span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="o">*</span> <span class="n">N</span><span class="p">);</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="kt">float</span> <span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="o">*</span> <span class="n">N</span><span class="p">);</span>
+
+    <span class="p">...</span>
+
+    <span class="c1">// Allocate device memory for a</span>
+    <span class="n">cudaMalloc</span><span class="p">((</span><span class="kt">void</span> <span class="o">**</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">d_a</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="o">*</span> <span class="n">N</span><span class="p">);</span>
+    <span class="n">cudaMalloc</span><span class="p">((</span><span class="kt">void</span> <span class="o">**</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">d_b</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="o">*</span> <span class="n">N</span><span class="p">);</span>
+
+    <span class="c1">// Transfer data from host to device memory</span>
+    <span class="n">cudaMemcpy</span><span class="p">(</span><span class="n">d_a</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="o">*</span> <span class="n">N</span><span class="p">,</span> <span class="n">cudaMemcpyHostToDevice</span><span class="p">);</span>
+    <span class="n">cudaMemcpy</span><span class="p">(</span><span class="n">d_b</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="o">*</span> <span class="n">N</span><span class="p">,</span> <span class="n">cudaMemcpyHostToDevice</span><span class="p">);</span>
+
+    <span class="n">vector_add</span><span class="o">&lt;&lt;&lt;</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="n">d_out</span><span class="p">,</span> <span class="n">d_a</span><span class="p">,</span> <span class="n">d_b</span><span class="p">,</span> <span class="n">N</span><span class="p">);</span>
+
+    <span class="p">...</span>
+
+    <span class="c1">// Cleanup after kernel execution</span>
+    <span class="n">cudaFree</span><span class="p">(</span><span class="n">d_a</span><span class="p">);</span>
+    <span class="n">cudaFree</span><span class="p">(</span><span class="n">d_b</span><span class="p">);</span>
+    <span class="n">free</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+    <span class="n">free</span><span class="p">(</span><span class="n">b</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Note some irrelevant code is omitted, for example, the initialisation of <code class="language-plaintext highlighter-rouge">a</code> and <code class="language-plaintext highlighter-rouge">b</code>.</p>
+
+<h2 id="profiling-performance">Profiling Performance</h2>
+
+<p>NVIDIA provide a command-line profiler tool called <code class="language-plaintext highlighter-rouge">nvprof</code>, which gives more insight in the performance of CUDA applications. To profile our vector addition, use the following command:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ nvprof ./vec_add
+==6326== Profiling application: ./vec_add
+==6326== Profiling result:
+Time(%)      Time     Calls       Avg       Min       Max  Name
+ 97.55%  1.42529s         1  1.42529s  1.42529s  1.42529s  vector_add(float*, float*, float*, int)
+  1.39%  20.318ms         2  10.159ms  10.126ms  10.192ms  [CUDA memcpy HtoD]
+  1.06%  15.549ms         1  15.549ms  15.549ms  15.549ms  [CUDA memcpy DtoH]
+</code></pre></div></div>
+
+<p>To get a more detailed trace, you could use the <code class="language-plaintext highlighter-rouge">--print-gpu-trace</code> flag.</p>
+
+<h2 id="kernel-execution-configuration">Kernel Execution Configuration</h2>
+
+<p>Note that so far, we have not exploited the full power of a GPU as we have only used <code class="language-plaintext highlighter-rouge">&lt;&lt;1,1&gt;&gt;</code> as the kernel execution configuration, which means we have only used one GPU thread. CUDA organises threads into a group called a <em>thread block</em>. Kernels can launch multiple thread blocks, organised into a <em>grid</em> structure. This is specified by the kernel execution configuration.</p>
+
+<p>The general syntax of kernel execution configuration is <code class="language-plaintext highlighter-rouge">&lt;&lt;M, T&gt;&gt;</code>, where <code class="language-plaintext highlighter-rouge">M</code> is the grid number (i.e. number of thread blocks), and <code class="language-plaintext highlighter-rouge">T</code> is the number of parallel threads within each thread block (i.e. block size). Unlike OpenMP where the workload can be automatically assigned, CUDA does require some thought over how the workload is distributed (and thus how the data is manipulated) for each grid/thread. To do this, CUDA provides 5 built-in variables:</p>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">gridDim</code> denotes the dimension of the grid, and <code class="language-plaintext highlighter-rouge">blockDim</code> denotes the dimension of a block; their types are <code class="language-plaintext highlighter-rouge">dim3</code>;</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">blockIdx</code> and <code class="language-plaintext highlighter-rouge">threadIdx</code> identify the block index within the grid and thread index within the block respectively, and their types are <code class="language-plaintext highlighter-rouge">uint3</code>;</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">warpSize</code> is an integer type, and identifies the warp size in threads, and it should be 32 for all compute capabilities.</li>
+</ul>
+
+<p>To give it a try, we can change the configuration of the <code class="language-plaintext highlighter-rouge">vector_add</code> from <code class="language-plaintext highlighter-rouge">&lt;&lt;1,1&gt;&gt;</code> to <code class="language-plaintext highlighter-rouge">&lt;&lt;1,256&gt;&gt;</code>, i.e., one block with 256 threads:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vector_add</span><span class="o">&lt;&lt;&lt;</span><span class="mi">1</span><span class="p">,</span> <span class="mi">256</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="n">d_out</span><span class="p">,</span> <span class="n">d_a</span><span class="p">,</span> <span class="n">d_b</span><span class="p">,</span> <span class="n">N</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>In the kernel function, we let the k-th thread handle the computation of <code class="language-plaintext highlighter-rouge">k</code>, <code class="language-plaintext highlighter-rouge">k+stride</code>, <code class="language-plaintext highlighter-rouge">k+stride*2</code>, etc. The stride is 256 as we set <code class="language-plaintext highlighter-rouge">T</code> to 256. In this case, the 0th thread handles 0, 256, 512; the 1st thread handles 1, 257, 513; the 2nd thread handles 2, 258, 514, etc.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">__global__</span> <span class="kt">void</span> <span class="nf">vector_add</span><span class="p">(</span><span class="kt">float</span> <span class="o">*</span><span class="n">out</span><span class="p">,</span> <span class="kt">float</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="kt">float</span> <span class="o">*</span><span class="n">b</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">stride</span> <span class="o">=</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">index</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span> <span class="o">+=</span> <span class="n">stride</span><span class="p">){</span>
+        <span class="n">out</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Similarly, we can also change the grid size <code class="language-plaintext highlighter-rouge">M</code>. With 256 threads per thread block, we need at least <code class="language-plaintext highlighter-rouge">N/256</code> thread blocks to have a total of <code class="language-plaintext highlighter-rouge">N</code> threads. To assign a thread to a specific element, we need to know a unique index for each thread. Such an index can be computed as follows:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">tid</span> <span class="o">=</span> <span class="n">blockIdx</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>Finally, we can put everything together, like so,</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;math.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;assert.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;cuda.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;cuda_runtime.h&gt;</span><span class="cp">
+</span>
+<span class="cp">#define N 1024*256
+#define MAX_ERR 1e-6
+</span>
+<span class="n">__global__</span> <span class="kt">void</span> <span class="nf">vector_add</span><span class="p">(</span><span class="kt">float</span> <span class="o">*</span><span class="n">out</span><span class="p">,</span> <span class="kt">float</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="kt">float</span> <span class="o">*</span><span class="n">b</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">tid</span> <span class="o">=</span> <span class="n">blockIdx</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+
+    <span class="c1">// Handling arbitrary vector size</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">tid</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">out</span><span class="p">[</span><span class="n">tid</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">tid</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="n">tid</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+    <span class="kt">float</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="o">*</span><span class="n">b</span><span class="p">,</span> <span class="o">*</span><span class="n">out</span><span class="p">;</span>
+    <span class="kt">float</span> <span class="o">*</span><span class="n">d_a</span><span class="p">,</span> <span class="o">*</span><span class="n">d_b</span><span class="p">,</span> <span class="o">*</span><span class="n">d_out</span><span class="p">;</span>
+
+    <span class="c1">// Allocate host memory</span>
+    <span class="n">a</span>   <span class="o">=</span> <span class="p">(</span><span class="kt">float</span> <span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="o">*</span> <span class="n">N</span><span class="p">);</span>
+    <span class="n">b</span>   <span class="o">=</span> <span class="p">(</span><span class="kt">float</span> <span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="o">*</span> <span class="n">N</span><span class="p">);</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">(</span><span class="kt">float</span> <span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="o">*</span> <span class="n">N</span><span class="p">);</span>
+
+    <span class="c1">// Initialize host arrays</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">;</span>
+        <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Allocate device memory</span>
+    <span class="n">cudaMalloc</span><span class="p">((</span><span class="kt">void</span> <span class="o">**</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">d_a</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="o">*</span> <span class="n">N</span><span class="p">);</span>
+    <span class="n">cudaMalloc</span><span class="p">((</span><span class="kt">void</span> <span class="o">**</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">d_b</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="o">*</span> <span class="n">N</span><span class="p">);</span>
+    <span class="n">cudaMalloc</span><span class="p">((</span><span class="kt">void</span> <span class="o">**</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">d_out</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="o">*</span> <span class="n">N</span><span class="p">);</span>
+
+    <span class="c1">// Transfer data from host to device memory</span>
+    <span class="n">cudaMemcpy</span><span class="p">(</span><span class="n">d_a</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="o">*</span> <span class="n">N</span><span class="p">,</span> <span class="n">cudaMemcpyHostToDevice</span><span class="p">);</span>
+    <span class="n">cudaMemcpy</span><span class="p">(</span><span class="n">d_b</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="o">*</span> <span class="n">N</span><span class="p">,</span> <span class="n">cudaMemcpyHostToDevice</span><span class="p">);</span>
+
+
+    <span class="c1">// Executing kernel</span>
+    <span class="kt">int</span> <span class="n">block_size</span> <span class="o">=</span> <span class="mi">256</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">grid_size</span> <span class="o">=</span> <span class="n">N</span> <span class="o">/</span> <span class="n">block_size</span><span class="p">;</span>
+    <span class="n">vector_add</span><span class="o">&lt;&lt;&lt;</span><span class="n">grid_size</span><span class="p">,</span><span class="n">block_size</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="n">d_out</span><span class="p">,</span> <span class="n">d_a</span><span class="p">,</span> <span class="n">d_b</span><span class="p">,</span> <span class="n">N</span><span class="p">);</span>
+
+    <span class="c1">// Transfer data back to host memory</span>
+    <span class="n">cudaMemcpy</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">d_out</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="o">*</span> <span class="n">N</span><span class="p">,</span> <span class="n">cudaMemcpyDeviceToHost</span><span class="p">);</span>
+
+    <span class="c1">// Verification</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">assert</span><span class="p">(</span><span class="n">fabs</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">MAX_ERR</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">printf</span><span class="p">(</span><span class="s">"PASSED</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+    <span class="c1">// Deallocate device memory</span>
+    <span class="n">cudaFree</span><span class="p">(</span><span class="n">d_a</span><span class="p">);</span>
+    <span class="n">cudaFree</span><span class="p">(</span><span class="n">d_b</span><span class="p">);</span>
+    <span class="n">cudaFree</span><span class="p">(</span><span class="n">d_out</span><span class="p">);</span>
+
+    <span class="c1">// Deallocate host memory</span>
+    <span class="n">free</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+    <span class="n">free</span><span class="p">(</span><span class="n">b</span><span class="p">);</span>
+    <span class="n">free</span><span class="p">(</span><span class="n">out</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote class="block-danger">
+  <p><strong>Exercise</strong></p>
+
+  <p>Can you do a performance comparison of <code class="language-plaintext highlighter-rouge">vec_add</code> with <code class="language-plaintext highlighter-rouge">&lt;&lt;1,1&gt;&gt;</code>, <code class="language-plaintext highlighter-rouge">&lt;&lt;1,256&gt;&gt;</code> and <code class="language-plaintext highlighter-rouge">&lt;&lt;1024,256&gt;&gt;</code>? How much speed-up can you get?</p>
+</blockquote>
+
+<h2 id="kernel-with-2d-indexing">Kernel with 2D Indexing</h2>
+
+<p>The kernel configuration can be 2-dimensional (as well as 3-dimensional). To access the second dimension, use the <code class="language-plaintext highlighter-rouge">.y</code> attribute (and <code class="language-plaintext highlighter-rouge">.z</code> for indexing the third dimension).</p>
+
+<p>For example,</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">__global__</span> <span class="kt">void</span> <span class="nf">kernel</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">dimx</span><span class="p">,</span> <span class="kt">int</span> <span class="n">dimy</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">ix</span> <span class="o">=</span> <span class="n">blockIdx</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">iy</span> <span class="o">=</span> <span class="n">blockIdx</span><span class="p">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">idx</span> <span class="o">=</span> <span class="n">iy</span> <span class="o">*</span> <span class="n">dimx</span> <span class="o">+</span> <span class="n">ix</span><span class="p">;</span>
+    <span class="n">a</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>and in your main:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dim3</span> <span class="n">grid</span><span class="p">,</span> <span class="n">block</span><span class="p">;</span>
+<span class="n">block</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+<span class="n">block</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+<span class="n">grid</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">dimx</span> <span class="o">/</span> <span class="n">block</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+<span class="n">grid</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">dimy</span> <span class="o">/</span> <span class="n">block</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
+
+<span class="n">kernel</span><span class="o">&lt;&lt;&lt;</span><span class="n">grid</span><span class="p">,</span> <span class="n">block</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="n">d_a</span><span class="p">,</span> <span class="n">dimx</span><span class="p">,</span> <span class="n">dimy</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Those we mentioned in this unit only cover the basics of CUDA. In the next unit, we will be looking at more advanced topics on CUDA programming, for example, performance considerations. We recommend you to further explore the CUDA APIs and practice these in the following lab.</p>
+
+<h1 id="recommended-reading">Recommended Reading</h1>
+
+<blockquote class="block-warning">
+  <ul>
+    <li>
+<a href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html">CUDA C++ Programming Guide</a>, NVIDIA.</li>
+    <li>
+<a href="https://docs.nvidia.com/cuda/pdf/CUDA_C_Programming_Guide.pdf">CUDA C++ Programming Guide (pdf version)</a>, NVIDIA.</li>
+    <li>
+<a href="https://www.nvidia.com/content/PDF/fermi_white_papers/P.Glaskowsky_NVIDIA's_Fermi-The_First_Complete_GPU_Architecture.pdf">NVIDIA’s Fermi: The First Complete GPU Computing Architecture</a>, NVIDIA.</li>
+    <li>
+<a href="https://people.maths.ox.ac.uk/gilesm/cuda/lecs/lecs.pdf">An Introduction to CUDA</a>, Mike Giles, Oxford University.</li>
+    <li>
+<a href="https://www.tutorialspoint.com/cuda/index.htm">Learn CUDA - CUDA Tutorials</a>, Tutorials Point.</li>
+    <li><a href="https://events.prace-ri.eu/event/989/sessions/3077/attachments/1195/2032/cuda-efficiency.pdf">GPU programming in CUDA: How to write efficient CUDA programs</a></li>
+  </ul>
+</blockquote>
+
+                </section>
+            </div>
+<div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title">
+<span class="search-results-count"></span> results matching "<span class="search-query"></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class="search-query"></span>"</h1>
+    </div>
+</div>
+</div>
+    </div>
+</div>
+
+                        <a href="/~saw586/hipc/2023-24//lectures/7-advanced_internode_parallelism/" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 7. Advanced Internode Parallelism">
+                            <i class="fa fa-angle-left"></i>
+                        </a>
+                    
+
+                    
+                        <a href="/~saw586/hipc/2023-24//lectures/9-more_accelerators/" class="navigation navigation-next navigation-unique" aria-label="Next page: 9. Advanced Accelerators">
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    
+                </div>
+            </div>
+
+            <script>
+            var gitbook = gitbook || [];
+            gitbook.push(function() {
+                gitbook.page.hasChanged({
+    "page": {
+        "title": "Introduction",
+        "level": "1.1",
+        "depth": 1,
+        
+        "next": {
+            "title": "9. Advanced Accelerators",
+            "level": "1.2",
+            "depth": 1,
+            "path": "_lectures/9-more_accelerators.md",
+            "ref": "_lectures/9-more_accelerators.md",
+            "articles": []
+        },
+        
+        "dir": "ltr"
+    },    "config": {
+        "plugins": ["fontsettings", "highlight", "livereload", "lunr", "search", "sharing", "theme-default", "livereload"],
+        "styles": {
+            "ebook": "styles/ebook.css",
+            "epub": "styles/epub.css",
+            "mobi": "styles/mobi.css",
+            "pdf": "styles/pdf.css",
+            "print": "styles/print.css",
+            "website": "styles/website.css"
+        },
+        "pluginsConfig": {
+            "fontsettings": {
+                "family": "sans",
+                "size": 2,
+                "theme": "white"
+            },
+            "highlight": {},
+            "livereload": {},
+            "lunr": {
+                "ignoreSpecialCharacters": false,
+                "maxIndexSize": 1000000
+            },
+            "search": {},
+            "sharing": {
+                "all": ["facebook", "google", "twitter", "weibo", "instapaper"],
+                "facebook": true,
+                "google": false,
+                "instapaper": true,
+                "twitter": true,
+                "vk": false,
+                "weibo": false
+            },
+            "theme-default": {
+                "showLevel": false,
+                "styles": {
+                    "ebook": "styles/ebook.css",
+                    "epub": "styles/epub.css",
+                    "mobi": "styles/mobi.css",
+                    "pdf": "styles/pdf.css",
+                    "print": "styles/print.css",
+                    "website": "styles/website.css"
+                }
+            }
+        },
+        "theme": "default",
+        "author": "Tao He",
+        "pdf": {
+            "pageNumbers": true,
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "paperSize": "a4",
+            "chapterMark": "pagebreak",
+            "pageBreaksBefore": "/",
+            "margin": {
+                "right": 62,
+                "left": 62,
+                "top": 56,
+                "bottom": 56
+            }
+        },
+        "structure": {
+            "langs": "LANGS.md",
+            "readme": "README.md",
+        },
+        "variables": {},
+        "title": "HIPC",
+        "language": "en",
+        "gitbook": "*"
+    },
+    "file": {
+        "path": "_lectures/8-accelerators.md",
+        "mtime": "2022-07-27 00:00:00 +0100",
+        "type": "markdown"
+    },
+    "gitbook": {
+        "version": "3.2.3",
+        "time": "2023-12-01 15:53:33 +0000"
+    },
+    "basePath": "/~saw586/hipc/2023-24/",
+    "book": {
+        "language": ""
+    }
+});
+            });
+            </script>
+        </div>
+<script src="/~saw586/hipc/2023-24//assets/gitbook/gitbook.js"></script>
+<script src="/~saw586/hipc/2023-24//assets/gitbook/theme.js"></script>
+
+<script src="/~saw586/hipc/2023-24//assets/gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+<script src="/~saw586/hipc/2023-24//assets/gitbook/gitbook-plugin-sharing/buttons.js"></script>
+
+<!-- <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+<script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+<script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+<script src="../gitbook/gitbook-plugin-search/search.js"></script> -->
+
+<script src="/~saw586/hipc/2023-24//assets/gitbook/gitbook-plugin-search-pro/jquery.mark.min.js"></script>
+<script src="/~saw586/hipc/2023-24//assets/gitbook/gitbook-plugin-search-pro/search.js"></script>
+<script src="/~saw586/hipc/2023-24//assets/gitbook/gitbook-plugin-back-to-top-button/plugin.js"></script>
+
+<script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,1704 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+<meta charset="UTF-8">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<title>6. Internode Parallelism · HIPC</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="HIPC
+">
+<meta name="generator" content="Jekyll (using style of GitBook 3.2.3)">
+<meta name="author" content="Steven Wright">
+<link rel="stylesheet" href="/archive/2022-23//assets/gitbook/style.css">
+<link rel="stylesheet" href="/archive/2022-23//assets/gitbook/gitbook-plugin-fontsettings/website.css">
+<link rel="stylesheet" href="/archive/2022-23//assets/gitbook/gitbook-plugin-search-pro/search.css">
+<link rel="stylesheet" href="/archive/2022-23//assets/gitbook/gitbook-plugin-back-to-top-button/plugin.css">
+
+<link rel="stylesheet" href="/archive/2022-23//assets/gitbook/rouge/github.css">
+
+<link rel="stylesheet" href="/archive/2022-23//assets/gitbook/custom.css">
+
+<meta name="HandheldFriendly" content="true">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="apple-touch-icon-precomposed" sizes="152x152" href="/archive/2022-23//assets/gitbook/images/apple-touch-icon-precomposed-152.png">
+<link rel="shortcut icon" href="/archive/2022-23//assets/gitbook/images/favicon.ico" type="image/x-icon">
+
+
+
+
+
+<script>
+    MathJax = {
+        tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        svg: {
+            fontCache: 'global'
+        }
+    };
+</script>
+            <link rel="prev" href="/archive/2022-23//lectures/5-on-node_parallelism/">
+        
+
+        
+            <link rel="next" href="/archive/2022-23//lectures/7-accelerators/">
+        
+    </head>
+    <body>
+        <div class="book">
+<div class="book-summary">
+    <nav role="navigation">
+        <div id="book-search-input" role="search">
+            <input type="text" placeholder="Type to search">
+        </div>
+        <div id="book-search-input-link" role="search">
+            <a href="/archive/2022-23//assets/search.html">Click to Search</a>
+        </div>
+        <ul class="summary">
+            
+            <li class="chapter" data-level="1.1" data-path="/archive/2022-23/">
+            
+                <a href="/archive/2022-23//">
+                    HIPC
+                </a>
+            </li>
+
+            <li class="divider">
+
+            
+             
+                
+                <!-- <li class="chapter" data-level="1.1"><a>about</a></li> -->
+             
+                
+                    
+
+                    
+                        
+                        </li>
+<li class="chapter" data-level="1.1" data-path="/archive/2022-23//about/about/">
+                        
+                            <a href="/archive/2022-23//about/about/">
+                                About
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/archive/2022-23//about/changelog/">
+                        
+                            <a href="/archive/2022-23//about/changelog/">
+                                Changelog
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+
+                    
+                        <li class="divider">
+                    
+                
+            
+             
+                
+                </li>
+<li><a><strong>Units</strong></a></li>
+                
+                <!-- <li class="chapter" data-level="1.1"><a>lectures</a></li> -->
+             
+                
+                    
+
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/archive/2022-23//lectures/1-supercomputing/">
+                        
+                            <a href="/archive/2022-23//lectures/1-supercomputing/">
+                                1. Supercomputing and Scientific Computing
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/archive/2022-23//lectures/2-architectures/">
+                        
+                            <a href="/archive/2022-23//lectures/2-architectures/">
+                                2. The Architectures of Distributed Systems
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/archive/2022-23//lectures/3-management_and_measurement/">
+                        
+                            <a href="/archive/2022-23//lectures/3-management_and_measurement/">
+                                3. Management and Measurement of Distributed Systems
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/archive/2022-23//lectures/4-on-core_parallelism/">
+                        
+                            <a href="/archive/2022-23//lectures/4-on-core_parallelism/">
+                                4. On-core Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/archive/2022-23//lectures/5-on-node_parallelism/">
+                        
+                            <a href="/archive/2022-23//lectures/5-on-node_parallelism/">
+                                5. On-node Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter active" data-level="1.2" data-path="/archive/2022-23//lectures/6-internode_parallelism/">
+                        
+                            <a href="/archive/2022-23//lectures/6-internode_parallelism/">
+                                6. Internode Parallelism
+                            </a>
+                            
+                                
+                                    <ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#the-return-of-flynn">The Return of Flynn</a></li>
+<li><a href="#distributed-memory-systems">Distributed Memory Systems</a></li>
+<li>
+<a href="#the-message-passing-interface">The Message Passing Interface</a><ul>
+<li><a href="#history">History</a></li>
+<li><a href="#getting-started">Getting Started</a></li>
+<li><a href="#communicators">Communicators</a></li>
+<li><a href="#virtual-topologies">Virtual Topologies</a></li>
+<li><a href="#performance-monitoring">Performance Monitoring</a></li>
+</ul>
+</li>
+<li>
+<a href="#point-to-point-operations">Point-to-Point Operations</a><ul>
+<li><a href="#data-types">Data Types</a></li>
+<li><a href="#derived-data-types">Derived Data Types</a></li>
+<li><a href="#sending-and-receiving-messages">Sending and Receiving Messages</a></li>
+<li><a href="#non-blocking-communications">Non-blocking Communications</a></li>
+</ul>
+</li>
+<li>
+<a href="#collective-operations">Collective Operations</a><ul>
+<li><a href="#the-barrier">The Barrier</a></li>
+<li><a href="#broadcast">Broadcast</a></li>
+<li><a href="#gather-and-scatter">Gather and Scatter</a></li>
+<li><a href="#reductions">Reductions</a></li>
+</ul>
+</li>
+<li>
+<a href="#parallel-io">Parallel I/O</a><ul>
+<li><a href="#mpi-io">MPI-IO</a></li>
+<li><a href="#other-approaches">Other Approaches</a></li>
+</ul>
+</li>
+<li><a href="#recommended-reading">Recommended Reading</a></li>
+</ul>
+
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/archive/2022-23//lectures/7-accelerators/">
+                        
+                            <a href="/archive/2022-23//lectures/7-accelerators/">
+                                7. Accelerators
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/archive/2022-23//lectures/8-heterogeneous_programming/">
+                        
+                            <a href="/archive/2022-23//lectures/8-heterogeneous_programming/">
+                                8. Heterogeneous Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+
+                    
+                        <li class="divider">
+                    
+                
+            
+             
+                
+                <!-- <li class="chapter" data-level="1.1"><a>posts</a></li> -->
+             
+                
+                    
+
+                    
+
+                    
+                
+            
+             
+                
+                </li>
+<li><a><strong>Practicals</strong></a></li>
+                
+                <!-- <li class="chapter" data-level="1.1"><a>practicals</a></li> -->
+             
+                
+                    
+
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/archive/2022-23//practicals/1-introduction_to_c-1/">
+                        
+                            <a href="/archive/2022-23//practicals/1-introduction_to_c-1/">
+                                1. Introduction to C (part 1)
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/archive/2022-23//practicals/2-introduction_to_c-2/">
+                        
+                            <a href="/archive/2022-23//practicals/2-introduction_to_c-2/">
+                                2. Introduction to C (part 2)
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/archive/2022-23//practicals/3-on-core_parallelism/">
+                        
+                            <a href="/archive/2022-23//practicals/3-on-core_parallelism/">
+                                3. Programming On-core Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/archive/2022-23//practicals/4-on-node_parallelism/">
+                        
+                            <a href="/archive/2022-23//practicals/4-on-node_parallelism/">
+                                4. Programming On-node Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/archive/2022-23//practicals/5-off-node_parallelism/">
+                        
+                            <a href="/archive/2022-23//practicals/5-off-node_parallelism/">
+                                5. Programming Off-node Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/archive/2022-23//practicals/6-cuda_programming/">
+                        
+                            <a href="/archive/2022-23//practicals/6-cuda_programming/">
+                                6. CUDA Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+
+                    
+                        <li class="divider">
+                    
+                
+            
+        </li>
+</ul>
+    </nav>
+</div>
+<div class="book-body">
+                <div class="book-header" role="navigation">
+                    <!-- Title -->
+                    <h1>
+                        <i class="fa fa-circle-o-notch fa-spin"></i>
+                        
+                            <a href=".">6. Internode Parallelism</a>
+                        
+                    </h1>
+                </div>
+
+                <div class="body-inner">
+<div class="page-wrapper" tabindex="-1" role="main">
+    
+
+    <div class="page-inner">
+        <div id="book-search-results">
+            <div class="search-noresults">
+                <section class="normal markdown-section">
+                    
+                        <h1 id="/lectures/6-internode_parallelism">6. Internode Parallelism</h1>
+                    
+
+                    <h1 id="overview">Overview</h1>
+
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/fb5IodEKbn8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""></iframe>
+<p><br></p>
+
+<p>This week we’re stepping off-node. We’re going to look at how we can make use of an entire distrubted-memory supercomputer.</p>
+
+<p>We’re going to cover:</p>
+
+<ul>
+  <li>A brief return to Flynn’s taxonomy</li>
+  <li>Distributed-memory systems</li>
+  <li>The Message Passing Interface (MPI)</li>
+  <li>Point-to-point operations</li>
+  <li>Collective operations</li>
+  <li>Parallel I/O</li>
+</ul>
+
+<h1 id="the-return-of-flynn">The Return of Flynn</h1>
+
+<p>Again, we’re going to start this unit with a quick revisit to Flynn’s taxonomy.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-6/flynns.png" alt="Flynn's taxonomy -- SISD, SIMD, MISD, and MIMD." width="60%"><br>
+<em><strong>Figure 1:</strong> Flynn’s taxonomy</em></p>
+
+<p>In the last unit we talked about the two extensions to the taxonomy with <strong>SIMT (Single Instruction, Multiple Threads)</strong> and <strong>SPMD (Single Program, Multiple Data)</strong>. In this unit we’re working primarily in the SPMD world, only now our Single Program is running across multiple compute nodes simultaneously, and our memory space is <em>distributed</em> across those compute nodes (i.e. distributed memory, rather than shared memory).</p>
+
+<h1 id="distributed-memory-systems">Distributed Memory Systems</h1>
+
+<p>A <strong>Distributed Memory System</strong> is one where each processor has its own private memory, and computational tasks can only operate on local data. If remote data is required, the computational task must communicate with one or more remote processes to request the data.</p>
+
+<p>In a distributed memory system, there are typically a number of processors, each with their own memory, and some form of high speed interconnect that allows applications running on each of the processors to communicate with one another.</p>
+
+<p>On HPC systems this interconnect is typically a low latency network dedicated to internode communications (e.g. Infiniband [See Unit 2]).</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-6/distributed-memory.png" alt="A distributed memory system">
+<em><strong>Figure 2:</strong> Modern systems are typically a mix of shared and distributed memory systems, where individual ccNUMA-type shared-memory nodes are interconnected to one another to form a distibuted memory system.</em></p>
+
+<p>Modern day HPC systems are typically a hybrid of shared memory and distributed memory systems (see Figure 2). Purely shared memory systems are typically limited in their size, while purely distributed memory systems may be expensive to design and build. Hybrid systems strike the balance between cost and scalability, using multi-core and multi-processor nodes, interconnected by a high-speed fabric.</p>
+
+<p>From the developer’s perspective, the main difference between a shared memory system and a distributed memory system is that in a distributed memory system, memory must be managed and shared between processors <em>explicitly</em>. This is usually achieved through <em><strong>Message Passing</strong></em>, where processes explicitly communicate with one another through send and receive functions. The de facto standard for message passing on HPC systems is the <strong>Message Passing Interface</strong>, or <strong>MPI</strong>.</p>
+
+<p>It should be noted that while individual nodes are ccNUMA-like shared memory systems, they can be programmed as and operate as a distributed memory system. Moreover, distributed memory systems can be programmed as and operate as shared memory systems using approaches such as <strong>Partitioned Global Address Space (PGAS)</strong>, where the PGAS implementation mimics a shared memory system by performing remote memory sends and receives transparently.</p>
+
+<h1 id="the-message-passing-interface">The Message Passing Interface</h1>
+
+<p>The Message Passing Interface (MPI) is a portable message passing standard designed for distributed-memory parallel computers. The standard (version 4.0) currently defines an API with almost 500 functions, in C and Fortran (support for Fortran 2008 was added in the MPI 3.0 standard, while the C++ bindings were deprecated).</p>
+
+<p>Today, there are numerous implementations of the MPI standard available. Notable examples include the open-source implementations OpenMPI, MPICH and MVAPICH, and the vendor-developed implementations Intel MPI, Cray MPI and bullx MPI (note that many of these vendor-developed implementations are based on an open-source implementation).</p>
+
+<h2 id="history">History</h2>
+
+<p>Efforts to define a standardised message passing interface began in 1991 and subsequently led to the <em>Workshop on Standards for Message Passing in a Distributed Memory Environment</em> (held in April 1992). At this workshop, the essential features of a message passing library were discussed, and a small working group was formed with the task of defining a standard.</p>
+
+<p>The first draft of the MPI standard was designed by <a href="https://en.wikipedia.org/wiki/Jack_Dongarra">Jack Dongarra</a>, <a href="https://en.wikipedia.org/wiki/Tony_Hey">Tony Hey</a> and David W. Walker and presented at the Supercomputing Conference (SC) in 1993. Following a period of consultation, the 1.0 standard was released in June 1994.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-6/mpi1-standard.png" alt="Version 1 of the MPI Standard"><br>
+<em><strong>Figure 3:</strong> Version 1.0 of the MPI Standard</em></p>
+
+<p>The MPI effort involved around 80 people from 40 organisations, mainly in the United States and Europe. It was funded heavily by DARPA, the U.S. National Science Foundation (NSF), and the European commission (among others).</p>
+
+<p>Since its creation, MPI has become the <em>de facto</em> standard for communications on distributed memory systems. The standard is maintained by the MPI Forum, and the current version of the standard is 4.0; the 4.1 and 5.0 standards are a work in progress.</p>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li><a href="https://www.mpi-forum.org/docs/">MPI Documentation</a></li>
+  </ul>
+</blockquote>
+
+<h2 id="getting-started">Getting Started</h2>
+
+<p>MPI is available as a library on most distributed systems (including Viking); in order to compile and link an MPI program, the compiler must be aware that the MPI library is required, and where its header files and libraries can be found. Luckily, most MPI implementations provide a compiler wrapper for this purpose (often called <code class="language-plaintext highlighter-rouge">mpicc</code>, <code class="language-plaintext highlighter-rouge">mpif90</code>, etc.).</p>
+
+<p>On Viking, we can load an MPI implementation (in this case OpenMPI 4.0.5 with GCC 10.2.0) and then we can view the wrapped compile line with the <code class="language-plaintext highlighter-rouge">-show</code> compile time flag.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ module load mpi/OpenMPI/4.0.5-GCC-10.2.0
+$ mpicc -show
+gcc -I/opt/apps/easybuild/software/OpenMPI/4.0.5-GCC-10.2.0/include -L/opt/app
+s/easybuild/software/hwloc/2.2.0-GCCcore-10.2.0/lib -L/opt/apps/easybuild/soft
+ware/libevent/2.1.12-GCCcore-10.2.0/lib64 -Wl,-rpath -Wl,/opt/apps/easybuild/s
+oftware/hwloc/2.2.0-GCCcore-10.2.0/lib -Wl,-rpath -Wl,/opt/apps/easybuild/soft
+ware/libevent/2.1.12-GCCcore-10.2.0/lib64 -Wl,-rpath -Wl,/opt/apps/easybuild/s
+oftware/OpenMPI/4.0.5-GCC-10.2.0/lib -Wl,--enable-new-dtags -L/opt/apps/easybu
+ild/software/OpenMPI/4.0.5-GCC-10.2.0/lib -lmpi
+</code></pre></div></div>
+
+<p>So, every time we compile an MPI program, rather than using <code class="language-plaintext highlighter-rouge">gcc</code>, we use <code class="language-plaintext highlighter-rouge">mpicc</code> and it will use the compile line above (plus our own compile time flags).</p>
+
+<p>Running an MPI application requires multiple copies of the application to be launched simultaneously (unlike an approach like OpenMP that can create threads programmatically when parallelism is required). Again, each MPI implementation provides a mechanism for launching an application multiple times across a distributed system. In the case of OpenMPI, this is the <code class="language-plaintext highlighter-rouge">mpirun</code> application.</p>
+
+<p>In order to compile and run an MPI application on 4 processes, we might do something like:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ mpicc -O3 -o my_program my_program.c
+$ mpirun -n 4 ./my_program
+</code></pre></div></div>
+
+<p>This will compile our program with all of the required MPI libraries, and then launch the application 4 times simultaneously (potentially on the same node, potentially on up to 4 separate nodes).</p>
+
+<p>But, you might ask, where do we start with writing an MPI application?</p>
+
+<p>The first thing we do in an MPI program, is initialise the MPI library (and its associated communicators, etc.). We do this with the <code class="language-plaintext highlighter-rouge">MPI_Init()</code> function, which takes as arguments the application’s <code class="language-plaintext highlighter-rouge">argc</code> and <code class="language-plaintext highlighter-rouge">argv</code> parameters as pointers so that it can remove any extraneous parameters added by <code class="language-plaintext highlighter-rouge">mpirun</code>.</p>
+
+<p>We finish our MPI programs in a similar way, with the <code class="language-plaintext highlighter-rouge">MPI_Finalize()</code> function. So, a typical MPI program might follow the following format:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span> <span class="c1">// other libraries</span>
+<span class="cp">#include</span> <span class="cpf">&lt;mpi.h&gt;</span><span class="cp">
+</span><span class="p">...</span> <span class="c1">// other libraries, variable definitions, functions, etc</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+    <span class="n">MPI_Init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">argc</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">argv</span><span class="p">);</span>
+
+    <span class="p">...</span> <span class="c1">// application code</span>
+
+    <span class="n">MPI_Finalize</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Most MPI functions in C return an integer (which in this case, we’ve discarded). Like many return values in C, it indicates whether the operation has been successful. If the MPI operation has been successful, it will return <code class="language-plaintext highlighter-rouge">MPI_SUCCESS</code>. Other return values indicate that a problem has occurred.</p>
+
+<h2 id="communicators">Communicators</h2>
+
+<p>Much of MPI is based around the notion of <em>communicators</em>. A communicator defines a group of MPI processes that are referred to by a <em>communicator handle</em>. The <code class="language-plaintext highlighter-rouge">MPI_COMM_WORLD</code> handle encompasses all MPI processes that have been started as part of a parallel program. Most MPI operations require a communicator handle to be passed, to determine where messages should be sent to or received from.</p>
+
+<p>You can query the size of a communicator, and a process’s rank within the communicator with the <code class="language-plaintext highlighter-rouge">MPI_Comm_size()</code> and <code class="language-plaintext highlighter-rouge">MPI_Comm_rank()</code> functions. Each take a communicator handle and a pointer to an integer, which is where MPI stores the result of the call.</p>
+
+<p>With the 4 MPI functions we’ve covered so far, we can now write a very simple MPI “Hello, World!” application.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;mpi.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">rank</span><span class="p">,</span> <span class="n">size</span><span class="p">;</span>
+
+    <span class="n">MPI_Init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">argc</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">argv</span><span class="p">);</span>
+    <span class="n">MPI_Comm_size</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">size</span><span class="p">);</span>
+    <span class="n">MPI_Comm_rank</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rank</span><span class="p">);</span>
+
+    <span class="n">printf</span><span class="p">(</span><span class="s">"Hello, World! I am process %d of %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">rank</span><span class="p">,</span> <span class="n">size</span><span class="p">);</span>
+
+    <span class="n">MPI_Finalize</span><span class="p">();</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>We can compile this program with <code class="language-plaintext highlighter-rouge">mpicc</code>, and run it with <code class="language-plaintext highlighter-rouge">mpirun</code>. For example,</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ mpicc -o hello hello.c
+$ mpirun -n 4 ./hello
+Hello, World! I am process 1 of 4
+Hello, World! I am process 3 of 4
+Hello, World! I am process 2 of 4
+Hello, World! I am process 0 of 4
+$ mpirun -n 8 ./hello
+Hello, World! I am process 5 of 8
+Hello, World! I am process 1 of 8
+Hello, World! I am process 3 of 8
+Hello, World! I am process 7 of 8
+Hello, World! I am process 0 of 8
+Hello, World! I am process 6 of 8
+Hello, World! I am process 4 of 8
+Hello, World! I am process 2 of 8
+</code></pre></div></div>
+
+<blockquote class="block-danger">
+  <p><strong>Exercise</strong></p>
+
+  <p>Try out the “Hello, World!” program above on Viking. Try running it in an interactive job and a batch job.</p>
+
+  <p>Try out different compilers and MPI implementations. What differences do you notice between MPI variants? (not in terms of performance, but in terms of function)</p>
+</blockquote>
+
+<h2 id="virtual-topologies">Virtual Topologies</h2>
+
+<p>For most of the applications we’ll encounter, <code class="language-plaintext highlighter-rouge">MPI_COMM_WORLD</code> will likely be sufficient; but before we move on, we’ll take a quick look at how to create and manage custom communicator handles.</p>
+
+<p>When decomposing a problem across parallel processes, it is perhaps trivial to implement a 1-dimensional decomposition (where each process’s neighbours hold the ranks immediately before and after).</p>
+
+<p>For more complex decompositions, setting up a grid of processes and calculating which ranks have to exchange halo data is non-trivial. For this reason, MPI provides functionality to set up virtual topologies.</p>
+
+<p>Let’s say, for example, that we have 12 processes and we want them to form a 3 × 4 grid which is periodic in the second dimension but not in the first.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-6/cartgrid.png" alt="12 processes arranged in a 3 x 4 grid, periodic in one dimension"><br>
+<em><strong>Figure 4:</strong> A two-dimensional cartesian topology. 12 processes form a 3 × 4 grid, periodic in the second dimension but not the first.</em></p>
+
+<p>We can set this up using the <code class="language-plaintext highlighter-rouge">MPI_Cart_create()</code> function, which takes as inputs an old communicator, the number of dimensions, the dimensions themselves and the periodicity in each dimension, and outputs a new communicator. For the situation in Figure 4, we can use:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">MPI_Comm</span> <span class="n">my_comm</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">dims</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span> <span class="p">};</span>
+<span class="kt">int</span> <span class="n">periods</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="p">};</span>
+
+<span class="n">MPI_Cart_create</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">dims</span><span class="p">,</span> <span class="n">periods</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">my_comm</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>This will create a new communicator (named <code class="language-plaintext highlighter-rouge">my_comm</code>), that we can use to find our neighbours on a cartesian grid. Each rank can find their own coordinates with <code class="language-plaintext highlighter-rouge">MPI_Cart_coords()</code>, and can find the rank of any other process from their coordinates with the <code class="language-plaintext highlighter-rouge">MPI_Cart_rank()</code> function.</p>
+
+<p>So for example:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// to find your own coordinates</span>
+<span class="kt">int</span> <span class="n">my_coords</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<span class="n">MPI_Cart_coords</span><span class="p">(</span><span class="n">my_comm</span><span class="p">,</span> <span class="n">my_rank</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">my_coord</span><span class="p">);</span>
+
+<span class="c1">// to find the rank of a neighbour at position (x, y-1)</span>
+<span class="kt">int</span> <span class="n">neighbour_coords</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="n">my_coord</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">my_coord</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span> <span class="p">};</span>
+<span class="kt">int</span> <span class="n">neighbour_rank</span><span class="p">;</span>
+<span class="n">MPI_Cart_rank</span><span class="p">(</span><span class="n">my_comm</span><span class="p">,</span> <span class="n">neighbour_coords</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">neighbour_rank</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Putting this all together (in another “Hello, World!” application):</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;mpi.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">rank</span><span class="p">,</span> <span class="n">size</span><span class="p">;</span>
+
+    <span class="n">MPI_Init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">argc</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">argv</span><span class="p">);</span>
+    <span class="n">MPI_Comm_size</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">size</span><span class="p">);</span>
+    <span class="n">MPI_Comm_rank</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rank</span><span class="p">);</span>
+
+
+    <span class="n">MPI_Comm</span> <span class="n">my_comm</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">dims</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">};</span>
+    <span class="kt">int</span> <span class="n">periods</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">};</span>
+
+    <span class="n">MPI_Cart_create</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">dims</span><span class="p">,</span> <span class="n">periods</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">my_comm</span><span class="p">);</span>
+
+    <span class="kt">int</span> <span class="n">my_coords</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+    <span class="n">MPI_Cart_coords</span><span class="p">(</span><span class="n">my_comm</span><span class="p">,</span> <span class="n">rank</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">my_coords</span><span class="p">);</span>
+
+    <span class="kt">int</span> <span class="n">neighbour_coords</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">my_coords</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">my_coords</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">};</span>
+    <span class="kt">int</span> <span class="n">neighbour_rank</span><span class="p">;</span>
+    <span class="n">MPI_Cart_rank</span><span class="p">(</span><span class="n">my_comm</span><span class="p">,</span> <span class="n">neighbour_coords</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">neighbour_rank</span><span class="p">);</span>
+
+    <span class="n">printf</span><span class="p">(</span><span class="s">"Hello, World! I am process %d/%d. On the cart grid I'm (%d, %d) and the process above me is rank %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> 
+                    <span class="n">rank</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">my_coords</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">my_coords</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">neighbour_rank</span><span class="p">);</span>
+
+
+    <span class="n">MPI_Finalize</span><span class="p">();</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The result is exactly as expected from Figure 4:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ mpirun -n 12 ./hello
+Hello, World! I am process 0/12. On the cart grid I'm (0, 0) and the process above me is rank 2
+Hello, World! I am process 1/12. On the cart grid I'm (0, 1) and the process above me is rank 0
+Hello, World! I am process 2/12. On the cart grid I'm (0, 2) and the process above me is rank 1
+Hello, World! I am process 3/12. On the cart grid I'm (1, 0) and the process above me is rank 5
+Hello, World! I am process 4/12. On the cart grid I'm (1, 1) and the process above me is rank 3
+Hello, World! I am process 5/12. On the cart grid I'm (1, 2) and the process above me is rank 4
+Hello, World! I am process 6/12. On the cart grid I'm (2, 0) and the process above me is rank 8
+Hello, World! I am process 7/12. On the cart grid I'm (2, 1) and the process above me is rank 6
+Hello, World! I am process 8/12. On the cart grid I'm (2, 2) and the process above me is rank 7
+Hello, World! I am process 9/12. On the cart grid I'm (3, 0) and the process above me is rank 11
+Hello, World! I am process 10/12. On the cart grid I'm (3, 1) and the process above me is rank 9
+Hello, World! I am process 11/12. On the cart grid I'm (3, 2) and the process above me is rank 10
+</code></pre></div></div>
+
+<p>Note that requesting the rank of a process with coordinates outside of the grid will result in an error if a periodic boundary is not specified. If the boundary is periodic, the coordinates will be shifted back onto the grid automatically.</p>
+
+<p>We can simplify finding our neighbours with the <code class="language-plaintext highlighter-rouge">MPI_Cart_shift()</code> function, which handles the calculation for us. <code class="language-plaintext highlighter-rouge">MPI_Cart_shift()</code> takes as inputs a Cartesian communicator, a direction of shift, and a displacement, and returns the source and destination ranks in this dimension. For example, say we have the same topology as above and we’d like to find the processors to the east and west of each process.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;mpi.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">rank</span><span class="p">,</span> <span class="n">size</span><span class="p">;</span>
+
+    <span class="n">MPI_Init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">argc</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">argv</span><span class="p">);</span>
+    <span class="n">MPI_Comm_size</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">size</span><span class="p">);</span>
+    <span class="n">MPI_Comm_rank</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rank</span><span class="p">);</span>
+
+
+    <span class="n">MPI_Comm</span> <span class="n">my_comm</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">dims</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">};</span>
+    <span class="kt">int</span> <span class="n">periods</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">};</span>
+
+    <span class="n">MPI_Cart_create</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">dims</span><span class="p">,</span> <span class="n">periods</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">my_comm</span><span class="p">);</span>
+
+    <span class="kt">int</span> <span class="n">my_coords</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+    <span class="n">MPI_Cart_coords</span><span class="p">(</span><span class="n">my_comm</span><span class="p">,</span> <span class="n">rank</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">my_coords</span><span class="p">);</span>
+
+    <span class="kt">int</span> <span class="n">east_rank</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">west_rank</span><span class="p">;</span>
+    <span class="n">MPI_Cart_shift</span><span class="p">(</span><span class="n">my_comm</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">west_rank</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">east_rank</span><span class="p">);</span>
+
+    <span class="n">printf</span><span class="p">(</span><span class="s">"Hello, World! I am process %d. On the cart grid I'm (%d, %d). The process to the east of me is %d, and to the west is %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span>
+            <span class="n">rank</span><span class="p">,</span> <span class="n">my_coords</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">my_coords</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">east_rank</span><span class="p">,</span> <span class="n">west_rank</span><span class="p">);</span>
+
+    <span class="n">MPI_Finalize</span><span class="p">();</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Our application is now able to calculate the neighours either side (in the <em>x</em>-dimension) in a single function call (and the call handles non-periodic boundaries).</p>
+
+<p>The output will look like this:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ mpirun -n 12 ./hello
+Hello, World! I am process 10. On the cart grid I'm (3, 1). The process to the east of me is -2, and to the west is 7
+Hello, World! I am process 11. On the cart grid I'm (3, 2). The process to the east of me is -2, and to the west is 8
+Hello, World! I am process 0. On the cart grid I'm (0, 0). The process to the east of me is 3, and to the west is -2
+Hello, World! I am process 1. On the cart grid I'm (0, 1). The process to the east of me is 4, and to the west is -2
+Hello, World! I am process 2. On the cart grid I'm (0, 2). The process to the east of me is 5, and to the west is -2
+Hello, World! I am process 3. On the cart grid I'm (1, 0). The process to the east of me is 6, and to the west is 0
+Hello, World! I am process 4. On the cart grid I'm (1, 1). The process to the east of me is 7, and to the west is 1
+Hello, World! I am process 5. On the cart grid I'm (1, 2). The process to the east of me is 8, and to the west is 2
+Hello, World! I am process 6. On the cart grid I'm (2, 0). The process to the east of me is 9, and to the west is 3
+Hello, World! I am process 7. On the cart grid I'm (2, 1). The process to the east of me is 10, and to the west is 4
+Hello, World! I am process 8. On the cart grid I'm (2, 2). The process to the east of me is 11, and to the west is 5
+Hello, World! I am process 9. On the cart grid I'm (3, 0). The process to the east of me is -2, and to the west is 6
+</code></pre></div></div>
+
+<p>You might notice that for the processes on the west-most line of processes, the process to the west is <code class="language-plaintext highlighter-rouge">-2</code>. For the processes on the east-most line of processes, the process to the east is <code class="language-plaintext highlighter-rouge">-2</code>. This is actually a special value called <code class="language-plaintext highlighter-rouge">MPI_PROC_NULL</code>. Since these boundaries are not periodic, this special value indicates that there is no process to the west and east of these processes, respectively.</p>
+
+<p>One final thing we’ll briefly touch upon before moving on is the issue of calculating a balanced and optimal Cartesian grid decomposition. This may be a difficult task, but luckily, we can offload this to the <code class="language-plaintext highlighter-rouge">MPI_Dims_create()</code> function. For example, if we have our 12 processes as before, but we’re unsure on the best decomposition in 2 dimensions, we can use:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">dims</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span> <span class="p">};</span> <span class="c1">// Dim_create will only change dimensions who's value is 0.</span>
+<span class="n">MPI_Dims_create</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">dims</span><span class="p">);</span> <span class="c1">// will update dims to {4, 3}</span>
+</code></pre></div></div>
+
+<h2 id="performance-monitoring">Performance Monitoring</h2>
+
+<p>Before moving on, we’ll just briefly revisit an issue from Unit 3 – techniques for monitoring performance.</p>
+
+<p>Firstly, the MPI library provides a convenient timing function that we can use (and it’s one of the few functions that doesn’t return <code class="language-plaintext highlighter-rouge">MPI_SUCCESS</code> or an error!).</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">double</span> <span class="nf">MPI_Wtime</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">MPI_Wtime()</code> function simply returns a representation of the wall-clock time, since some time in the past. If we record the time before and after a function, the difference will represent how long the operation took, in seconds. You should note that in most MPI implementations, <code class="language-plaintext highlighter-rouge">MPI_Wtime()</code> is not synchronised between ranks. This must be done manually by the programmer (if required).</p>
+
+<p>In order to perform more complex monitoring and analysis, you might find tools like Scalasca (available on Viking) or other MPI profiling tools useful.</p>
+
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/D0-xSWBGNAw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+<p><br></p>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li>
+<a href="https://yorsearch.york.ac.uk/permalink/f/1d5jm03/44YORK_ALMA_DS51308825180001381">Introduction to High Performance Computing for Scientists and Engineers</a>, Chapter 9</li>
+  </ul>
+</blockquote>
+
+<h1 id="point-to-point-operations">Point-to-Point Operations</h1>
+
+<p>In a message passing progam, messages carry data between processes. Those messages can be as simple as a single value, or a complex structure (e.g. all of the data for a particle, a row from a matrix, etc.). For a message passing program to operate in an orderly manner, there are some important parameters that must be known in advance:</p>
+
+<ul>
+  <li>Which process is sending data</li>
+  <li>Where is the data that is being sent</li>
+  <li>What kind of data is being sent</li>
+  <li>How much data is being sent</li>
+  <li>Which process is receiving the message</li>
+  <li>Where should the receiving process put the data</li>
+  <li>What amount of data is the receiving process expecting</li>
+</ul>
+
+<p>All MPI calls that transfer data have to specify these parameters in some way. Before we look at how to send and receive data, let’s first address the question of “what kind of data is being sent” and “how much data is being sent”.</p>
+
+<h2 id="data-types">Data Types</h2>
+
+<p>When sending messages, it’s important to be aware of what type of data is being sent (or received). If one process is sending a <code class="language-plaintext highlighter-rouge">float</code>, while another is expecting to receive a <code class="language-plaintext highlighter-rouge">double</code>, there may well be an issue!</p>
+
+<p>MPI handles this by having a data type argument in most function specifications. There are a number of predefined datatypes in the MPI standard that broadly coincide with C’s primitives (<code class="language-plaintext highlighter-rouge">signed</code> and <code class="language-plaintext highlighter-rouge">unsigned</code> variants, etc.). A selection of the basic datatypes are shown in the table below.</p>
+
+<div class="table-wrapper">
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>MPI Type</strong></td>
+        <td><strong>C Type</strong></td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">MPI_CHAR</code></td>
+        <td><code class="language-plaintext highlighter-rouge">signed char</code></td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">MPI_INT</code></td>
+        <td><code class="language-plaintext highlighter-rouge">signed int</code></td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">MPI_LONG</code></td>
+        <td><code class="language-plaintext highlighter-rouge">signed long</code></td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">MPI_FLOAT</code></td>
+        <td><code class="language-plaintext highlighter-rouge">float</code></td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">MPI_DOUBLE</code></td>
+        <td><code class="language-plaintext highlighter-rouge">double</code></td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">MPI_BYTE</code></td>
+        <td><code class="language-plaintext highlighter-rouge">unsigned char</code></td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
+<p>Each message-sending/receiving function call in the MPI standard requires a type and a count to be specified. The number of bytes to be sent can then be calculated from these two values.</p>
+
+<p>You can see a more complete list of predefined data types in the <a href="https://www.mpich.org/static/docs/v3.3/www3/Constants.html">MPICH documentation</a>.</p>
+
+<h2 id="derived-data-types">Derived Data Types</h2>
+
+<p>As well as the predefined data types, we can build custom data types in MPI. This is especially useful if the data to be sent and received is being stored in a custom data type, e.g., a vector or a custom struct. We can also use custom datatypes to transfer non-contiguous data.</p>
+
+<p>The process for creating and using a derived type in MPI (and C) is:</p>
+
+<ol>
+  <li>Set up a new <code class="language-plaintext highlighter-rouge">MPI_Datatype</code> variable</li>
+  <li>Configure the new data type</li>
+  <li>Commit the data type</li>
+  <li>Use the data type</li>
+  <li>Free the data type</li>
+</ol>
+
+<p>So, let’s create a data type to hold a particle in a simulation:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">struct</span> <span class="n">particle_t</span> <span class="p">{</span>
+    <span class="kt">double</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">cell_id</span><span class="p">;</span>
+    <span class="kt">double</span> <span class="n">weight</span><span class="p">;</span>
+    <span class="kt">double</span> <span class="n">vx</span><span class="p">,</span> <span class="n">vy</span><span class="p">,</span> <span class="n">vz</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p>In this example, each particle exists within a grid, and stores the ID of the cell that it is currently contained within. Additionally, the weight of the particle, its <em>x</em>, <em>y</em> and <em>z</em> position and its velocity in the <em>x</em>, <em>y</em> and <em>z</em> direction is stored.</p>
+
+<p>In order to send a particle from one process to another, a custom type must be defined that indicates that there are three doubles, followed by an integer, followed by four doubles. We can create such a data type using <code class="language-plaintext highlighter-rouge">MPI_Type_create_struct()</code>.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">MPI_Datatype</span> <span class="n">mpi_particle_t</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="n">blocklengths</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span> <span class="p">};</span>
+<span class="kt">int</span> <span class="n">displacements</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span> <span class="p">};</span>
+<span class="n">MPI_Datatype</span> <span class="n">types</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="n">MPI_DOUBLE</span><span class="p">,</span> <span class="n">MPI_INT</span><span class="p">,</span> <span class="n">MPI_DOUBLE</span> <span class="p">};</span>
+
+<span class="n">MPI_Type_create_struct</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">blocklengths</span><span class="p">,</span> <span class="n">displacements</span><span class="p">,</span> <span class="n">types</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">mpi_particle_t</span><span class="p">);</span>
+
+<span class="n">MPI_Type_commit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mpi_particle_t</span><span class="p">);</span>
+
+<span class="p">...</span> <span class="c1">// use the datatype in our application</span>
+
+<span class="n">MPI_Type_free</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mpi_particle_t</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>In this example the displacement values are all set to 0, but with non-zero entries we can create holes in our data types (for example, if we didn’t want/need to send the <code class="language-plaintext highlighter-rouge">cell_id</code>, we could remove it from the derived type).</p>
+
+<p>Another example might be if we wanted to send a column of a matrix; recall that C is “column major” and so a column would be non-contiguous in memory. We can set up such a data type using the <code class="language-plaintext highlighter-rouge">MPI_Type_vector()</code> function.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">double</span> <span class="n">my_matrix</span><span class="p">[</span><span class="mi">10</span><span class="p">][</span><span class="mi">10</span><span class="p">];</span>
+<span class="c1">// fill the 10x10 matrix with values</span>
+
+<span class="n">MPI_Datatype</span> <span class="n">my_column</span><span class="p">;</span>
+<span class="n">MPI_Type_vector</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">MPI_DOUBLE</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">my_column</span><span class="p">);</span>
+<span class="n">MPI_Type_commit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_column</span><span class="p">);</span>
+
+<span class="p">...</span> <span class="c1">// use new data type</span>
+
+<span class="n">MPI_Type_free</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_column</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>In this example, we’ve created a new data type that will contain 10 blocks, each with a size of 1 data type (in this case 1 double), strided by 10 elements. On a 10 × 10 matrix this would correspond to a column (i.e. one value in every 10).</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-6/2d-array-col.png" alt="Conceptual layour of a 10 x 10 array in C"><br>
+<em><strong>Figure 5:</strong> The conceptual layout of a 10 × 10 2D array in C</em></p>
+
+<p>Using our new MPI data type, we can send any column by using the pointer address <code class="language-plaintext highlighter-rouge">&amp;my_matrix[0][col]</code>. This will start our call at an offset column, which will then be strided by 10 for each value.</p>
+
+<h2 id="sending-and-receiving-messages">Sending and Receiving Messages</h2>
+
+<p>Hopefully, we’ve now covered plenty of the infrastructure behind MPI (setup, communicators, data types). We can now start to look at how we actually send data across our communicators to other processes.</p>
+
+<p>Let’s start with the simplest two function, <code class="language-plaintext highlighter-rouge">MPI_Send()</code> and <code class="language-plaintext highlighter-rouge">MPI_Recv()</code>.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">MPI_Send</span><span class="p">(</span><span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span> <span class="kt">int</span> <span class="n">count</span><span class="p">,</span> <span class="n">MPI_Datatype</span> <span class="n">datatype</span><span class="p">,</span> <span class="kt">int</span> <span class="n">dest</span><span class="p">,</span> <span class="kt">int</span> <span class="n">tag</span><span class="p">,</span> <span class="n">MPI_Comm</span> <span class="n">comm</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">MPI_Recv</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span> <span class="kt">int</span> <span class="n">count</span><span class="p">,</span> <span class="n">MPI_Datatype</span> <span class="n">datatype</span><span class="p">,</span> <span class="kt">int</span> <span class="n">source</span><span class="p">,</span> <span class="kt">int</span> <span class="n">tag</span><span class="p">,</span> <span class="n">MPI_Comm</span> <span class="n">comm</span><span class="p">,</span> <span class="n">MPI_Status</span> <span class="o">*</span><span class="n">status</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>The parameters required by each function largely mirror each other, with an additional status parameter for <code class="language-plaintext highlighter-rouge">MPI_Recv()</code>. The first argument in both function calls is a pointer to a buffer. This should be an allocated buffer either containing data to send, or with enough allocated space to store the data received. The next two arguments indicate the number of elements of a particular type that will be sent or the maximum number of elements of a particular type that can be received. Note that in the case of <code class="language-plaintext highlighter-rouge">MPI_Recv()</code>, the maximum number of elements may not be received, but can be queried with the <code class="language-plaintext highlighter-rouge">MPI_Get_count()</code> function afterwards.</p>
+
+<p>Each function then requires the destination or source of the message. If the source is not known, the special wildcard value <code class="language-plaintext highlighter-rouge">MPI_ANY_SOURCE</code> can be provided to indicate that a message can be received from any rank. The <code class="language-plaintext highlighter-rouge">tag</code> parameter allows us to “tag” a message such that only a matching receive call will accept the message. Again, the wildcard <code class="language-plaintext highlighter-rouge">MPI_ANY_TAG</code> can be used by the receiving process if the tag value is not known. Finally, the communicator is provided to both functions. Importantly, a message can only be received if the source, tag and communicator match that of the sending process (unless wildcard values are used by the receiver).</p>
+
+<p>The final parameter in the <code class="language-plaintext highlighter-rouge">MPI_Recv()</code> function is the <code class="language-plaintext highlighter-rouge">MPI_Status</code> object. In many cases, applications are written such that the status object does not require inspection; in these cases the special value <code class="language-plaintext highlighter-rouge">MPI_STATUS_IGNORE</code> can be used to avoid allocating a status variable. But in the case that either of the wildcards are used, the status object will contain the correct values after execution. The <code class="language-plaintext highlighter-rouge">MPI_Status</code> object is defined in the specification to contain three fields: <code class="language-plaintext highlighter-rouge">MPI_SOURCE</code>, <code class="language-plaintext highlighter-rouge">MPI_TAG</code> and <code class="language-plaintext highlighter-rouge">MPI_ERROR</code>. Additional fields are implementation specific and so should not be addressed directly.</p>
+
+<p>So, for example:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">double</span> <span class="n">my_buffer</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+<span class="c1">// code to fill the buffer with data</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// send 50 doubles to rank 1, with the tag 23.</span>
+    <span class="kt">int</span> <span class="n">dest</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">tag</span> <span class="o">=</span> <span class="mi">23</span><span class="p">;</span>
+    <span class="n">MPI_Send</span><span class="p">(</span><span class="n">my_buffer</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">MPI_DOUBLE</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">MPI_COMM_WORLD</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// receive up to 100 doubles from any rank with any tag</span>
+    <span class="n">MPI_Status</span> <span class="n">status</span><span class="p">;</span>
+    <span class="n">MPI_Recv</span><span class="p">(</span><span class="n">my_buffer</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">MPI_DOUBLE</span><span class="p">,</span> <span class="n">MPI_ANY_SOURCE</span><span class="p">,</span> <span class="n">MPI_ANY_TAG</span><span class="p">,</span> <span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">status</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">count</span><span class="p">;</span>
+    <span class="n">MPI_Get_count</span><span class="p">(</span><span class="o">&amp;</span><span class="n">status</span><span class="p">,</span> <span class="n">MPI_DOUBLE</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">count</span><span class="p">);</span> <span class="c1">// how many doubles did we actually receive?</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"I've received %d doubles from %d, with the tag %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">status</span><span class="p">.</span><span class="n">MPI_SOURCE</span><span class="p">,</span> <span class="n">status</span><span class="p">.</span><span class="n">MPI_TAG</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>In many cases, point-to-point communications are used to exchange border information (e.g. a “halo-exchange”) between nearest neighbours. A common pattern in such applications is to call an <code class="language-plaintext highlighter-rouge">MPI_Send()</code>, followed immediately by an <code class="language-plaintext highlighter-rouge">MPI_Recv()</code>.</p>
+
+<p>However, beware! In most MPI implementations it is likely that the <code class="language-plaintext highlighter-rouge">MPI_Send()</code> call will return as soon as the data has been moved into an internal send buffer; however in some implementations the send may be fully synchronous and may block until a matching receive call is issued. In this case, the application will <strong>deadlock</strong> (since all processes will block on their send call before issuing their receive call).</p>
+
+<p>We can resolve this potential issue in a few different ways. One simple solution is that we could use an <code class="language-plaintext highlighter-rouge">if (rank % 2 == 0)</code> statement to ensure that all even numbered ranks call send before receive and all odd numbered ranks call receive before send, ensuring there’s always a process expecting to receive data.</p>
+
+<p>Alternatively, we could use the combined <code class="language-plaintext highlighter-rouge">MPI_Sendrecv()</code> function.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">MPI_Sendrecv</span><span class="p">(</span><span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">sendbuf</span><span class="p">,</span> <span class="kt">int</span> <span class="n">sendcount</span><span class="p">,</span> <span class="n">MPI_Datatype</span> <span class="n">sendtype</span><span class="p">,</span> <span class="kt">int</span> <span class="n">dest</span><span class="p">,</span> <span class="kt">int</span> <span class="n">sendtag</span><span class="p">,</span> 
+                 <span class="kt">void</span> <span class="o">*</span><span class="n">recvbuf</span><span class="p">,</span> <span class="kt">int</span> <span class="n">recvcount</span><span class="p">,</span>  <span class="n">MPI_Datatype</span> <span class="n">recvtype</span><span class="p">,</span> <span class="kt">int</span> <span class="n">source</span><span class="p">,</span> <span class="kt">int</span> <span class="n">recvtag</span><span class="p">,</span> 
+                 <span class="n">MPI_Comm</span> <span class="n">comm</span><span class="p">,</span> <span class="n">MPI_Status</span> <span class="o">*</span><span class="n">status</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>This function combines the arguments for a send and a receive into a single function call, where the MPI library can handle the potential for deadlock.</p>
+
+<p>So, for example, in a 1D decomposition, where each process holds a 10 × 10 data array (10 × 12 with “ghost cells”), a halo exchange takes place in two steps. First each process sends its final column to the process to the right (and stores it in the ghost cells of that process). Then each process sends its first column to the process to the left (and again stores this in the ghost cells). The process is demonstrated in Figures 6 and 7, below.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-6/halo-exchange-right.png" alt="The first step of a 1D halo exchange"><br>
+<em><strong>Figure 6:</strong> Step one of a 1D halo exchange</em></p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-6/halo-exchange-left.png" alt="The second step of a 1D halo exchange"><br>
+<em><strong>Figure 7:</strong> Step two of a 1D halo exchange</em></p>
+
+<p>The implementation of this halo exchange requires a custom MPI data type in C (since we’re exchanging columns as above), and we have to calculate the rank of our neighbours to the left and right, taking account of if we’re the first or last process. The process of exchanging these columns is then simply a matter of using two send-receive calls.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">rank</span><span class="p">,</span> <span class="n">size</span><span class="p">;</span>
+
+<span class="n">MPI_Comm_size</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">size</span><span class="p">);</span>
+<span class="n">MPI_Comm_rank</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rank</span><span class="p">);</span>
+
+<span class="kt">double</span> <span class="n">my_matrix</span><span class="p">[</span><span class="mi">10</span><span class="p">][</span><span class="mi">12</span><span class="p">];</span>
+<span class="c1">// populate my_matrix with appropriate data</span>
+
+<span class="c1">// set up a datatype for a column, 10 items of size 1 double, strided by 12</span>
+<span class="n">MPI_Datatype</span> <span class="n">my_column</span><span class="p">;</span>
+<span class="n">MPI_Type_vector</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="n">MPI_DOUBLE</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">my_column</span><span class="p">);</span>
+<span class="n">MPI_Type_commit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_column</span><span class="p">);</span>
+
+<span class="c1">// calculate process rank to left and right (wrapping around if first or last process)</span>
+<span class="kt">int</span> <span class="n">left</span> <span class="o">=</span> <span class="p">(</span><span class="n">rank</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">?</span> <span class="n">size</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">:</span> <span class="n">rank</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">right</span> <span class="o">=</span> <span class="p">(</span><span class="n">rank</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">size</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="n">rank</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+
+<span class="c1">// exchange column 1 with ghost column 11</span>
+<span class="n">MPI_Sendrecv</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="n">my_column</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">my_matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">11</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="n">my_column</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="n">MPI_STATUS_IGNORE</span><span class="p">);</span>
+<span class="c1">// exchange column 10 with ghost column 0</span>
+<span class="n">MPI_Sendrecv</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">10</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="n">my_column</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">my_matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="n">my_column</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="n">MPI_STATUS_IGNORE</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>In the case where your boundaries are not cyclic, you can still use <code class="language-plaintext highlighter-rouge">MPI_Sendrecv()</code> operations (even though ranks <em>0</em> and <em>N-1</em> will not have neighbours to the left and right, respectively). Instead, if you can provide the special value <code class="language-plaintext highlighter-rouge">MPI_PROC_NULL</code>, the operation will still complete but no information will be sent.</p>
+
+<h2 id="non-blocking-communications">Non-blocking Communications</h2>
+
+<p>Another solution to the potential deadlock problem above is to use <strong>non-blocking communications</strong>. So far, the functions we’ve encountered will block until the send or receive buffers can be used without issues. For example, an <code class="language-plaintext highlighter-rouge">MPI_Recv()</code> call will only return control to the program when the message has been received, and the data has been unpacked into the receiving buffer. In MPI this is termed “<em>blocking communications</em>”.</p>
+
+<p>For most communication functions in MPI, there is a <em>non-blocking</em> alternative, where the MPI library initiates a communication, but control is immediately passed back to the application. It is then the application’s responsibility to ensure the buffers being used for communication are not used until the communication is complete. This allows us an opportunity to overlap compute and communication. In the halo exchange example above, we could update values in each array, providing we do not update or use values in the leftmost or rightmost columns (until the communications are complete).</p>
+
+<p>The call signatures for a non-blocking send function and a non-blocking receive function are similar to before, but contain an additional parameter – an <code class="language-plaintext highlighter-rouge">MPI_Request</code> pointer.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">MPI_Isend</span><span class="p">(</span><span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span> <span class="kt">int</span> <span class="n">count</span><span class="p">,</span> <span class="n">MPI_Datatype</span> <span class="n">datatype</span><span class="p">,</span> <span class="kt">int</span> <span class="n">dest</span><span class="p">,</span> <span class="kt">int</span> <span class="n">tag</span><span class="p">,</span> <span class="n">MPI_Comm</span> <span class="n">comm</span><span class="p">,</span> <span class="n">MPI_Request</span> <span class="o">*</span><span class="n">request</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">MPI_Irecv</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span> <span class="kt">int</span> <span class="n">count</span><span class="p">,</span> <span class="n">MPI_Datatype</span> <span class="n">datatype</span><span class="p">,</span> <span class="kt">int</span> <span class="n">source</span><span class="p">,</span> <span class="kt">int</span> <span class="n">tag</span><span class="p">,</span> <span class="n">MPI_Comm</span> <span class="n">comm</span><span class="p">,</span> <span class="n">MPI_Request</span> <span class="o">*</span><span class="n">request</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>After initiating a non-blocking send or receive, we can query the request object to check on the progress of our communication (with <code class="language-plaintext highlighter-rouge">MPI_Wait()</code> or <code class="language-plaintext highlighter-rouge">MPI_Waitall()</code>).</p>
+
+<p>We could rewrite the send-receive functions above using non-blocking send and receive functions like so:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">MPI_Request</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="n">requests</span><span class="p">;</span>
+
+<span class="c1">// exchange column 1 with ghost column 11</span>
+<span class="c1">// and exchange column 10 with ghost column 0</span>
+<span class="n">MPI_Isend</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="n">my_column</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">requests</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="n">MPI_Isend</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">10</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="n">my_column</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">requests</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+
+<span class="n">MPI_Irecv</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">11</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="n">my_column</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">requests</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
+<span class="n">MPI_Irecv</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="n">my_column</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">requests</span><span class="p">[</span><span class="mi">3</span><span class="p">]);</span>
+
+<span class="c1">// do useful work while waiting for the non-blocking send and receives</span>
+
+<span class="n">MPI_Waitall</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">requests</span><span class="p">,</span> <span class="n">MPI_STATUSES_IGNORE</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Note that the send calls have been given different tags, and that the request objects are being stored in an array (so that we can check all 4 requests with a single <code class="language-plaintext highlighter-rouge">MPI_Waitall()</code>). You should also note blocking and non-blocking communications can be mixed, i.e., you could issue a non-blocking send followed by a blocking receive.</p>
+
+<p>For most communication functions, there is a non-blocking alternative, usually prefixed with the letter I (e.g., <code class="language-plaintext highlighter-rouge">MPI_Barrier()</code> and <code class="language-plaintext highlighter-rouge">MPI_Ibarrier()</code>, etc.).</p>
+
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/s7drX_BgLnE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+<p><br></p>
+
+<blockquote class="block-danger">
+  <p><strong>Exercise</strong></p>
+
+  <p>Write a simple MPI program to swap two arrays. Try implementing it with blocking send and receive operations, combined send/receive operations and non-blocking send and receive operations. Can you make any of them deadlock?</p>
+</blockquote>
+
+<h1 id="collective-operations">Collective Operations</h1>
+
+<p>There are a number of functions in the MPI standard that rely on the participation of all processes (on a communicator). Since these functions are performed collectively, we call them <em><strong>collectives</strong></em>. In contrast to point-to-point communications, collective operations require that every process (within a communicator) calls the same routine at approximately the same time.</p>
+
+<h2 id="the-barrier">The Barrier</h2>
+
+<p>Perhaps the simplest collective operation is the <em><strong>barrier</strong></em>. <code class="language-plaintext highlighter-rouge">MPI_Barrier()</code> works similarly to the <code class="language-plaintext highlighter-rouge">omp barrier</code> pragma we encountered in the last unit. Every process calling the <code class="language-plaintext highlighter-rouge">MPI_Barrier()</code> function will block until every process has reached the barrier. This will effectively <em>synchronise</em> all members of a communicator.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">MPI_Barrier</span><span class="p">(</span><span class="n">MPI_Comm</span> <span class="n">comm</span><span class="p">);</span>
+
+<span class="c1">// e.g.</span>
+<span class="n">MPI_Barrier</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Barriers are used sparingly, since explicit synchronisation is often not required across all nodes. However, the function may be useful for debugging purposes.</p>
+
+<h2 id="broadcast">Broadcast</h2>
+
+<p>A perhaps more useful function is the <em><strong>broadcast</strong></em>. The <code class="language-plaintext highlighter-rouge">MPI_Bcast()</code> function allows a single rank (the root) to send a single message to all other processes in the communicator.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">MPI_Bcast</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">buffer</span><span class="p">,</span> <span class="kt">int</span> <span class="n">count</span><span class="p">,</span> <span class="n">MPI_Datatype</span> <span class="n">datatype</span><span class="p">,</span> <span class="kt">int</span> <span class="n">root</span><span class="p">,</span> <span class="n">MPI_Comm</span> <span class="n">comm</span><span class="p">);</span>
+
+<span class="c1">// e.g. send 100 doubles from rank 0 to every other rank</span>
+<span class="n">MPI_Bcast</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">MPI_DOUBLE</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">MPI_COMM_WORLD</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>While rank 0 is perhaps the natural “root”, there is no reason that any other process cannot be the root note – providing all processes provide the <em>same</em> root rank. For the root, the buffer must be allocated and filled with the required data; for all other ranks, the buffer must be allocated with enough space to store the received data.</p>
+
+<blockquote class="block-danger">
+  <p><strong>Exercise</strong></p>
+
+  <p>Try implementing your own broadcast using point-to-point communications. How efficient is your implementation? What is the most efficient way to implement a broadcast?</p>
+</blockquote>
+
+<h2 id="gather-and-scatter">Gather and Scatter</h2>
+
+<p>There are a number of more advanced collective calls provided by MPI that are concerned with global data distribution. The <em><strong>gather</strong></em> function collects the send buffer contents from all processes and concatenates them in rank order into the receive buffer. While the <em><strong>scatter</strong></em> function does the opposite.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">MPI_Gather</span><span class="p">(</span><span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">sendbuf</span><span class="p">,</span> <span class="kt">int</span> <span class="n">sendcount</span><span class="p">,</span> <span class="n">MPI_Datatype</span> <span class="n">sendtype</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">recvbuf</span><span class="p">,</span> <span class="kt">int</span> <span class="n">recvcount</span><span class="p">,</span> 
+        <span class="n">MPI_Datatype</span> <span class="n">recvtype</span><span class="p">,</span> <span class="kt">int</span> <span class="n">root</span><span class="p">,</span> <span class="n">MPI_Comm</span> <span class="n">comm</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">MPI_Scatter</span><span class="p">(</span><span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">sendbuf</span><span class="p">,</span> <span class="kt">int</span> <span class="n">sendcount</span><span class="p">,</span> <span class="n">MPI_Datatype</span> <span class="n">sendtype</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">recvbuf</span><span class="p">,</span> <span class="kt">int</span> <span class="n">recvcount</span><span class="p">,</span> 
+        <span class="n">MPI_Datatype</span> <span class="n">recvtype</span><span class="p">,</span> <span class="kt">int</span> <span class="n">root</span><span class="p">,</span> <span class="n">MPI_Comm</span> <span class="n">comm</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>To demonstrate this we’ll set up a situation where rank 0 generates 10 values for each process (filled with increasing numbers). It will scatter these values to each of the other processes. Finally, the last process (i.e. the highest rank) will gather the data back. You should note that the receive buffer is ignored by <code class="language-plaintext highlighter-rouge">MPI_Gather()</code> on all ranks but the receiving process, and the send buffer is ignored by <code class="language-plaintext highlighter-rouge">MPI_Scatter()</code> on all ranks but the sending process.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;mpi.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">rank</span><span class="p">,</span> <span class="n">size</span><span class="p">;</span>
+
+    <span class="n">MPI_Init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">argc</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">argv</span><span class="p">);</span>
+    <span class="n">MPI_Comm_size</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">size</span><span class="p">);</span>
+    <span class="n">MPI_Comm_rank</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rank</span><span class="p">);</span>
+
+    <span class="kt">double</span> <span class="o">*</span><span class="n">data</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// allocate memory on rank 0 for 10 * size elements, fill the array with increasing values</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">double</span><span class="p">)</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">size</span><span class="p">);</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">size</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kt">double</span> <span class="n">my_data</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>
+
+    <span class="c1">// scatter 10 doubles to each process and store it in the my_data array</span>
+    <span class="n">MPI_Scatter</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">MPI_DOUBLE</span><span class="p">,</span> <span class="n">my_data</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">MPI_DOUBLE</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">MPI_COMM_WORLD</span><span class="p">);</span>
+
+    <span class="c1">// serialise the output of each processes data using MPI_Barrier for cleanliness</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">rank</span> <span class="o">==</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">printf</span><span class="p">(</span><span class="s">"I'm rank %d, my data is: "</span><span class="p">,</span> <span class="n">rank</span><span class="p">);</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="n">printf</span><span class="p">(</span><span class="s">"%lf, "</span><span class="p">,</span> <span class="n">my_data</span><span class="p">[</span><span class="n">j</span><span class="p">]);</span>
+            <span class="n">printf</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+            <span class="n">MPI_Barrier</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">rank</span> <span class="o">==</span> <span class="n">size</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// allocate memory for the gather on rank (size-1)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">double</span><span class="p">)</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">size</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="c1">// gather 10 doubled from each process and place them into the data array of rank (size-1)</span>
+    <span class="n">MPI_Gather</span><span class="p">(</span><span class="n">my_data</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">MPI_DOUBLE</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">MPI_DOUBLE</span><span class="p">,</span> <span class="n">size</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">MPI_COMM_WORLD</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">rank</span> <span class="o">==</span> <span class="n">size</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"I'm the last processor and I've gathered: </span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">size</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">printf</span><span class="p">(</span><span class="s">"%lf, "</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+        <span class="p">}</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">MPI_Finalize</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>In cases where all processes require the gathered data, we can use the <code class="language-plaintext highlighter-rouge">MPI_Allgather()</code> function. The function signature is essentially identical, but doesn’t require a root process, and all processes must have an allocated receiving buffer.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">MPI_Allgather</span><span class="p">(</span><span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">sendbuf</span><span class="p">,</span> <span class="kt">int</span>  <span class="n">sendcount</span><span class="p">,</span> <span class="n">MPI_Datatype</span> <span class="n">sendtype</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">recvbuf</span><span class="p">,</span> <span class="kt">int</span> <span class="n">recvcount</span><span class="p">,</span> 
+        <span class="n">MPI_Datatype</span> <span class="n">recvtype</span><span class="p">,</span> <span class="n">MPI_Comm</span> <span class="n">comm</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h2 id="reductions">Reductions</h2>
+
+<p>The final collection of collectives we’ll cover in this unit are <em><strong>reductions</strong></em>. MPI provides functionality to perform reduction operations, similar to OpenMP (i.e. collecting data from multiple processes and performing an operation to reduce the values). For example, the <code class="language-plaintext highlighter-rouge">MPI_Reduce()</code> function collects data from each process and then performs an operation on that data on a root process.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">MPI_Reduce</span><span class="p">(</span><span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">sendbuf</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">recvbuf</span><span class="p">,</span> <span class="kt">int</span> <span class="n">count</span><span class="p">,</span>
+        <span class="n">MPI_Datatype</span> <span class="n">datatype</span><span class="p">,</span> <span class="n">MPI_Op</span> <span class="n">op</span><span class="p">,</span> <span class="kt">int</span> <span class="n">root</span><span class="p">,</span> <span class="n">MPI_Comm</span> <span class="n">comm</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>There are a number of predefined <code class="language-plaintext highlighter-rouge">MPI_Op</code> operators that should be sufficient for most cases (though custom operations can be defined with <code class="language-plaintext highlighter-rouge">MPI_Op_create()</code>).</p>
+
+<div class="table-wrapper">
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Name</strong></td>
+        <td><strong>Meaning</strong></td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">MPI_MAX</code></td>
+        <td>Maximum</td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">MPI_MIN</code></td>
+        <td>Minimum</td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">MPI_SUM</code></td>
+        <td>Sum</td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">MPI_PROD</code></td>
+        <td>Product</td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">MPI_LAND</code></td>
+        <td>Logical AND</td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">MPI_BAND</code></td>
+        <td>Bit-wise AND</td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">MPI_LOR</code></td>
+        <td>Logical OR</td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">MPI_BOR</code></td>
+        <td>Bit-wise OR</td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">MPI_LXOR</code></td>
+        <td>Logical XOR</td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">MPI_BXOR</code></td>
+        <td>Bit-wise XOR</td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">MPI_MAXLOC</code></td>
+        <td>Max value and location</td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">MPI_MINLOC</code></td>
+        <td>Min value and location</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
+<p>So, for example, we could use a reduction to sum the rank ID of a collection of processes like so:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">MPI_Comm_size</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">size</span><span class="p">);</span>
+<span class="n">MPI_Comm_rank</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rank</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="n">MPI_Reduce</span><span class="p">(</span><span class="o">&amp;</span><span class="n">rank</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">result</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">MPI_INT</span><span class="p">,</span> <span class="n">MPI_SUM</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">MPI_COMM_WORLD</span><span class="p">);</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="n">printf</span><span class="p">(</span><span class="s">"The sum is: %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">result</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>If we provide an array in the send and receive buffers, the reduction operation will reduce across each element in the array (i.e. element 0 in the result array will be the result of a reduction of all element 0s, element 1 in the result array will be the result of a reduction of all element 1s, and so on).</p>
+
+<p>Similar to the gather function above, there is an <code class="language-plaintext highlighter-rouge">MPI_Allreduce()</code> function that will perform a reduction and then distribute the result back to each process.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">MPI_Allreduce</span><span class="p">(</span><span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">sendbuf</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">recvbuf</span><span class="p">,</span> <span class="kt">int</span> <span class="n">count</span><span class="p">,</span>
+        <span class="n">MPI_Datatype</span> <span class="n">datatype</span><span class="p">,</span> <span class="n">MPI_Op</span> <span class="n">op</span><span class="p">,</span> <span class="n">MPI_Comm</span> <span class="n">comm</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Sometimes it might be desirable for the send buffer and the receive buffer to be the same. For example, if each processor has performed a local search for a minimum value, but now wants each process to be aware of the global minimum, they might like to perform an <code class="language-plaintext highlighter-rouge">MPI_MIN</code> reduction over their current minimum values. In this case, reduction operations can use the special value <code class="language-plaintext highlighter-rouge">MPI_IN_PLACE</code> in place of the send buffer. This indicates that the reduction will take place within the receive buffer.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;mpi.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;float.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;time.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">rank</span><span class="p">,</span> <span class="n">size</span><span class="p">;</span>
+
+    <span class="n">MPI_Init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">argc</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">argv</span><span class="p">);</span>
+    <span class="n">MPI_Comm_size</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">size</span><span class="p">);</span>
+    <span class="n">MPI_Comm_rank</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rank</span><span class="p">);</span>
+
+    <span class="c1">// on each process, fill an array with random values</span>
+    <span class="n">srand</span><span class="p">(</span><span class="n">time</span><span class="p">(</span><span class="nb">NULL</span><span class="p">)</span> <span class="o">+</span> <span class="n">rank</span><span class="p">);</span>
+    <span class="kt">double</span> <span class="n">data</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span> <span class="n">rand</span><span class="p">()</span> <span class="o">/</span> <span class="n">RAND_MAX</span><span class="p">;</span>
+
+    <span class="c1">// find the smallest value locally</span>
+    <span class="kt">double</span> <span class="n">global_min</span> <span class="o">=</span> <span class="n">DBL_MAX</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">global_min</span><span class="p">)</span> <span class="n">global_min</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+
+    <span class="c1">// reduction over all ranks to find the global minimum</span>
+    <span class="n">MPI_Allreduce</span><span class="p">(</span><span class="n">MPI_IN_PLACE</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">global_min</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">MPI_DOUBLE</span><span class="p">,</span> <span class="n">MPI_MIN</span><span class="p">,</span> <span class="n">MPI_COMM_WORLD</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="n">printf</span><span class="p">(</span><span class="s">"The global min is: %lf</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">global_min</span><span class="p">);</span>
+
+    <span class="n">MPI_Finalize</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>While most collective operations can be implemented manually using point-to-point operations, collective operations are usually optimised in the MPI library. For example, reductions can be implemented hierarchically (rather than having every process send a message to every other process).</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-6/mpi-reduction.png" alt="Heirarchical structure of an Allreduce call"><br>
+<em><strong>Figure 8:</strong> A heirarchical MPI Allreduce</em></p>
+
+<p>The figure above demonstrates how an Allreduce operation can be completed by 9 processes with minimal communication overhead. Compared to each process sending data to P<sub>0</sub>, followed by a reduction and a broadcast, this communication pattern is significantly more efficient. The underlying implementation of MPI collectives is vendor and release specific (and in some cases relies on specialised hardware and proprietary algorithms). Nonetheless, MPI collectives should always be favoured over alternatives.</p>
+
+<p>One final note, is that collective calls are <strong>blocking</strong>, and so often act as synchronisation points in applications. In almost all cases, a non-blocking alternative is available, but would require that an <code class="language-plaintext highlighter-rouge">MPI_Request</code> object is checked prior to any further operations using the send and receive buffers.</p>
+
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/sahAGYPoubE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+<p><br></p>
+
+<h1 id="parallel-io">Parallel I/O</h1>
+
+<p>The MPI API contains almost 500 function – far more than we have the time or space to cover. But before we move on, we’ll briefly cover a few more of those functions, specifically targetted at performing file I/O in parallel.</p>
+
+<blockquote class="block-warning">
+  <p><strong>Note</strong></p>
+
+  <p>It is not expected (or required) that you will use Parallel I/O in your assignment. However, that is not a reason you shouldn’t gain a basic understanding in using MPI-IO! 🙂</p>
+</blockquote>
+
+<p>There are numerous approaches to writing output from parallel processes, and they can broadly be categorised into three approaches: N-to-N, N-to-M and N-to-1.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-6/parallel-io.png" alt="The three approaches to writing files in parallel: N to N, N to M, and N to 1"><br>
+<em><strong>Figure 9:</strong> Three approaches to writing files in parallel</em></p>
+
+<p>The simplest approach to implement is perhaps N-to-N, where each process writes its own file. This can be achieved using simple POSIX file I/O operations. However, this may overwhelm a file system at scale (lots of metadata operations (e.g. file create, file close, file size queries, etc.)), and may also make it difficult to manage for other applications. In particular loading from N files on a future application run (which may run on a different number of processes) may be more complicated, and parsing data spread across many files may be more complex for analysis tools.</p>
+
+<p>The N-to-1 approach is perhaps the most natural approach following N-to-N, where all processes write to a single file. This solves many of the complexities introduced by the N-to-N case. However, orchestrating this using POSIX operations may be difficult, with each process writing to a separate “chunk” simultaneously. Since each process is writing to a single file, this approach may also add overhead or cause serialisation because of the potential need to use file locks and unlocks to prevent data corruption.</p>
+
+<p>They hybrid N-to-M approach is perhaps the most complex to implement, but can strike a good balance between being usability and performance (since we can potentially reduce metadata overhead, but also reduce file locking overhead, book-keeping, etc.).</p>
+
+<p>In this section, we’re going to cover the N-to-1 approach, and we’re going to do it using the <code class="language-plaintext highlighter-rouge">MPI_File_...()</code> functions.</p>
+
+<h2 id="mpi-io">MPI-IO</h2>
+
+<p>Much like how MPI has become the de facto standard for communications in parallel applications, the MPI-IO API has become the preferred method for abstracting parallel I/O. The implementation of the MPI-IO standard that is used by OpenMPI, MPICH, and various other MPI libraries is called ROMIO.</p>
+
+<p>By default, ROMIO will write out data to a file system using standard POSIX file I/O functions; but, developers of parallel file systems can develop custom drivers for ROMIO, allowing MPI to optimise output to these file systems. This allows MPI-IO calls to overcome some of the performance limiting implications of POSIX I/O.</p>
+
+<h3 id="opening-and-closing-a-file">Opening and Closing a File</h3>
+
+<p>Before we start reading and writing data in parallel, first we must open a file (and then close it). This is simply done using the <code class="language-plaintext highlighter-rouge">MPI_File_open()</code> and <code class="language-plaintext highlighter-rouge">MPI_File_close()</code> functions.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">MPI_File_open</span><span class="p">(</span><span class="n">MPI_Comm</span> <span class="n">comm</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">filename</span><span class="p">,</span> <span class="kt">int</span> <span class="n">amode</span><span class="p">,</span> <span class="n">MPI_Info</span> <span class="n">info</span><span class="p">,</span> <span class="n">MPI_File</span> <span class="o">*</span><span class="n">fh</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">MPI_File_close</span><span class="p">(</span><span class="n">MPI_File</span> <span class="o">*</span><span class="n">fh</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Files opened in MPI are given a file handle in an <code class="language-plaintext highlighter-rouge">MPI_File</code> type, and the mode of operation (i.e. read, write, etc.) is specified in the <code class="language-plaintext highlighter-rouge">amode</code> variable. The <code class="language-plaintext highlighter-rouge">MPI_Info</code> parameter allows us to pass hints to the underlying filesystem driver to configure our reads and writes (we won’t cover <code class="language-plaintext highlighter-rouge">MPI_Info</code> parameters here, instead we’ll use the special <code class="language-plaintext highlighter-rouge">MPI_INFO_NULL</code> value).</p>
+
+<p>So for example, to have every process open the same file in read/write mode (and with creating a file if it doesn’t exist):</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">MPI_File</span> <span class="n">my_file</span><span class="p">;</span>
+<span class="n">MPI_File_open</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="s">"test.out"</span><span class="p">,</span> <span class="n">MPI_MODE_CREATE</span> <span class="o">|</span> <span class="n">MPI_MODE_RDWR</span><span class="p">,</span> <span class="n">MPI_INFO_NULL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">my_file</span><span class="p">);</span>
+
+<span class="c1">// Here we can use our file "my_file"...</span>
+
+<span class="n">MPI_File_close</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_file</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>The following modes are valid in MPI-IO, and can be combined with a bitwise OR (<code class="language-plaintext highlighter-rouge">|</code>).</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">MPI_MODE_APPEND</code></li>
+  <li>
+<code class="language-plaintext highlighter-rouge">MPI_MODE_CREATE</code> – Create the file if it does not exist.</li>
+  <li><code class="language-plaintext highlighter-rouge">MPI_MODE_DELETE_ON_CLOSE</code></li>
+  <li>
+<code class="language-plaintext highlighter-rouge">MPI_MODE_EXCL</code> – Error creating a file that already exists.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">MPI_MODE_RDONLY</code> – Read only.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">MPI_MODE_RDWR</code> – Reading and writing.</li>
+  <li><code class="language-plaintext highlighter-rouge">MPI_MODE_SEQUENTIAL</code></li>
+  <li>
+<code class="language-plaintext highlighter-rouge">MPI_MODE_WRONLY</code> – Write only.</li>
+</ul>
+
+<h3 id="reading-and-writing-data">Reading and Writing Data</h3>
+
+<p>There are many functions in MPI for reading and writing. Like with other forms of communication in MPI, there are both collective calls and individual calls. We can write data individually using <code class="language-plaintext highlighter-rouge">MPI_File_write()</code> and we can read it back with <code class="language-plaintext highlighter-rouge">MPI_File_read()</code>.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">MPI_File_write</span><span class="p">(</span><span class="n">MPI_File</span> <span class="n">fh</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span> <span class="kt">int</span> <span class="n">count</span><span class="p">,</span> <span class="n">MPI_Datatype</span> <span class="n">datatype</span><span class="p">,</span> <span class="n">MPI_Status</span> <span class="o">*</span><span class="n">status</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">MPI_File_read</span><span class="p">(</span><span class="n">MPI_File</span> <span class="n">fh</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span> <span class="kt">int</span> <span class="n">count</span><span class="p">,</span> <span class="n">MPI_Datatype</span> <span class="n">datatype</span><span class="p">,</span> <span class="n">MPI_Status</span> <span class="o">*</span><span class="n">status</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Hopefully by now the format of these function calls is becoming familiar.</p>
+
+<p>One thing that must be noted is each process maintains a <em>shared file pointer</em> and an <em>individual file pointer</em>. When a file is created, every process sets these to zero and begins at the start of the file. Individual operations move the individual file pointer as data is written and read – <em>as the name suggests, the individual file pointer on each process is moved independently of other processes</em>. If many processes call a single individual write function, each process will likely write over previous data. We <em>could</em> address this using the <code class="language-plaintext highlighter-rouge">MPI_File_seek()</code> function, for example, making each rank seek to a different place in the file (calculated using their rank).</p>
+
+<p>We could also combine a seek with a read or a write using the <code class="language-plaintext highlighter-rouge">MPI_File_read_at()</code> or <code class="language-plaintext highlighter-rouge">MPI_File_write_at()</code> functions. These operations can also be extended to be collective operations (i.e. every process participates) using the <code class="language-plaintext highlighter-rouge">MPI_File_read_all()</code>, <code class="language-plaintext highlighter-rouge">MPI_File_read_at_all()</code>, <code class="language-plaintext highlighter-rouge">MPI_File_write_all()</code> and <code class="language-plaintext highlighter-rouge">MPI_File_write_at_all()</code> functions.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">MPI_File_seek</span><span class="p">(</span><span class="n">MPI_File</span> <span class="n">fh</span><span class="p">,</span> <span class="n">MPI_Offset</span> <span class="n">offset</span><span class="p">,</span> <span class="kt">int</span> <span class="n">whence</span><span class="p">);</span> 
+    <span class="c1">// Note: For MPI_File_seek, the whence variable can be one of:</span>
+    <span class="c1">//   * MPI_SEEK_SET -- set the pointer to offset</span>
+    <span class="c1">//   * MPI_SEEK_CUR -- set the pointer to the current position plus offset</span>
+    <span class="c1">//   * MPI_SEEK_END -- set the pointer to the end of the file plus offset</span>
+
+<span class="kt">int</span> <span class="nf">MPI_File_read_all</span><span class="p">(</span><span class="n">MPI_File</span> <span class="n">fh</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span> <span class="kt">int</span> <span class="n">count</span><span class="p">,</span> <span class="n">MPI_Datatype</span> <span class="n">datatype</span><span class="p">,</span> <span class="n">MPI_Status</span> <span class="o">*</span><span class="n">status</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">MPI_File_read_at_all</span><span class="p">(</span><span class="n">MPI_File</span> <span class="n">fh</span><span class="p">,</span> <span class="n">MPI_Offset</span> <span class="n">offset</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span> <span class="kt">int</span> <span class="n">count</span><span class="p">,</span> <span class="n">MPI_Datatype</span> <span class="n">datatype</span><span class="p">,</span> <span class="n">MPI_Status</span> <span class="o">*</span><span class="n">status</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">MPI_File_write_all</span><span class="p">(</span><span class="n">MPI_File</span> <span class="n">fh</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span> <span class="kt">int</span> <span class="n">count</span><span class="p">,</span> <span class="n">MPI_Datatype</span> <span class="n">datatype</span><span class="p">,</span> <span class="n">MPI_Status</span> <span class="o">*</span><span class="n">status</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">MPI_File_write_at_all</span><span class="p">(</span><span class="n">MPI_File</span> <span class="n">fh</span><span class="p">,</span> <span class="n">MPI_Offset</span> <span class="n">offset</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span> <span class="kt">int</span> <span class="n">count</span><span class="p">,</span> <span class="n">MPI_Datatype</span> <span class="n">datatype</span><span class="p">,</span> <span class="n">MPI_Status</span> <span class="o">*</span><span class="n">status</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>So, for example we could write a very simple file containing the list of 10 single-digit numbers from each process like so:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;mpi.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">size</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">rank</span><span class="p">;</span>
+    <span class="n">MPI_Init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">argc</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">argv</span><span class="p">);</span>
+    <span class="n">MPI_Comm_size</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">size</span><span class="p">);</span>
+    <span class="n">MPI_Comm_rank</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rank</span><span class="p">);</span>
+
+    <span class="c1">// prepare a short string with some data to write</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">data</span> <span class="o">=</span> <span class="s">"0123456789"</span><span class="p">;</span>
+    
+    <span class="n">MPI_File</span> <span class="n">my_file</span><span class="p">;</span>
+    <span class="n">MPI_File_open</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="s">"test.out"</span><span class="p">,</span> <span class="n">MPI_MODE_CREATE</span> <span class="o">|</span> <span class="n">MPI_MODE_RDWR</span><span class="p">,</span> <span class="n">MPI_INFO_NULL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">my_file</span><span class="p">);</span>
+
+    <span class="c1">// on each process write the data at an offset specified by the length of the data and the rank</span>
+    <span class="n">MPI_File_write_at_all</span><span class="p">(</span><span class="n">my_file</span><span class="p">,</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">rank</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">MPI_CHAR</span><span class="p">,</span> <span class="n">MPI_STATUS_IGNORE</span><span class="p">);</span>
+
+    <span class="n">MPI_File_close</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_file</span><span class="p">);</span>
+    <span class="n">MPI_Finalize</span><span class="p">();</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>MPI can also perform reads and writes using the shared pointer, in which all processes cooperate.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">MPI_File_read_ordered()</code> and <code class="language-plaintext highlighter-rouge">MPI_File_write_ordered()</code> are perhaps the simplest collective, shared-pointer functions.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">MPI_File_write_ordered</span><span class="p">(</span><span class="n">MPI_File</span> <span class="n">fh</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span> <span class="kt">int</span> <span class="n">count</span><span class="p">,</span> <span class="n">MPI_Datatype</span> <span class="n">datatype</span><span class="p">,</span> <span class="n">MPI_Status</span> <span class="o">*</span><span class="n">status</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">MPI_File_read_ordered</span><span class="p">(</span><span class="n">MPI_File</span> <span class="n">fh</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span> <span class="kt">int</span> <span class="n">count</span><span class="p">,</span> <span class="n">MPI_Datatype</span> <span class="n">datatype</span><span class="p">,</span> <span class="n">MPI_Status</span> <span class="o">*</span><span class="n">status</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>We can replace the logic in our previous example with an ordered write to achieve the same result without the explicit offset calculation.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">MPI_File_write_ordered</span><span class="p">(</span><span class="n">my_file</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">MPI_CHAR</span><span class="p">,</span> <span class="n">MPI_STATUS_IGNORE</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h3 id="non-contiguous-file-io">Non-Contiguous File I/O</h3>
+
+<p>Beyond this, MPI also provides support for non-contiguous access. This is a common pattern in parallel applications.</p>
+
+<p>In order to operate safely in a non-contiguous manner, MPI uses the notion of a <em>file view</em>. A file view allows each process to specify (on a block-by-block basis) where its data lives in the file, using “holes” to represent other processes data.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-6/mpi-file-view.png" alt="An example file view on 4 processes"><br>
+<em><strong>Figure 10:</strong> An example of a file view on 4 processes</em></p>
+
+<p>We can specify an MPI file view using the <code class="language-plaintext highlighter-rouge">MPI_File_set_view()</code> function, which requires a displacement, an element type (<code class="language-plaintext highlighter-rouge">etype</code>), a file type, the data representation and an info object.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">MPI_File_set_view</span><span class="p">(</span><span class="n">MPI_File</span> <span class="n">fh</span><span class="p">,</span> <span class="n">MPI_Offset</span> <span class="n">disp</span><span class="p">,</span> <span class="n">MPI_Datatype</span> <span class="n">etype</span><span class="p">,</span> <span class="n">MPI_Datatype</span> <span class="n">filetype</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">datarep</span><span class="p">,</span> <span class="n">MPI_Info</span> <span class="n">info</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>The file type is typically a custom type that is set up to contain elements of the <code class="language-plaintext highlighter-rouge">etype</code>, with gaps. So, assuming each block in Figure 10 is an <code class="language-plaintext highlighter-rouge">MPI_CHAR</code>, we could set up a file view like so:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">MPI_Datatype</span> <span class="n">filetype</span><span class="p">;</span>
+<span class="c1">// our file view is 2 chars, followed by 6 gaps (for 4 processes)</span>
+<span class="n">MPI_Type_vector</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="n">MPI_CHAR</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">filetype</span><span class="p">);</span>
+<span class="n">MPI_Type_commit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">filetype</span><span class="p">);</span>
+
+<span class="c1">// we set each processes file view to be the same but offset according to rank</span>
+<span class="n">MPI_File_set_view</span><span class="p">(</span><span class="n">my_file</span><span class="p">,</span> <span class="n">rank</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="n">MPI_CHAR</span><span class="p">,</span> <span class="n">filetype</span><span class="p">,</span> <span class="s">"native"</span><span class="p">,</span> <span class="n">MPI_INFO_NULL</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>With this file view set, we can use the <code class="language-plaintext highlighter-rouge">MPI_File_read()</code> and <code class="language-plaintext highlighter-rouge">MPI_File_write()</code> functions without worrying about corrupting the other processes data; each read and write (regardless of size) will be spread according to the file view.</p>
+
+<p>MPI-IO is <em>complex</em>; and as with most things in C and MPI, there are many ways of achieving the same result. Certainly the best way to fully understand MPI-IO is through trial and error.</p>
+
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/RMpPBe2e62g" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+<p><br></p>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li><a href="https://wgropp.cs.illinois.edu/courses/cs598-s16/lectures/lecture32.pdf">Introduction to MPI I/O</a></li>
+  </ul>
+</blockquote>
+
+<h2 id="other-approaches">Other Approaches</h2>
+
+<p>While MPI-IO is perhaps the dominant library for performing parallel I/O on HPC systems, nowadays it is relatively rare for developers to interact with MPI-IO directly. Instead, middleware libraries are typically used that sit on top of MPI-IO. These middleware libraries carry a number of advantages over MPI-IO for scientific software. Firstly, they allow optimisations at a single point, benefitting potentially many applications. Secondly, they usually enforce a common structure on scientific data, or provide useful additional functionality.</p>
+
+<p>We won’t delve too far into these libraries, but some notable example are:</p>
+
+<h3 id="hdf5--hierarchical-data-format">HDF5 – Hierarchical Data Format</h3>
+
+<p>HDF5 is a data format that is specifically designed for storing scientific data. An HDF5 file can contain two types of objects, <em>Datasets</em> and <em>Groups</em>. Datasets are typically multidimensional arrays of an homogeneous type, while groups are container structures that can hold other groups and datasets. Effectively, data in an HDF5 file is stored in a structure not unlike a file system (e.g. /path/to/dataset).</p>
+
+<p>The HDF5 library can be compiled with or without MPI (meaning that it can easily be used on both parallel and non-parallel systems). It is also a file format that is supported by many visualisation and data analysis tools.</p>
+
+<p>For example, to write out a simple 2D integer array into a dataset:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;hdf5.h&gt;</span><span class="cp">
+</span>
+<span class="cp">#define FILENAME "test.h5"
+#define DATASETNAME "IntArray"
+#define NX 5                      </span><span class="cm">/* dataset dimensions */</span><span class="cp">
+#define NY 6
+#define DIMS 2
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+    <span class="n">hid_t</span>       <span class="n">file</span><span class="p">,</span> <span class="n">dataset</span><span class="p">;</span>         <span class="cm">/* file and dataset handles */</span>
+    <span class="n">hid_t</span>       <span class="n">datatype</span><span class="p">,</span> <span class="n">dataspace</span><span class="p">;</span>   <span class="cm">/* handles */</span>
+    <span class="n">hsize_t</span>     <span class="n">dimsf</span><span class="p">[</span><span class="n">DIMS</span><span class="p">];</span>           <span class="cm">/* dataset dimensions */</span>
+    <span class="n">herr_t</span>      <span class="n">status</span><span class="p">;</span>
+    <span class="kt">int</span>         <span class="n">data</span><span class="p">[</span><span class="n">NX</span><span class="p">][</span><span class="n">NY</span><span class="p">];</span>          <span class="cm">/* data to write */</span>
+    <span class="kt">int</span>         <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">;</span>
+
+    <span class="cm">/*
+     * Data  and output buffer initialization.
+     */</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">NX</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">NY</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">;</span>
+
+    <span class="cm">/*
+     * 0 1 2 3 4 5
+     * 1 2 3 4 5 6
+     * 2 3 4 5 6 7
+     * 3 4 5 6 7 8
+     * 4 5 6 7 8 9
+     */</span>
+
+    <span class="cm">/*
+     * Create a new file using H5F_ACC_TRUNC access,
+     * default file creation properties, and default file
+     * access properties.
+     */</span>
+    <span class="n">file</span> <span class="o">=</span> <span class="n">H5Fcreate</span><span class="p">(</span><span class="n">FILENAME</span><span class="p">,</span> <span class="n">H5F_ACC_TRUNC</span><span class="p">,</span> <span class="n">H5P_DEFAULT</span><span class="p">,</span> <span class="n">H5P_DEFAULT</span><span class="p">);</span>
+
+    <span class="cm">/*
+     * Describe the size of the array and create the data space for fixed
+     * size dataset.
+     */</span>
+    <span class="n">dimsf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">NX</span><span class="p">;</span>
+    <span class="n">dimsf</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">NY</span><span class="p">;</span>
+    <span class="n">dataspace</span> <span class="o">=</span> <span class="n">H5Screate_simple</span><span class="p">(</span><span class="n">DIMS</span><span class="p">,</span> <span class="n">dimsf</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+
+    <span class="cm">/*
+     * Define datatype for the data in the file.
+     * We will store little endian INT numbers.
+     */</span>
+    <span class="n">datatype</span> <span class="o">=</span> <span class="n">H5Tcopy</span><span class="p">(</span><span class="n">H5T_NATIVE_INT</span><span class="p">);</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="n">H5Tset_order</span><span class="p">(</span><span class="n">datatype</span><span class="p">,</span> <span class="n">H5T_ORDER_LE</span><span class="p">);</span>
+
+    <span class="cm">/*
+     * Create a new dataset within the file using defined dataspace and
+     * datatype and default dataset creation properties.
+     */</span>
+    <span class="n">dataset</span> <span class="o">=</span> <span class="n">H5Dcreate1</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">DATASETNAME</span><span class="p">,</span> <span class="n">datatype</span><span class="p">,</span> <span class="n">dataspace</span><span class="p">,</span> <span class="n">H5P_DEFAULT</span><span class="p">);</span>
+
+    <span class="cm">/*
+     * Write the data to the dataset using default transfer properties.
+     */</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="n">H5Dwrite</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">H5T_NATIVE_INT</span><span class="p">,</span> <span class="n">H5S_ALL</span><span class="p">,</span> <span class="n">H5S_ALL</span><span class="p">,</span> <span class="n">H5P_DEFAULT</span><span class="p">,</span> <span class="n">data</span><span class="p">);</span>
+
+    <span class="cm">/*
+     * Close/release resources.
+     */</span>
+    <span class="n">H5Sclose</span><span class="p">(</span><span class="n">dataspace</span><span class="p">);</span>
+    <span class="n">H5Tclose</span><span class="p">(</span><span class="n">datatype</span><span class="p">);</span>
+    <span class="n">H5Dclose</span><span class="p">(</span><span class="n">dataset</span><span class="p">);</span>
+    <span class="n">H5Fclose</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>We can load the HDF5 module on Viking and then compile, and run, this simple application like so (and examine the output with <code class="language-plaintext highlighter-rouge">h5dump</code>):</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ module load data/HDF5/1.10.5-gompi-2019a
+$ mpicc -o hdf5-example hdf5-example.c  -lhdf5
+$ ./hdf5-example        
+$ h5dump test.h5 
+HDF5 "test.h5" {
+GROUP "/" {
+   DATASET "IntArray" {
+      DATATYPE  H5T_STD_I32LE
+      DATASPACE  SIMPLE { ( 5, 6 ) / ( 5, 6 ) }
+      DATA {
+      (0,0): 0, 1, 2, 3, 4, 5,
+      (1,0): 1, 2, 3, 4, 5, 6,
+      (2,0): 2, 3, 4, 5, 6, 7,
+      (3,0): 3, 4, 5, 6, 7, 8,
+      (4,0): 4, 5, 6, 7, 8, 9
+      }
+   }
+}
+}
+</code></pre></div></div>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li><a href="https://www.hdfgroup.org/solutions/hdf5/">The HDF5 Library and File Format</a></li>
+    <li>
+<a href="https://en.wikipedia.org/wiki/Hierarchical_Data_Format">Hierarchical Data Format</a>, Wikipedia</li>
+  </ul>
+</blockquote>
+
+<h3 id="netcdf--network-common-data-form">NetCDF – Network Common Data Form</h3>
+
+<p>NetCDF is a similar data format to HDF5, again specifically designed for storing scientific data. NetCDF is a self describing data format, in that the header describes the layout of the remainder of the file. File metadata is stored in the form of name/value attributes.</p>
+
+<p>NetCDF grew out of NASA’s Common Data Format and has been developed since 1988. A parallel extension of NetCDF (Parallel-NetCDF, or PnetCDF) was developed by Argonne National Laboratory and again uses MPI-IO for its parallel filesystem backend.</p>
+
+<p>Again, the format is well supported by a range of visualisation and analysis applications.</p>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li><a href="https://www.unidata.ucar.edu/software/netcdf/">NetCDF</a></li>
+    <li>
+<a href="https://en.wikipedia.org/wiki/NetCDF">Network Common Data Format</a>, Wikipedia</li>
+  </ul>
+</blockquote>
+
+<h1 id="recommended-reading">Recommended Reading</h1>
+
+<blockquote class="block-warning">
+  <ul>
+    <li>
+<a href="https://yorsearch.york.ac.uk/permalink/f/1d5jm03/44YORK_ALMA_DS51308825180001381">Introduction to High Performance Computing for Scientists and Engineers</a>, Chapter 9 - Distributed-memory parallel programming with MPI</li>
+    <li>
+<a href="https://yorsearch.york.ac.uk/permalink/f/1d5jm03/44YORK_ALMA_DS51308825180001381">Introduction to High Performance Computing for Scientists and Engineers</a>, Chapter 10 - Efficient MPI programming</li>
+  </ul>
+</blockquote>
+
+                </section>
+            </div>
+<div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title">
+<span class="search-results-count"></span> results matching "<span class="search-query"></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class="search-query"></span>"</h1>
+    </div>
+</div>
+</div>
+    </div>
+</div>
+
+                        <a href="/archive/2022-23//lectures/5-on-node_parallelism/" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 5. On-node Parallelism">
+                            <i class="fa fa-angle-left"></i>
+                        </a>
+                    
+
+                    
+                        <a href="/archive/2022-23//lectures/7-accelerators/" class="navigation navigation-next navigation-unique" aria-label="Next page: 7. Accelerators">
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    
+                </div>
+            </div>
+
+            <script>
+            var gitbook = gitbook || [];
+            gitbook.push(function() {
+                gitbook.page.hasChanged({
+    "page": {
+        "title": "Introduction",
+        "level": "1.1",
+        "depth": 1,
+        
+        "next": {
+            "title": "7. Accelerators",
+            "level": "1.2",
+            "depth": 1,
+            "path": "_lectures/7-accelerators.md",
+            "ref": "_lectures/7-accelerators.md",
+            "articles": []
+        },
+        
+        "dir": "ltr"
+    },    "config": {
+        "plugins": ["fontsettings", "highlight", "livereload", "lunr", "search", "sharing", "theme-default", "livereload"],
+        "styles": {
+            "ebook": "styles/ebook.css",
+            "epub": "styles/epub.css",
+            "mobi": "styles/mobi.css",
+            "pdf": "styles/pdf.css",
+            "print": "styles/print.css",
+            "website": "styles/website.css"
+        },
+        "pluginsConfig": {
+            "fontsettings": {
+                "family": "sans",
+                "size": 2,
+                "theme": "white"
+            },
+            "highlight": {},
+            "livereload": {},
+            "lunr": {
+                "ignoreSpecialCharacters": false,
+                "maxIndexSize": 1000000
+            },
+            "search": {},
+            "sharing": {
+                "all": ["facebook", "google", "twitter", "weibo", "instapaper"],
+                "facebook": true,
+                "google": false,
+                "instapaper": true,
+                "twitter": true,
+                "vk": false,
+                "weibo": false
+            },
+            "theme-default": {
+                "showLevel": false,
+                "styles": {
+                    "ebook": "styles/ebook.css",
+                    "epub": "styles/epub.css",
+                    "mobi": "styles/mobi.css",
+                    "pdf": "styles/pdf.css",
+                    "print": "styles/print.css",
+                    "website": "styles/website.css"
+                }
+            }
+        },
+        "theme": "default",
+        "author": "Tao He",
+        "pdf": {
+            "pageNumbers": true,
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "paperSize": "a4",
+            "chapterMark": "pagebreak",
+            "pageBreaksBefore": "/",
+            "margin": {
+                "right": 62,
+                "left": 62,
+                "top": 56,
+                "bottom": 56
+            }
+        },
+        "structure": {
+            "langs": "LANGS.md",
+            "readme": "README.md",
+        },
+        "variables": {},
+        "title": "HIPC",
+        "language": "en",
+        "gitbook": "*"
+    },
+    "file": {
+        "path": "_lectures/6-internode_parallelism.md",
+        "mtime": "2022-07-26 00:00:00 +0100",
+        "type": "markdown"
+    },
+    "gitbook": {
+        "version": "3.2.3",
+        "time": "2023-09-12 14:33:38 +0100"
+    },
+    "basePath": "/archive/2022-23/",
+    "book": {
+        "language": ""
+    }
+});
+            });
+            </script>
+        </div>
+<script src="/archive/2022-23//assets/gitbook/gitbook.js"></script>
+<script src="/archive/2022-23//assets/gitbook/theme.js"></script>
+
+<script src="/archive/2022-23//assets/gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+<script src="/archive/2022-23//assets/gitbook/gitbook-plugin-sharing/buttons.js"></script>
+
+<!-- <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+<script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+<script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+<script src="../gitbook/gitbook-plugin-search/search.js"></script> -->
+
+<script src="/archive/2022-23//assets/gitbook/gitbook-plugin-search-pro/jquery.mark.min.js"></script>
+<script src="/archive/2022-23//assets/gitbook/gitbook-plugin-search-pro/search.js"></script>
+<script src="/archive/2022-23//assets/gitbook/gitbook-plugin-back-to-top-button/plugin.js"></script>
+
+<script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+</body>
+</html>

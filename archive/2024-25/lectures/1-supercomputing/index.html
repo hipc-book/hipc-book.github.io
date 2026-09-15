@@ -1,0 +1,1275 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+<meta charset="UTF-8">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<title>1. Supercomputing and Scientific Computing · HIPC</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="HIPC
+">
+<meta name="generator" content="Jekyll (using style of GitBook 3.2.3)">
+<meta name="author" content="Steven Wright">
+<link rel="stylesheet" href="/~saw586/hipc/2024-25//assets/gitbook/style.css">
+<link rel="stylesheet" href="/~saw586/hipc/2024-25//assets/gitbook/gitbook-plugin-fontsettings/website.css">
+<link rel="stylesheet" href="/~saw586/hipc/2024-25//assets/gitbook/gitbook-plugin-search-pro/search.css">
+<link rel="stylesheet" href="/~saw586/hipc/2024-25//assets/gitbook/gitbook-plugin-back-to-top-button/plugin.css">
+
+<link rel="stylesheet" href="/~saw586/hipc/2024-25//assets/gitbook/rouge/github.css">
+
+<link rel="stylesheet" href="/~saw586/hipc/2024-25//assets/gitbook/custom.css">
+
+<meta name="HandheldFriendly" content="true">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="apple-touch-icon-precomposed" sizes="152x152" href="/~saw586/hipc/2024-25//assets/gitbook/images/apple-touch-icon-precomposed-152.png">
+<link rel="shortcut icon" href="/~saw586/hipc/2024-25//assets/gitbook/images/favicon.ico" type="image/x-icon">
+
+
+
+
+
+<script>
+    MathJax = {
+        tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        svg: {
+            fontCache: 'global'
+        }
+    };
+</script>
+            <link rel="prev" href="/~saw586/hipc/2024-25//">
+        
+
+        
+            <link rel="next" href="/~saw586/hipc/2024-25//lectures/2-architectures/">
+        
+    </head>
+    <body>
+        <div class="book">
+<div class="book-summary">
+    <nav role="navigation">
+        <div id="book-search-input" role="search">
+            <input type="text" placeholder="Type to search">
+        </div>
+        <div id="book-search-input-link" role="search">
+            <a href="/~saw586/hipc/2024-25//assets/search.html">Click to Search</a>
+        </div>
+        <ul class="summary">
+            
+            <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2024-25/">
+            
+                <a href="/~saw586/hipc/2024-25//">
+                    HIPC
+                </a>
+            </li>
+
+            <li class="divider">
+
+            
+             
+                
+                <!-- <li class="chapter" data-level="1.1"><a>about</a></li> -->
+             
+                
+                    
+
+                    
+                        
+                        </li>
+<li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2024-25//about/about/">
+                        
+                            <a href="/~saw586/hipc/2024-25//about/about/">
+                                About
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2024-25//about/changelog/">
+                        
+                            <a href="/~saw586/hipc/2024-25//about/changelog/">
+                                Changelog
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+
+                    
+                        <li class="divider">
+                    
+                
+            
+             
+                
+                </li>
+<li><a><strong>Units</strong></a></li>
+                
+                <!-- <li class="chapter" data-level="1.1"><a>lectures</a></li> -->
+             
+                
+                    
+
+                    
+                        
+                        <li class="chapter active" data-level="1.2" data-path="/~saw586/hipc/2024-25//lectures/1-supercomputing/">
+                        
+                            <a href="/~saw586/hipc/2024-25//lectures/1-supercomputing/">
+                                1. Supercomputing and Scientific Computing
+                            </a>
+                            
+                                
+                                    <ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#a-very-brief-history-of-scientific-computing">A (very) Brief History of Scientific Computing</a></li>
+<li>
+<a href="#history-of-supercomputing">History of Supercomputing</a><ul>
+<li><a href="#in-the-beginning">In the beginning…</a></li>
+<li><a href="#the-cray-era">The Cray Era</a></li>
+<li><a href="#multi-processing-and-the-beowulf-cluster">Multi-Processing and the Beowulf Cluster</a></li>
+<li><a href="#the-petascale-era">The Petascale Era</a></li>
+<li><a href="#the-era-of-exascale">The Era of Exascale</a></li>
+</ul>
+</li>
+<li>
+<a href="#the-top-500-and-other-rankings">The Top 500 (and other rankings)</a><ul>
+<li><a href="#top500">TOP500</a></li>
+<li><a href="#green500">GREEN500</a></li>
+<li><a href="#hpcg-list">HPCG List</a></li>
+<li><a href="#graph500">Graph500</a></li>
+<li><a href="#hpl-mxp">HPL-MxP</a></li>
+</ul>
+</li>
+<li>
+<a href="#parallel-computation">Parallel Computation</a><ul>
+<li><a href="#flynns-taxonomy">Flynn’s Taxonomy</a></li>
+<li><a href="#the-laws-of-parallel-computing">The Laws of Parallel Computing</a></li>
+</ul>
+</li>
+<li><a href="#performance-engineering">Performance Engineering</a></li>
+<li>
+<a href="#scientific-computing">Scientific Computing</a><ul>
+<li><a href="#the-seven-dwarfs">The Seven Dwarfs</a></li>
+<li><a href="#the-13-dwarfs">The 13 Dwarfs</a></li>
+</ul>
+</li>
+<li><a href="#recommended-reading">Recommended Reading</a></li>
+<li><a href="#recommended-viewing">Recommended Viewing</a></li>
+</ul>
+
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2024-25//lectures/2-architectures/">
+                        
+                            <a href="/~saw586/hipc/2024-25//lectures/2-architectures/">
+                                2. The Architectures of Distributed Systems
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2024-25//lectures/3-management_and_measurement/">
+                        
+                            <a href="/~saw586/hipc/2024-25//lectures/3-management_and_measurement/">
+                                3. Management and Measurement of Distributed Systems
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2024-25//lectures/4-on-core_parallelism/">
+                        
+                            <a href="/~saw586/hipc/2024-25//lectures/4-on-core_parallelism/">
+                                4. On-core Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2024-25//lectures/5-on-node_parallelism/">
+                        
+                            <a href="/~saw586/hipc/2024-25//lectures/5-on-node_parallelism/">
+                                5. On-node Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2024-25//lectures/6-internode_parallelism/">
+                        
+                            <a href="/~saw586/hipc/2024-25//lectures/6-internode_parallelism/">
+                                6. Internode Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2024-25//lectures/7-advanced_internode_parallelism/">
+                        
+                            <a href="/~saw586/hipc/2024-25//lectures/7-advanced_internode_parallelism/">
+                                7. Advanced Internode Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2024-25//lectures/8-accelerators/">
+                        
+                            <a href="/~saw586/hipc/2024-25//lectures/8-accelerators/">
+                                8. Accelerators
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2024-25//lectures/9-more_accelerators/">
+                        
+                            <a href="/~saw586/hipc/2024-25//lectures/9-more_accelerators/">
+                                9. Advanced Accelerators
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2024-25//lectures/10-heterogeneous_programming/">
+                        
+                            <a href="/~saw586/hipc/2024-25//lectures/10-heterogeneous_programming/">
+                                10. Heterogeneous Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+
+                    
+                        <li class="divider">
+                    
+                
+            
+             
+                
+                <!-- <li class="chapter" data-level="1.1"><a>posts</a></li> -->
+             
+                
+                    
+
+                    
+
+                    
+                
+            
+             
+                
+                </li>
+<li><a><strong>Practicals</strong></a></li>
+                
+                <!-- <li class="chapter" data-level="1.1"><a>practicals</a></li> -->
+             
+                
+                    
+
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2024-25//practicals/1-introduction_to_c-1/">
+                        
+                            <a href="/~saw586/hipc/2024-25//practicals/1-introduction_to_c-1/">
+                                1. Introduction to C (part 1)
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2024-25//practicals/2-introduction_to_c-2/">
+                        
+                            <a href="/~saw586/hipc/2024-25//practicals/2-introduction_to_c-2/">
+                                2. Introduction to C (part 2)
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2024-25//practicals/3-basic_optimisation/">
+                        
+                            <a href="/~saw586/hipc/2024-25//practicals/3-basic_optimisation/">
+                                3. Basic Optimisation
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2024-25//practicals/4-on-core_parallelism/">
+                        
+                            <a href="/~saw586/hipc/2024-25//practicals/4-on-core_parallelism/">
+                                4. Programming On-core Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2024-25//practicals/5-on-node_parallelism/">
+                        
+                            <a href="/~saw586/hipc/2024-25//practicals/5-on-node_parallelism/">
+                                5. Programming On-node Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2024-25//practicals/6-off-node_parallelism/">
+                        
+                            <a href="/~saw586/hipc/2024-25//practicals/6-off-node_parallelism/">
+                                6. Programming Off-node Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2024-25//practicals/7-advanced_mpi/">
+                        
+                            <a href="/~saw586/hipc/2024-25//practicals/7-advanced_mpi/">
+                                7. Advanced MPI Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2024-25//practicals/8-cuda_programming/">
+                        
+                            <a href="/~saw586/hipc/2024-25//practicals/8-cuda_programming/">
+                                8. CUDA Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2024-25//practicals/9-advanced_cuda_programming/">
+                        
+                            <a href="/~saw586/hipc/2024-25//practicals/9-advanced_cuda_programming/">
+                                9. Advanced CUDA Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2024-25//practicals/10-heterogeneous_programming/">
+                        
+                            <a href="/~saw586/hipc/2024-25//practicals/10-heterogeneous_programming/">
+                                10. Heterogeneous Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+
+                    
+                        <li class="divider">
+                    
+                
+            
+        </li>
+</ul>
+    </nav>
+</div>
+<div class="book-body">
+                <div class="book-header" role="navigation">
+                    <!-- Title -->
+                    <h1>
+                        <i class="fa fa-circle-o-notch fa-spin"></i>
+                        
+                            <a href=".">1. Supercomputing and Scientific Computing</a>
+                        
+                    </h1>
+                </div>
+
+                <div class="body-inner">
+<div class="page-wrapper" tabindex="-1" role="main">
+    
+
+    <div class="page-inner">
+        <div id="book-search-results">
+            <div class="search-noresults">
+                <section class="normal markdown-section">
+                    
+                        <h1 id="/lectures/1-supercomputing">1. Supercomputing and Scientific Computing</h1>
+                    
+
+                    <h1 id="overview">Overview</h1>
+
+<p>Welcome to the first unit of the HIPC course.</p>
+
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/FXwO8NEzZno" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""></iframe>
+<p><br></p>
+
+<p>This unit will cover:</p>
+
+<ul>
+  <li>The (selected) origins of scientific computing</li>
+  <li>A history of supercomputing</li>
+  <li>The underlying theory of parallel computing</li>
+  <li>The uses of scientific computing</li>
+</ul>
+
+<h1 id="a-very-brief-history-of-scientific-computing">A (very) Brief History of Scientific Computing</h1>
+
+<p>Improving computational performance has been a long-standing goal of many scientists and mathematicians for thousands of years, even before the advent of the modern computer. Devising more efficient algorithms to solve computational problems can reduce the time taken to reach a solution by many orders of magnitude, meaning calculations relating to natural phenomena can be performed in hours/minutes/seconds rather than weeks or months.</p>
+
+<p>The earliest known examples of algorithm optimisation come from Babylonian mathematics. Tablets dating back to around 3000 B.C.E. show that the Babylonians had algorithms that today read very much like early computer programs. These algorithms allowed the Babylonians to efficiently and accurately calculate the results of divisions and square roots, among other things.</p>
+
+<p>For example, the Babylonian devised an algorithm for calculating square roots that is very similar to <a href="https://en.wikipedia.org/wiki/Newton's_method">the Newton-Raphson method</a>, but predates it by 4000 years.</p>
+
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/CnMBo5nG_zk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen"></iframe>
+<p><br></p>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li>Donald E. Knuth. 1972. <a href="https://doi.org/10.1145/361454.361514">Ancient Babylonian Algorithms</a>. <em>Communications of the ACM</em> 15, 7, 671-677.</li>
+  </ul>
+</blockquote>
+
+<p>A more modern example of algorithmic optimisation was used during the Manhattan Project at the Los Alamos National Laboratory (LANL). Richard Feynman devised a method for distributing the calculations for the energy released by different designs of the implosion bomb. Through Feynman’s use of pipelining, his team of human computers were able to produce the results to 9 calculations in only 3 months, where 3 calculations had previously taken 9 months to produce – representing a 9$\times$ speed-up. Distributed computation in this manner is one form of what is now commonly called <em>parallel computation</em>.</p>
+
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/9miKIWIYi4w" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen"></iframe>
+<p><br></p>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li>Tony Hey. 1999. <a href="https://doi.org/10.1080/001075199181459">Richard Feynman and Computation</a>, <em>Contemporary Physics</em>, 40, 4, 257-265.</li>
+  </ul>
+</blockquote>
+
+<p>Scientific computing and numerical simulation are now indispensable tools in many areas of science and engineering. Complex simulations allow scientists to test their theories in domains where physical experimentation would be prohibitively costly, impractical, or dangerous. As a result, computational methods have joined theory and experiment as central pillars of scientific investigation.</p>
+
+<h1 id="history-of-supercomputing">History of Supercomputing</h1>
+
+<h2 id="in-the-beginning">In the beginning…</h2>
+
+<p>The first general-purpose computer was the <strong>Electronic Numerical Integrator and Computer (ENIAC)</strong>, built in 1939. The machine could perform between 300 and 500 floating-point operations per second (or FLOP/s). Due to the prevalence and importance of floating-point operations in modern day science applications, the FLOP rate is the standard way in which modern supercomputer performance is assessed.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-1/Eniac.jpg" alt="The ENIAC"><br>
+<em><strong>Figure 1:</strong> ENIAC – the first programmable, electronic, general-purpose digital computer</em></p>
+
+<p>The era of the modern supercomputer began in the 1960s with the release of the <strong>CDC 6600</strong>. Designed by Seymour Cray for the Control Data Corporation (CDC), the CDC 6600 was the first mainframe computer to separate many of the components typically found in CPUs of the era into separate processing units. This resulted in the CPU being able to use a reduced instruction set, simplifying its design, and allowing operations usually performed by the CPU (such as memory accesses and I/O) to instead be handled by dedicated peripheral processors in parallel. Consequently, the CDC 6600 was approximately three times faster than its predecessor, the <strong>IBM 7030</strong>, and the machine held the record for the world’s fastest computer from 1964 to 1969, performing approximately 1 million floating-point operations per second (1 MFLOP/s).</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-1/CDC_6600.jpg" alt="CDC6600"><br>
+<em><strong>Figure 2:</strong> CDC 6600 – the first commercially successful supercomputer</em></p>
+
+<h2 id="the-cray-era">The Cray Era</h2>
+
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/xFTF6626TGM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen"></iframe>
+<p><br></p>
+
+<p>In 1972, following financial difficulties at CDC, Seymour Cray left to form his own company, Cray Research Inc.</p>
+
+<p>Following three years of development, in 1975, Cray announced the first Cray Research supercomputer, the 80 MHz <strong>Cray-1</strong>. When it was released the following year, the Cray-1 was ten times faster than competing machines, but cost up to $10 million and drew 115 kW of power. The excitement surrounding the machine was such that a bidding war broke out between Los Alamos National Laboratory (LANL) and Lawrence Livermore National Laboratory (LLNL) to acquire the first machine, with LANL ultimately proving successful.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-1/Cray-1.jpeg" alt="Cray-1"><br>
+<em><strong>Figure 3:</strong> Seymour Cray with a Cray-1 supercomputer</em></p>
+
+<p>The Cray-1 was the first Cray machine to use integrated circuits (ICs), and contained over 60 miles of wire, with no segment longer than 3 inches to minimise signal delays (hence the curved design!). The Cray-1 was the first supercomputer to successfully implement a vector processor design, and was capable of performing 160 million floating-point operations per second (i.e. 160 MFLOP/s).</p>
+
+<p>Having initially believed they would sell perhaps a dozen systems, and having priced the system accordingly, over 100 were sold.</p>
+
+<p>Between 1976 and 1985, the iconic design of the Cray-1 was reused for the upgraded <strong>Cray-1A</strong>, <strong>Cray-1S</strong> and <strong>Cray-1M</strong> systems, with each system improving the memory capacity or processor performance. In 1983, the <strong>Cray X-MP</strong> was announced as a “cleaned up” Cray-1 system with a quad-processor. Capable of 800 MFLOP/s, it was the world’s fastest computer from 1983 to 1985.</p>
+
+<p>In 1985, the Cray X-MP was replaced as the fastest computer by the <strong>Cray-2</strong>, the first supercomputer of the Gigascale Era (capable of performing 1.9 GFLOP/s).</p>
+
+<p>The Cray-2 was a quad-processor, liquid cooled computer. The system was cooled by Fluorinert, which was pumped around the system under pressure, and then cooled outside the processor box in a unique “waterfall” cooling system. This lead to a number of jokes (“no fishing” signs, etc.) and the system being nicknamed “Bubbles”.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-1/Cray-2.jpeg" alt="Cray-2"><br>
+<em><strong>Figure 4:</strong> NERSC’s Cray-2 and Cooling “waterfall”</em></p>
+
+<p>Unfortunately, the Cray-2 had difficulties delivering its peak performance, which led to other Cray machines outselling the Cray-2.</p>
+
+<p>In 1988, the Cray <strong>Y-MP</strong> displaced the Cray-2 as the world’s fastest computer. The Cray Y-MP was the successor to the Cray X-MP, and was available with two, four or eight vector processors. Each processor was capable of 333 MFLOP/s, and thus the system had a maximum performance of 2.66 GFLOP/s.</p>
+
+<h2 id="multi-processing-and-the-beowulf-cluster">Multi-Processing and the Beowulf Cluster</h2>
+
+<p>Until 1990, the fastest systems typically had very few processors, with most performance increases coming about through vectorisation or clock speed improvements. Remember, the Cray Y-MP only had up to 8 processors! In the 90s this approach changed dramatically, with the emergence of many-processor systems – a now ubiquitous approach.</p>
+
+<p>In 1993, Fujitsu’s <strong>Numerical Wind Tunnel (NWT)</strong> became the fastest supercomputer in the world, doing so using 140 vector processors (later upgraded to 167). It achieved a maximum performance of 124 GFLOP/s running the LINPACK benchmark, with a theoretical maximum performance of 235.8 GFLOP/s. Each processor had 4 separate pipelines, and could perform two <a href="https://en.wikipedia.org/wiki/Multiply%E2%80%93accumulate_operation">fused multiply-add (FMA)</a> instruction for 1.7 GFLOP/s per processor.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-1/NWT.jpeg" alt="Numerical Wind Tunnel"><br>
+<em><strong>Figure 5:</strong> Numerical Wind Tunnel</em></p>
+
+<p>The Numerical Wind Tunnel was the second supercomputer to top the newly created TOP500 rankings (following the <strong>CM/5</strong> at LANL). Recognising a need to generate meaningful statistics about supercomputers, <a href="https://en.wikipedia.org/wiki/Hans_Meuer">Hans Meuer (University of Mannhein)</a> joined with <a href="https://en.wikipedia.org/wiki/Jack_Dongarra">Jack Dongarra (University of Tennessee)</a>, and later Erich Strohmaier (National Energy Research Scientific Computing Center) and Horst Simon (Lawrence Berkeley National Laboratory), in creating the TOP500 supercomputer rankings. The TOP500 rankings are released twice a year, at the International Supercomputing Conference (ISC) in May/June, and then at the Supercomputing Conference (SC) in November. The rankings are based on the performance achieved running Jack Dongarra’s <a href="https://netlib.org/linpack/">LINPACK benchmark</a>, which solves a dense system of linear equations, $Ax = b$.</p>
+
+<p>Where previously, supercomputers were ranked based on the theoretical maximum performance (i.e. clock speed $\times$ max FLOPs per clock cycle $\times$ number of CPUs), they could instead be ranked based on the <em>achieved</em> performance on a “representative” problem – including effects such as memory performance, interconnect performance, etc.</p>
+
+<p>The third machine to reach the #1 ranking was the <strong>Intel Paragon XP/S140</strong> system installed at Sandia National Laboratories. While it only persisted for a single TOP500 list, before being replaced by an upgraded NWT, it was Intel’s first #1 ranked machine, and was a Multiple-Instruction, Multiple-Data (MIMD) machine, a mainstay of modern HPC.</p>
+
+<p>Intel’s next foray to the top of the rankings was in 1997, when they broke the TeraFLOP barrier with <strong>ASCI Red</strong>, achieving 1.06 TFLOP/s on the LINPACK benchmark. ASCI Red could perhaps be considered one of the first <strong>Beowulf clusters</strong> – one that is mostly made of commercially available hardware.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-1/asci-red.jpeg" alt="ASCI Red"><br>
+<em><strong>Figure 6:</strong> ASCI Red inside Sandia National Laboratories</em></p>
+
+<p>ASCI Red consisted of 104 cabinets, with 76 compute nodes in each cabinet alongside switches and storage (total of almost 8,000 compute CPUs). Each compute node had an Intel Pentium Pro processor running at 200 MHz. In 1999, the processors were upgraded to specially packaged Pentium II Xeon processors, pushing its performance to 3.1 TFLOP/s.</p>
+
+<p>ASCI Red held on to the top spot until 2000, when it was briefly displaced by IBM’s <strong>ASCI White</strong> system, installed at LLNL.</p>
+
+<p>In 2002, ASCI White’s performance was surpassed considerably by the <strong>Earth Simulator</strong>. With a LINPACK performance of 35.86 TFLOP/s, Earth Simulator was almost five times faster than the previous #1 system. The system was developed for running global climate models to evaluate the effects of climate change by the Japan Aerospace Exploration Agency, the Japan Atomic Energy Research Institute, and the Japan Marine Science and Technology Center. It consisted of 640 nodes, with eight vector processors in each node, for a total of 5120 processors.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-1/EarthSimulator.jpeg" alt="Earth Simulator"><br>
+<em><strong>Figure 7:</strong> Earth Simulator</em></p>
+
+<p>The title of fastest supercomputer in the world was taken back by the United States in November 2004, with the installation of IBM’s first BlueGene system at LLNL. Initially installed as a 16-rack system, LLNL’s <strong>BlueGene/L</strong> system took the title with an achieved performance of 70.72 TFLOP/s. The system was gradually expanded up to 104 racks, achieving 478 TFLOP/s in 2007.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-1/bluegene-l.jpeg" alt="IBM BlueGene/L"><br>
+<em><strong>Figure 8:</strong> BlueGene/L</em></p>
+
+<p>The BlueGene project was focussed on trading the speed of processors for lower power consumption, enabling the use of more processors in parallel. Each node of the BlueGene/L operated with two 700 MHz PowerPC 440 CPUs, with two nodes per compute card, 16 compute cards per node board, and 32 node boards per cabinet/rack. The nodes were interconnected with a three-dimensional <a href="https://en.wikipedia.org/wiki/Torus_interconnect">torus interconnect</a>, enabling low latency communication between compute nodes. In its largest configuration, LLNL’s BlueGene/L had a total of 212,992 cores.</p>
+
+<h2 id="the-petascale-era">The Petascale Era</h2>
+
+<p>In 2008 <strong>IBM Roadrunner</strong> became the first supercomputer to break the PetaFLOP/s barrier, achieving 1.02 PFLOP/s on the LINPACK benchmark.</p>
+
+<p>In contrast to many of the large homogeneous systems that came before, Roadrunner was an AMD Opteron-powered system with IBM PowerXCell accelerators connected to each core, making it perhaps the first <em>modern</em> heterogeneous system. This heterogeneous approach has continued ever since, with a growing proportion of the fastest supercomputers in the world making use of highly-specialised computational accelerators (e.g. GPUs) alongside traditional multi-CPU hosts.</p>
+
+<p>Roadrunner was displaced at the top of the rankings in 2010 by the Chinese supercomputer, <strong>Tianhe-1A (“Milk Way”)</strong> – the first Chinese system to achieve the #1 ranking. Tianhe-1A was a 7,168 node system, with each node featuring two Intel Xeon X5670 6-core processors and a single NVIDIA Tesla M2050 GPU, achieving 2.57 PFLOP/s.</p>
+
+<p>In June 2011, Tianhe-1A was overtaken by the <strong>K-Computer</strong> – a Japanese 10 PFLOP/s homogeneous supercomputer, using Fujitsu SPARC64fx processors and a proprietary Torus Fusion (Tofu) interconnect.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-1/k-computer.jpeg" alt="K-Computer"><br>
+<em><strong>Figure 9:</strong> K-Computer</em></p>
+
+<p>K-Computer comprised of 88,128 2.0 GHz eight-core processors, for a total of 705,024 cores, with each node being interconnected by Tofu’s six-dimensional mesh/torus topology. The system drew 10 MW of power (compared to the 115 kW of a Cray-1). Even when the system was decommissioned in 2018, it was still only 18th in the TOP500 list and achieved a performance efficiency of 93% (i.e. achieved performance vs. theoretical max) on LINPACK.</p>
+
+<p>The United States regained the top spot in the TOP500 in June 2012 with the third iteration of the IBM BlueGene. <strong>IBM Sequoia</strong> was a BlueGene/Q system installed at LLNL, and achieved a peak performance of 17.17 PFLOP/s. Like previous BlueGene systems it achieved this performance using lower power, massively parallel processors – with 98,304 compute nodes, each with a 16-core IBM A2 processor, for 1,572,864 processor cores in total.</p>
+
+<p>Sequoia’s position at the top was short-lived, being replaced in November 2012 by another US system. <strong>Titan</strong> was a supercomputer installed at Oak Ridge National Laboratory (ORNL), achieving a peak performance of 17.59 PFLOP/s. Similar to Tianhe-1A, it was a heterogeneous platform, consisting of 18,688 AMD Opteron CPUs in conjunction with an equal number of NVIDIA Tesla K20x GPUs.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-1/titan.jpeg" alt="Titan"><br>
+<em><strong>Figure 10:</strong> Titan</em></p>
+
+<p>In June 2013, the <strong>Tianhe-2</strong> system achieved 33.86 PFLOP/s, approximately twice the performance of Titan and Sequoia. It did so using Intel Xeon CPUs, alongside Intel’s Xeon Phi many-core co-processor architecture (Knights Corner).</p>
+
+<p>China surpassed its own Tianhe-2 system in 2016 with the <strong>Sunway TaihuLight</strong> supercomputer, achieving 93 PFLOP/s with a custom Chinese-designed Sunway many-core CPU in 2016. The system consists of 40,960 processors, with each processor containing 256 processing cores.</p>
+
+<p>The TOP500 crown returned to the United States in 2018, when the heterogeneous <strong>Summit</strong> supercomputer was installed at ORNL. Alongside Summit, the similarly architected <strong>Sierra</strong>, at LLNL, also took the #2 spot. Both Summit and Sierra are IBM systems, with IBM Power9 CPUs connected to NVIDIA V100 GPUs; in the case of Summit there are 2 CPUs and 6 GPUs per node, and in Sierra there are 2 CPUs and 4 GPUs per node. Summit can achieve a peak performance of 148 PFLOP/s, while Sierra can achieve 95 PFLOP/s.</p>
+
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/OoajYVQuIhA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen"></iframe>
+<p><br></p>
+
+<p>In June 2020, the successor to the K-Computer took the TOP500 crown and retained it up to 2021. <strong>Fugaku</strong> is built with the Fujitsu A64FX microprocessor (the first ARM-based architecture to achieve the #1 ranking), with nodes interconnected with the Tofu interconnect. Similar to previous Japanese #1 supercomputers, Fugaku outperformed rival supercomputers considerably when installed, beating Summit and Sierra by almost three times. Currently, it has been able to achieve 450 PFLOP/s on the LINPACK benchmark. Alongside the TOP500 ranking, it was also the first supercomputer to top the Graph500, HPL-AI and HPCG rankings simultaneously.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-1/fugaku.jpeg" alt="Fugaku"><br>
+<em><strong>Figure 11</strong>: Fugaku</em></p>
+
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/f3cx4PGDGmg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen"></iframe>
+<p><br></p>
+
+<h2 id="the-era-of-exascale">The Era of Exascale</h2>
+
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/kTlLQ53Jzcw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""></iframe>
+<p><br></p>
+
+<p>We are now in the era of Exascale computing. The fastest machine in the world currently is <strong>Frontier</strong>, installed at ORNL. Frontier entered the TOP500 in June 2022, achieving 1.1 EFLOP/s. It is an HPE Cray system, consisting of 9,472 AMD EPYC CPUs and 37,888 AMD Radeon Instinct MI250X GPUs. While Frontier is the first system to pass the Exascale threshold, it certainly will not be the last, with at least one other system in production, and numerous planned post-Exascale systems currently in development (or already operating without being publicly acknowledged).</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-1/frontier.jpg" alt="Fugaku"><br>
+<em><strong>Figure 12</strong>: Frontier</em></p>
+
+<p>Like previous leaps in HPC capability, Exascale computing will enable scientists to make new discoveries in material sciences, fusion energy, engineering, medicine, and many other fields.</p>
+
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/ARO9nA7ZS4M" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen"></iframe>
+<p><br></p>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li><a href="https://www.energy.gov/science/doe-explainsexascale-computing">DOE Explains Exascale Computing</a></li>
+    <li><a href="https://www.huffpost.com/entry/why-we-need-exascale-computing_b_58c94f59e4b0009b23bd94c4/amp">Why We Need Exascale Computing</a></li>
+    <li><a href="https://www.hpcwire.com/2021/11/24/three-chinese-exascale-systems-detailed-at-sc21-two-operational-and-one-delayed/">Three Chinese Exascale Systems Detailed at SC21: Two Operational and One Delayed</a></li>
+  </ul>
+</blockquote>
+
+<h1 id="the-top-500-and-other-rankings">The Top 500 (and other rankings)</h1>
+
+<p>As discussed in the previous section, supercomputers are typically ranked twice a year as part of the TOP500. Alongside the TOP500, there are a number of alternative rankings that provide supplementary information on supercomputer performance.</p>
+
+<h2 id="top500">TOP500</h2>
+
+<p>The TOP500 was introduced by Hans Meuer and Jack Dongarra in 1993. Supercomputers are evaluated based on their floating-point operations (FLOPs) per second on the dense linear solver benchmark, LINPACK. The list is produced twice a year, at the International Supercomputing Conference in May/June, and at the Supercomputing Conference in November.</p>
+
+<p>Since the TOP500 began tracking supercomputing performance, the performance of the #1 machine has approximately doubled every two years (thus following the consequence of Moore’s law, that the number of transistors in a dense integrated circuit will double approximately every two years).</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-1/top500.png" alt="The Top 500 Ranking"><br>
+<em><strong>Figure 13:</strong> TOP500 supercomputer performance since 1993</em></p>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li><a href="https://www.top500.org/resources/top-systems/">Top #1 Systems</a></li>
+  </ul>
+</blockquote>
+
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/KFlR4EwSUlc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen"></iframe>
+<p><br></p>
+
+<p>Despite the prevalence (and perceived importance) of the TOP500, it has been noted that the LINPACK benchmark is heavily compute-bound, meaning that it is not necessarily representative of many of the scientific simulations that are executed on these systems. Achieving a PetaFLOP on LINPACK often translates to only tens of TeraFLOP/s on real applications. For this reason, a number of alternative rankings are available, each using different benchmarks, or supplementing LINPACK performance with other metrics.</p>
+
+<h2 id="green500">GREEN500</h2>
+
+<p>The GREEN500 augments the TOP500 list by taking the performance data and the power consumption to calculate the FLOP/s/Watt. Consequently the top systems are usually smaller installations, with newer architectures. Frontier currently sits at #7 in the GREEN500, with a power efficiency of 62.68 GFLOP/s/Watt, whereas the current #1 achieves 72.73 GFLOP/s/Watt.</p>
+
+<div class="table-wrapper">
+
+  <table>
+    <thead>
+      <tr>
+        <th style="text-align: center">Rank</th>
+        <th style="text-align: center">TOP500 Rank</th>
+        <th style="text-align: center">System</th>
+        <th style="text-align: center">Cores</th>
+        <th style="text-align: center">Rmax (TFlop/s)</th>
+        <th style="text-align: center">Power (kW)</th>
+        <th style="text-align: center">Power Efficiency (GFlops/watts)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="text-align: center">1</td>
+        <td style="text-align: center">189</td>
+        <td style="text-align: center">JEDI - BullSequana XH3000, Grace Hopper Superchip 72C 3GHz, NVIDIA GH200 Superchip, Quad-Rail NVIDIA InfiniBand NDR200, ParTec/EVIDEN</td>
+        <td style="text-align: center">19,584</td>
+        <td style="text-align: center">4.50</td>
+        <td style="text-align: center">67</td>
+        <td style="text-align: center">72.733</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">2</td>
+        <td style="text-align: center">128</td>
+        <td style="text-align: center">Isambard-AI phase 1 - HPE Cray EX254n, NVIDIA Grace 72C 3.1GHz, NVIDIA GH200 Superchip, Slingshot-11, HPE</td>
+        <td style="text-align: center">34,272</td>
+        <td style="text-align: center">7.42</td>
+        <td style="text-align: center">117</td>
+        <td style="text-align: center">68.835</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">3</td>
+        <td style="text-align: center">55</td>
+        <td style="text-align: center">Helios GPU - HPE Cray EX254n, NVIDIA Grace 72C 3.1GHz, NVIDIA GH200 Superchip, Slingshot-11, HPE</td>
+        <td style="text-align: center">89,760</td>
+        <td style="text-align: center">19.14</td>
+        <td style="text-align: center">317</td>
+        <td style="text-align: center">66.948</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">4</td>
+        <td style="text-align: center">328</td>
+        <td style="text-align: center">Henri - ThinkSystem SR670 V2, Intel Xeon Platinum 8362 32C 2.8GHz, NVIDIA H100 80GB PCIe, Infiniband HDR, Lenovo</td>
+        <td style="text-align: center">8,288</td>
+        <td style="text-align: center">2.88</td>
+        <td style="text-align: center">44</td>
+        <td style="text-align: center">65.396</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">5</td>
+        <td style="text-align: center">71</td>
+        <td style="text-align: center">preAlps - HPE Cray EX254n, NVIDIA Grace 72C 3.1GHz, NVIDIA GH200 Superchip, Slingshot-11, HPE</td>
+        <td style="text-align: center">81,600</td>
+        <td style="text-align: center">15.47</td>
+        <td style="text-align: center">240</td>
+        <td style="text-align: center">64.381</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><em><strong>Table 1:</strong> The current top 5 GREEN500 supercomputers</em></p>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li><a href="https://www.top500.org/lists/green500/list/2024/06/">The current GREEN500 list</a></li>
+  </ul>
+</blockquote>
+
+<h2 id="hpcg-list">HPCG List</h2>
+
+<p>Recognising the need for a new benchmark that is more representative of many scientific applications, Michael Heroux (Sandia National Laboratories) and Jack Dongarra proposed a new benchmark in 2013. The High Performance Conjugate Gradient (HPCG) benchmark is composed of computations and data accesses that are more commonly found in HPC applications, and therefore may provide a more reliable measure of a system’s potential performance.</p>
+
+<p>The HPCG rankings are hosted (and announced) alongside the TOP500 and GREEN500 lists. The current #1 system is Fugaku, but in contrast to its 82% performance efficiency on LINPACK, it achieves just 3% efficiency on HPCG (with 16.0 PFLOP/s). While Exascale has been achieved with LINPACK, it is unlikely the Exascale barrier will be broken on HPCG for some time.</p>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li><a href="https://www.top500.org/lists/hpcg/2024/06/">The current HPCG list</a></li>
+    <li><a href="https://doi.org/10.2172/1089988">Towards a new metric for ranking high performance computing systems</a></li>
+  </ul>
+</blockquote>
+
+<h2 id="graph500">Graph500</h2>
+
+<p>While LINPACK and HPCG both measure performance in FLOP/s, there are a number of HPC applications that are less reliant on floating-point arithmetic. The Graph500 is an alternative ranking that is instead focussed on data intensive applications. The current Graph500 benchmark performs a concurrent breadth-first search and ranks systems based on the number of traversed edges per second (TEPS).</p>
+
+<p>The current #1 system is Fugaku, capable of performing 166,029 GTEPS.</p>
+
+<div class="table-wrapper">
+
+  <table>
+    <thead>
+      <tr>
+        <th style="text-align: center">Rank</th>
+        <th style="text-align: center">Machine</th>
+        <th style="text-align: center">Vendor</th>
+        <th style="text-align: center">Installation Site</th>
+        <th style="text-align: center">Location</th>
+        <th style="text-align: center">Country</th>
+        <th style="text-align: center">Year</th>
+        <th style="text-align: center">Nodes</th>
+        <th style="text-align: center">Cores</th>
+        <th style="text-align: center">Scale</th>
+        <th style="text-align: center">GTEPS</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="text-align: center">1</td>
+        <td style="text-align: center">Supercomputer Fugaku</td>
+        <td style="text-align: center">Fujitsu</td>
+        <td style="text-align: center">RIKEN Center for Computational Science (R-CCS)</td>
+        <td style="text-align: center">Kobe Hyogo</td>
+        <td style="text-align: center">Japan</td>
+        <td style="text-align: center">2020</td>
+        <td style="text-align: center">152064</td>
+        <td style="text-align: center">7299072</td>
+        <td style="text-align: center">42</td>
+        <td style="text-align: center">166029</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">2</td>
+        <td style="text-align: center">Wuhan Supercomputer</td>
+        <td style="text-align: center">HUST</td>
+        <td style="text-align: center">Wuhan Supercomputing Center</td>
+        <td style="text-align: center">Wuhan</td>
+        <td style="text-align: center">China</td>
+        <td style="text-align: center">2023</td>
+        <td style="text-align: center">252</td>
+        <td style="text-align: center">6999552</td>
+        <td style="text-align: center">41</td>
+        <td style="text-align: center">115357.6</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">3</td>
+        <td style="text-align: center">Frontier</td>
+        <td style="text-align: center">HPE</td>
+        <td style="text-align: center">DOE/SC/Oak Ridge National Laboratory</td>
+        <td style="text-align: center">Oak Ridge TN</td>
+        <td style="text-align: center">United States</td>
+        <td style="text-align: center">2021</td>
+        <td style="text-align: center">9248</td>
+        <td style="text-align: center">8730112</td>
+        <td style="text-align: center">40</td>
+        <td style="text-align: center">29654.6</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">4</td>
+        <td style="text-align: center">Pengcheng Cloudbrain-II</td>
+        <td style="text-align: center">HUST-Pengcheng Lab-HUAWEI</td>
+        <td style="text-align: center">Pengcheng Lab</td>
+        <td style="text-align: center">ShenZhen</td>
+        <td style="text-align: center">China</td>
+        <td style="text-align: center">2022</td>
+        <td style="text-align: center">488</td>
+        <td style="text-align: center">93696</td>
+        <td style="text-align: center">40</td>
+        <td style="text-align: center">28463.1</td>
+      </tr>
+      <tr>
+        <td style="text-align: center">5</td>
+        <td style="text-align: center">Aurora</td>
+        <td style="text-align: center">Intel/HPE</td>
+        <td style="text-align: center">DOE/SC/Argonne National Laboratory</td>
+        <td style="text-align: center">Argonne IL</td>
+        <td style="text-align: center">United States</td>
+        <td style="text-align: center">2023</td>
+        <td style="text-align: center">4096</td>
+        <td style="text-align: center">25591808</td>
+        <td style="text-align: center">40</td>
+        <td style="text-align: center">24250.2</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><em><strong>Table 2:</strong> Graph500 in June 2024</em></p>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li><a href="https://graph500.org">The Graph500</a></li>
+  </ul>
+</blockquote>
+
+<h2 id="hpl-mxp">HPL-MxP</h2>
+
+<p>In recognising the recent emergence of AI workloads on HPC systems, the HPL-MxP rankings were introduced in 2019 (as HPC-AI initially, before becoming the HPC-MxP Mixed Precision Benchmark in 2022). The HPL-MxP benchmark strives to unite traditional HPC workloads with AI workloads, and it does this by performing a combination of LINPACK-like double-precision calculations alongside low-precision AI-like calculations. The rankings are reported in FLOP/s, but are not limited to double-precision operations like LINPACK and HPCG.</p>
+
+<p>The current #1 system is Aurora, achieving 10.6 ExaFLOP/s on HPL-MxP.</p>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li><a href="https://hpl-mxp.org">HPL-MxP</a></li>
+  </ul>
+</blockquote>
+
+<h1 id="parallel-computation">Parallel Computation</h1>
+
+<p>In 1966, Michael Flynn proposed a classification system for computer architectures. Flynn’s Taxonomy has been used as the basis for the design of all modern processors since.</p>
+
+<h2 id="flynns-taxonomy">Flynn’s Taxonomy</h2>
+
+<p>In Flynn’s 1972 paper, “<a href="https://doi.org/10.1109/TC.1972.5009071">Some Computer Organizations and Their Effectiveness</a>”, four classifications were provided based on the number of concurrent instruction streams and data streams that were available in hardware.</p>
+
+<h4 id="single-instruction-stream-single-data-stream-sisd">Single instruction stream, single data stream (SISD)</h4>
+
+<p><img src="../../assets/unit-1/sisd.png" alt="Single instruction stream, single data stream" width="35%" style="background-color:white; display: block; margin: 0 auto"></p>
+
+<p>Each processor fetches a single instruction and operates on a single data stream.</p>
+
+<h4 id="single-instruction-stream-multiple-data-streams-simd">Single instruction stream, multiple data streams (SIMD)</h4>
+
+<p><img src="../../assets/unit-1/simd.png" alt="Single instruction stream, multiple data streams" width="35%" style="background-color:white; display: block; margin: 0 auto"></p>
+
+<p>Each processor applies the same instruction on multiple pieces of data simultaneously.</p>
+
+<h4 id="multiple-instruction-streams-single-data-stream-misd">Multiple instruction streams, single data stream (MISD)</h4>
+
+<p><img src="../../assets/unit-1/misd.png" alt="Multiple instruction streams, single data stream" width="35%" style="background-color:white; display: block; margin: 0 auto"></p>
+
+<p>Each processor applies potentially different instructions on a single piece of data simultaneously.</p>
+
+<h4 id="multiple-instruction-streams-multiple-data-streams-mimd">Multiple instruction streams, multiple data streams (MIMD)</h4>
+
+<p><img src="../../assets/unit-1/mimd.png" alt="Multiple instruction streams, multiple data streams" width="35%" style="background-color:white; display: block; margin: 0 auto"></p>
+
+<p>Each processor applies potentially different instructions to different pieces of data simultaneously.</p>
+
+<p>Almost all modern CPU cores now operate in a SIMD fashion, and all modern CPUs operate in a MIMD fashion (i.e. each individual core can perform SIMD operations, and each processor is a collection of independent cores). Consequently almost all modern Supercomputers are based on a MIMD architecture.</p>
+
+<p>Across a Supercomputer, this MIMD category may be further refined.</p>
+
+<h4 id="single-program-multiple-data-streams-spmd">Single program, multiple data streams (SPMD)</h4>
+
+<p>Multiple autonomous processors simultaneously execute the same program, with each processor operating independently on a subtask. Unlike SIMD, operations are not necessarily executed in lock-step, instead there may be synchronisation points throughout the execution.</p>
+
+<p>SPMD is the most common style of parallel programming, and is the style that this module will focus on most heavily.</p>
+
+<h5 id="an-example">An Example</h5>
+
+<p>A typical example of SPMD can be seen in Figure 14 below. In this example, a particle simulation is being performed in parallel. First the problem domain is divided into four and distributed to four processors. Each processor independently calculates the position of the particles in the next time step. The problem space can then be reconstructed to show the final state.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-1/ParallelComputing.png" alt="A parallelised particle simulation" style="background-color:white;"> <br>
+<em><strong>Figure 14:</strong> A parallelised particle simulation</em></p>
+
+<p>Each processor subproblem could potentially make use of SIMD parallelism to calculate the movement of the particles in parallel on a processor, and by distributing the computation across processors, an SPMD approach is being used to provide parallel performance across a system.</p>
+
+<p>Should any particles leave the domain of a particular processor, a communication phase may be necessary to move the particle to another process. Additionally, if a particle interacts with another particle not in its domain, a communication phase may be necessary to communicate this data. While each processor can operate independently of any other processors, any communication between processors will likely enforce some form of synchronisation (such that one processor does not get out of sync with the global time step).</p>
+
+<h2 id="the-laws-of-parallel-computing">The Laws of Parallel Computing</h2>
+
+<p>Now that we’ve discussed how applications may be parallelised across a system, its time to look at how much we might be able to gain, performance wise, through such parallelisations.</p>
+
+<p>While this module will mostly deal with algorithms and applications that are well parallelisable, there are some algorithms that are inherently serial; and large HPC applications often contain some serial portions. These often represent a bottleneck to achieving good performance. We can therefore reason about the possible performance increases we can get through parallelisation in the presence of some necessary serialisation.</p>
+
+<h3 id="amdahls-law">Amdahl’s Law</h3>
+
+<p>Amdahl’s law is a formula which gives the theoretical speedup of the execution of a task with an inherently serial portion. For example, if a program requires 10 hours to execute serially, and an hour of that runtime cannot be parallelised, then regardless of parallel efficiency, the application cannot run in less than an hour.</p>
+
+<p>Amdahl’s law is usually written as:</p>
+
+\[S(s) = \frac{1}{(1-p) + \frac{p}{s}}\]
+
+<p>where,</p>
+
+<p>$S$ is the theoretical speedup<br>
+$s$ is the speedup of the parallelisable part of the application<br>
+$p$ is the proportion of the application that is amenable to parallelisation.</p>
+
+<h4 id="an-example-1">An Example</h4>
+
+<p>Given an application of which 40% of the execution may be amenable to parallelisation, and that parallelisation improves performance of that proportion by a factor of 2, Amdahl’s law states that the speedup will be:</p>
+
+\[S = \frac{1}{1 - 0.4 + \frac{0.4}{2}} = 1.25\]
+
+<p>In other words, we could expect that by doubling the performance of 40% of the execution, our application will run 1.25$\times$ faster.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-1/amdahl.png" alt="Amdahl's law example"><br>
+<em><strong>Figure 15:</strong> Theoretical speedup from Amdahl’s law for various amounts of parallelisability</em></p>
+
+<p>This realisation leads to the perhaps unsatisfactory conclusion that the smaller the parallelisable portion of our code, the less performance improvements we can expect from distributed computing. Even if 90% of our application is parallelised, we can still only improve performance by a single order of magnitude.</p>
+
+<blockquote class="block-danger">
+  <p><strong>Exercise</strong></p>
+
+  <p>A parallel application has a runtime of 100 seconds running on a computer system with a single 4-core 2 GHz processor. 30% of the application’s runtime is serial, the remaining 70% is parallelised across the available cores.</p>
+
+  <p>You are given the choice of two new processors: (A) a 4-core 3 GHz processor; (B) an 8-core 2 GHz processor.
+Assuming perfect scaling between increased clock speed and increased core counts, which processor would provide the greatest performance improvement?</p>
+
+  <p>What would be the runtime on each processor?</p>
+</blockquote>
+
+<h3 id="gustafsons-law">Gustafson’s Law</h3>
+
+<p>Amdahl’s law assumes that a problem size is fixed, and therefore that the speedup we get through parallelisation is just that the same problem can be executed quicker in parallel. However, with more computation we can also perform bigger (or more accurate) simulations.</p>
+
+<p>Gustafson’s law addresses this shortcoming in Amdahl’s law, by recognising that programmers tend to increase the size of problems to fully exploit the resources available.</p>
+
+\[\begin{align*} 
+  S &amp; = s + p \times N \\
+    &amp; = s + (1 - s) \times N \\
+    &amp; = N + (1 - N) \times s 
+\end{align*}\]
+
+<p>where,</p>
+
+<p>$S$ is the theoretical speedup<br>
+$s$ and $p$ are the serial and parallel proportions of the application, where $s + p = 1$<br>
+$N$ is the number of processors</p>
+
+<h4 id="an-example-2">An Example</h4>
+
+<p>Consider an application in which 10% of the runtime is spent performing serial work, and the application is executed on 64 processes.</p>
+
+\[\begin{align*}
+S &amp;= 64 + (1 - 64) \times 0.1 \\
+  &amp;= 57.7
+\end{align*}\]
+
+<p>Assuming the serialised portion of the application does not grow with parallelisation, application performance can be improved by almost 58$\times$ according to Gustafson’s law.</p>
+
+<blockquote class="block-danger">
+  <p><strong>Exercise</strong></p>
+
+  <p>Like before, a parallel application has a runtime of 100 seconds running on a computer system with a single 4-core 2 GHz processor. 30% of the applications runtime is serial, the remaining 70% is parallelised across the available cores.</p>
+
+  <p>According to Gustafson’s law, what would the runtime of the application be on a single core? What would the runtime of the application be on an 8-core 2 GHz processor?</p>
+</blockquote>
+
+<p>The important differentiation between the two laws is that Gustafson’s law assumes that the serial proportion of an application remains fixed, while Amdahl’s law assumes that the serial proportion grows as the application is further parallelised. Generally speaking, Amdahl’s law holds when an application is <strong>strongly scaled</strong> (i.e. the problem size is fixed, while the number of processors is increased), while Gustafson’s law holds when an application is <strong>weakly scaled</strong> (the problem size grows proportionally with the increase in number of processors).</p>
+
+<h1 id="performance-engineering">Performance Engineering</h1>
+
+<p>Maximising performance is paramount in scientific computing. Higher performance means more calculations can be carried out, allowing scientists to increase the size, complexity, or resolution of their simulations. The field of High Performance Computing exists to improve the performance of distributed systems and the software running on distributed systems. HPC covers a broad spectrum of disciplines. At one extreme, domain experts write high-level simulation software to model phenomena of interest. At the other, hardware engineers design the processors and other components that make up supercomputers.</p>
+
+<p><em>Performance engineering</em> is the collection of processes by which an application’s or computing system’s performance is measured, predicted, and optimised. This module will be primarily focussed on the discipline of performance engineering, and throughout the remainder of the course you will learn how to:</p>
+
+<ul>
+  <li>Accurately measure and reason about the performance of an application or system</li>
+  <li>Execute batch jobs on large-scale shared systems</li>
+  <li>Exploit the parallelisation available on-core, on-node, and off-node</li>
+  <li>Build applications for execution on accelerator devices</li>
+  <li>Write applications that can target multiple types of hardware from a single codebase</li>
+</ul>
+
+<h1 id="scientific-computing">Scientific Computing</h1>
+
+<p>Scientific Computing/Computational Science is the application of computer science and software engineering to solve complex problems in science and engineering.</p>
+
+<p>Today, scientific computing is used in fields such as:</p>
+
+<ul>
+  <li>Theoretical Physics</li>
+  <li>Plasma Physics</li>
+  <li>Astrophysics</li>
+  <li>Computational Fluid Dynamics</li>
+  <li>Material Sciences</li>
+  <li>Biomedicine</li>
+  <li>Robotics</li>
+  <li>Artificial Intelligence</li>
+  <li>Quantum Mechanics</li>
+  <li>…</li>
+</ul>
+
+<p>Throughout these fields there are a number of key algorithms or computational patterns that are common.</p>
+
+<h2 id="the-seven-dwarfs">The Seven Dwarfs</h2>
+
+<p>In his 2004 talk, Phillip Colella outlined the <em>seven dwarfs of scientific computing</em> – seven computational motifs that are common in almost all fields of scientific computing.</p>
+
+<ol>
+  <li>Dense Linear Algebra – classic vector and matrix operations</li>
+  <li>Sparse Linear Algebra – multiplication involving matrices composed primarily of zeros</li>
+  <li>Spectral Methods – spectral domain computations transformed from temporal or spatial domains and solved numerically</li>
+  <li>N-Body Methods – calculations that depend on interactions between discrete points</li>
+  <li>Structured Grids – computation steps update data in a regular multi-dimensional grid</li>
+  <li>Unstructured Grids – computations that depend on neighbours in an irregular grid</li>
+  <li>Monte Carlo – applications relying on repeated random sampling to obtain numerical results</li>
+</ol>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li><a href="https://www.krellinst.org/doecsgf/conf/2013/pres/pcolella.pdf">Software Engineering for Scientific Computing</a></li>
+  </ul>
+</blockquote>
+
+<blockquote class="block-danger">
+  <p><strong>Exercise</strong></p>
+
+  <p>For each of the following simulation applications investigate which of the 7 dwarfs are present.</p>
+  <ul>
+    <li>LINPACK</li>
+    <li>LS-DYNA</li>
+    <li>LAMMPS</li>
+    <li>NEK5000</li>
+  </ul>
+
+  <p><em><strong>Note:</strong> These applications may contain motifs of multiple dwarfs.</em></p>
+</blockquote>
+
+<h2 id="the-13-dwarfs">The 13 Dwarfs</h2>
+
+<p>In recognising the expansion of scientific computing to new domains such as AI, in 2006, 6 additional “dwarfs” were proposed by authors at UC Berkeley, while the final of the seven dwarfs (Monte Carlo) was generalised to <em>MapReduce</em>.</p>
+
+<ol start="7">
+  <li>MapReduce – process subsets of data independently and merge results</li>
+  <li>Combinatorial Logic – simple computation on large data sets, exhibiting bit-level parallelism</li>
+  <li>Graph Traversal – traverse objects and examine them as they are traversed</li>
+  <li>Dynamic Programming – compute solution by solving simpler overlapping subproblems</li>
+  <li>Backtrack and Branch-and-Bound – branch-and-bound algorithms used to solve search and global optimisation</li>
+  <li>Construct Graphical Models – construct graphs that represent random variables as nodes and conditionals as dependancies as edges</li>
+  <li>Finite State Machines – interconnected states which transition between one another</li>
+</ol>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li><a href="https://www2.eecs.berkeley.edu/Pubs/TechRpts/2006/EECS-2006-183.pdf">The Landscape of Parallel Computing Research: A View From Berkeley</a></li>
+  </ul>
+</blockquote>
+
+<p>These 13 computational methods are broadly representative of many of the applications running on today’s supercomputers around the world. While you may not understand how to solve all of these problems, by the end of this module you should be able to recognise these motifs in applications, and be able to optimise and parallelise some of these methods.</p>
+
+<h1 id="recommended-reading">Recommended Reading</h1>
+
+<blockquote class="block-warning">
+  <ul>
+    <li>
+<a href="https://yorsearch.york.ac.uk/permalink/f/1d5jm03/44YORK_ALMA_DS51308825180001381">Introduction to High Performance Computing for Scientists and Engineers</a>, Chapter 5 - Basics of parallelization</li>
+  </ul>
+</blockquote>
+
+<h1 id="recommended-viewing">Recommended Viewing</h1>
+
+<blockquote class="block-warning">
+  <p>In 2021, Jack Dongarra received the ACM A.M. Turing Award (often referred to as the “Nobel Prize of Computing”) for his pioneering contributions to numerical algorithms and libraries that have enabled high performance computational software to keep pace with exponential hardware improvements for over four decades.</p>
+
+  <p>He delivered his Turing Lecture, “A Not So Simple Matter of Software”, at the <a href="https://sc22.supercomputing.org">2022 Supercomputing Conference</a>.</p>
+
+  <iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/cSO0Tc2w5Dg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""></iframe>
+  <p><br></p>
+</blockquote>
+
+                </section>
+            </div>
+<div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title">
+<span class="search-results-count"></span> results matching "<span class="search-query"></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class="search-query"></span>"</h1>
+    </div>
+</div>
+</div>
+    </div>
+</div>
+
+                        <a href="/~saw586/hipc/2024-25//" class="navigation navigation-prev navigation-unique" aria-label="Previous page: HIPC">
+                            <i class="fa fa-angle-left"></i>
+                        </a>
+                    
+
+                    
+                        <a href="/~saw586/hipc/2024-25//lectures/2-architectures/" class="navigation navigation-next navigation-unique" aria-label="Next page: 2. The Architectures of Distributed Systems">
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    
+                </div>
+            </div>
+
+            <script>
+            var gitbook = gitbook || [];
+            gitbook.push(function() {
+                gitbook.page.hasChanged({
+    "page": {
+        "title": "Introduction",
+        "level": "1.1",
+        "depth": 1,
+        
+        "next": {
+            "title": "2. The Architectures of Distributed Systems",
+            "level": "1.2",
+            "depth": 1,
+            "path": "_lectures/2-architectures.md",
+            "ref": "_lectures/2-architectures.md",
+            "articles": []
+        },
+        
+        "dir": "ltr"
+    },    "config": {
+        "plugins": ["fontsettings", "highlight", "livereload", "lunr", "search", "sharing", "theme-default", "livereload"],
+        "styles": {
+            "ebook": "styles/ebook.css",
+            "epub": "styles/epub.css",
+            "mobi": "styles/mobi.css",
+            "pdf": "styles/pdf.css",
+            "print": "styles/print.css",
+            "website": "styles/website.css"
+        },
+        "pluginsConfig": {
+            "fontsettings": {
+                "family": "sans",
+                "size": 2,
+                "theme": "white"
+            },
+            "highlight": {},
+            "livereload": {},
+            "lunr": {
+                "ignoreSpecialCharacters": false,
+                "maxIndexSize": 1000000
+            },
+            "search": {},
+            "sharing": {
+                "all": ["facebook", "google", "twitter", "weibo", "instapaper"],
+                "facebook": true,
+                "google": false,
+                "instapaper": true,
+                "twitter": true,
+                "vk": false,
+                "weibo": false
+            },
+            "theme-default": {
+                "showLevel": false,
+                "styles": {
+                    "ebook": "styles/ebook.css",
+                    "epub": "styles/epub.css",
+                    "mobi": "styles/mobi.css",
+                    "pdf": "styles/pdf.css",
+                    "print": "styles/print.css",
+                    "website": "styles/website.css"
+                }
+            }
+        },
+        "theme": "default",
+        "author": "Tao He",
+        "pdf": {
+            "pageNumbers": true,
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "paperSize": "a4",
+            "chapterMark": "pagebreak",
+            "pageBreaksBefore": "/",
+            "margin": {
+                "right": 62,
+                "left": 62,
+                "top": 56,
+                "bottom": 56
+            }
+        },
+        "structure": {
+            "langs": "LANGS.md",
+            "readme": "README.md",
+        },
+        "variables": {},
+        "title": "HIPC",
+        "language": "en",
+        "gitbook": "*"
+    },
+    "file": {
+        "path": "_lectures/1-supercomputing.md",
+        "mtime": "2022-07-21 00:00:00 +0100",
+        "type": "markdown"
+    },
+    "gitbook": {
+        "version": "3.2.3",
+        "time": "2024-11-29 13:28:54 +0000"
+    },
+    "basePath": "/~saw586/hipc/2024-25/",
+    "book": {
+        "language": ""
+    }
+});
+            });
+            </script>
+        </div>
+<script src="/~saw586/hipc/2024-25//assets/gitbook/gitbook.js"></script>
+<script src="/~saw586/hipc/2024-25//assets/gitbook/theme.js"></script>
+
+<script src="/~saw586/hipc/2024-25//assets/gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+<script src="/~saw586/hipc/2024-25//assets/gitbook/gitbook-plugin-sharing/buttons.js"></script>
+
+<!-- <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+<script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+<script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+<script src="../gitbook/gitbook-plugin-search/search.js"></script> -->
+
+<script src="/~saw586/hipc/2024-25//assets/gitbook/gitbook-plugin-search-pro/jquery.mark.min.js"></script>
+<script src="/~saw586/hipc/2024-25//assets/gitbook/gitbook-plugin-search-pro/search.js"></script>
+<script src="/~saw586/hipc/2024-25//assets/gitbook/gitbook-plugin-back-to-top-button/plugin.js"></script>
+
+<script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+</body>
+</html>

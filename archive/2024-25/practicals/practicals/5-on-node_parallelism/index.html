@@ -1,0 +1,905 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+<meta charset="UTF-8">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<title>5. Programming On-node Parallelism · HIPC</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="HIPC
+">
+<meta name="generator" content="Jekyll (using style of GitBook 3.2.3)">
+<meta name="author" content="Steven Wright">
+<link rel="stylesheet" href="/~saw586/hipc//assets/gitbook/style.css">
+<link rel="stylesheet" href="/~saw586/hipc//assets/gitbook/gitbook-plugin-fontsettings/website.css">
+<link rel="stylesheet" href="/~saw586/hipc//assets/gitbook/gitbook-plugin-search-pro/search.css">
+<link rel="stylesheet" href="/~saw586/hipc//assets/gitbook/gitbook-plugin-back-to-top-button/plugin.css">
+
+<link rel="stylesheet" href="/~saw586/hipc//assets/gitbook/rouge/github.css">
+
+<link rel="stylesheet" href="/~saw586/hipc//assets/gitbook/custom.css">
+
+<meta name="HandheldFriendly" content="true">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="apple-touch-icon-precomposed" sizes="152x152" href="/~saw586/hipc//assets/gitbook/images/apple-touch-icon-precomposed-152.png">
+<link rel="shortcut icon" href="/~saw586/hipc//assets/gitbook/images/favicon.ico" type="image/x-icon">
+
+
+
+
+
+<script>
+    MathJax = {
+        tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        svg: {
+            fontCache: 'global'
+        }
+    };
+</script>
+            <link rel="prev" href="/~saw586/hipc//practicals/4-on-core_parallelism/">
+        
+
+        
+            <link rel="next" href="/~saw586/hipc//practicals/6-off-node_parallelism/">
+        
+    </head>
+    <body>
+        <div class="book">
+<div class="book-summary">
+    <nav role="navigation">
+        <div id="book-search-input" role="search">
+            <input type="text" placeholder="Type to search">
+        </div>
+        <div id="book-search-input-link" role="search">
+            <a href="/~saw586/hipc//assets/search.html">Click to Search</a>
+        </div>
+        <ul class="summary">
+            
+            <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/">
+            
+                <a href="/~saw586/hipc//">
+                    HIPC
+                </a>
+            </li>
+
+            <li class="divider">
+
+            
+             
+                
+                <!-- <li class="chapter" data-level="1.1"><a>about</a></li> -->
+             
+                
+                    
+
+                    
+                        
+                        </li>
+<li class="chapter" data-level="1.1" data-path="/~saw586/hipc//about/about/">
+                        
+                            <a href="/~saw586/hipc//about/about/">
+                                About
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//about/changelog/">
+                        
+                            <a href="/~saw586/hipc//about/changelog/">
+                                Changelog
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+
+                    
+                        <li class="divider">
+                    
+                
+            
+             
+                
+                </li>
+<li><a><strong>Units</strong></a></li>
+                
+                <!-- <li class="chapter" data-level="1.1"><a>lectures</a></li> -->
+             
+                
+                    
+
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/1-supercomputing/">
+                        
+                            <a href="/~saw586/hipc//lectures/1-supercomputing/">
+                                1. Supercomputing and Scientific Computing
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/2-architectures/">
+                        
+                            <a href="/~saw586/hipc//lectures/2-architectures/">
+                                2. The Architectures of Distributed Systems
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/3-management_and_measurement/">
+                        
+                            <a href="/~saw586/hipc//lectures/3-management_and_measurement/">
+                                3. Management and Measurement of Distributed Systems
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/4-on-core_parallelism/">
+                        
+                            <a href="/~saw586/hipc//lectures/4-on-core_parallelism/">
+                                4. On-core Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/5-on-node_parallelism/">
+                        
+                            <a href="/~saw586/hipc//lectures/5-on-node_parallelism/">
+                                5. On-node Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/6-internode_parallelism/">
+                        
+                            <a href="/~saw586/hipc//lectures/6-internode_parallelism/">
+                                6. Internode Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/7-advanced_internode_parallelism/">
+                        
+                            <a href="/~saw586/hipc//lectures/7-advanced_internode_parallelism/">
+                                7. Advanced Internode Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/8-accelerators/">
+                        
+                            <a href="/~saw586/hipc//lectures/8-accelerators/">
+                                8. Accelerators
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/9-more_accelerators/">
+                        
+                            <a href="/~saw586/hipc//lectures/9-more_accelerators/">
+                                9. Advanced Accelerators
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+
+                    
+                        <li class="divider">
+                    
+                
+            
+             
+                
+                <!-- <li class="chapter" data-level="1.1"><a>posts</a></li> -->
+             
+                
+                    
+
+                    
+
+                    
+                
+            
+             
+                
+                </li>
+<li><a><strong>Practicals</strong></a></li>
+                
+                <!-- <li class="chapter" data-level="1.1"><a>practicals</a></li> -->
+             
+                
+                    
+
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/1-introduction_to_c-1/">
+                        
+                            <a href="/~saw586/hipc//practicals/1-introduction_to_c-1/">
+                                1. Introduction to C (part 1)
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/2-introduction_to_c-2/">
+                        
+                            <a href="/~saw586/hipc//practicals/2-introduction_to_c-2/">
+                                2. Introduction to C (part 2)
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/3-basic_optimisation/">
+                        
+                            <a href="/~saw586/hipc//practicals/3-basic_optimisation/">
+                                3. Basic Optimisation
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/4-on-core_parallelism/">
+                        
+                            <a href="/~saw586/hipc//practicals/4-on-core_parallelism/">
+                                4. Programming On-core Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter active" data-level="1.2" data-path="/~saw586/hipc//practicals/5-on-node_parallelism/">
+                        
+                            <a href="/~saw586/hipc//practicals/5-on-node_parallelism/">
+                                5. Programming On-node Parallelism
+                            </a>
+                            
+                                
+                                    <ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#exercise-1">Exercise 1</a></li>
+<li>
+<a href="#monte-carlo-methods">Monte Carlo Methods</a><ul><li><a href="#calculating-pi-with-monte-carlo">Calculating Pi with Monte Carlo</a></li></ul>
+</li>
+<li><a href="#exercise-2">Exercise 2</a></li>
+<li><a href="#exercise-3">Exercise 3</a></li>
+<li><a href="#exercise-4">Exercise 4</a></li>
+<li>
+<a href="#getting-started-with-viking">Getting Started with Viking</a><ul>
+<li><a href="#logging-in">Logging in</a></li>
+<li><a href="#loading-an-environment-module">Loading an Environment Module</a></li>
+<li><a href="#submitting-a-job">Submitting a Job</a></li>
+<li><a href="#checking-and-cancelling-jobs">Checking and Cancelling Jobs</a></li>
+</ul>
+</li>
+<li><a href="#exercise-5">Exercise 5</a></li>
+<li><a href="#bonus-exercise">Bonus Exercise</a></li>
+</ul>
+
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/6-off-node_parallelism/">
+                        
+                            <a href="/~saw586/hipc//practicals/6-off-node_parallelism/">
+                                6. Programming Off-node Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/7-advanced_mpi/">
+                        
+                            <a href="/~saw586/hipc//practicals/7-advanced_mpi/">
+                                7. Advanced MPI Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/8-cuda_programming/">
+                        
+                            <a href="/~saw586/hipc//practicals/8-cuda_programming/">
+                                8. CUDA Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/9-advanced_cuda_programming/">
+                        
+                            <a href="/~saw586/hipc//practicals/9-advanced_cuda_programming/">
+                                9. Advanced CUDA Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+
+                    
+                        <li class="divider">
+                    
+                
+            
+        </li>
+</ul>
+    </nav>
+</div>
+<div class="book-body">
+                <div class="book-header" role="navigation">
+                    <!-- Title -->
+                    <h1>
+                        <i class="fa fa-circle-o-notch fa-spin"></i>
+                        
+                            <a href=".">5. Programming On-node Parallelism</a>
+                        
+                    </h1>
+                </div>
+
+                <div class="body-inner">
+<div class="page-wrapper" tabindex="-1" role="main">
+    
+
+    <div class="page-inner">
+        <div id="book-search-results">
+            <div class="search-noresults">
+                <section class="normal markdown-section">
+                    
+                        <h1 id="/practicals/5-on-node_parallelism">5. Programming On-node Parallelism</h1>
+                    
+
+                    <h1 id="overview">Overview</h1>
+
+<p>Welcome to the fifth practical.</p>
+
+<p>This week, we’re entering the world of multicore. We’ll still be using some of the skills developed in the last practical to ensure we make optimal use of a single core, but we’ll also be expanding this to multi-core and multi-processor systems.</p>
+
+<p>We’ll start by revisiting an exercise from last week, and then we’ll develop a new code based on a <a href="https://en.wikipedia.org/wiki/Monte_Carlo_method">Monte Carlo method</a>.</p>
+
+<p>Finally, we’ll get started with <a href="https://vikingdocs.york.ac.uk/">Viking</a>, the University’s HPC platform.</p>
+
+<blockquote class="block-danger">
+  <h1 id="exercise-1">Exercise 1</h1>
+
+  <p>We’ll start this week with the Spheres application from the previous two practicals. If you didn’t manage to complete the previous exercises, now is the time to catch up!</p>
+
+  <p><strong>Note:</strong> You can complete this exercise from any of the Sphere exercises from the previous two practicals (though working from the last Spheres exercise is preferrable).</p>
+
+  <p>This exercise has two parts.</p>
+
+  <p><strong>Part 1:</strong> First, parallelise your code with OpenMP. Run your application with different numbers of threads, and analyse its scaling behaviour.</p>
+
+  <p><strong>Part 2:</strong> At the moment the code outputs a table of the spheres with their position, size, circumference, volume, and intersects. Add code to find the size of the largest and smallest spheres, and parallelise them with OpenMP (<strong>Hint:</strong> you might want to use reductions). <br><br></p>
+</blockquote>
+
+<h1 id="monte-carlo-methods">Monte Carlo Methods</h1>
+
+<p>For the next few exercises we’re going to develop a small application to calculate the value of Pi (3.141592…), and we’re going to do this with a <strong>Monte Carlo method</strong>.</p>
+
+<p>Monte Carlo methods are a broad class of algorithm based on using repeated random sampling to converge on a numerical result. Essentially, Monte Carlo methods follow a particular pattern:</p>
+
+<ol>
+  <li>Define a domain of possible inputs</li>
+  <li>Generate inputs randomly from a probability distribution over the domain</li>
+  <li>Perform a deterministic computation on the inputs</li>
+  <li>Aggregate the results</li>
+</ol>
+
+<p>More simulations or computations typically leads to a more accurate answer, with a smaller window of uncertainty.</p>
+
+<h2 id="calculating-pi-with-monte-carlo">Calculating Pi with Monte Carlo</h2>
+
+<p>We can use a simple Monte Carlo method to calculate a value for Pi.</p>
+
+<p>Imagine a circular unit-radius dart board centred at (0,0), contained within a 2 × 2 square (running from -1 to 1 in each direction). If we were to randomly throw darts at the dart board and count the number that fall within the circle, compared to the total number of darts thrown, we should find that this ratio approaches the value of Pi/4.</p>
+
+<p>We can simplify this slightly by only considering a single quadrant of our “dart board” (since the other 4 quadrants are identical rotations).</p>
+
+<p style="color:gray; font-size: 90%; text-align:center;"><img src="../../assets/practical-4/pi_monte_carlo.gif" alt="Visual representation of a Monte Carlo method for calculating Pi" width="40%"><br>
+<em><strong>Figure 1:</strong> A Monte Carlo method approximating Pi</em></p>
+
+<p>Now the method is simply:</p>
+
+<ol>
+  <li>Generate an x and y value between 0.0 and 1.0</li>
+  <li>If point (x,y) is within the quarter circle, increment the “in” counter</li>
+  <li>Increment “total experiments” counter</li>
+</ol>
+
+<p>Our value of Pi is then calculated by: (in / total experiments) * 4.0.</p>
+
+<blockquote class="block-danger">
+  <h1 id="exercise-2">Exercise 2</h1>
+
+  <p>Write a simple, single threaded code to calculate Pi using this method. How close do you get after 100 evaluations? 1000? 1000000?  <br><br></p>
+</blockquote>
+
+<blockquote class="block-danger">
+  <h1 id="exercise-3">Exercise 3</h1>
+
+  <p>With everything we do in HIPC, we’re interested in High Performance!</p>
+
+  <p>Instrument your code with appropriate timers and evaluate its performance. <br><br></p>
+</blockquote>
+
+<blockquote class="block-danger">
+  <h1 id="exercise-4">Exercise 4</h1>
+
+  <p>Optimise your MC-Pi code with SIMD and OpenMP. How much can you improve its performance?</p>
+
+  <p><strong>Hint:</strong> C’s math.h <code class="language-plaintext highlighter-rouge">rand()</code> function <em><strong>is not thread safe</strong></em>. It relies on shared hidden state that may affect its performance and randomness (i.e. two or more threads may generate the same random sequence or a race condition could skew the distribution of random numbers). Instead, you could use an alternative random number generator with visible state (such that each thread can maintain its own state). You could use the random number generator below, taken (and modified) from <a href="http://numerical.recipes/book/book.html">Numerical Recipes</a> (page 340).</p>
+
+  <div class="language-c highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1">// Modified from Numerical Recipes Page 340 http://numerical.recipes/book/book.html</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">long</span> <span class="n">u</span><span class="p">;</span>
+    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">long</span> <span class="n">v</span><span class="p">;</span>
+    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">long</span> <span class="n">w</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">random_generator</span><span class="p">;</span>
+
+<span class="n">random_generator</span> <span class="nf">init_random_generator</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">long</span> <span class="n">seed</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">random_generator</span> <span class="n">r</span><span class="p">;</span>
+    <span class="n">r</span><span class="p">.</span><span class="n">v</span> <span class="o">=</span> <span class="mi">4101842887655102017LL</span><span class="p">;</span>
+    <span class="n">r</span><span class="p">.</span><span class="n">w</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="n">r</span><span class="p">.</span><span class="n">u</span> <span class="o">=</span> <span class="n">seed</span> <span class="o">^</span> <span class="n">r</span><span class="p">.</span><span class="n">v</span><span class="p">;</span> 
+    <span class="n">r</span><span class="p">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">r</span><span class="p">.</span><span class="n">u</span><span class="p">;</span>
+    <span class="n">r</span><span class="p">.</span><span class="n">w</span> <span class="o">=</span> <span class="n">r</span><span class="p">.</span><span class="n">v</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">r</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">double</span> <span class="nf">random_double</span><span class="p">(</span><span class="n">random_generator</span> <span class="o">*</span><span class="n">r</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">//Return 64-bit random integer.</span>
+    <span class="n">r</span><span class="o">-&gt;</span><span class="n">u</span> <span class="o">=</span> <span class="n">r</span><span class="o">-&gt;</span><span class="n">u</span> <span class="o">*</span> <span class="mi">2862933555777941757LL</span> <span class="o">+</span> <span class="mi">7046029254386353087LL</span><span class="p">;</span> 
+    <span class="n">r</span><span class="o">-&gt;</span><span class="n">v</span> <span class="o">^=</span> <span class="n">r</span><span class="o">-&gt;</span><span class="n">v</span> <span class="o">&gt;&gt;</span> <span class="mi">17</span><span class="p">;</span> 
+    <span class="n">r</span><span class="o">-&gt;</span><span class="n">v</span> <span class="o">^=</span> <span class="n">r</span><span class="o">-&gt;</span><span class="n">v</span> <span class="o">&lt;&lt;</span> <span class="mi">31</span><span class="p">;</span> 
+    <span class="n">r</span><span class="o">-&gt;</span><span class="n">v</span> <span class="o">^=</span> <span class="n">r</span><span class="o">-&gt;</span><span class="n">v</span> <span class="o">&gt;&gt;</span> <span class="mi">8</span><span class="p">;</span>
+    <span class="n">r</span><span class="o">-&gt;</span><span class="n">w</span> <span class="o">=</span> <span class="mi">4294957665U</span><span class="o">*</span><span class="p">(</span><span class="n">r</span><span class="o">-&gt;</span><span class="n">w</span> <span class="o">&amp;</span> <span class="mh">0xffffffff</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">r</span><span class="o">-&gt;</span><span class="n">w</span> <span class="o">&gt;&gt;</span> <span class="mi">32</span><span class="p">);</span>
+    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">long</span> <span class="n">x</span> <span class="o">=</span> <span class="n">r</span><span class="o">-&gt;</span><span class="n">u</span> <span class="o">^</span> <span class="p">(</span><span class="n">r</span><span class="o">-&gt;</span><span class="n">u</span> <span class="o">&lt;&lt;</span> <span class="mi">21</span><span class="p">);</span> 
+    <span class="n">x</span> <span class="o">^=</span> <span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="mi">35</span><span class="p">;</span> 
+    <span class="n">x</span> <span class="o">^=</span> <span class="n">x</span> <span class="o">&lt;&lt;</span> <span class="mi">4</span><span class="p">;</span> 
+    <span class="k">return</span> <span class="mf">5.42101086242752217E-20</span> <span class="o">*</span> <span class="p">((</span><span class="n">x</span> <span class="o">+</span> <span class="n">r</span><span class="o">-&gt;</span><span class="n">v</span><span class="p">)</span> <span class="o">^</span> <span class="n">r</span><span class="o">-&gt;</span><span class="n">w</span><span class="p">);</span>
+<span class="p">}</span> 
+
+<span class="p">...</span>
+
+<span class="n">random_generator</span> <span class="n">my_random</span> <span class="o">=</span> <span class="n">init_random_generator</span><span class="p">(</span><span class="n">time</span><span class="p">(</span><span class="nb">NULL</span><span class="p">));</span>
+<span class="kt">double</span> <span class="n">x</span> <span class="o">=</span> <span class="n">random_double</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_random</span><span class="p">);</span>
+</code></pre></div>  </div>
+
+  <p>When creating a random number generator, be sure to use a unique seed for each thread (for example, use the thread id in some way). <br><br></p>
+</blockquote>
+
+<h1 id="getting-started-with-viking">Getting Started with Viking</h1>
+
+<p>You should now have an account on the University’s HPC platform, Viking.</p>
+
+<p>Next week’s practical will take place on Viking, so let’s check that you can access and use the system.</p>
+
+<h2 id="logging-in">Logging in</h2>
+
+<p>The first thing to do is check that we can log in to Viking. Open a terminal and try:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ssh viking.york.ac.uk
+</code></pre></div></div>
+
+<p>If you’re using your own laptop (where your username is likely different), you can specify your username on the command line with:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ssh YOUR_USERNAME_HERE@viking.york.ac.uk
+</code></pre></div></div>
+
+<p>Hopefully, this should provide you with a terminal on Viking!</p>
+
+<p>If you’d like to use Viking outside of the lab (or from a Windows platform, etc.), you can find detailed log in information on the <a href="https://vikingdocs.york.ac.uk/getting_started/connecting_to_viking.html">Connecting to Viking</a> page.</p>
+
+<h2 id="loading-an-environment-module">Loading an Environment Module</h2>
+
+<p>OK, so hopefully we’re now logged in to Viking and ready to do some work. Let’s start by loading a compiler. We can view all available modules with:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ module avail
+
+---------------------------------------------- /opt/apps/eb/modules/base ----------------------------------------------
+   PSM2/12.0.1
+
+---------------------------------------------- /opt/apps/eb/modules/bio -----------------------------------------------
+   ADMIXTURE/1.3.0                                            PLINK/2.00a2.3-GCC-10.3.0
+   AMPHORA2/20190730-gompi-2020b-Java-13-pthreads-avx2        PoolHapX/2020-03-29-foss-2019b-Java-11
+   ARAGORN/1.2.41-foss-2019b                                  ProFit/3.3-GCC-10.3.0
+   ARAGORN/1.2.41-foss-2020a                                  Proteinortho/6.0.27-foss-2020a-Python-3.8.2
+   ARAGORN/1.2.41-foss-2021b                           (D)    Pysam/0.15.3-GCC-8.3.0
+   AUGUSTUS/3.3.3-foss-2020a                                  Pysam/0.16.0.1-GCC-8.3.0
+...
+</code></pre></div></div>
+
+<p>But notice that it’s a very long list! We can search modules with the <code class="language-plaintext highlighter-rouge">spider</code> command (and we can search for a GCC compiler!):</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ module spider GCC
+
+-------------------------------------------------------------------------------------------------------------------
+  GCC:
+-------------------------------------------------------------------------------------------------------------------
+    Description:
+      The GNU Compiler Collection includes front ends for C, C++, Objective-C, Fortran, Java, and Ada, as well as
+      libraries for these languages (libstdc++, libgcj,...).
+
+     Versions:
+        GCC/7.3.0-2.30
+        GCC/8.2.0-2.31.1
+        GCC/8.3.0
+        GCC/8.3.0-2.32
+
+...
+</code></pre></div></div>
+
+<p>Let’s just load a relatively new version of GCC for now (11.2.0):</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ module load GCC/11.2.0
+
+The following have been reloaded with a version change:
+  1) GCC/10.2.0 =&gt; GCC/11.2.0             3) binutils/2.35-GCCcore-10.2.0 =&gt; binutils/2.37-GCCcore-11.2.0
+  2) GCCcore/10.2.0 =&gt; GCCcore/11.2.0     4) zlib/1.2.11-GCCcore-10.2.0 =&gt; zlib/1.2.11-GCCcore-11.2.0
+
+$ gcc --version
+gcc (GCC) 11.2.0
+Copyright (C) 2021 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+</code></pre></div></div>
+
+<p>Again, the Viking documentation is a good source of detailed additional information on this topic – <a href="https://vikingdocs.york.ac.uk/using_viking/software_on_viking.html">Software on Viking</a>.</p>
+
+<h2 id="submitting-a-job">Submitting a Job</h2>
+
+<p>You’ll notice that your userspace (home) on Viking is not the same as your userspace on the University’s network. This is deliberate to ensure that the cluster is operational even if the University’s network goes down, and that jobs don’t run from a remote file system that is not designed for HPC. Instead you’ll have to either write your applications on Viking (using your favourite terminal text editor, like <code class="language-plaintext highlighter-rouge">nano</code> or <code class="language-plaintext highlighter-rouge">vim</code>), or you’ll have to <a href="https://vikingdocs.york.ac.uk/getting_started/data_management_and_user_quota.html#copying-and-moving-your-data-to-viking">copy them over with scp</a> (or sync them with <code class="language-plaintext highlighter-rouge">git</code> etc.). You might want to copy them from a lab machine like so:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#copy a single file to the scratch folder
+$ scp myfile.c viking.york.ac.uk:~/scratch/
+
+#copy a directory to the scratch folder with recursive copy (-r)
+$ scp -r my_directory viking viking.york.ac.uk:~/scratch/  
+
+#copy a single file to scratch and specify your username
+$ scp myfile.c YOUR_USERNAME_HERE@viking.york.ac.uk:~/scratch/
+</code></pre></div></div>
+
+<blockquote class="block-warning">
+  <p><strong>Responsible Viking Usage</strong></p>
+
+  <p>Your home directory is not designed for fast access, or large datasets. Parallel jobs should be run from the “scratch” file system (which you can access through the <code class="language-plaintext highlighter-rouge">scratch</code> folder in your home directory).</p>
+
+  <p>You <strong>should not</strong> run computational tasks on the login node (and doing so might result in a ban on the system). Instead, you should compile your applications on the login node but execute your programs on computational nodes.</p>
+</blockquote>
+
+<p>Viking runs the Slurm scheduling system. On Viking, there are two kinds of job you can request: <strong>A batch job</strong> (where the cluster queues and runs a script, storing the output in a file), or <strong>an interactive job</strong> (where you are presented with a shell on a compute node).</p>
+
+<h3 id="batch-jobs">Batch Jobs</h3>
+
+<p>Batch jobs are prepared as simple shell scripts (e.g. bash scripts), that are submitted using the <code class="language-plaintext highlighter-rouge">sbatch</code> command. You can specify job submission parameters on the command line, or you can include them in the script at the top (after the <a href="https://en.wikipedia.org/wiki/Shebang_(Unix)">hash-bang</a>), with the <code class="language-plaintext highlighter-rouge">#SBATCH</code> prefix. So for example, your submission script might look like this (<code class="language-plaintext highlighter-rouge">simple.job</code>):</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="c">#SBATCH --time=00:10:00                 # Maximum time (HH:MM:SS)</span>
+<span class="c">#SBATCH --ntasks=1                      # run on a single CPU</span>
+<span class="c">#SBATCH --mem=1gb                       # reserve 1GB memory for job</span>
+<span class="c">#SBATCH --output=simple_job_%j.log      # standard output and error log</span>
+<span class="c">#SBATCH --partition=teach               # run in the teaching queue</span>
+<span class="c">#SBATCH --account=cs-teach-2024         # specify the CS teaching account</span>
+ 
+<span class="nb">echo </span>simple.job running on <span class="sb">`</span><span class="nb">hostname</span><span class="sb">`</span>
+<span class="nb">sleep </span>600
+</code></pre></div></div>
+
+<p>Here, the job simply runs an <code class="language-plaintext highlighter-rouge">echo</code> command and then sleeps for 10 minutes. We can submit this job with <code class="language-plaintext highlighter-rouge">sbatch</code> like so:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sbatch simple.job
+Submitted batch job 147874
+$ squeue -u YOUR_USERNAME_HERE
+JOBID  PARTITION NAME     USER ST TIME NODES NODELIST(REASON)
+147874 teach     simple.j usr1 R  0:06 1     node054
+$ ls
+simple.job slurm-147874.out
+$ cat slurm-147874.out
+simple.job running on node054.viking2.yor.alces.network
+</code></pre></div></div>
+
+<p>Alternatively, we could have specified many of the options in our command line like so:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sbatch --partition=teach --account=cs-teach-2024 --ntasks=10 ...
+</code></pre></div></div>
+
+<p>More information on the parameters you can use in your job submission scripts can be found here: <a href="https://vikingdocs.york.ac.uk/using_viking/jobscript_examples.html">Jobscript Examples</a></p>
+
+<h3 id="interactive-jobs">Interactive Jobs</h3>
+
+<p>Interactive jobs are useful when you are debugging code (to quickly edit, recompile and run without having to submit many jobs), and for when you have large compilation jobs that you don’t want to consume all resources on the login nodes.</p>
+
+<p>You can get an interactive job with the <code class="language-plaintext highlighter-rouge">srun</code> command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ srun --account=cs-teach-2024 --ntasks=1 --time=00:30:00 --pty /bin/bash
+srun: job 6485884 queued and waiting for resources
+srun: job 6485884 has been allocated resources
+$
+</code></pre></div></div>
+
+<p>You should notice that when you have been granted an interactive job, your terminal prompt will indicate that you are now on a node, rather than the viking login nodes.</p>
+
+<p>Again, all things related to submitting jobs to Viking can be found in the documentation – <a href="https://vikingdocs.york.ac.uk/using_viking/submitting_jobs.html">Submitting Jobs</a>.</p>
+
+<h2 id="checking-and-cancelling-jobs">Checking and Cancelling Jobs</h2>
+
+<p>The final thing we’ll briefly touch upon is how to check on our jobs, and how to cancel them.</p>
+
+<p>We can check the queue (to see where we lie in the queue) with the <code class="language-plaintext highlighter-rouge">squeue</code> command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ squeue
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+          17007908       gpu 15sb2_ne   xxx100 PD       0:00      1 (QOSMaxGRESPerUser)
+          17066762       gpu     TKt3   xx1655 PD       0:00      1 (QOSMaxGRESPerUser)
+          17066763       gpu   Tuvat3   xx1655 PD       0:00      1 (QOSMaxGRESPerUser)
+          17066764       gpu   Tucft3   xx1655 PD       0:00      1 (QOSMaxGRESPerUser)
+           3474167       gpu train.sh   xx2098 PD       0:00      1 (JobHeldUser)
+           3474140       gpu train.sh   xx2098 PD       0:00      1 (JobHeldUser)
+          17007907       gpu 15sb7_ne   xxx100  R 1-00:06:02      1 gpu01
+          17007906       gpu 15sb6_ne   xxx100  R 1-00:33:01      1 gpu01
+          17066761       gpu     TWt3   xx1655  R    8:59:00      1 gpu01
+...
+</code></pre></div></div>
+
+<p>We can check out our own jobs with the <code class="language-plaintext highlighter-rouge">sacct</code> command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sacct
+JobID           JobName  Partition    Account  AllocCPUS      State ExitCode 
+------------ ---------- ---------- ---------- ---------- ---------- -------- 
+17095020     simple.jo+      teach cs-teach-+          1    RUNNING      0:0 
+17095020.ba+      batch            cs-teach-+          1    RUNNING      0:0
+</code></pre></div></div>
+
+<p>And we can cancel a job using the <code class="language-plaintext highlighter-rouge">scancel</code> command. The output of our job will reflect that the job was cancelled.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ scancel 17095020
+$ cat simple_job_17095020.log 
+simple.job running on node002.yor.viking2.alces.network
+slurmstepd: error: *** JOB 17095020 ON node002 CANCELLED AT 2022-02-07T13:54:29 ***
+
+============================
+ Job utilisation efficiency
+============================
+
+Job ID: 17095020
+Cluster: viking
+User/Group: usr1/clusterusers
+State: CANCELLED (exit code 0)
+Cores: 1
+CPU Utilized: 00:00:00
+CPU Efficiency: 0.00% of 00:00:32 core-walltime
+Job Wall-clock time: 00:00:32
+Memory Utilized: 1.88 MB
+Memory Efficiency: 0.18% of 1.00 GB
+ Requested wall clock time: 00:10:00
+    Actual wall clock time: 00:00:32
+Wall clock time efficiency: 5.3%
+           Job queued time: 00:00:00
+</code></pre></div></div>
+
+<blockquote class="block-danger">
+  <h1 id="exercise-5">Exercise 5</h1>
+
+  <p>Your final exercise this week is to log in to Viking, copy over one of the exercises from this class, compile it, and run it in a job submission script.</p>
+
+  <p>You should only use a single node, but you can change how many cores you request, and other environmental variables (e.g. <code class="language-plaintext highlighter-rouge">OMP_PROC_BIND</code> and <code class="language-plaintext highlighter-rouge">OMP_PLACES</code>) and see what effect this has on performance. <br><br></p>
+</blockquote>
+
+<blockquote class="block-warning">
+  <p><strong>Important</strong></p>
+
+  <p>If you are unable to access Viking for whatever reason, you <strong>must</strong> let me know as soon as possible. Viking access will be vital for next week’s practical and your assessment.</p>
+</blockquote>
+
+<blockquote class="block-danger">
+  <h1 id="bonus-exercise">Bonus Exercise</h1>
+
+  <p>If you have time, and you completed the previous practical, you could optimise your n-body code on a whole node. <br><br></p>
+</blockquote>
+
+
+                </section>
+            </div>
+<div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title">
+<span class="search-results-count"></span> results matching "<span class="search-query"></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class="search-query"></span>"</h1>
+    </div>
+</div>
+</div>
+    </div>
+</div>
+
+                        <a href="/~saw586/hipc//practicals/4-on-core_parallelism/" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 4. Programming On-core Parallelism">
+                            <i class="fa fa-angle-left"></i>
+                        </a>
+                    
+
+                    
+                        <a href="/~saw586/hipc//practicals/6-off-node_parallelism/" class="navigation navigation-next navigation-unique" aria-label="Next page: 6. Programming Off-node Parallelism">
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    
+                </div>
+            </div>
+
+            <script>
+            var gitbook = gitbook || [];
+            gitbook.push(function() {
+                gitbook.page.hasChanged({
+    "page": {
+        "title": "Introduction",
+        "level": "1.1",
+        "depth": 1,
+        
+        "next": {
+            "title": "6. Programming Off-node Parallelism",
+            "level": "1.2",
+            "depth": 1,
+            "path": "_practicals/6-off-node_parallelism.md",
+            "ref": "_practicals/6-off-node_parallelism.md",
+            "articles": []
+        },
+        
+        "dir": "ltr"
+    },    "config": {
+        "plugins": ["fontsettings", "highlight", "livereload", "lunr", "search", "sharing", "theme-default", "livereload"],
+        "styles": {
+            "ebook": "styles/ebook.css",
+            "epub": "styles/epub.css",
+            "mobi": "styles/mobi.css",
+            "pdf": "styles/pdf.css",
+            "print": "styles/print.css",
+            "website": "styles/website.css"
+        },
+        "pluginsConfig": {
+            "fontsettings": {
+                "family": "sans",
+                "size": 2,
+                "theme": "white"
+            },
+            "highlight": {},
+            "livereload": {},
+            "lunr": {
+                "ignoreSpecialCharacters": false,
+                "maxIndexSize": 1000000
+            },
+            "search": {},
+            "sharing": {
+                "all": ["facebook", "google", "twitter", "weibo", "instapaper"],
+                "facebook": true,
+                "google": false,
+                "instapaper": true,
+                "twitter": true,
+                "vk": false,
+                "weibo": false
+            },
+            "theme-default": {
+                "showLevel": false,
+                "styles": {
+                    "ebook": "styles/ebook.css",
+                    "epub": "styles/epub.css",
+                    "mobi": "styles/mobi.css",
+                    "pdf": "styles/pdf.css",
+                    "print": "styles/print.css",
+                    "website": "styles/website.css"
+                }
+            }
+        },
+        "theme": "default",
+        "author": "Tao He",
+        "pdf": {
+            "pageNumbers": true,
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "paperSize": "a4",
+            "chapterMark": "pagebreak",
+            "pageBreaksBefore": "/",
+            "margin": {
+                "right": 62,
+                "left": 62,
+                "top": 56,
+                "bottom": 56
+            }
+        },
+        "structure": {
+            "langs": "LANGS.md",
+            "readme": "README.md",
+        },
+        "variables": {},
+        "title": "HIPC",
+        "language": "en",
+        "gitbook": "*"
+    },
+    "file": {
+        "path": "_practicals/5-on-node_parallelism.md",
+        "mtime": "2022-07-21 00:00:00 +0100",
+        "type": "markdown"
+    },
+    "gitbook": {
+        "version": "3.2.3",
+        "time": "2024-11-27 15:06:36 +0000"
+    },
+    "basePath": "/~saw586/hipc/",
+    "book": {
+        "language": ""
+    }
+});
+            });
+            </script>
+        </div>
+<script src="/~saw586/hipc//assets/gitbook/gitbook.js"></script>
+<script src="/~saw586/hipc//assets/gitbook/theme.js"></script>
+
+<script src="/~saw586/hipc//assets/gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+<script src="/~saw586/hipc//assets/gitbook/gitbook-plugin-sharing/buttons.js"></script>
+
+<!-- <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+<script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+<script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+<script src="../gitbook/gitbook-plugin-search/search.js"></script> -->
+
+<script src="/~saw586/hipc//assets/gitbook/gitbook-plugin-search-pro/jquery.mark.min.js"></script>
+<script src="/~saw586/hipc//assets/gitbook/gitbook-plugin-search-pro/search.js"></script>
+<script src="/~saw586/hipc//assets/gitbook/gitbook-plugin-back-to-top-button/plugin.js"></script>
+
+<script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+</body>
+</html>

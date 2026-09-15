@@ -1,0 +1,741 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+<meta charset="UTF-8">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<title>4. Programming On-core Parallelism · HIPC</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="HIPC
+">
+<meta name="generator" content="Jekyll (using style of GitBook 3.2.3)">
+<meta name="author" content="Steven Wright">
+<link rel="stylesheet" href="/~saw586/hipc//assets/gitbook/style.css">
+<link rel="stylesheet" href="/~saw586/hipc//assets/gitbook/gitbook-plugin-fontsettings/website.css">
+<link rel="stylesheet" href="/~saw586/hipc//assets/gitbook/gitbook-plugin-search-pro/search.css">
+<link rel="stylesheet" href="/~saw586/hipc//assets/gitbook/gitbook-plugin-back-to-top-button/plugin.css">
+
+<link rel="stylesheet" href="/~saw586/hipc//assets/gitbook/rouge/github.css">
+
+<link rel="stylesheet" href="/~saw586/hipc//assets/gitbook/custom.css">
+
+<meta name="HandheldFriendly" content="true">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="apple-touch-icon-precomposed" sizes="152x152" href="/~saw586/hipc//assets/gitbook/images/apple-touch-icon-precomposed-152.png">
+<link rel="shortcut icon" href="/~saw586/hipc//assets/gitbook/images/favicon.ico" type="image/x-icon">
+
+
+
+
+
+<script>
+    MathJax = {
+        tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        svg: {
+            fontCache: 'global'
+        }
+    };
+</script>
+            <link rel="prev" href="/~saw586/hipc//practicals/3-basic_optimisation/">
+        
+
+        
+            <link rel="next" href="/~saw586/hipc//practicals/5-on-node_parallelism/">
+        
+    </head>
+    <body>
+        <div class="book">
+<div class="book-summary">
+    <nav role="navigation">
+        <div id="book-search-input" role="search">
+            <input type="text" placeholder="Type to search">
+        </div>
+        <div id="book-search-input-link" role="search">
+            <a href="/~saw586/hipc//assets/search.html">Click to Search</a>
+        </div>
+        <ul class="summary">
+            
+            <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/">
+            
+                <a href="/~saw586/hipc//">
+                    HIPC
+                </a>
+            </li>
+
+            <li class="divider">
+
+            
+             
+                
+                <!-- <li class="chapter" data-level="1.1"><a>about</a></li> -->
+             
+                
+                    
+
+                    
+                        
+                        </li>
+<li class="chapter" data-level="1.1" data-path="/~saw586/hipc//about/about/">
+                        
+                            <a href="/~saw586/hipc//about/about/">
+                                About
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//about/changelog/">
+                        
+                            <a href="/~saw586/hipc//about/changelog/">
+                                Changelog
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+
+                    
+                        <li class="divider">
+                    
+                
+            
+             
+                
+                </li>
+<li><a><strong>Units</strong></a></li>
+                
+                <!-- <li class="chapter" data-level="1.1"><a>lectures</a></li> -->
+             
+                
+                    
+
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/1-supercomputing/">
+                        
+                            <a href="/~saw586/hipc//lectures/1-supercomputing/">
+                                1. Supercomputing and Scientific Computing
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/2-architectures/">
+                        
+                            <a href="/~saw586/hipc//lectures/2-architectures/">
+                                2. The Architectures of Distributed Systems
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/3-management_and_measurement/">
+                        
+                            <a href="/~saw586/hipc//lectures/3-management_and_measurement/">
+                                3. Management and Measurement of Distributed Systems
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/4-on-core_parallelism/">
+                        
+                            <a href="/~saw586/hipc//lectures/4-on-core_parallelism/">
+                                4. On-core Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/5-on-node_parallelism/">
+                        
+                            <a href="/~saw586/hipc//lectures/5-on-node_parallelism/">
+                                5. On-node Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/6-internode_parallelism/">
+                        
+                            <a href="/~saw586/hipc//lectures/6-internode_parallelism/">
+                                6. Internode Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/7-advanced_internode_parallelism/">
+                        
+                            <a href="/~saw586/hipc//lectures/7-advanced_internode_parallelism/">
+                                7. Advanced Internode Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/8-accelerators/">
+                        
+                            <a href="/~saw586/hipc//lectures/8-accelerators/">
+                                8. Accelerators
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/9-more_accelerators/">
+                        
+                            <a href="/~saw586/hipc//lectures/9-more_accelerators/">
+                                9. Advanced Accelerators
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+
+                    
+                        <li class="divider">
+                    
+                
+            
+             
+                
+                <!-- <li class="chapter" data-level="1.1"><a>posts</a></li> -->
+             
+                
+                    
+
+                    
+
+                    
+                
+            
+             
+                
+                </li>
+<li><a><strong>Practicals</strong></a></li>
+                
+                <!-- <li class="chapter" data-level="1.1"><a>practicals</a></li> -->
+             
+                
+                    
+
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/1-introduction_to_c-1/">
+                        
+                            <a href="/~saw586/hipc//practicals/1-introduction_to_c-1/">
+                                1. Introduction to C (part 1)
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/2-introduction_to_c-2/">
+                        
+                            <a href="/~saw586/hipc//practicals/2-introduction_to_c-2/">
+                                2. Introduction to C (part 2)
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/3-basic_optimisation/">
+                        
+                            <a href="/~saw586/hipc//practicals/3-basic_optimisation/">
+                                3. Basic Optimisation
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter active" data-level="1.2" data-path="/~saw586/hipc//practicals/4-on-core_parallelism/">
+                        
+                            <a href="/~saw586/hipc//practicals/4-on-core_parallelism/">
+                                4. Programming On-core Parallelism
+                            </a>
+                            
+                                
+                                    <ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#exercise-1">Exercise 1</a></li>
+<li><a href="#exercise-2">Exercise 2</a></li>
+<li><a href="#exercise-3">Exercise 3</a></li>
+<li><a href="#exercise-4">Exercise 4</a></li>
+</ul>
+
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/5-on-node_parallelism/">
+                        
+                            <a href="/~saw586/hipc//practicals/5-on-node_parallelism/">
+                                5. Programming On-node Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/6-off-node_parallelism/">
+                        
+                            <a href="/~saw586/hipc//practicals/6-off-node_parallelism/">
+                                6. Programming Off-node Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/7-advanced_mpi/">
+                        
+                            <a href="/~saw586/hipc//practicals/7-advanced_mpi/">
+                                7. Advanced MPI Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/8-cuda_programming/">
+                        
+                            <a href="/~saw586/hipc//practicals/8-cuda_programming/">
+                                8. CUDA Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/9-advanced_cuda_programming/">
+                        
+                            <a href="/~saw586/hipc//practicals/9-advanced_cuda_programming/">
+                                9. Advanced CUDA Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+
+                    
+                        <li class="divider">
+                    
+                
+            
+        </li>
+</ul>
+    </nav>
+</div>
+<div class="book-body">
+                <div class="book-header" role="navigation">
+                    <!-- Title -->
+                    <h1>
+                        <i class="fa fa-circle-o-notch fa-spin"></i>
+                        
+                            <a href=".">4. Programming On-core Parallelism</a>
+                        
+                    </h1>
+                </div>
+
+                <div class="body-inner">
+<div class="page-wrapper" tabindex="-1" role="main">
+    
+
+    <div class="page-inner">
+        <div id="book-search-results">
+            <div class="search-noresults">
+                <section class="normal markdown-section">
+                    
+                        <h1 id="/practicals/4-on-core_parallelism">4. Programming On-core Parallelism</h1>
+                    
+
+                    <h1 id="overview">Overview</h1>
+
+<p>In the fourth HIPC practical you’re going to be exploring vectorisation in-depth. This is something the compiler will often do for you (and will typically do it better, or at least in much less time). The important thing in this practical is not to get the most optimised vectorised source, but just to understand a little more of what the compiler is doing when it vectorises code.</p>
+
+<p>This practical is based around two exercises, the first is the spheres application from the last practical, and the second is a simple N-body simulation.</p>
+
+<p>Again, for this practical we’ll start with disabling compiler optimisations, so make sure you keep <code class="language-plaintext highlighter-rouge">-O0</code> throughout the following exercises, unless otherwise stated.</p>
+
+<blockquote class="block-danger">
+  <h1 id="exercise-1">Exercise 1</h1>
+
+  <p>The code for calculating the number of intersections is a good target for vectorisation.</p>
+
+  <p>Try rewriting the spheres application using vector intrinsics. Refer to the <a href="https://www.intel.com/content/www/us/en/docs/intrinsics-guide/index.html">Intel Intrinsics Guide</a> for help.</p>
+
+  <p>You will need to include the <code class="language-plaintext highlighter-rouge">immintrin.h</code> header file, and use the <code class="language-plaintext highlighter-rouge">-mavx</code> or <code class="language-plaintext highlighter-rouge">-mavx2</code> command line switch to enable the compiler to generate instructions for AVX and AVX2 instruction sets.</p>
+
+  <p><strong>Note:</strong> On the lab machines you can almost certainly use AVX/AVX2 intrinsics. On your own machine, you may have to check what instruction sets you have available. You can do this by reviewing the output of <code class="language-plaintext highlighter-rouge">/proc/cpuinfo</code> (on Linux). e.g.</p>
+
+  <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>$ cat /proc/cpuinfo
+processor         : 0
+vendor_id         : GenuineIntel
+cpu family        : 6
+model             : 158
+model name        : Intel(R) Core(TM) i7-8700K CPU @ 3.70GHz
+stepping          : 10
+microcode         : 0xea
+cpu MHz           : 800.689
+cache size        : 12288 KB
+physical id       : 0
+siblings          : 12
+core id           : 0
+cpu cores         : 6
+apicid            : 0
+initial apicid    : 0
+fpu               : yes
+fpu_exception     : yes
+cpuid level       : 22
+wp                : yes
+flags             : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi 
+mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good 
+nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma 
+cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 
+3dnowprefetch cpuid_fault invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid ept_ad 
+fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm mpx rdseed adx smap clflushopt intel_pt xsaveopt 
+xsavec xgetbv1 xsaves dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp md_clear flush_l1d
+bugs              : cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs taa itlb_multihit srbds
+bogomips          : 7399.70
+clflush size      : 64
+cache_alignment   : 64
+address sizes     : 39 bits physical, 48 bits virtual
+power management  :
+...
+</code></pre></div>  </div>
+
+  <p><strong>Note:</strong> “<code class="language-plaintext highlighter-rouge">avx</code>” and “<code class="language-plaintext highlighter-rouge">avx2</code>” are both listed under the “<code class="language-plaintext highlighter-rouge">flags</code>” category. Alternatively, you could Google the CPU model. <br><br></p>
+</blockquote>
+
+<blockquote class="block-danger">
+  <h1 id="exercise-2">Exercise 2</h1>
+
+  <p>Try compiling the original application and your optimised code with <code class="language-plaintext highlighter-rouge">-O3</code>. Which is faster and why? Review the optimisation reports. <br><br></p>
+</blockquote>
+
+<blockquote class="block-danger">
+  <h1 id="exercise-3">Exercise 3</h1>
+
+  <p>Attached File: <a href="../../assets/practical-3/nbody.c"><code class="language-plaintext highlighter-rouge">nbody.c</code></a></p>
+
+  <p>Here is a simple <a href="https://en.wikipedia.org/wiki/N-body_simulation">n-body code</a>. In the code there are a series of particles in 3D space, where each particle has position in space (x, y, z), a velocity vector (vx, vy, vz), and a mass (m). The code calculates the force felt on each particle by all other particles (as an acceleration) and then updates their velocity. The code then updates each particles position based on the velocity and the time step size.</p>
+
+  <p>At the end of the computation, the code calculates a simple checksum that can be used to ensure our simulation is correct.</p>
+
+  <div class="language-c highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;math.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;immintrin.h&gt;</span><span class="cp">
+</span>
+<span class="cp">#include</span> <span class="cpf">&lt;sys/time.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;sys/times.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;sys/resource.h&gt;</span><span class="cp">
+</span>
+<span class="c1">// Simulation parameters.</span>
+<span class="kt">float</span> <span class="n">eps</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mo">00125</span><span class="n">f</span><span class="p">;</span>
+<span class="kt">float</span> <span class="n">dmp</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">995</span><span class="n">f</span><span class="p">;</span>
+<span class="kt">float</span> <span class="n">dt</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mo">001</span><span class="n">f</span><span class="p">;</span>
+
+<span class="cm">/**
+ * Main function.
+ */</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">N</span> <span class="o">=</span> <span class="n">atoi</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+    <span class="kt">int</span> <span class="n">steps</span> <span class="o">=</span> <span class="n">atoi</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
+
+    <span class="c1">// Allocate arrays, aligned to 16 bytes.</span>
+    <span class="kt">float</span> <span class="o">*</span><span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="kt">float</span> <span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="n">N</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">));</span>
+    <span class="kt">float</span> <span class="o">*</span><span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="kt">float</span> <span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="n">N</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">));</span>
+    <span class="kt">float</span> <span class="o">*</span><span class="n">z</span> <span class="o">=</span> <span class="p">(</span><span class="kt">float</span> <span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="n">N</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">));</span>
+    <span class="kt">float</span> <span class="o">*</span><span class="n">vx</span> <span class="o">=</span> <span class="p">(</span><span class="kt">float</span> <span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="n">N</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">));</span>
+    <span class="kt">float</span> <span class="o">*</span><span class="n">vy</span> <span class="o">=</span> <span class="p">(</span><span class="kt">float</span> <span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="n">N</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">));</span>
+    <span class="kt">float</span> <span class="o">*</span><span class="n">vz</span> <span class="o">=</span> <span class="p">(</span><span class="kt">float</span> <span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="n">N</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">));</span>
+    <span class="kt">float</span> <span class="o">*</span><span class="n">m</span> <span class="o">=</span> <span class="p">(</span><span class="kt">float</span> <span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="n">N</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">));</span>
+
+    <span class="c1">// Initialise array contents.</span>
+    <span class="n">srand</span><span class="p">(</span><span class="mi">42</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">rand</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">RAND_MAX</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+        <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">rand</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">RAND_MAX</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+        <span class="n">z</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">rand</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">RAND_MAX</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+        <span class="n">vx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">rand</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">RAND_MAX</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+        <span class="n">vy</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">rand</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">RAND_MAX</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+        <span class="n">vz</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">rand</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">RAND_MAX</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+        <span class="n">m</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">rand</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">RAND_MAX</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Current timestep.</span>
+    <span class="kt">int</span> <span class="n">t</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="k">while</span> <span class="p">(</span><span class="n">t</span> <span class="o">&lt;</span> <span class="n">steps</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// start with zero acceleration for each particle</span>
+            <span class="kt">float</span> <span class="n">ax</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">;</span>
+            <span class="kt">float</span> <span class="n">ay</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">;</span>
+            <span class="kt">float</span> <span class="n">az</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">;</span>
+
+            <span class="c1">// calculate the acceleration on particle i from all other particles</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                <span class="kt">float</span> <span class="n">rx</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+                <span class="kt">float</span> <span class="n">ry</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+                <span class="kt">float</span> <span class="n">rz</span> <span class="o">=</span> <span class="n">z</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">z</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+
+                <span class="kt">float</span> <span class="n">r2</span> <span class="o">=</span> <span class="n">rx</span> <span class="o">*</span> <span class="n">rx</span> <span class="o">+</span> <span class="n">ry</span> <span class="o">*</span> <span class="n">ry</span> <span class="o">+</span> <span class="n">rz</span> <span class="o">*</span> <span class="n">rz</span> <span class="o">+</span> <span class="n">eps</span><span class="p">;</span>
+
+                <span class="kt">float</span> <span class="n">r2inv</span> <span class="o">=</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span> <span class="o">/</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">r2</span><span class="p">);</span>
+
+                <span class="kt">float</span> <span class="n">r6inv</span> <span class="o">=</span> <span class="n">r2inv</span> <span class="o">*</span> <span class="n">r2inv</span> <span class="o">*</span> <span class="n">r2inv</span><span class="p">;</span>
+
+                <span class="kt">float</span> <span class="n">s</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="n">r6inv</span><span class="p">;</span>
+
+                <span class="n">ax</span> <span class="o">+=</span> <span class="n">s</span> <span class="o">*</span> <span class="n">rx</span><span class="p">;</span>
+                <span class="n">ay</span> <span class="o">+=</span> <span class="n">s</span> <span class="o">*</span> <span class="n">ry</span><span class="p">;</span>
+                <span class="n">az</span> <span class="o">+=</span> <span class="n">s</span> <span class="o">*</span> <span class="n">rz</span><span class="p">;</span>
+            <span class="p">}</span>
+
+            <span class="c1">// update the velocity based on calculated acceperation</span>
+            <span class="n">vx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">dmp</span> <span class="o">*</span> <span class="p">(</span><span class="n">dt</span> <span class="o">*</span> <span class="n">ax</span><span class="p">);</span>
+            <span class="n">vy</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">dmp</span> <span class="o">*</span> <span class="p">(</span><span class="n">dt</span> <span class="o">*</span> <span class="n">ay</span><span class="p">);</span>
+            <span class="n">vz</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">dmp</span> <span class="o">*</span> <span class="p">(</span><span class="n">dt</span> <span class="o">*</span> <span class="n">az</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="c1">// update the position of each particle</span>
+        <span class="c1">// reflect boundary particles</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">dt</span> <span class="o">*</span> <span class="n">vx</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+            <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">dt</span> <span class="o">*</span> <span class="n">vy</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+            <span class="n">z</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">dt</span> <span class="o">*</span> <span class="n">vz</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span> <span class="o">||</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="o">-</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">)</span> <span class="n">vx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span> <span class="o">||</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="o">-</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">)</span> <span class="n">vy</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">z</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span> <span class="o">||</span> <span class="n">z</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="o">-</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">)</span> <span class="n">vz</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">t</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kt">float</span> <span class="n">phi</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="n">f</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kt">float</span> <span class="n">rx</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+            <span class="kt">float</span> <span class="n">ry</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+            <span class="kt">float</span> <span class="n">rz</span> <span class="o">=</span> <span class="n">z</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">z</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+            <span class="kt">float</span> <span class="n">r2</span> <span class="o">=</span> <span class="n">rx</span><span class="o">*</span><span class="n">rx</span> <span class="o">+</span> <span class="n">ry</span><span class="o">*</span><span class="n">ry</span> <span class="o">+</span> <span class="n">rz</span><span class="o">*</span><span class="n">rz</span> <span class="o">+</span> <span class="n">eps</span><span class="p">;</span>
+            <span class="kt">float</span> <span class="n">r2inv</span> <span class="o">=</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span> <span class="o">/</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">r2</span><span class="p">);</span>
+            <span class="kt">float</span> <span class="n">r6inv</span> <span class="o">=</span> <span class="n">r2inv</span> <span class="o">*</span> <span class="n">r2inv</span> <span class="o">*</span> <span class="n">r2inv</span><span class="p">;</span>
+            <span class="n">phi</span> <span class="o">+=</span> <span class="n">m</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="n">r6inv</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="n">printf</span><span class="p">(</span><span class="s">" Answer = %f</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">phi</span><span class="p">);</span>
+
+    <span class="c1">// Tidy up.</span>
+    <span class="n">free</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+    <span class="n">free</span><span class="p">(</span><span class="n">y</span><span class="p">);</span>
+    <span class="n">free</span><span class="p">(</span><span class="n">z</span><span class="p">);</span>
+    <span class="n">free</span><span class="p">(</span><span class="n">vx</span><span class="p">);</span>
+    <span class="n">free</span><span class="p">(</span><span class="n">vy</span><span class="p">);</span>
+    <span class="n">free</span><span class="p">(</span><span class="n">vz</span><span class="p">);</span>
+    <span class="n">free</span><span class="p">(</span><span class="n">m</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>  </div>
+
+  <p>Add timers to the application and then optimise it as best as you can. Bonus marks if you are able to make use of vector intrinsics in the main loop body.  <br><br></p>
+</blockquote>
+
+<blockquote class="block-danger">
+  <h1 id="exercise-4">Exercise 4</h1>
+
+  <p>Again, use Intel Advisor to analyse your solutions and the previous implementations. <br><br></p>
+</blockquote>
+
+                </section>
+            </div>
+<div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title">
+<span class="search-results-count"></span> results matching "<span class="search-query"></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class="search-query"></span>"</h1>
+    </div>
+</div>
+</div>
+    </div>
+</div>
+
+                        <a href="/~saw586/hipc//practicals/3-basic_optimisation/" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 3. Basic Optimisation">
+                            <i class="fa fa-angle-left"></i>
+                        </a>
+                    
+
+                    
+                        <a href="/~saw586/hipc//practicals/5-on-node_parallelism/" class="navigation navigation-next navigation-unique" aria-label="Next page: 5. Programming On-node Parallelism">
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    
+                </div>
+            </div>
+
+            <script>
+            var gitbook = gitbook || [];
+            gitbook.push(function() {
+                gitbook.page.hasChanged({
+    "page": {
+        "title": "Introduction",
+        "level": "1.1",
+        "depth": 1,
+        
+        "next": {
+            "title": "5. Programming On-node Parallelism",
+            "level": "1.2",
+            "depth": 1,
+            "path": "_practicals/5-on-node_parallelism.md",
+            "ref": "_practicals/5-on-node_parallelism.md",
+            "articles": []
+        },
+        
+        "dir": "ltr"
+    },    "config": {
+        "plugins": ["fontsettings", "highlight", "livereload", "lunr", "search", "sharing", "theme-default", "livereload"],
+        "styles": {
+            "ebook": "styles/ebook.css",
+            "epub": "styles/epub.css",
+            "mobi": "styles/mobi.css",
+            "pdf": "styles/pdf.css",
+            "print": "styles/print.css",
+            "website": "styles/website.css"
+        },
+        "pluginsConfig": {
+            "fontsettings": {
+                "family": "sans",
+                "size": 2,
+                "theme": "white"
+            },
+            "highlight": {},
+            "livereload": {},
+            "lunr": {
+                "ignoreSpecialCharacters": false,
+                "maxIndexSize": 1000000
+            },
+            "search": {},
+            "sharing": {
+                "all": ["facebook", "google", "twitter", "weibo", "instapaper"],
+                "facebook": true,
+                "google": false,
+                "instapaper": true,
+                "twitter": true,
+                "vk": false,
+                "weibo": false
+            },
+            "theme-default": {
+                "showLevel": false,
+                "styles": {
+                    "ebook": "styles/ebook.css",
+                    "epub": "styles/epub.css",
+                    "mobi": "styles/mobi.css",
+                    "pdf": "styles/pdf.css",
+                    "print": "styles/print.css",
+                    "website": "styles/website.css"
+                }
+            }
+        },
+        "theme": "default",
+        "author": "Tao He",
+        "pdf": {
+            "pageNumbers": true,
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "paperSize": "a4",
+            "chapterMark": "pagebreak",
+            "pageBreaksBefore": "/",
+            "margin": {
+                "right": 62,
+                "left": 62,
+                "top": 56,
+                "bottom": 56
+            }
+        },
+        "structure": {
+            "langs": "LANGS.md",
+            "readme": "README.md",
+        },
+        "variables": {},
+        "title": "HIPC",
+        "language": "en",
+        "gitbook": "*"
+    },
+    "file": {
+        "path": "_practicals/4-on-core_parallelism.md",
+        "mtime": "2022-07-21 00:00:00 +0100",
+        "type": "markdown"
+    },
+    "gitbook": {
+        "version": "3.2.3",
+        "time": "2024-11-27 15:06:35 +0000"
+    },
+    "basePath": "/~saw586/hipc/",
+    "book": {
+        "language": ""
+    }
+});
+            });
+            </script>
+        </div>
+<script src="/~saw586/hipc//assets/gitbook/gitbook.js"></script>
+<script src="/~saw586/hipc//assets/gitbook/theme.js"></script>
+
+<script src="/~saw586/hipc//assets/gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+<script src="/~saw586/hipc//assets/gitbook/gitbook-plugin-sharing/buttons.js"></script>
+
+<!-- <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+<script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+<script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+<script src="../gitbook/gitbook-plugin-search/search.js"></script> -->
+
+<script src="/~saw586/hipc//assets/gitbook/gitbook-plugin-search-pro/jquery.mark.min.js"></script>
+<script src="/~saw586/hipc//assets/gitbook/gitbook-plugin-search-pro/search.js"></script>
+<script src="/~saw586/hipc//assets/gitbook/gitbook-plugin-back-to-top-button/plugin.js"></script>
+
+<script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,1244 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+<meta charset="UTF-8">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<title>2. The Architectures of Distributed Systems · HIPC</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="HIPC
+">
+<meta name="generator" content="Jekyll (using style of GitBook 3.2.3)">
+<meta name="author" content="Steven Wright">
+<link rel="stylesheet" href="/~saw586/hipc/2023-24//assets/gitbook/style.css">
+<link rel="stylesheet" href="/~saw586/hipc/2023-24//assets/gitbook/gitbook-plugin-fontsettings/website.css">
+<link rel="stylesheet" href="/~saw586/hipc/2023-24//assets/gitbook/gitbook-plugin-search-pro/search.css">
+<link rel="stylesheet" href="/~saw586/hipc/2023-24//assets/gitbook/gitbook-plugin-back-to-top-button/plugin.css">
+
+<link rel="stylesheet" href="/~saw586/hipc/2023-24//assets/gitbook/rouge/github.css">
+
+<link rel="stylesheet" href="/~saw586/hipc/2023-24//assets/gitbook/custom.css">
+
+<meta name="HandheldFriendly" content="true">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="apple-touch-icon-precomposed" sizes="152x152" href="/~saw586/hipc/2023-24//assets/gitbook/images/apple-touch-icon-precomposed-152.png">
+<link rel="shortcut icon" href="/~saw586/hipc/2023-24//assets/gitbook/images/favicon.ico" type="image/x-icon">
+
+
+
+
+
+<script>
+    MathJax = {
+        tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        svg: {
+            fontCache: 'global'
+        }
+    };
+</script>
+            <link rel="prev" href="/~saw586/hipc/2023-24//lectures/1-supercomputing/">
+        
+
+        
+            <link rel="next" href="/~saw586/hipc/2023-24//lectures/3-management_and_measurement/">
+        
+    </head>
+    <body>
+        <div class="book">
+<div class="book-summary">
+    <nav role="navigation">
+        <div id="book-search-input" role="search">
+            <input type="text" placeholder="Type to search">
+        </div>
+        <div id="book-search-input-link" role="search">
+            <a href="/~saw586/hipc/2023-24//assets/search.html">Click to Search</a>
+        </div>
+        <ul class="summary">
+            
+            <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24/">
+            
+                <a href="/~saw586/hipc/2023-24//">
+                    HIPC
+                </a>
+            </li>
+
+            <li class="divider">
+
+            
+             
+                
+                <!-- <li class="chapter" data-level="1.1"><a>about</a></li> -->
+             
+                
+                    
+
+                    
+                        
+                        </li>
+<li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//about/about/">
+                        
+                            <a href="/~saw586/hipc/2023-24//about/about/">
+                                About
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//about/changelog/">
+                        
+                            <a href="/~saw586/hipc/2023-24//about/changelog/">
+                                Changelog
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+
+                    
+                        <li class="divider">
+                    
+                
+            
+             
+                
+                </li>
+<li><a><strong>Units</strong></a></li>
+                
+                <!-- <li class="chapter" data-level="1.1"><a>lectures</a></li> -->
+             
+                
+                    
+
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//lectures/1-supercomputing/">
+                        
+                            <a href="/~saw586/hipc/2023-24//lectures/1-supercomputing/">
+                                1. Supercomputing and Scientific Computing
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter active" data-level="1.2" data-path="/~saw586/hipc/2023-24//lectures/2-architectures/">
+                        
+                            <a href="/~saw586/hipc/2023-24//lectures/2-architectures/">
+                                2. The Architectures of Distributed Systems
+                            </a>
+                            
+                                
+                                    <ul>
+<li><a href="#overview">Overview</a></li>
+<li>
+<a href="#a-history-of-architectural-development">A History of Architectural Development</a><ul><li><a href="#the-stored-program-computer-architecture">The Stored-Program Computer Architecture</a></li></ul>
+</li>
+<li>
+<a href="#cpu-architectures">CPU Architectures</a><ul>
+<li><a href="#common-cpu-features">Common CPU Features</a></li>
+<li><a href="#modern-cpu-architectures">Modern CPU Architectures</a></li>
+<li><a href="#calculating-performance-in-flops">Calculating Performance (in FLOP/s)</a></li>
+</ul>
+</li>
+<li>
+<a href="#distributed-system-interconnects">Distributed System Interconnects</a><ul>
+<li><a href="#the-internet-and-ethernet">The Internet and Ethernet</a></li>
+<li><a href="#high-speed-interconnects">High Speed Interconnects</a></li>
+</ul>
+</li>
+<li>
+<a href="#parallel-storage">Parallel Storage</a><ul>
+<li><a href="#networked-file-systems">Networked File Systems</a></li>
+<li><a href="#distributed-file-systems">Distributed File Systems</a></li>
+</ul>
+</li>
+<li>
+<a href="#computational-accelerators">Computational Accelerators</a><ul><li><a href="#modern-heterogeneous-computing">Modern Heterogeneous Computing</a></li></ul>
+</li>
+<li><a href="#hpc-systems">HPC Systems</a></li>
+<li><a href="#recommended-reading">Recommended Reading</a></li>
+</ul>
+
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//lectures/3-management_and_measurement/">
+                        
+                            <a href="/~saw586/hipc/2023-24//lectures/3-management_and_measurement/">
+                                3. Management and Measurement of Distributed Systems
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//lectures/4-on-core_parallelism/">
+                        
+                            <a href="/~saw586/hipc/2023-24//lectures/4-on-core_parallelism/">
+                                4. On-core Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//lectures/5-on-node_parallelism/">
+                        
+                            <a href="/~saw586/hipc/2023-24//lectures/5-on-node_parallelism/">
+                                5. On-node Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//lectures/6-internode_parallelism/">
+                        
+                            <a href="/~saw586/hipc/2023-24//lectures/6-internode_parallelism/">
+                                6. Internode Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//lectures/7-advanced_internode_parallelism/">
+                        
+                            <a href="/~saw586/hipc/2023-24//lectures/7-advanced_internode_parallelism/">
+                                7. Advanced Internode Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//lectures/8-accelerators/">
+                        
+                            <a href="/~saw586/hipc/2023-24//lectures/8-accelerators/">
+                                8. Accelerators
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//lectures/9-more_accelerators/">
+                        
+                            <a href="/~saw586/hipc/2023-24//lectures/9-more_accelerators/">
+                                9. Advanced Accelerators
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//lectures/10-heterogeneous_programming/">
+                        
+                            <a href="/~saw586/hipc/2023-24//lectures/10-heterogeneous_programming/">
+                                10. Heterogeneous Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+
+                    
+                        <li class="divider">
+                    
+                
+            
+             
+                
+                <!-- <li class="chapter" data-level="1.1"><a>posts</a></li> -->
+             
+                
+                    
+
+                    
+
+                    
+                
+            
+             
+                
+                </li>
+<li><a><strong>Practicals</strong></a></li>
+                
+                <!-- <li class="chapter" data-level="1.1"><a>practicals</a></li> -->
+             
+                
+                    
+
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//practicals/1-introduction_to_c-1/">
+                        
+                            <a href="/~saw586/hipc/2023-24//practicals/1-introduction_to_c-1/">
+                                1. Introduction to C (part 1)
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//practicals/2-introduction_to_c-2/">
+                        
+                            <a href="/~saw586/hipc/2023-24//practicals/2-introduction_to_c-2/">
+                                2. Introduction to C (part 2)
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//practicals/3-on-core_parallelism/">
+                        
+                            <a href="/~saw586/hipc/2023-24//practicals/3-on-core_parallelism/">
+                                3. Programming On-core Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//practicals/4-on-node_parallelism/">
+                        
+                            <a href="/~saw586/hipc/2023-24//practicals/4-on-node_parallelism/">
+                                4. Programming On-node Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//practicals/5-off-node_parallelism/">
+                        
+                            <a href="/~saw586/hipc/2023-24//practicals/5-off-node_parallelism/">
+                                5. Programming Off-node Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//practicals/6-advanced_mpi/">
+                        
+                            <a href="/~saw586/hipc/2023-24//practicals/6-advanced_mpi/">
+                                6. Advanced MPI Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//practicals/7-cuda_programming/">
+                        
+                            <a href="/~saw586/hipc/2023-24//practicals/7-cuda_programming/">
+                                7. CUDA Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//practicals/8-advanced_cuda_programming/">
+                        
+                            <a href="/~saw586/hipc/2023-24//practicals/8-advanced_cuda_programming/">
+                                8. Advanced CUDA Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//practicals/9-heterogeneous_programming/">
+                        
+                            <a href="/~saw586/hipc/2023-24//practicals/9-heterogeneous_programming/">
+                                9. Heterogeneous Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+
+                    
+                        <li class="divider">
+                    
+                
+            
+        </li>
+</ul>
+    </nav>
+</div>
+<div class="book-body">
+                <div class="book-header" role="navigation">
+                    <!-- Title -->
+                    <h1>
+                        <i class="fa fa-circle-o-notch fa-spin"></i>
+                        
+                            <a href=".">2. The Architectures of Distributed Systems</a>
+                        
+                    </h1>
+                </div>
+
+                <div class="body-inner">
+<div class="page-wrapper" tabindex="-1" role="main">
+    
+
+    <div class="page-inner">
+        <div id="book-search-results">
+            <div class="search-noresults">
+                <section class="normal markdown-section">
+                    
+                        <h1 id="/lectures/2-architectures">2. The Architectures of Distributed Systems</h1>
+                    
+
+                    <h1 id="overview">Overview</h1>
+
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/vCrELZ-m3rE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""></iframe>
+<p><br></p>
+
+<p>Welcome to the second unit of HIPC. In this unit, we’ll start to look at some distributed systems and analyse the architecture of these systems. We’ll cover:</p>
+
+<ul>
+  <li>A brief history of architectural development</li>
+  <li>Modern compute architectures</li>
+  <li>Interconnects</li>
+  <li>Distributed file systems</li>
+  <li>Computational accelerators</li>
+</ul>
+
+<h1 id="a-history-of-architectural-development">A History of Architectural Development</h1>
+
+<p>When we think about computer systems, we almost always have a certain architecture in mind – <strong>The Stored-program Computer Architecture</strong>.</p>
+
+<h2 id="the-stored-program-computer-architecture">The Stored-Program Computer Architecture</h2>
+
+<p>The stored-program computer architecture was a concept concieved by Alan Turing in 1936, as a universal Turing machine. This concept was formalised by John von Neumann and others in 1945 in the <a href="https://en.wikipedia.org/wiki/First_Draft_of_a_Report_on_the_EDVAC"><em>First Draft of a Report on the EDVAC</em></a>, and was implemented on the EDVAC in 1949.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-2/vonneumann.png" alt="The von Neumann Architecture"><br>
+<em><strong>Figure 1:</strong> The von Neumann Architecture</em></p>
+
+<p>The figure above shows a block diagram for a stored-program digital computer. Instructions are stored in main memory, from which they are read and executed by a control unit. A separate arithmetic logic unit (ALU) is responsible for performing the actual computations and manipulating the data stored in main memory. Interactions with user are enabled through input and output devices.</p>
+
+<p>The von Neumann architecture is the blueprint for all mainstream computer systems today. However, there are a number of issues that still prevail today:</p>
+
+<ul>
+  <li>Instructions and data must be continually fed to the CPU, and so the speed of the memory interface imposes a limitation on the performance.</li>
+  <li>The architecture is inherently sequential, processing data in a SISD (single instruction stream, single data stream) fashion.</li>
+</ul>
+
+<p>As we’ll see in the remainder of this section and unit, architectural optimisations and programming techniques have mitigated many of the adverse effects of these issues, but these issues remain limiting factors.</p>
+
+<h3 id="the-first-supercomputer">The First Supercomputer</h3>
+
+<p>For many years, following the EDVAC, computer systems used the same basic architecture, with a single CPU driving the entire system. At the time, CPUs generally ran slower than main memory, and so between fetching and executing an instruction, the main memory would be idle. It was this idle time that Seymour Cray exploited in the CDC 6600.</p>
+
+<p>The CDC 6600 used a simplified CPU that was designed to run mathematical and logic operations as fast as possible. To achieve this, Cray focussed on creating a much smaller CPU, with much shorter lengths of wire (to reduce signalling delays). The result was a CPU that could run at 10 MHz (about 10 times faster than other CPUs at the time).</p>
+
+<p>The central CPU was supported by a number of peripheral processors that handled input and output, as well as managing data transfers to main memory. These I/O operations and data transfers could essentially be performed for free in terms of central processing time.</p>
+
+<h3 id="vector-architectures">Vector Architectures</h3>
+
+<p>In 1976, the Cray-1 was released, featuring a number of architectural optimisations that shaped the next 15 years of supercomputing. While typical von Neumann architectures were SISD, the Cray-1 was the first successful implementation of a vector processor (i.e. SIMD).</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-2/cray1-block.jpg" alt="A block diagram for the Cray 1 processor"><br>
+<em><strong>Figure 2:</strong> Cray-1 block diagram</em></p>
+
+<p>In the Cray-1, data was moved from main memory into vector registers (data storage on the CPU that is much faster than main memory). Vector instructions were then applied to the vector registers, essentially applying the same mathematical operation to multiple operands simultaneously. Additionally, the Cray design used pipeline parallelism to implement vector instructions, rather than multiple ALUs.</p>
+
+<p>SIMD instructions can now be found on almost all modern CPUs – as we’ll see later in this course.</p>
+
+<h3 id="beowulf-clusters">Beowulf Clusters</h3>
+
+<p>Up until the 1990s, supercomputing architectures were wildly different to commodity single-chip general-purpose microprocessors (which were invented in the 1970s). As these general-purpose CPUs matured, they began to see adoption in HPC systems.</p>
+
+<p>Perhaps the most notable of these systems was <strong>Beowulf</strong> – a system installed at NASA in 1994, that comprised of 16 motherboards with x86 processors, interconnected with ethernet. This “Network of Workstations” approach has continued ever since, with almost all modern supercomputers now predominantly built from off-the-shelf components. Following the work by Donald Becker and Thomas Sterling, these machines are commonly referred to as <strong>Beowulf Clusters</strong>. Since 2017, all of the TOP500 supercomputers use Beowulf methods.</p>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li><a href="https://webhome.phy.duke.edu/~rgb/brahma/Resources/beowulf/papers/ICPP95/icpp95.html">Beowulf: A Parallel Workstation for Scientific Computation</a></li>
+  </ul>
+</blockquote>
+
+<h3 id="accelerated-architectures">Accelerated Architectures</h3>
+
+<p>Many of the largest and fastest supercomputers today achieve their high performance using computational accelerator devices. The first modern accelerated supercomputer is perhaps the IBM Roadrunner system, which broke the PetaFLOP/s barrier in 2008.</p>
+
+<p>Roadrunner was primarily a AMD Opteron-based Beowulf-style cluster, with each computational node consisting of two dual-core AMD Opteron CPUs running at 1.8 GHz. However, the vast majority of its performance (85%) was provided by four PowerXCell 8i CPUs installed on each node.</p>
+
+<p>This hybrid approach is now dominated by the use of General Purpose Graphics Processing Units (GPGPUs) as computational accelerators. Since 2008, the number of accelerated architectures in the TOP500 has increased each year, with 8 of the current top 10 accelerated by GPUs, and over 30% of the full TOP500 list featuring computational accelerators.</p>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li>
+<a href="https://yorsearch.york.ac.uk/permalink/f/1d5jm03/44YORK_ALMA_DS51308825180001381">Introduction to High Performance Computing for Scientists and Engineers</a>, Chapter 1</li>
+  </ul>
+</blockquote>
+
+<h1 id="cpu-architectures">CPU Architectures</h1>
+
+<p>Modern CPUs owe much of their core design to the original von Neumann architectures. However, a number of modifications and optimisations have been made to bring about performance increases over the last 80 years.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-2/CPUArch.png" alt="Basic block diagram for a simple single core CPU"><br>
+<em><strong>Figure 3:</strong> A simplified block diagram of a typical single core CPU</em></p>
+
+<p>Figure 3 shows a simplified block diagram of a modern CPU. The computation in a CPU is completed by the floating-point and integer ALUs. The rest of the CPU is administrative logic that feeds those units with operands. The floating-point and integer registers hold operands to be accessed by the instructions, and the load and store units move data from cache to these registers. Memory is streamed from main memory into these caches. In a multi-core chip, some of the components may be shared by many cores (for example a shared cache).</p>
+
+<p>Up to around 2006, the performance of a CPU like this was heavily dictated by <strong>Moore’s law</strong> and <strong>Dennard scaling</strong>.</p>
+
+<p>Dennard scaling states roughly that, as transistors get smaller, their power density stays the same; while Moore’s law states that transistor density doubles approximately every 24 months. This doubling of transistor density meant that CPU performance doubled approximately every two years within a similar power envelope.</p>
+
+<p>Together, these laws led to a period known as the “Free Lunch”, when rising clock speeds delivered regular performance increases with no additional power cost.</p>
+
+<p>The breakdown of this inverse relationship around 2006 has meant that CPU manufacturers have increasingly focussed on multicore CPUs and architectural optimisations, rather than increases in clock speed. A multitude of architectural concepts have been developed including:</p>
+
+<ul>
+  <li>Pipelining functional units</li>
+  <li>Superscalar architectures</li>
+  <li>SIMD instructions</li>
+  <li>Out-of-order execution</li>
+  <li>Increased cache sizes</li>
+  <li>Simplified instruction sets</li>
+</ul>
+
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/vgPFzblBh7w" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+<p><br></p>
+
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/o_WXTRS2qTY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="common-cpu-features">Common CPU Features</h2>
+
+<h3 id="pipelining">Pipelining</h3>
+
+<p>Pipelining is perhaps the most important architectural innovation in the development of CPUs; it was even present in the Cray-1, where vectors were processed using pipelining, rather than multiple ALUs.</p>
+
+<p>Complex operations (like floating point addition and multiplication) are divided into simple subcomponents that can be executed on separate units simultaneously to increase instruction throughput. While a complete instruction might take more than a single clock cycle, if operands are optimally pipelined, we can often achieve a throughput of one instruction per cycle.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-2/pipeline.png" alt="Simple vector pipeline"><br>
+<em><strong>Figure 4:</strong> Timeline for a simplified vector multiplication</em></p>
+
+<p>Figure 4 shows a timeline for a simplified floating-point vector mutiplication (i.e. <code class="language-plaintext highlighter-rouge">A[0:N] = B[0:N] * C[0:N]</code>). After an initial wind-up period (latency of pipeline), one result is generated each clock cycle. A pipeline is perhaps the simplest form of <em>Instruction-level Parallelism</em> (ILP). In modern CPUs there may be more than 30 pipeline stages.</p>
+
+<h3 id="superscalar-architectures">Superscalar Architectures</h3>
+
+<p>“Direct” instruction-level parallelism is provided by superscalarity. In a superscalar architecture, a CPU is typically able to achieve an instruction throughput greater than one per clock cycle. This requires multiple functional units (possibly identical) that can operate concurrently.</p>
+
+<p>A superscalar architecture must be designed such that:</p>
+
+<ul>
+  <li>It can fetch and decode multiple instructions concurrently</li>
+  <li>It can execute multiple floating-point pipelines in parallel</li>
+  <li>Caches are fast enough to sustain multiple load/store operations per clock cycle</li>
+</ul>
+
+<p>Exploiting superscalarity is very difficult and often requires careful optimisation by the compiler. Consequently, some applications resort to writing code directly in assembly in order to achieve the highest number of instructions per clock cycle.</p>
+
+<h3 id="simd-instructions">SIMD Instructions</h3>
+
+<p>In the previous unit we discussed vector processors, such as the Cray-1, whereby the same instruction was applied to a vector of multiple items. In this way, CPUs can achieve <em>data parallelism</em>.</p>
+
+<p>While SIMD execution was common in vector supercomputers, it did not make its way to the commodity market until 1996, when Intel’s MMX instructions were added the their x86 architecture. SIMD is now a common feature in desktop and server CPUs.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-2/sisd-vs-simd.png" alt="Comparison of SISD and SIMD with width 2"><br>
+<em><strong>Figure 5:</strong> SISD vs SIMD (with width 2)</em></p>
+
+<p>The MMX instruction set has since been superceded by the SSE and AVX instruction sets on Intel’s hardware. Each new generation of SIMD extensions brings new vectorised instructions, and ever increasing vector widths. Most modern Intel CPUs now implement the AVX-512 instruction set, with 512-bit vector registers. This allows instructions to operate on up to 8 double-precision (64-bit) floating-point values simultaneously.</p>
+
+<p>We will look more closely at SIMD instruction sets in <a href="../../lectures/4-on-core_parallelism/">Unit 4</a>.</p>
+
+<h3 id="out-of-order-execution">Out-of-order execution</h3>
+
+<p>When a CPU is executing instructions in its instruction stream, it is often the case that the operands for some instructions are not present in registers at the required time. Out-of-order execution prevents this situation causing a stall (or idle time), by executing non-dependent instructions out of order. If a later instruction has its operands available, it can be executed ahead of time while the memory subsytem loads the operands required for the current instruction. Modern CPUs can keep hundreds of instructions in flight at any given time using a reorder buffer, to minimise processors stalls.</p>
+
+<h3 id="memory-hierachies">Memory hierachies</h3>
+
+<p>Modern computers contain a hierarchy of memory, with each layer decreasing in size and increasing in performance (and cost!).</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-2/caches.png" alt="The memory hierarchy"><br>
+<em><strong>Figure 6:</strong> The memory hierarchy</em></p>
+
+<p>Smaller, faster, on-chip memories serve as temporary data storage for holding copies of data that is soon to be used, bridging the performance gap between modern CPUs and main memory. A CPU typically only interacts with data in the registers, with data moved through the levels of cache as required. CPUs will attempt to “guess” which memory locations are likely to be required and will <em>prefetch</em> data ready for subsequent instructions. Should a prefetch prove incorrect, a cache miss is triggered, causing the CPU to stall. Ensuring applications operate in a cache-efficient manner is vital for high performance.</p>
+
+<p>Modern CPUs typically have 3-4 levels of cache prior to main memory, and some of these levels of cache are shared between multiple cores. Recognising the growing gap between main memory performance and CPU performance, some manufacturers are introducing new levels to the memory hierarchy, such as high bandwidth memory (HBM). The size and speed of the caches must be carefully considered when designing a processor, since they occupy significant space on the processors themselves, and their cost increases as their performance and size increases.</p>
+
+<h3 id="risc-architectures">RISC architectures</h3>
+
+<p>As computers and supercomputers developed, so too did the instruction sets upon which they relied. Throughout the early development of computers, these instruction sets grew progressively more complex, with single instructions responsible for loading values from memory, performing a mathematical or logical operations and then storing the result back in memory. These Complex Instruction Set Computers (CISC) were, themselves, growing increasingly complex and required a significant hardware effort to decode and execute each instruction.</p>
+
+<p>In the 1980s, there was a general move towards Reduced Instruction Set Computers (RISC). These RISC architectures typically featured a very simple instruction set that could be executed rapidly. This increased the burden on programmers (who now had to write many more instructions to perform the same tasks), but meant that processors could be simplified in such a way that their performance could be optimised much more readily.</p>
+
+<p>Today, almost all CPUs use a RISC architecture at the lowest-level. Even though x86 is considered a CISC architecture, intructions are translated to RISC-like micro-ops on-the-fly.</p>
+
+<h4 id="multicore-and-multithreaded-cpus">Multicore and Multithreaded CPUs</h4>
+
+<p>In recent years, due to the breakdown of Dennard scaling, CPU manufacturers have instead focussed on maintaining Moore’s law through <em>multicore</em> designs. Typically a CPU will feature multiple cores, where each core has a mixture of its own execution units and some shared execution units, alongside dedicated registers and a mixture of dedicated and shared caches.</p>
+
+<p>For example, an Intel Xeon Silver 4114 “Skylake” contains 10 cores, where each core has a 32 KiB L1 instruction cache, a 32 KiB L1 data cache, a 1 MiB L2 cache, and a shared 13.75 MiB L3 cache.</p>
+
+<p>Additionally, each core is capable of simultaneously executing two threads. The complex pipelines on modern CPUs means that it is often the case that there are gaps in the pipeline that are otherwise wasted. To harness the performance that would otherwise be wasted, modern CPUs are usually capable of simultaneous multi-threading (SMT), whereby multiple threads can be executing concurrently on a single core to maximise pipeline usage. However, SMT cannot improve single-thread performance, and can lead to decreased performance if there is contention for some of the pipelined units.</p>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li><a href="https://en.wikichip.org/wiki/intel/xeon_silver/4114">Intel Xeon Silver 4114 Wikichip</a></li>
+    <li><a href="https://www.intel.co.uk/content/www/uk/en/products/sku/123550/intel-xeon-silver-4114-processor-13-75m-cache-2-20-ghz/specifications.html">Intel Xeon Silver 4114 Intel Ark</a></li>
+  </ul>
+</blockquote>
+
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/VFXGoL2rolE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="modern-cpu-architectures">Modern CPU Architectures</h2>
+
+<h3 id="x86-and-x86_64">x86 and x86_64</h3>
+
+<p>x86 is a family of microprocessor architectures initially developed by Intel. The architectures origins are in the 16-bit Intel 8086, released in 1978. Intel’s first 32-bit architecture was released in 1986 with the Intel 386 (released as the 80386). The 386 saw widespread adoption and was present in many of the workstations and personal computers of the time.</p>
+
+<p>The 64-bit instruction set, x86_64, was first released in 1999 and was originally created by AMD. This architecutre is now widely implemented in CPUs from Intel and AMD that are present in the majority of personal computers, and supercomputers today.</p>
+
+<p>Over the years, many additions and extensions have been made to the instruction set, including (but by no means limited to):</p>
+
+<ul>
+  <li>x87 floating-point instructions</li>
+  <li>MMX, SSE (Streaming SIMD Extensions), SSE2, SSE3, SSE4, SSE 4.1, SSE 4.2</li>
+  <li>AVX (Advanced Vector eXtensions), AVX2, AVX-512</li>
+  <li>Cyptographic instructions</li>
+</ul>
+
+<p>Depending on how you count, the x86_64 architecture now contains somewhere between 1000 and 4000 instructions.</p>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li><a href="https://en.wikipedia.org/wiki/X86_instruction_listings">Wikipedia x86 Instruction Listings</a></li>
+    <li><a href="https://stefanheule.com/blog/how-many-x86-64-instructions-are-there-anyway/">How many x86_64 instructions are there anyway?</a></li>
+  </ul>
+</blockquote>
+
+<h3 id="powerpc-and-power">PowerPC and Power</h3>
+
+<p>The PowerPC RISC architecture was created by an alliance of Apple, IBM and Motorola in 1991 (and based on an earlier IBM Power instruction set architecture (ISA)). The PowerPC ISA was well known for being the architecture of choice in Apple Mac systems up to their switch to Intel x86 CPUs in 2006.</p>
+
+<p>Since 2006, the PowerPC ISA has been named the Power ISA and has been developed by the OpenPOWER foundation, led by IBM. Since Apple’s switch away from Power architectures, the ISA is now mostly found in supercomputers, rather than commodity systems.</p>
+
+<p>The BlueGene/L, /P and /Q all used low-power multicore PowerPC architectures, and the #2 and #3 (in 2021) supercomputers make use of IBM Power9 architectures alongside NVIDIA accelerator devices.</p>
+
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/btbeXx6xXBU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h3 id="arm">Arm</h3>
+
+<p>The ARM family of architectures first emerged in 1985, with the ARM1 processor. The ARM1 was developed by Acorn Computers and adopted as a second processor in the BBC Micro. Following multiple iterations of the ARM architecutre, in the late 1980s, Advanced RISC Machines was spun off from Acorn to continue development of the ARM architecture.</p>
+
+<p>In contrast to Intel, AMD and IBM, Arm do not fabricate their own processors, and instead licence the architectures to other companies. This business model has proven particularly successful in the smartphone market, where over 90% of all mobile phones use at least one ARM processor.</p>
+
+<p>In recent years, ARM has emerged as a serious competitor in both personal computing and supercomputing. In 2020, Apple adopted the ARM architecture in their Apple M1 processors, now found in all new Apple Mac computers, and in 2018, Astra became the fastest ARM-based supercomputer in the Top500, with a performance of 1.529 PetaFLOP/s. This was subsequently followed by Fugaku reaching #1 in 2020 with the ARMv8-based A64FX architecture.</p>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li>
+<a href="https://yorsearch.york.ac.uk/permalink/f/1d5jm03/44YORK_ALMA_DS51308825180001381">Introduction to High Performance Computing for Scientists and Engineers</a>, Chapter 1</li>
+  </ul>
+</blockquote>
+
+<h2 id="calculating-performance-in-flops">Calculating Performance (in FLOP/s)</h2>
+
+<p>So, now we know the basics of how modern CPUs work, how do we calculate the theoretical peak floating point performance?</p>
+
+<p>First, we make a basic assumption that in the best case we can perform 1 instruction per clock cycle. Of course, most instructions take multiple clock cycles, but (in the best case) we hope that these are amortised by superscalar architectures, pipelining, etc.</p>
+
+<p>Then we can consider the number of FLOP/s we can perform <em>per instruction</em>. If we consider a <a href="https://en.wikipedia.org/wiki/Multiply-accumulate_operation">Fused Multiply-Add (FMA)</a> instruction (e.g. $a = a + (b \times c)$), we can perform 2 FLOP/s per instruction (i.e. an addition and a multiplication). Add in SIMD instruction sets and we can perform multiple FMA instructions simultaneously on a vector of inputs. With AVX, with a vector width of 128 bits, we we can perform 2 double-precision (64-bit) FMA instructions per clock cycle; with AVX-2, we can double this to 4 double-prevision FMA instructions per cycle, and with AVX-512, we can double this again to 8.</p>
+
+<p>Next, we must consider whether there are multiple floating point units per core. In many cases, there will only be a single unit available, but in some HPC processors, we may be able to use simultaneous multithreading (SMT) to increase performance. A good example of this is in the <a href="https://ark.intel.com/content/www/us/en/ark/products/192447/intel-xeon-gold-6252-processor-35-75m-cache-2-10-ghz.html">Intel Xeon Gold 6252</a> processor, where “# of AVX-512 FMA Units” is 2 (i.e. there are 2 AVX-512 FMA units available for each core).</p>
+
+<p>Finally, we must consider the number of cores on a CPU, and multiply all of these numbers together.</p>
+
+<p>For the Intel Xeon Gold 6252 the equation would be:</p>
+
+\[\begin{align*}
+{\rm FLOP/s}  &amp; = 2.1G~\textrm{(processor frequency)} \\
+              &amp; ~ \times 2~\textrm{(FMA)} \\
+              &amp; ~ \times 2~\textrm{(FMA Units per core)} \\
+              &amp; ~ \times 8~\textrm{(AVX-512)} \\
+              &amp; ~ \times 24~\textrm{(cores)} \\
+              &amp; = 1612.8~\textrm{GFLOP/s} 
+\end{align*}\]
+
+<p>For an older processor, like the <a href="https://ark.intel.com/content/www/us/en/ark/products/91753/intel-xeon-processor-e52698-v4-50m-cache-2-20-ghz.html">Intel Xeon E5-2698 v4</a>, the equation would be:</p>
+
+\[\begin{align*}
+{\rm FLOP/s}  &amp; = 2.2G~\textrm{(processor frequency)} \\
+              &amp; ~ \times 2~\textrm{(FMA)} \\
+              &amp; ~ \times 4~\textrm{(AVX2)} \\
+              &amp; ~ \times 20~\textrm{(cores)} \\
+              &amp; = 352~\textrm{GFLOP/s} 
+\end{align*}\]
+
+<p>Of course, achieving this level of performance with either of these processors relies on all data being resident in processor registers and L1 caches, and that the instruction balance is purely FMA instructions. It is not unusual that we achieve a small percentage of peak performance in real codes. And this is becoming increasingly difficult as processors become more complex!</p>
+
+<blockquote class="block-danger">
+  <p><strong>Exercise</strong></p>
+
+  <p>Find out what CPU your current computer contains. Look up its information on <a href="https://ark.intel.com">Intel Ark</a> (or wikichip, or an alternative (if not an Intel core)). Calculate its peak FLOP performance.</p>
+</blockquote>
+
+<h1 id="distributed-system-interconnects">Distributed System Interconnects</h1>
+
+<p>Distributed systems come in many different sizes and configurations. Cloud-based distributed systems are typically <em><strong>capacity</strong></em> systems, whereby they are trying to solve many small problems simultaneously. Supercomputers are usually <em><strong>capability</strong></em> systems, whereby they are trying to solve a few very large problems in parallel. In both cases, compute nodes require communication to coordinate tasks and potentially share information.</p>
+
+<p>In this section we will cover some of the interconnects that are used to provide this communication channel. We will discuss the kinds of data that flow over these communication channels in a later unit.</p>
+
+<h2 id="the-internet-and-ethernet">The Internet and Ethernet</h2>
+
+<p>Geographically distributed systems (e.g. the cloud) typically operate within a data centre, or within multiple, connected data centres. Within these data centres nodes are typically connected via Ethernet, and connections between data centres usually take place over fast (optical) internet connections.</p>
+
+<p>Cloud systems typically require the ability to be “elastic”, i.e., to grow and shrink capacity on demand. Because of this, nodes may be separated considerably. Ethernet provides high-bandwidth between nodes (even over large distances), but with an associated high latency.</p>
+
+<h2 id="high-speed-interconnects">High Speed Interconnects</h2>
+
+<p>Most HPC systems today are distributed memory architectures, where each node operates independently on a subproblem, with a communication phase each time step, to communicate boundary information, or to perform simple reduction calculations. Communications are typically small, but time sensitive. Because of this, there is a focus in HPC on low-latecy interconnects.</p>
+
+<p>All modern networks are switched fabric – nodes communicate through one of more network switches (particularly crossbar switches).</p>
+
+<h4 id="infiniband">Infiniband</h4>
+
+<p>Infiniband originated in 1999 from a merger of Next Generation I/O (Intel, Sun and Dell) and Future I/O (Compaq, IBM and HP). Infiniband is a switched fabric topology focussed on low latency, that was originally designed to replace PCI.</p>
+
+<p>In infiniband, the physical connections can be made with copper (up to 10 meters) or optical fibre (up to 10 km), and links can be aggregated to achieve higher bandwidth.</p>
+
+<p>The initial release of infiniband was single-data rate (SDR) with a theoretical throughput of 2 Gbit/s per link, and an adapter latency of 5 $\mu$s. Subsequently this has been extended to double-data rate (DDR), quad-data rate (QDR), fourteen-data rate (FDR), enhanced-data rate (EDR) and high-data rate (HDR), with each update increasing the throughput, up to 50 Gbits/s per link, and reducing the latency to around 0.5 $\mu$s.</p>
+
+<div class="table-wrapper">
+
+  <table>
+    <thead>
+      <tr>
+        <th style="text-align: left" colspan="2">
+</th>
+        <th style="text-align: left">SDR</th>
+        <th style="text-align: left">DDR</th>
+        <th style="text-align: left">QDR</th>
+        <th style="text-align: center">FDR10</th>
+        <th style="text-align: center">FDR</th>
+        <th style="text-align: center">EDR</th>
+        <th style="text-align: center">HDR</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="text-align: left" colspan="2">Signaling rate (Gbit/s)</td>
+        <td style="text-align: left">2.5</td>
+        <td style="text-align: left">5</td>
+        <td style="text-align: left">10</td>
+        <td style="text-align: center">10.3125</td>
+        <td style="text-align: center">14.0625</td>
+        <td style="text-align: center">25.78125</td>
+        <td style="text-align: center">50</td>
+        
+      </tr>
+      <tr>
+        <td style="text-align: left" rowspan="4"> 
+<br>
+Theoretical effective
+<br>
+throughput (Gb/s)
+<br>
+</td>
+        <td style="text-align: left">for 1 link</td>
+        <td style="text-align: left">2</td>
+        <td style="text-align: left">4</td>
+        <td style="text-align: center">8</td>
+        <td style="text-align: center">10</td>
+        <td style="text-align: center">13.64</td>
+        <td style="text-align: center">25</td>
+        <td style="text-align: center">50</td>
+      </tr>
+      <tr>
+        
+        <td style="text-align: left">for 4 links</td>
+        <td style="text-align: left">8</td>
+        <td style="text-align: left">16</td>
+        <td style="text-align: center">32</td>
+        <td style="text-align: center">40</td>
+        <td style="text-align: center">54.54</td>
+        <td style="text-align: center">100</td>
+        <td style="text-align: center">200</td>
+      </tr>
+      <tr>
+        
+        <td style="text-align: left">for 8 links</td>
+        <td style="text-align: left">16</td>
+        <td style="text-align: left">32</td>
+        <td style="text-align: center">64</td>
+        <td style="text-align: center">80</td>
+        <td style="text-align: center">109.08</td>
+        <td style="text-align: center">200</td>
+        <td style="text-align: center">400</td>
+      </tr>
+      <tr>
+        
+        <td style="text-align: left">for 12 links</td>
+        <td style="text-align: left">24</td>
+        <td style="text-align: left">48</td>
+        <td style="text-align: center">96</td>
+        <td style="text-align: center">120</td>
+        <td style="text-align: center">163.64</td>
+        <td style="text-align: center">300</td>
+        <td style="text-align: center">600</td>
+      </tr>
+      <tr>
+        <td style="text-align: left" colspan="2">Adapter latency ($\mu$s)</td>
+        <td style="text-align: left">5</td>
+        <td style="text-align: left">2.5</td>
+        <td style="text-align: left">1.3</td>
+        <td style="text-align: center">0.7</td>
+        <td style="text-align: center">0.7</td>
+        <td style="text-align: center">0.5</td>
+        <td style="text-align: center">&lt;0.6</td>
+        
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><em><strong>Table 1:</strong> Signalling rate, bandwidth and latency for various Infiniband specifications.</em></p>
+
+<p>By 2014 it was the most commonly used HPC interconnect in the Top500, before being displaced by 10 Gbit/s ethernet in 2016.</p>
+
+<h4 id="ethernet">Ethernet</h4>
+
+<p>Ethernet is a family of wired networking technologies that were introduced in 1980, and first standardised as IEEE 802.3. The original specification used coaxial cables as a shared medium and could operate at approximately 3 Mbit/s. Today, Ethernet is the dominant networking technology in homes, work places and data centres.</p>
+
+<p>Since the initial release of the IEEE 802.3 speecification, Ethernet has evolved considerably. New protocols, advances in physical connectors and the introduction of network switches has meant that Ethernet can now offer bandwidth in excess of 100 Gbit/s (Terabit Ethernet, TbE was specified in IEEE 802.3bs).</p>
+
+<p>The widespread adoption of Ethernet (and therefore the huge variety of use cases) necessitates a “fat stack”, and therefore it is unlikely standard Ethernet will be able to compete with Infiniband in terms of latency. However, it is still used widely on HPC system due to its greater bandwidth and lower cost.</p>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li><a href="https://www.nextplatform.com/2017/10/30/tug-war-infiniband-ethernet/">The Tug of War Between Infiniband and Ethernet</a></li>
+  </ul>
+</blockquote>
+
+<p>Recently, an HPC-specific Ethernet stack has been developed by HPE-Cray for use in their Slingshot Interconnect. The <em>HPC Ethernet</em> protocol brings low latency and low packet overhead to the Ethernet protocol, but only between specific Cray hardware (i.e. Cray NICs and Rosetta switches).</p>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li>Daniele De Sensi, Salvatore Di Girolamo, Kim H. McMahon, Duncan Roweth, and Torsten Hoefler. 2020. <a href="https://arxiv.org/abs/2008.08886">An in-depth analysis of the slingshot interconnect</a>. In <em>Proceedings of the International Conference for High Performance Computing, Networking, Storage and Analysis</em> (<em>SC ‘20</em>). IEEE Press, Article 35, 1-14.</li>
+  </ul>
+</blockquote>
+
+<h3 id="toplogies">Toplogies</h3>
+
+<p>The performance of the interconnect in a distributed system is primarily dictated by the hardware in use and the topology (i.e. how nodes are connected to each other). While it would perhaps be most performant to connect each node to every other node through a single switch this is impractical for even small-to-medium sized clusters, and so typically some form of hierarchical topology must be used.</p>
+
+<h4 id="fat-tree">Fat Tree</h4>
+
+<p>Fat trees are shaped similarly to a tree, and have root switches and leaf switches (see Figure 7). Typical implementations are 2 or 3 level and may be tapered between the root and leaf switches, reducing cost and increasing the number of available endpoints but at the expense of global bandwidth.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-2/fattree.png" alt="A simple 2-level fat tree"><br>
+<em><strong>Figure 7:</strong> A simple 2-level fat-tree configuration</em></p>
+
+<p>In a fat tree, the worst case hop count can be calculated by:</p>
+
+\[\textrm{Worst case hop count} = 2 \times \textrm{Number of levels} - 1\]
+
+<p>If the left most node and the right most node want to communicate then it must go through each layer up and down in the tree but only hits the root switch once, this is only considered as 1 hop (i.e. it would take 3 hops).</p>
+
+<h4 id="torus">Torus</h4>
+
+<p>A torus is a multidimensional topology based upon a mesh or a cube network (k-ary n-mesh/cube network).</p>
+
+<p>Figure 8 shows a 2D torus, in a 3 × 3 grid; a switch (<strong>s</strong> in the figure) can then have multiple nodes attached.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-2/torus.png" alt="A 3 by 3 torus network"><br>
+<em><strong>Figure 8:</strong> A 3 x 3 torus network</em></p>
+
+<p>Torus interconnects are typically very high performance, with a minimal number of hops required between any two compute nodes. However, this comes with an associated financial cost. Recent examples of Torus interconnects can be found in systems such as the IBM BlueGene systems, and the Japanese K-Computer and Fugaku systems.</p>
+
+<h4 id="dragonfly">Dragonfly</h4>
+
+<p>Dragonfly is a network topology designed by Cray, that can be more cost effective for more endpoints than a Fat-Tree. Networks based upon a Dragonfly are grouped in to three ranks, firstly the router, secondly an intra-group and thirdly inter-groups. Figure 9 shows four nodes per router and three routers per group configuration with one global link per router for inter-group communication. The design of inter-group networks are left to the implementer, in the case of Cray Aries this is an All-To-All 2D mesh.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-2/dragonfly.png" alt="A simple dragonfly topology"><br>
+<em><strong>Figure 9:</strong> A simple dragonfly topology</em></p>
+
+<p>The Aries implementation of a Dragonfly topology uses 4 nodes to 1 router and 96 routers per group connected as an All-To-All mesh electrically; the inter-group connections are optical and can be tapered to reduce cost.</p>
+
+<p>The average hop count for a Dragonfly is 5, this is where the node needs to communicate with a node from another group. The worst case could be higher than a fat tree for a sufficiently large network because the adaptive routing could make the data travel over multiple routers.</p>
+
+<p>Like Aries, the more recent Cray Slingshot interconnect defaults to a Dragonfly topology.</p>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li>Daniele De Sensi, Salvatore Di Girolamo, Kim H. McMahon, Duncan Roweth, and Torsten Hoefler. 2020. <a href="https://arxiv.org/abs/2008.08886">An in-depth analysis of the slingshot interconnect</a>. In <em>Proceedings of the International Conference for High Performance Computing, Networking, Storage and Analysis</em> (<em>SC ‘20</em>). IEEE Press, Article 35, 1-14.</li>
+    <li>
+<a href="https://yorsearch.york.ac.uk/permalink/f/1d5jm03/44YORK_ALMA_DS51308825180001381">Introduction to High Performance Computing for Scientists and Engineers</a>, Chapter 4</li>
+  </ul>
+</blockquote>
+
+<h1 id="parallel-storage">Parallel Storage</h1>
+
+<h2 id="networked-file-systems">Networked File Systems</h2>
+
+<h3 id="the-sun-network-file-system">The Sun Network File System</h3>
+
+<p>The Sun Network File System (NFS) is perhaps the most well known and most widely used file system that provides a unified directory structure to a collection of clients over a network. It uses Sun’s Remote Procedure Call (RPC) protocol in order to allow clients to issue file system commands across the network.</p>
+
+<p>The first public release of NFS (NFSv2) operated using UDP, a stateless protocol. Consequently operations such as a write had to be completed synchronously, whereby the server would have to perform the complete operation before it could return a result to the client. Stateless operation also restricted the use of file locking (vital for a file system where many clients may be acting independently), and this therefore had to be implemented outside of the core protocol. Support for TCP was added in NFSv3, but a stateful protocol was not added until NFSv4.</p>
+
+<p>NFS is widely used on many home and business networks, often in conjunction with credential and security protocols such as LDAP and Kerberos. NFS can also be found on a number of distributed systems, where NFS typically provides a “home” space for users, while computations are performed to <em>scratch</em> space on high performance parallel file systems.</p>
+
+<p>Besides NFS, there are a number of alternative protocols such as Server Message Block (SMB) and Apple Filing Protocol (AFP) that provide similar features.</p>
+
+<h2 id="distributed-file-systems">Distributed File Systems</h2>
+
+<p>While protocols such as NFS provide a unified storage solution for many connected nodes, the performance of these file systems typically do not scale with the size of the network. For this reason, distributed file systems (DFS) exist to provide a unified storage space across a network of servers. As a DFS is spread across multiple servers (allowing parallelised access without interprocess interference) it generally provides a greater quality of service (QoS) than a networked file system.</p>
+
+<p>The IBIS file system, developed in 1985, was one of the first DFSs where the file system was spread across all nodes of the network, allowing all nodes to transparently access any file regardless of whether the file was stored locally or remotely. Modern DFSs now require dedicated storage servers, each themselves containing high performance storage backends (using techniques such as RAID).</p>
+
+<p>In most modern DFSs, there are four components. For the purpose of this unit we will adopt the naming convention from the Lustre file system (described below); different file systems may use alternate terms but the functions they provide are largely equivalent.</p>
+
+<ul>
+  <li>
+<strong>Object Storage Targets (OST)</strong> 
+HDDs are usually grouped using RAID (to improve performance and provide some redundancy), these are then referred to as Object Storage Targets. The OSTs are used to store the stripe data blocks that make up each file.</li>
+  <li>
+<strong>Object Storage Servers (OSS)</strong>
+One or more OSTs are connected to one or more Object Storage Servers. The OSSs are directly responsible for reading and writing file data from and to the OSTs.</li>
+  <li>
+<strong>Metadata Server (MDS)</strong> 
+Metadata (such as the directory tree, file permissions and file block locations) is either stored on a dedicated Metadata Server or is stored on the OSSs (as in IBM Spectrum Scale). The MDS is used by the clients to get file information and file structure, such that they can access the file stripes stored on the OSTs.</li>
+  <li>
+<strong>Management Server (MGS)</strong> 
+Finally, there are usually one or two Management Servers holding the server configurations.</li>
+</ul>
+
+<h3 id="lustre">Lustre</h3>
+
+<p>The Lustre file system is used by many of the world’s fastest and largest computers. The basic architecture of a Lustre file system is shown below. Although Lustre (up to version 2.4) uses only a single MDS, a fail-over MDS and MGS can be present. Additionally, multiple OSSs can be connected to common OSTs and this will again provide some fail-over capability.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-2/lustre.png" alt="A simple Lustre file system configuration"><br>
+<em><strong>Figure 10:</strong> Simplified example configuration of a Lustre file system</em></p>
+
+<p>Lustre makes use of file striping to allow load to be distributed across a number of service nodes. The size and width of each stripe (where the width is the number of servers over which to stripe) can be configured on a per-file or per-directory basis. The <code class="language-plaintext highlighter-rouge">lfs</code> command can be used to view and modify these settings.</p>
+
+<p>When writing to a Lustre system, the server used for the first stripe is randomised in order to provide some load balancing between different clients. From this point onwards, the data is striped across a number of servers based on the configured stripe width.</p>
+
+<p>To maintain consistency and allow correct concurrent access to the DFS, Lustre makes use of a distributed lock manager. Each OSS maintains its own file locks and so if two processes attempt to access the same chunk of a file, the OSS will only grant a lock to one of the clients (unless both accesses are read requests).</p>
+
+<h3 id="ibm-spectrum-scale">IBM Spectrum Scale</h3>
+
+<p>IBM’s Spectrum Scale file system (formally known the General Parallel File System (GPFS)) operates similarly to Lustre; large files are distributed across multiple storage targets using stripes. However, Spectrum Scale differs from Lustre in that all OSSs are connected to all OSTs and MDTs, usually through a fibre channel switch. This provides additional resilience in that many more OSSs can fail before the file system must go offline. Figure 11 demonstrates an example Spectrum Scale configuration.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-2/spectrumscale.png" alt="A simple IBM Spectrum Scale file system"><br>
+<em><strong>Figure 11:</strong> Simplified example configuration of a Spectrum Scale file system</em></p>
+
+<p>Metadata is maintained by all servers, potentially providing better performance for metadata intensive workloads. Although it is possible to store metadata on the same disks as file data, many installations make use of dedicated higher performance (but smaller) targets for metadata.</p>
+
+<p>Spectrum Scale makes use of a much smaller stripe size than Lustre (typically 16 KB or 64 KB) and sets the stripe width adaptively. For large parallel writes, data can be striped across all available servers, potentially providing a much greater maximum bandwidth.</p>
+
+<h1 id="computational-accelerators">Computational Accelerators</h1>
+
+<p>Many of the newest, largest and fasted HPC systems are heterogeneous systems, with compute provided by two or more different computational architectures. While this seems to be a new trend in supercomputing, the first supercomputer discussed in the previous unit (and previously in this unit) was heterogeneous in nature.</p>
+
+<p>You may recall that the CDC 6600 used a simplified CPU that was supported by a number of peripheral processors; these peripheral processors were able to perform additional work in the background, freeing up computational resources for mathematical operations. We would now consider such a system to be “heterogeneous”.</p>
+
+<h2 id="modern-heterogeneous-computing">Modern Heterogeneous Computing</h2>
+
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/s_4rIQmOw28" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+<p><br></p>
+
+<p>The modern era of accelerated computing arguable began with the first Petascale system, IBM Roadrunner.</p>
+
+<p>IBM Roadrunner was an AMD Opteron powered system with IBM PowerXCell 8i accelerators connected to each core.</p>
+
+<p>The hybrid design of Roadrunner required that applications be written specifically to make use of the PowerXCell accelerator devices in order to achieve the highest possible performance. This complicated the development process, but the accelerators provided the vast majority of the available computational power of the machine.</p>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li><a href="https://en.wikipedia.org/wiki/Roadrunner_(supercomputer)">Roadrunner (supercomputer), Wikipedia</a></li>
+  </ul>
+</blockquote>
+
+<p>The important difference to notice between CPUs and accelerator architectures (such as GPUs) is that accelerators are very simple, since they do not require the complex control logic required to orchestrate an entire system. Because of this, much more of the silicon can be dedicated to arithmetic logic units (ALUs), or fast on-board memory. Accelerators typically contain hundred or thousands of simple ALUs that can perform floating-point operations in parallel on wide vectors of data.</p>
+
+<p>In an accelerated system, computations that are “offloaded” to the accelerator usually begin with a data transfer over a PCIe bus into the accelerators memory space, followed by the execution of a computational “kernel”, before the resultant data is transfered back to the host device.</p>
+
+<p>Figure 12 highlights some of the key computational differences between CPUs and GPUs (but this applied to almost all accelerators).</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-2/cpu-vs-gpu.png" alt="Feature comparison between CPUs and GPUs"><br>
+<em><strong>Figure 12:</strong> CPUs vs GPUs for computation</em></p>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li><a href="The%20Continuing%20Importance%20of%20GPUs%20For%20More%20Than%20Just%20Pretty%20Pictures">https://www10.mcadcafe.com/blogs/jeffrowe/2017/03/16/the-continuing-importance-of-gpus-for-more-than-just-pretty-pictures/</a></li>
+  </ul>
+</blockquote>
+
+<h3 id="gpgpus">GPGPUs</h3>
+
+<p>GPUs have been present in some computing systems since the 1970s (e.g. arcade video games). In early systems, the GPU was largely responsible for moving data between RAM and the frame buffers.</p>
+
+<p>As computational processing power has increased over the subsequent decades, so too has the complexity of GPUs. Initially GPUs were limited to rendering simple images constructed from 2D shapes, but modern GPUs can now construct high resolution 3D images, applying a large number of image processing algorithms to create realistic environments.</p>
+
+<p>Perhaps the biggest step in the evolution of General-purpose computing on GPUs (GPGPUs) was when programmable shaders were introduced by NVIDIA in the GeForce 3. Now, each pixel or vertex could be processed by a short program to calculate what would be displayed on the screen.</p>
+
+<p>These programmable shaders were the focus of the Brook programming language, developed at Stanford University in the early 2000s. BrookGPU was a compiler and runtime implementation of the Brook stream programming language aimed at using programmable shaders to perform floating-point calculations on a GPU alongside a CPU.</p>
+
+<p>In 2007, inspired by Brook, NVIDIA created the CUDA (Compute Unified Device Architecture) programming language – a C-like programming language aimed at programming NVIDIA GPUs not for visual output, but for parallel computation. While a GPU lacks much of the functionality required to operate an entire operating system, they can perform many floating-point operations in parallel when data and instructions are provided in a SIMD-like fashion.</p>
+
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/JkvqWe1ZT2w" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+<p><br></p>
+
+<p>GPUs began to take a footing in the Top500 list from June 2010, with two systems appearing in the top 10 powered partially by NVIDIA or ATI Radeon GPUs. From these humble beginning, many of the largest systems are now powered by NVIDIA GPUs, and a number of planned Exascale systems will use GPUs from AMD (formerly ATI) and Intel.</p>
+
+<p>Currently applications must use alternative programming models (like CUDA or HIP) to target the GPU devices, or use compiler directives (or new programming models, such as those that will be discussed in a later unit). Data has to be transferred to the GPUs (usually over a PCIe bus), before the compute is offloaded, and the result transferred back to main memory. We’ll look at how to program GPUs later in the course.</p>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li><a href="https://developer.nvidia.com/blog/cuda-refresher-reviewing-the-origins-of-gpu-computing/">CUDA Refresher: Reviewing the Origins of GPU Computing</a></li>
+  </ul>
+</blockquote>
+
+<h3 id="co-processors">Co-processors</h3>
+
+<p>The use of GPUs in HPC systems has grown enormously over the last decade, but as discussed above, computational accelerators are nothing new in distributed systems. Accelerators such as the IBM PowerXCell accelerator are essentially <strong><em>co-processors</em></strong> – processors designed to supplement the functions of the CPU.</p>
+
+<p>One example of a co-processor that predates the PowerXCell processors was developed in Bristol by ClearSpeed. The ClearSpeed CSX600 processors helped the Tsubame cluster reach #7 in the TOP500 in 2006, two years prior to Roadrunner’s launch.</p>
+
+<p>A more recent example of a co-processor grew out of Intel’s cancelled GPU design – codenamed “Larrabee”. Ultimately launched in 2010, the Intel Xeon Phi product range saw considerable success in the TOP500 before its discontinuation in 2020.</p>
+
+<p>The Xeon Phi was initially delivered as a PCIe connected accelerator card with many low-power, low-clock speed parallel cores that implemented the full x86-64 instruction set, alongside wide SIMD instructions (e.g. AVX-512). The Tianhe-2 supercomputer used Intel Xeon Phi “Knights Corner” co-processors to reach #1 in 2013. The Xeon Phi range has subsequently been discontinued, with Intel instead focussing on their new Xe GPUs, to be included in the upcoming Aurora Exascale system.</p>
+
+<p>The current TOP500 contains a number of other accelerators, primarily developed in Asia, such as the Matrix-2000 accelerator, the MN-Core Deep Learning accelerator and the PEZY-SC many-core processor. You can find out more about these accelerators on <a href="https://en.wikichip.org/wiki/">WikiChip</a>.</p>
+
+<h1 id="hpc-systems">HPC Systems</h1>
+
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/79TpV6BZXRA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""></iframe>
+<p><br></p>
+
+<p>This unit has covered each of the “major” constituent parts of a supercomputer.</p>
+
+<p>Modern day systems typically consist of a number of cores on each processor chip, and a number of processor chips on each motherboard. Many systems further employ accelerators (usually in the form of GPUs) on each node.</p>
+
+<p>Each node is connected to its neighbours and other nodes in the system through an interconnect, and this interconnect may be heirarchical in nature, meaning nodes that are physically closer in a cabinet are likely to also be “closer” in terms of the communication latency.</p>
+
+<p>A shared parallel file system is usually available for the system, such that nodes can each read and write data to a coherent storage medium.</p>
+
+<p>On an HPC system, users typically interact with the system through login nodes. Users typically compile their applications on these login nodes, before submitting batch jobs to the queuing system. For cloud based systems, users are much more likely to interact with individual nodes, with node instances being created on-demand.</p>
+
+<hr>
+
+<p>Hopefully you can see that there is a wealth of diversity in HPC systems, and this diversity is growing. A cursory glance at the TOP500 lists over the past decade shows the explosion in architectural development that is currently occurring. Ensuring each of these HPC systems is used in the most effective way will be the focus for much of the remainder of this module.</p>
+
+<h1 id="recommended-reading">Recommended Reading</h1>
+
+<blockquote class="block-warning">
+  <ul>
+    <li>
+<a href="https://yorsearch.york.ac.uk/permalink/f/1d5jm03/44YORK_ALMA_DS51308825180001381">Introduction to High Performance Computing for Scientists and Engineers</a>, Chapter 1 - Modern Processors</li>
+    <li>
+<a href="https://yorsearch.york.ac.uk/permalink/f/1d5jm03/44YORK_ALMA_DS51308825180001381">Introduction to High Performance Computing for Scientists and Engineers</a>, Chapter 4 - Parallel Computers</li>
+  </ul>
+</blockquote>
+
+                </section>
+            </div>
+<div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title">
+<span class="search-results-count"></span> results matching "<span class="search-query"></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class="search-query"></span>"</h1>
+    </div>
+</div>
+</div>
+    </div>
+</div>
+
+                        <a href="/~saw586/hipc/2023-24//lectures/1-supercomputing/" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 1. Supercomputing and Scientific Computing">
+                            <i class="fa fa-angle-left"></i>
+                        </a>
+                    
+
+                    
+                        <a href="/~saw586/hipc/2023-24//lectures/3-management_and_measurement/" class="navigation navigation-next navigation-unique" aria-label="Next page: 3. Management and Measurement of Distributed Systems">
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    
+                </div>
+            </div>
+
+            <script>
+            var gitbook = gitbook || [];
+            gitbook.push(function() {
+                gitbook.page.hasChanged({
+    "page": {
+        "title": "Introduction",
+        "level": "1.1",
+        "depth": 1,
+        
+        "next": {
+            "title": "3. Management and Measurement of Distributed Systems",
+            "level": "1.2",
+            "depth": 1,
+            "path": "_lectures/3-management_and_measurement.md",
+            "ref": "_lectures/3-management_and_measurement.md",
+            "articles": []
+        },
+        
+        "dir": "ltr"
+    },    "config": {
+        "plugins": ["fontsettings", "highlight", "livereload", "lunr", "search", "sharing", "theme-default", "livereload"],
+        "styles": {
+            "ebook": "styles/ebook.css",
+            "epub": "styles/epub.css",
+            "mobi": "styles/mobi.css",
+            "pdf": "styles/pdf.css",
+            "print": "styles/print.css",
+            "website": "styles/website.css"
+        },
+        "pluginsConfig": {
+            "fontsettings": {
+                "family": "sans",
+                "size": 2,
+                "theme": "white"
+            },
+            "highlight": {},
+            "livereload": {},
+            "lunr": {
+                "ignoreSpecialCharacters": false,
+                "maxIndexSize": 1000000
+            },
+            "search": {},
+            "sharing": {
+                "all": ["facebook", "google", "twitter", "weibo", "instapaper"],
+                "facebook": true,
+                "google": false,
+                "instapaper": true,
+                "twitter": true,
+                "vk": false,
+                "weibo": false
+            },
+            "theme-default": {
+                "showLevel": false,
+                "styles": {
+                    "ebook": "styles/ebook.css",
+                    "epub": "styles/epub.css",
+                    "mobi": "styles/mobi.css",
+                    "pdf": "styles/pdf.css",
+                    "print": "styles/print.css",
+                    "website": "styles/website.css"
+                }
+            }
+        },
+        "theme": "default",
+        "author": "Tao He",
+        "pdf": {
+            "pageNumbers": true,
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "paperSize": "a4",
+            "chapterMark": "pagebreak",
+            "pageBreaksBefore": "/",
+            "margin": {
+                "right": 62,
+                "left": 62,
+                "top": 56,
+                "bottom": 56
+            }
+        },
+        "structure": {
+            "langs": "LANGS.md",
+            "readme": "README.md",
+        },
+        "variables": {},
+        "title": "HIPC",
+        "language": "en",
+        "gitbook": "*"
+    },
+    "file": {
+        "path": "_lectures/2-architectures.md",
+        "mtime": "2022-07-22 00:00:00 +0100",
+        "type": "markdown"
+    },
+    "gitbook": {
+        "version": "3.2.3",
+        "time": "2023-12-01 15:53:33 +0000"
+    },
+    "basePath": "/~saw586/hipc/2023-24/",
+    "book": {
+        "language": ""
+    }
+});
+            });
+            </script>
+        </div>
+<script src="/~saw586/hipc/2023-24//assets/gitbook/gitbook.js"></script>
+<script src="/~saw586/hipc/2023-24//assets/gitbook/theme.js"></script>
+
+<script src="/~saw586/hipc/2023-24//assets/gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+<script src="/~saw586/hipc/2023-24//assets/gitbook/gitbook-plugin-sharing/buttons.js"></script>
+
+<!-- <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+<script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+<script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+<script src="../gitbook/gitbook-plugin-search/search.js"></script> -->
+
+<script src="/~saw586/hipc/2023-24//assets/gitbook/gitbook-plugin-search-pro/jquery.mark.min.js"></script>
+<script src="/~saw586/hipc/2023-24//assets/gitbook/gitbook-plugin-search-pro/search.js"></script>
+<script src="/~saw586/hipc/2023-24//assets/gitbook/gitbook-plugin-back-to-top-button/plugin.js"></script>
+
+<script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,1021 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+<meta charset="UTF-8">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<title>2. Introduction to C (part 2) · HIPC</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="HIPC
+">
+<meta name="generator" content="Jekyll (using style of GitBook 3.2.3)">
+<meta name="author" content="Steven Wright">
+<link rel="stylesheet" href="/~saw586/hipc//assets/gitbook/style.css">
+<link rel="stylesheet" href="/~saw586/hipc//assets/gitbook/gitbook-plugin-fontsettings/website.css">
+<link rel="stylesheet" href="/~saw586/hipc//assets/gitbook/gitbook-plugin-search-pro/search.css">
+<link rel="stylesheet" href="/~saw586/hipc//assets/gitbook/gitbook-plugin-back-to-top-button/plugin.css">
+
+<link rel="stylesheet" href="/~saw586/hipc//assets/gitbook/rouge/github.css">
+
+<link rel="stylesheet" href="/~saw586/hipc//assets/gitbook/custom.css">
+
+<meta name="HandheldFriendly" content="true">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="apple-touch-icon-precomposed" sizes="152x152" href="/~saw586/hipc//assets/gitbook/images/apple-touch-icon-precomposed-152.png">
+<link rel="shortcut icon" href="/~saw586/hipc//assets/gitbook/images/favicon.ico" type="image/x-icon">
+
+
+
+
+
+<script>
+    MathJax = {
+        tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        svg: {
+            fontCache: 'global'
+        }
+    };
+</script>
+            <link rel="prev" href="/~saw586/hipc//practicals/1-introduction_to_c-1/">
+        
+
+        
+            <link rel="next" href="/~saw586/hipc//practicals/3-basic_optimisation/">
+        
+    </head>
+    <body>
+        <div class="book">
+<div class="book-summary">
+    <nav role="navigation">
+        <div id="book-search-input" role="search">
+            <input type="text" placeholder="Type to search">
+        </div>
+        <div id="book-search-input-link" role="search">
+            <a href="/~saw586/hipc//assets/search.html">Click to Search</a>
+        </div>
+        <ul class="summary">
+            
+            <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/">
+            
+                <a href="/~saw586/hipc//">
+                    HIPC
+                </a>
+            </li>
+
+            <li class="divider">
+
+            
+             
+                
+                <!-- <li class="chapter" data-level="1.1"><a>about</a></li> -->
+             
+                
+                    
+
+                    
+                        
+                        </li>
+<li class="chapter" data-level="1.1" data-path="/~saw586/hipc//about/about/">
+                        
+                            <a href="/~saw586/hipc//about/about/">
+                                About
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//about/changelog/">
+                        
+                            <a href="/~saw586/hipc//about/changelog/">
+                                Changelog
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+
+                    
+                        <li class="divider">
+                    
+                
+            
+             
+                
+                </li>
+<li><a><strong>Units</strong></a></li>
+                
+                <!-- <li class="chapter" data-level="1.1"><a>lectures</a></li> -->
+             
+                
+                    
+
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/1-supercomputing/">
+                        
+                            <a href="/~saw586/hipc//lectures/1-supercomputing/">
+                                1. Supercomputing and Scientific Computing
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/2-architectures/">
+                        
+                            <a href="/~saw586/hipc//lectures/2-architectures/">
+                                2. The Architectures of Distributed Systems
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/3-management_and_measurement/">
+                        
+                            <a href="/~saw586/hipc//lectures/3-management_and_measurement/">
+                                3. Management and Measurement of Distributed Systems
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/4-on-core_parallelism/">
+                        
+                            <a href="/~saw586/hipc//lectures/4-on-core_parallelism/">
+                                4. On-core Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/5-on-node_parallelism/">
+                        
+                            <a href="/~saw586/hipc//lectures/5-on-node_parallelism/">
+                                5. On-node Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/6-internode_parallelism/">
+                        
+                            <a href="/~saw586/hipc//lectures/6-internode_parallelism/">
+                                6. Internode Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/7-advanced_internode_parallelism/">
+                        
+                            <a href="/~saw586/hipc//lectures/7-advanced_internode_parallelism/">
+                                7. Advanced Internode Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/8-accelerators/">
+                        
+                            <a href="/~saw586/hipc//lectures/8-accelerators/">
+                                8. Accelerators
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/9-more_accelerators/">
+                        
+                            <a href="/~saw586/hipc//lectures/9-more_accelerators/">
+                                9. Advanced Accelerators
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+
+                    
+                        <li class="divider">
+                    
+                
+            
+             
+                
+                <!-- <li class="chapter" data-level="1.1"><a>posts</a></li> -->
+             
+                
+                    
+
+                    
+
+                    
+                
+            
+             
+                
+                </li>
+<li><a><strong>Practicals</strong></a></li>
+                
+                <!-- <li class="chapter" data-level="1.1"><a>practicals</a></li> -->
+             
+                
+                    
+
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/1-introduction_to_c-1/">
+                        
+                            <a href="/~saw586/hipc//practicals/1-introduction_to_c-1/">
+                                1. Introduction to C (part 1)
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter active" data-level="1.2" data-path="/~saw586/hipc//practicals/2-introduction_to_c-2/">
+                        
+                            <a href="/~saw586/hipc//practicals/2-introduction_to_c-2/">
+                                2. Introduction to C (part 2)
+                            </a>
+                            
+                                
+                                    <ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#more-memory-management">More Memory Management</a></li>
+<li><a href="#strings">Strings</a></li>
+<li><a href="#exercise-1">Exercise 1</a></li>
+<li>
+<a href="#file-io">File I/O</a><ul>
+<li><a href="#file-streams">File Streams</a></li>
+<li><a href="#file-descriptors">File Descriptors</a></li>
+</ul>
+</li>
+<li><a href="#exercise-2">Exercise 2</a></li>
+<li><a href="#structures">Structures</a></li>
+<li><a href="#exercise-3">Exercise 3</a></li>
+<li><a href="#exercise-4">Exercise 4</a></li>
+<li><a href="#more-debugging">More Debugging</a></li>
+<li><a href="#exercise-5">Exercise 5</a></li>
+</ul>
+
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/3-basic_optimisation/">
+                        
+                            <a href="/~saw586/hipc//practicals/3-basic_optimisation/">
+                                3. Basic Optimisation
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/4-on-core_parallelism/">
+                        
+                            <a href="/~saw586/hipc//practicals/4-on-core_parallelism/">
+                                4. Programming On-core Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/5-on-node_parallelism/">
+                        
+                            <a href="/~saw586/hipc//practicals/5-on-node_parallelism/">
+                                5. Programming On-node Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/6-off-node_parallelism/">
+                        
+                            <a href="/~saw586/hipc//practicals/6-off-node_parallelism/">
+                                6. Programming Off-node Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/7-advanced_mpi/">
+                        
+                            <a href="/~saw586/hipc//practicals/7-advanced_mpi/">
+                                7. Advanced MPI Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/8-cuda_programming/">
+                        
+                            <a href="/~saw586/hipc//practicals/8-cuda_programming/">
+                                8. CUDA Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/9-advanced_cuda_programming/">
+                        
+                            <a href="/~saw586/hipc//practicals/9-advanced_cuda_programming/">
+                                9. Advanced CUDA Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+
+                    
+                        <li class="divider">
+                    
+                
+            
+        </li>
+</ul>
+    </nav>
+</div>
+<div class="book-body">
+                <div class="book-header" role="navigation">
+                    <!-- Title -->
+                    <h1>
+                        <i class="fa fa-circle-o-notch fa-spin"></i>
+                        
+                            <a href=".">2. Introduction to C (part 2)</a>
+                        
+                    </h1>
+                </div>
+
+                <div class="body-inner">
+<div class="page-wrapper" tabindex="-1" role="main">
+    
+
+    <div class="page-inner">
+        <div id="book-search-results">
+            <div class="search-noresults">
+                <section class="normal markdown-section">
+                    
+                        <h1 id="/practicals/2-introduction_to_c-2">2. Introduction to C (part 2)</h1>
+                    
+
+                    <h1 id="overview">Overview</h1>
+
+<p>In this practical we will cover:</p>
+
+<ul>
+  <li>Static and dynamic memory</li>
+  <li>Strings</li>
+  <li>File I/O</li>
+  <li>Structures</li>
+  <li>Debugging with valgrind or the address sanitizer</li>
+</ul>
+
+<h1 id="more-memory-management">More Memory Management</h1>
+
+<p>A compiled program’s memory is divided into five segments: text, data, bss, heap, and stack. Each segment has a different purpose. The two segments which programmers are most concerned with are the stack and the heap. There are two ways memory can be acquired in C – statically and dynamically – which cause memory to be allocated on the stack and heap, respectively.</p>
+
+<p>In the previous practical you learnt about dynamic memory allocation, where memory is allocated in an on-demand fashion with the use of functions like <code class="language-plaintext highlighter-rouge">malloc()</code>. Dynamic memory is allocated on the heap and is limited only by the available memory on your computer. Blocks of memory in the heap segment can be allocated and used for whatever the programmer may need. Any memory allocated on the heap will stay around until it is released by calling <code class="language-plaintext highlighter-rouge">free()</code>. It is important that you free any memory you allocate with <code class="language-plaintext highlighter-rouge">malloc()</code>/<code class="language-plaintext highlighter-rouge">calloc()</code>/<code class="language-plaintext highlighter-rouge">realloc()</code> otherwise your application will have a “memory leak”. We’ll deal with how to debug memory leaks at the end of this practical.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="o">*</span><span class="n">dynamic_array</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="nf">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">));</span> <span class="c1">// Dynamically allocated on heap, typecast to int *</span>
+<span class="p">...</span>
+<span class="n">free</span><span class="p">(</span><span class="n">dynamic_array</span><span class="p">);</span> <span class="c1">// release memory</span>
+</code></pre></div></div>
+
+<p>Statically allocated memory lives on the program stack where space is limited by the operating system. The stack segment is used as a temporary scratch pad to store local function variables and context during function calls. Before calling a function a program must first build a stack frame which contains all of the function’s arguments along with enough free space to hold any local variables declared by that function. This is pushed onto the stack and the processor jumps to the start of the function code. When a function returns, the stack frame is popped off the stack and discarded. This means that statically allocated memory only exists for the duration of a function call and is automatically allocated on function entry and released after the function exits. The compiler will automatically generate code to do this, meaning the programmer does not have to explicitly manage static memory. To statically allocate an array of integers in a function (as we’ve previously been doing), you can write:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">foo</span><span class="p">(</span><span class="kt">double</span> <span class="n">argument</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">my_array</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span> <span class="c1">// Static allocation; memory is made available on the stack. Fixed size.</span>
+  <span class="kt">double</span> <span class="n">a_number</span> <span class="o">=</span> <span class="n">argument</span><span class="p">;</span>  <span class="c1">// This is also static allocation.</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">foo</span><span class="p">(</span><span class="mi">42</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span> <span class="c1">// Stack frame is pushed on function entry and discarded after function exit</span>
+  <span class="c1">// varibles a_number and my_array have ceased to exist here.</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h1 id="strings">Strings</h1>
+
+<p>Dealing with strings in Java is rather simple; however in C, strings don’t <em>really</em> exist. Instead, C deals with arrays of <code class="language-plaintext highlighter-rouge">char</code> elements. The string “hello, world” in C is simply an array of 13 characters ending in the <em>null</em> terminator character (a zero byte, 0x00 in hex) which signifies that the string has ended: <code class="language-plaintext highlighter-rouge">["h", "e", "l", "l", "o", ",", " ", "w", "o", "r", "l", "d", 0x00]</code></p>
+
+<p>Consider the following two examples, both concatenating two strings and then printing the result:</p>
+
+<p><strong>Java</strong></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">String</span> <span class="n">my_string</span> <span class="o">=</span> <span class="s">"This is a string in "</span><span class="o">;</span>
+<span class="n">my_string</span> <span class="o">=</span> <span class="n">my_string</span> <span class="o">+</span> <span class="s">"Java"</span><span class="o">;</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">my_string</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p><strong>C</strong></p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">char</span> <span class="o">*</span><span class="n">string_a</span> <span class="o">=</span> <span class="s">"This is a string in "</span><span class="p">;</span> 
+<span class="kt">char</span> <span class="o">*</span><span class="n">string_b</span> <span class="o">=</span> <span class="s">"the C language"</span><span class="p">;</span>
+<span class="kt">char</span> <span class="o">*</span><span class="n">tmp_string</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="p">)</span> <span class="n">calloc</span><span class="p">(</span><span class="n">strlen</span><span class="p">(</span><span class="n">string_a</span><span class="p">)</span> <span class="o">+</span> <span class="n">strlen</span><span class="p">(</span><span class="n">string_b</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">char</span><span class="p">));</span> <span class="c1">// N.B. the +1 is for the null terminator.</span>
+<span class="n">strcat</span><span class="p">(</span><span class="n">tmp_string</span><span class="p">,</span> <span class="n">string_a</span><span class="p">);</span>
+<span class="n">strcat</span><span class="p">(</span><span class="n">tmp_string</span><span class="p">,</span> <span class="n">string_b</span><span class="p">);</span>
+
+<span class="n">printf</span><span class="p">(</span><span class="s">"%s"</span><span class="p">,</span> <span class="n">tmp_string</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Clearly, concatenation is much more complicated in C, but we should try to understand it anyway!</p>
+
+<p>To get started with strings, we need to use the C string library (<a href="http://linux.die.net/man/3/string"><code class="language-plaintext highlighter-rouge">string.h</code></a>). Some of the most useful string functions are outlined in this practical, but you are advised to look at the string man page for a broader overview of its functions.</p>
+
+<p>In C, all strings must all end with a null character (<code class="language-plaintext highlighter-rouge">\0</code>) and you should therefore account for this when allocating memory. If a string pointer is assigned a value like in the above example (line 1), the pointer will point to its first character. The same is true for <code class="language-plaintext highlighter-rouge">tmp_string</code>, except this will reside on the heap (since the memory was reserved with <code class="language-plaintext highlighter-rouge">calloc()</code> first).</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">size_t</span> <span class="nf">strlen</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">s</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>The <a href="http://linux.die.net/man/3/strlen"><code class="language-plaintext highlighter-rouge">strlen()</code></a> function returns the number of characters in a string. This will likely be different to the amount of memory allocated for a particular string – it will report the number of characters up to <em>(but not including)</em> the null character.</p>
+
+<p>In the above example, <code class="language-plaintext highlighter-rouge">strlen</code> is used to get the size of <code class="language-plaintext highlighter-rouge">string_a</code> and <code class="language-plaintext highlighter-rouge">string_b</code>. The space required for the concatenated string is then the sum of the length of these two strings plus 1 for the null character.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">char</span> <span class="o">*</span> <span class="nf">strcat</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span> <span class="n">destination</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">source</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">strcat()</code> function appends a copy of the <code class="language-plaintext highlighter-rouge">source</code> string to the <code class="language-plaintext highlighter-rouge">destination</code> string. The terminating null character in <code class="language-plaintext highlighter-rouge">destination</code> is overwritten by the first character of <code class="language-plaintext highlighter-rouge">source</code>, and a null-character is included at the end of the new string formed by the concatenation of both in <code class="language-plaintext highlighter-rouge">destination</code>.</p>
+
+<p>An alternative approach would be to use the <code class="language-plaintext highlighter-rouge">sprintf</code> function to amalgamate the two strings:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sprintf</span><span class="p">(</span><span class="n">tmp_string</span><span class="p">,</span> <span class="s">"%s%s"</span><span class="p">,</span> <span class="n">string_a</span><span class="p">,</span> <span class="n">string_b</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">sprintf</code> function is much the same as the <a href="http://linux.die.net/man/3/printf"><code class="language-plaintext highlighter-rouge">printf()</code></a> function we encountered last time. Where <code class="language-plaintext highlighter-rouge">printf</code> prints to the standard output stream, <a href="http://linux.die.net/man/3/sprintf"><code class="language-plaintext highlighter-rouge">sprintf()</code></a> prints into memory (which must be allocated with at least enough room).</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">strcmp</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">s1</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">s2</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><a href="http://linux.die.net/man/3/strcmp"><code class="language-plaintext highlighter-rouge">strcmp()</code></a> compares two strings lexicographically (actually, it operates on the ASCII codes for each letter. This can cause some confusion, for example with capital Z considered to come before lowercase a) and returns a negative number if <code class="language-plaintext highlighter-rouge">s1</code> is less than <code class="language-plaintext highlighter-rouge">s2</code>, a positive number if <code class="language-plaintext highlighter-rouge">s1</code> is greater than <code class="language-plaintext highlighter-rouge">s2</code>, and 0 when the two strings are equal. For example:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">char</span> <span class="o">*</span><span class="n">s1</span> <span class="o">=</span> <span class="s">"this is a string"</span><span class="p">;</span>
+<span class="kt">char</span> <span class="o">*</span><span class="n">s2</span> <span class="o">=</span> <span class="s">"this is a string"</span><span class="p">;</span>
+<span class="kt">char</span> <span class="o">*</span><span class="n">s3</span> <span class="o">=</span> <span class="s">"this is a third string"</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="n">v</span> <span class="o">=</span> <span class="n">strcmp</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">);</span> <span class="c1">// This will be 0 as they are equal</span>
+
+<span class="kt">int</span> <span class="n">w</span> <span class="o">=</span> <span class="n">strcmp</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s3</span><span class="p">);</span> <span class="c1">// This will be non-zero</span>
+</code></pre></div></div>
+
+<p>The final function we will discuss in this practical is the <a href="http://linux.die.net/man/3/strstr"><code class="language-plaintext highlighter-rouge">strstr()</code></a> function.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">char</span> <span class="o">*</span><span class="nf">strstr</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">haystack</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">needle</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">strstr()</code> function finds a substring within a larger string and returns a pointer to the beginning of the substring, or NULL if the substring is not found. For example:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">char</span> <span class="o">*</span><span class="n">s1</span> <span class="o">=</span> <span class="s">"this is a string"</span><span class="p">;</span>
+<span class="kt">char</span> <span class="o">*</span><span class="n">s2</span> <span class="o">=</span> <span class="s">"is a"</span><span class="p">;</span>
+<span class="kt">char</span> <span class="o">*</span><span class="n">s3</span> <span class="o">=</span> <span class="s">"balloon"</span><span class="p">;</span>
+
+<span class="kt">char</span> <span class="o">*</span><span class="n">r1</span> <span class="o">=</span> <span class="n">strstr</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">);</span> <span class="c1">// This will return a pointer to: "is a string"</span>
+
+<span class="kt">char</span> <span class="o">*</span><span class="n">r2</span> <span class="o">=</span> <span class="n">strstr</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s3</span><span class="p">);</span> <span class="c1">// This will return NULL</span>
+</code></pre></div></div>
+
+<p>Like in the previous practical, memory leaks and buffer overflows are serious problems when dealing with strings stored on the heap. You <strong>must</strong> make sure that when you allocate memory for a string, you <strong>include 1 additional character space for the NULL character</strong> and that you don’t overrun the memory you have allocated.</p>
+
+<p>A buffer overflow occurs when you write more data to memory than you have allocated space for. While your application will often not crash when doing this operation, it may cause issues at a later time as you may overwrite memory being used for something else entirely. Furthermore, buffer overflows are often the cause of security problems in applications. If you can overwrite memory in the correct way, it is actually possible to inject malicious assembly code into a running application.</p>
+
+<blockquote class="block-danger">
+  <h1 id="exercise-1">Exercise 1</h1>
+
+  <p>Complete the following program by writing the code for the function <code class="language-plaintext highlighter-rouge">count_words()</code> that takes a string as input and returns the number of words in the string</p>
+
+  <div class="language-c highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">count_words</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">str</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// this function should return the number of words in str</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kt">char</span> <span class="n">str</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+
+    <span class="n">printf</span><span class="p">(</span><span class="s">"Enter a string:"</span><span class="p">);</span>
+    <span class="n">fgets</span><span class="p">(</span><span class="n">str</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">stdin</span><span class="p">);</span>    <span class="c1">// this function reads a line or at most 99 bytes from stdin file stream that represents the keyboard</span>
+
+    <span class="n">printf</span><span class="p">(</span><span class="s">"Number of words in the entered string is %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">count_words</span><span class="p">(</span><span class="n">str</span><span class="p">));</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">}</span>
+</code></pre></div>  </div>
+
+  <p>Note that the <code class="language-plaintext highlighter-rouge">main()</code> function in the above exercise uses the function <code class="language-plaintext highlighter-rouge">fgets()</code> to read characters from the <a href="https://linux.die.net/man/3/stdin"><code class="language-plaintext highlighter-rouge">stdin</code></a> file stream. In C, a file stream is used to represent an opened I/O device or file. The <code class="language-plaintext highlighter-rouge">stdin</code> file stream represents the keyboard. Also, note that <code class="language-plaintext highlighter-rouge">fgets()</code> in the above program will read at most 99 bytes (one less than the second argument) from the <code class="language-plaintext highlighter-rouge">stdin</code> file stream leaving 1 byte to store the null character (<code class="language-plaintext highlighter-rouge">'\0'</code>) which makes ‘<code class="language-plaintext highlighter-rouge">str</code>’ a valid string. See the man page of <a href="https://linux.die.net/man/3/fgets"><code class="language-plaintext highlighter-rouge">fgets()</code></a> to know more about the function.<br><br></p>
+</blockquote>
+
+<h1 id="file-io">File I/O</h1>
+
+<p>There are two mechanisms to handle files in C. These are:</p>
+
+<ol>
+  <li>Using <strong>File Streams</strong>
+</li>
+  <li>Using <strong>File Descriptors</strong>
+</li>
+</ol>
+
+<h2 id="file-streams">File Streams</h2>
+
+<p>A file stream is a pointer of type <a href="https://linux.die.net/man/3/stdio"><code class="language-plaintext highlighter-rouge">FILE</code></a> which is a predefined data type in the C standard I/O library. It is used to represent an opened file. Consider the following program in which a text file is opened, read, and its contents are displayed to the terminal.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="c1"> // required for the exit() function</span><span class="cp">
+</span>
+<span class="cp">#define BUFSIZE 10
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kt">FILE</span> <span class="o">*</span><span class="n">fptr1</span> <span class="o">=</span> <span class="n">fopen</span><span class="p">(</span><span class="s">"./textfile1.txt"</span><span class="p">,</span> <span class="s">"r"</span><span class="p">);</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="n">fptr1</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">){</span>
+        <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">"Error opening file</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+        <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kt">char</span> <span class="n">str</span><span class="p">[</span><span class="n">BUFSIZE</span><span class="p">];</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"Content of the opened file:</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+    <span class="k">while</span><span class="p">(</span><span class="n">fgets</span><span class="p">(</span><span class="n">str</span><span class="p">,</span> <span class="n">BUFSIZE</span><span class="p">,</span> <span class="n">fptr1</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// read the file line by line</span>
+        <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">"%s"</span><span class="p">,</span> <span class="n">str</span><span class="p">);</span>             <span class="c1">// same as doing printf("%s",str);</span>
+    <span class="p">}</span>
+
+    <span class="n">printf</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+    <span class="n">fclose</span><span class="p">(</span><span class="n">fptr1</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Here <code class="language-plaintext highlighter-rouge">fopen()</code> is used to open the file <code class="language-plaintext highlighter-rouge">"textfile1.txt"</code> in read mode (specified by the second argument <code class="language-plaintext highlighter-rouge">"r"</code>). For more details on the different modes available to open a file see the man page of <a href="http://linux.die.net/man/3/fopen"><code class="language-plaintext highlighter-rouge">fopen()</code></a>. If successful, <code class="language-plaintext highlighter-rouge">fopen()</code> returns a <code class="language-plaintext highlighter-rouge">FILE</code> pointer that represents the opened file stream. In this case, the pointer <code class="language-plaintext highlighter-rouge">fptr1</code> represents the file stream and all subsequent handling of the file is done using this pointer. If <code class="language-plaintext highlighter-rouge">fopen()</code> is not successful in opening the file stream (for example, if the file does not exist), then it returns <code class="language-plaintext highlighter-rouge">NULL</code> (in which case we print an error message and exit).</p>
+
+<p>In the example, we use the <code class="language-plaintext highlighter-rouge">fgets()</code> function repeatedly (until we reach <code class="language-plaintext highlighter-rouge">EOF</code>, or the End-of-File character, in which case <code class="language-plaintext highlighter-rouge">fgets()</code> returns <code class="language-plaintext highlighter-rouge">NULL</code>) to read from the file stream <code class="language-plaintext highlighter-rouge">fptr1</code>. Each time it reads a line, or <code class="language-plaintext highlighter-rouge">BUFSIZE-1</code> bytes, from the file stream and stores them in <code class="language-plaintext highlighter-rouge">str</code>. We then display the string <code class="language-plaintext highlighter-rouge">str</code> to the terminal (which is represented by the file stream <a href="https://linux.die.net/man/3/stdout"><code class="language-plaintext highlighter-rouge">stdout</code></a>) using the <a href="https://linux.die.net/man/3/fprintf"><code class="language-plaintext highlighter-rouge">fprintf()</code></a> function. Each time <code class="language-plaintext highlighter-rouge">fgets()</code> is executed, the reading position indicator of the file stream is advanced by the number of bytes read and points to the next input character in the file stream. When reading is finished, we close the file using <a href="https://linux.die.net/man/3/fclose"><code class="language-plaintext highlighter-rouge">fclose()</code></a>.</p>
+
+<p>One important point to remember is that each C program has, by default, three standard I/O streams opened (no need to use <code class="language-plaintext highlighter-rouge">fopen()</code> to open these file streams). These standard I/O streams are <code class="language-plaintext highlighter-rouge">stdin</code>, <code class="language-plaintext highlighter-rouge">stdout</code>, and <code class="language-plaintext highlighter-rouge">stderr</code>, which are used to read from the keyboard and to display output and errors to the terminal. Hence, the line <code class="language-plaintext highlighter-rouge">fprintf(stdout, "%s", str)</code> will do the same job as <code class="language-plaintext highlighter-rouge">printf("%s", str)</code>.</p>
+
+<h2 id="file-descriptors">File Descriptors</h2>
+
+<p>So far we have seen how to handle files using file streams. A file stream is a high-level data structure defined in the C standard I/O library. For UNIX-based operating systems, there is another more primitive way of handling files using file descriptors. File descriptors are nothing but integers to represent files. The standard I/O streams <code class="language-plaintext highlighter-rouge">stdin</code>, <code class="language-plaintext highlighter-rouge">stdout</code>, and <code class="language-plaintext highlighter-rouge">stderr</code> have file descriptors 0, 1, and 2, respectively. Any additional files can be opened using the <a href="http://linux.die.net/man/3/open"><code class="language-plaintext highlighter-rouge">open()</code></a> function which returns a file descriptor for the corresponding file. We can read from or write to a file descriptor using the <a href="http://linux.die.net/man/3/read"><code class="language-plaintext highlighter-rouge">read()</code></a> and <a href="http://linux.die.net/man/3/write"><code class="language-plaintext highlighter-rouge">write()</code></a> system calls. Consider, for example, the following program which does the same job as the previous program but using file descriptors instead of file streams:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;fcntl.h&gt;</span><span class="c1">  // for the open() function</span><span class="cp">
+#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="c1"> // for read(), write() and close() functions</span><span class="cp">
+</span>
+<span class="cp">#define BUFSIZE 10
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">fd1</span> <span class="o">=</span> <span class="n">open</span><span class="p">(</span><span class="s">"./textfile1.txt"</span><span class="p">,</span> <span class="n">O_RDONLY</span><span class="p">);</span>  <span class="c1">// opens the file in read only mode and returns a file descriptor for the file</span>
+    <span class="kt">int</span> <span class="n">x</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">fd1</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">write</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s">"Error opening file</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="s">"Error opening file</span><span class="se">\n</span><span class="s">"</span><span class="p">));</span> <span class="c1">// writes the error message to stderr</span>
+        <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kt">char</span> <span class="n">str</span><span class="p">[</span><span class="n">BUFSIZE</span><span class="p">];</span>
+
+    <span class="n">printf</span><span class="p">(</span><span class="s">"Content of the opened file:</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+    <span class="k">while</span><span class="p">((</span><span class="n">x</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">fd1</span><span class="p">,</span> <span class="n">str</span><span class="p">,</span> <span class="n">BUFSIZE</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">){</span> <span class="c1">// read() reads up to BUFSIZE-1 bytes from fd1 and stores in str</span>
+                                                <span class="c1">// the number of bytes actually read is returned</span>
+            <span class="n">str</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
+            <span class="n">write</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">str</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">str</span><span class="p">));</span>   <span class="c1">// '1' is the file descriptor for stdout, hence this is equivalent to printf("%s", str)</span>
+    <span class="p">}</span>
+
+    <span class="n">printf</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+    <span class="n">close</span><span class="p">(</span><span class="n">fd1</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>At this point, you may be asking what is the advantage of knowing both mechanisms of file handling described above when the job can be done using either of them. In most cases, normal file handling and I/O operations are handled very efficiently by file stream operations (such as <code class="language-plaintext highlighter-rouge">fopen()</code>, <code class="language-plaintext highlighter-rouge">fgets()</code>, <code class="language-plaintext highlighter-rouge">fread()</code>, <code class="language-plaintext highlighter-rouge">fwrite()</code>, etc.) defined in the C standard I/O library. These operations actually use the more basic system calls <code class="language-plaintext highlighter-rouge">open()</code>, <code class="language-plaintext highlighter-rouge">read()</code>, and <code class="language-plaintext highlighter-rouge">write()</code> to do their job.</p>
+
+<p>However, the standard I/O library functions use buffers to reduce the number of system calls so that context switching time is minimised. As a result, in some cases data will not be immediately read or written when using file stream operations as these operations may store the data in a buffer to be read or written later. However, some applications may require data to be read or written immediately and not buffered. In such cases, to have more control on the flow of data, we could use file descriptors along with <code class="language-plaintext highlighter-rouge">read()</code> and <code class="language-plaintext highlighter-rouge">write()</code> system calls.</p>
+
+<blockquote class="block-danger">
+  <h1 id="exercise-2">Exercise 2</h1>
+
+  <p>Write a C program that copies the contents of one text file into another. You should write two versions of the program; one using file streams only and another using file descriptors only. <br><br></p>
+</blockquote>
+
+<h1 id="structures">Structures</h1>
+
+<p>Structures, or ‘<code class="language-plaintext highlighter-rouge">structs</code>’, are a mechanism for defining complex data types in C. They allow a programmer to combine a group of related variables to be placed in a contiguous block of memory. The <code class="language-plaintext highlighter-rouge">struct</code> shares a superficial similarity with Java’s objects in that they allow a programmer to model a complex structure as a single entity. That said, <code class="language-plaintext highlighter-rouge">structs</code> are not objects as they cannot contain functions, have no mechanism for inheritance or polymorphism, and do not support encapsulation.</p>
+
+<p><strong>Java</strong></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Book</span> <span class="o">{</span>
+  <span class="kd">private</span> <span class="nc">String</span> <span class="n">title</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="kt">double</span> <span class="n">price</span><span class="o">;</span>
+
+  <span class="kd">public</span> <span class="nf">Book</span><span class="o">(</span><span class="nc">String</span> <span class="n">title</span><span class="o">,</span> <span class="kt">double</span> <span class="n">price</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">title</span> <span class="o">=</span> <span class="n">title</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">price</span> <span class="o">=</span> <span class="n">price</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="kt">double</span> <span class="nf">getPrice</span><span class="o">()</span> <span class="o">{</span> 
+    <span class="k">return</span> <span class="n">price</span><span class="o">;</span> 
+  <span class="o">}</span> 
+
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setPrice</span><span class="o">(</span><span class="kt">double</span> <span class="n">price</span><span class="o">)</span> <span class="o">{</span> 
+    <span class="k">this</span><span class="o">.</span><span class="na">price</span> <span class="o">=</span> <span class="n">price</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="o">...</span>
+<span class="o">}</span>
+
+<span class="o">...</span>
+
+<span class="nc">Book</span> <span class="n">b</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Book</span> <span class="o">(</span><span class="s">"Charlotte's Web"</span><span class="o">,</span> <span class="mf">10.88</span><span class="o">);</span>
+<span class="n">b</span><span class="o">.</span><span class="na">setPrice</span><span class="o">(</span><span class="mf">10.99</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p><strong>C</strong></p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">struct</span> <span class="n">Book</span> <span class="p">{</span>
+  <span class="kt">char</span> <span class="o">*</span><span class="n">title</span><span class="p">;</span>
+  <span class="kt">double</span> <span class="n">price</span><span class="p">;</span>
+<span class="p">};</span> <span class="c1">// Remember the semicolon!</span>
+
+<span class="p">...</span>
+
+<span class="k">struct</span> <span class="n">Book</span> <span class="n">b</span> <span class="o">=</span> <span class="p">{</span><span class="s">"Charlotte's Web"</span><span class="p">,</span> <span class="mi">10</span><span class="p">.</span><span class="mi">88</span><span class="p">};</span>
+<span class="n">b</span><span class="p">.</span><span class="n">price</span> <span class="o">=</span> <span class="mi">10</span><span class="p">.</span><span class="mi">99</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>Struct members are accessed with the dot notation: <code class="language-plaintext highlighter-rouge">struct.member</code>. Structs are used to implement complex data structures in C. The following listing demonstrates a partial linked list implementation:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+</span>
+<span class="k">struct</span> <span class="n">element</span> <span class="p">{</span>
+  <span class="k">struct</span> <span class="n">element</span> <span class="o">*</span> <span class="n">next</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">data</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">struct</span> <span class="n">linked_list</span> <span class="p">{</span>
+  <span class="k">struct</span> <span class="n">element</span> <span class="o">*</span> <span class="n">head</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="kt">void</span> <span class="nf">append_int</span><span class="p">(</span><span class="k">struct</span> <span class="n">linked_list</span> <span class="o">*</span> <span class="n">list</span><span class="p">,</span> <span class="kt">int</span> <span class="n">val</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">struct</span> <span class="n">element</span> <span class="o">*</span> <span class="n">elem</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">element</span><span class="p">));</span>
+
+  <span class="n">elem</span><span class="o">-&gt;</span><span class="n">data</span> <span class="o">=</span> <span class="n">val</span><span class="p">;</span>
+  <span class="n">elem</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span> <span class="c1">// Really important to explicitly set this to null. Malloc does not zero memory</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">list</span><span class="o">-&gt;</span><span class="n">head</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Empty list, we need to append to head</span>
+    <span class="n">list</span><span class="o">-&gt;</span><span class="n">head</span> <span class="o">=</span> <span class="n">elem</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="c1">// List has some elements, find the end and append to that</span>
+    <span class="k">struct</span> <span class="n">element</span> <span class="o">*</span> <span class="n">tail</span> <span class="o">=</span> <span class="n">list</span><span class="o">-&gt;</span><span class="n">head</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">tail</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">tail</span> <span class="o">=</span> <span class="n">tail</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">tail</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">elem</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This code should remind you of a standard linked list implementation. Note however that as C lacks objects, the methods to update the list are external and not part of the element or <code class="language-plaintext highlighter-rouge">linked_list</code> structs. Another key point to notice in this listing is the introduction of the crows-foot operator, <code class="language-plaintext highlighter-rouge">-&gt;</code>. This operator is syntactic sugar to allow structure members to be accessed through pointers. To understand this, look at the following listing. Both lines are equivalent and have the same result, but the crows-foot allows for cleaner code.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tail</span> <span class="o">=</span> <span class="n">tail</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>   <span class="c1">// the crow's foot is a pretty shortcut for..</span>
+
+<span class="n">tail</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="n">tail</span><span class="p">).</span><span class="n">next</span><span class="p">;</span> <span class="c1">// this ugly code.</span>
+</code></pre></div></div>
+
+<p>The second line dereferences the tail pointer (in brackets), and having dereferenced it accesses the next member with the standard dot syntax.</p>
+
+<blockquote class="block-danger">
+  <h1 id="exercise-3">Exercise 3</h1>
+
+  <p>Extend the above example to allow elements to be inserted and removed at the head of the list.<br><br></p>
+</blockquote>
+
+<blockquote class="block-danger">
+  <h1 id="exercise-4">Exercise 4</h1>
+
+  <p>Using structs, implement a queue data structure with functions to check if the queue is empty (<code class="language-plaintext highlighter-rouge">isempty</code>), to insert a node to the tail end of the queue (<code class="language-plaintext highlighter-rouge">enqueue</code>), and to remove a node from the head of the queue (<code class="language-plaintext highlighter-rouge">dequeue</code>).<br><br></p>
+</blockquote>
+
+<h1 id="more-debugging">More Debugging</h1>
+
+<p>Debugging your application when a segfault occurs can usually be done quite successfully using <code class="language-plaintext highlighter-rouge">gdb</code> (though not always!). But consider the following application:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+   <span class="kt">int</span> <span class="o">*</span><span class="n">array_of_ints</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="o">*</span> <span class="mi">10</span><span class="p">);</span>
+   <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+
+   <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">array_of_ints</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>You might already be able spot the error in the code above. If you were to compile and run the above application, it would run to completion and nothing seems amiss; however if this was part of a larger application, this code may well cause a segfault somewhere else in the code entirely. To debug these problems, there are two options.</p>
+
+<p>One is a tool called <code class="language-plaintext highlighter-rouge">valgrind</code>. If we compile the above program using debug symbols (i.e. with <code class="language-plaintext highlighter-rouge">-g</code>) and the run it through <code class="language-plaintext highlighter-rouge">valgrind</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ valgrind ./test
+</code></pre></div></div>
+
+<p>Valgrind will produce output like the following:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>==16358== Memcheck, a memory error detector
+==16358== Copyright (C) 2002-2010, and GNU GPL'd, by Julian Seward et al.
+==16358== Using Valgrind-3.6.0.SVN-Debian and LibVEX; rerun with -h for copyright info
+==16358== Command: ./test
+==16358==
+==16358== Invalid write of size 4
+==16358== at 0x40051A: main (test.c:7)
+==16358== Address 0x518b068 is 0 bytes after a block of size 40 alloc'd
+==16358== at 0x4C244E8: malloc (vg_replace_malloc.c:236)
+==16358== by 0x4004FC: main (test.c:4)
+==16358==
+==16358==
+==16358== HEAP SUMMARY:
+==16358== in use at exit: 40 bytes in 1 blocks
+==16358== total heap usage: 1 allocs, 0 frees, 40 bytes allocated
+==16358==
+==16358== LEAK SUMMARY:
+==16358== definitely lost: 40 bytes in 1 blocks
+==16358== indirectly lost: 0 bytes in 0 blocks
+==16358== possibly lost: 0 bytes in 0 blocks
+==16358== still reachable: 0 bytes in 0 blocks
+==16358== suppressed: 0 bytes in 0 blocks
+==16358== Rerun with --leak-check=full to see details of leaked memory
+==16358==
+==16358== For counts of detected and suppressed errors, rerun with: -v
+==16358== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 4 from 4)
+</code></pre></div></div>
+
+<p>This actually informs us there are 2 problems in the above code snippet. Firstly, the leak summary informs us that we lose 40 bytes of memory in our application. Lost memory occurs when memory is allocated but not freed, therefore to fix this problem we must free <code class="language-plaintext highlighter-rouge">array_of_ints</code> at the end of the application. Secondly, there is an invalid write (of size 4). This occurs because we are writing too many pieces of data into the <code class="language-plaintext highlighter-rouge">array_of_ints</code>.</p>
+
+<p>The second option is to enable the address sanitizer at compile time with <code class="language-plaintext highlighter-rouge">-fsanitize=address</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gcc -fsanitize=address -g -Wall -o test test.c
+$ ./test
+=================================================================
+==25395==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x604000000338 at pc 0x00010b258f02 bp 0x7ff7b4caa5c0 sp 0x7ff7b4caa5b8
+WRITE of size 4 at 0x604000000338 thread T0
+    #0 0x10b258f01 in main test.c:8
+    #1 0x10ba204fd in start+0x1cd (dyld:x86_64+0x54fd)
+
+0x604000000338 is located 0 bytes to the right of 40-byte region [0x604000000310,0x604000000338)
+allocated by thread T0 here:
+    #0 0x10bb17597 in wrap_malloc+0xb7 (libasan.6.dylib:x86_64+0x4c597)
+    #1 0x10b258ea2 in main test.c:4
+    #2 0x10ba204fd in start+0x1cd (dyld:x86_64+0x54fd)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow test.c:8 in main
+Shadow bytes around the buggy address:
+  0x1c0800000010: fa fa 00 00 00 00 00 00 fa fa 00 00 00 00 00 00
+  0x1c0800000020: fa fa 00 00 00 00 00 05 fa fa 00 00 00 00 00 00
+  0x1c0800000030: fa fa 00 00 00 00 00 05 fa fa 00 00 00 00 00 00
+  0x1c0800000040: fa fa 00 00 00 00 00 07 fa fa 00 00 00 00 00 00
+  0x1c0800000050: fa fa 00 00 00 00 00 00 fa fa 00 00 00 00 00 05
+=&gt;0x1c0800000060: fa fa 00 00 00 00 00[fa]fa fa fa fa fa fa fa fa
+  0x1c0800000070: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c0800000080: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c0800000090: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c08000000a0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c08000000b0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+  Shadow gap:              cc
+==25395==ABORTING
+[1]    25395 abort      ./test
+</code></pre></div></div>
+
+<p>Again the output informs us that we have overrun our allocated memory on line 8.</p>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li><a href="https://gcc.gnu.org/onlinedocs/gcc/Instrumentation-Options.html">GCC Instrumentation Options</a></li>
+  </ul>
+</blockquote>
+
+<blockquote class="block-danger">
+  <h1 id="exercise-5">Exercise 5</h1>
+
+  <p>Fix the errors in the above application and then recompile and rerun through <code class="language-plaintext highlighter-rouge">valgrind</code> (or with the address sanitizer). What is the result? <br><br></p>
+</blockquote>
+
+
+                </section>
+            </div>
+<div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title">
+<span class="search-results-count"></span> results matching "<span class="search-query"></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class="search-query"></span>"</h1>
+    </div>
+</div>
+</div>
+    </div>
+</div>
+
+                        <a href="/~saw586/hipc//practicals/1-introduction_to_c-1/" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 1. Introduction to C (part 1)">
+                            <i class="fa fa-angle-left"></i>
+                        </a>
+                    
+
+                    
+                        <a href="/~saw586/hipc//practicals/3-basic_optimisation/" class="navigation navigation-next navigation-unique" aria-label="Next page: 3. Basic Optimisation">
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    
+                </div>
+            </div>
+
+            <script>
+            var gitbook = gitbook || [];
+            gitbook.push(function() {
+                gitbook.page.hasChanged({
+    "page": {
+        "title": "Introduction",
+        "level": "1.1",
+        "depth": 1,
+        
+        "next": {
+            "title": "3. Basic Optimisation",
+            "level": "1.2",
+            "depth": 1,
+            "path": "_practicals/3-basic_optimisation.md",
+            "ref": "_practicals/3-basic_optimisation.md",
+            "articles": []
+        },
+        
+        "dir": "ltr"
+    },    "config": {
+        "plugins": ["fontsettings", "highlight", "livereload", "lunr", "search", "sharing", "theme-default", "livereload"],
+        "styles": {
+            "ebook": "styles/ebook.css",
+            "epub": "styles/epub.css",
+            "mobi": "styles/mobi.css",
+            "pdf": "styles/pdf.css",
+            "print": "styles/print.css",
+            "website": "styles/website.css"
+        },
+        "pluginsConfig": {
+            "fontsettings": {
+                "family": "sans",
+                "size": 2,
+                "theme": "white"
+            },
+            "highlight": {},
+            "livereload": {},
+            "lunr": {
+                "ignoreSpecialCharacters": false,
+                "maxIndexSize": 1000000
+            },
+            "search": {},
+            "sharing": {
+                "all": ["facebook", "google", "twitter", "weibo", "instapaper"],
+                "facebook": true,
+                "google": false,
+                "instapaper": true,
+                "twitter": true,
+                "vk": false,
+                "weibo": false
+            },
+            "theme-default": {
+                "showLevel": false,
+                "styles": {
+                    "ebook": "styles/ebook.css",
+                    "epub": "styles/epub.css",
+                    "mobi": "styles/mobi.css",
+                    "pdf": "styles/pdf.css",
+                    "print": "styles/print.css",
+                    "website": "styles/website.css"
+                }
+            }
+        },
+        "theme": "default",
+        "author": "Tao He",
+        "pdf": {
+            "pageNumbers": true,
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "paperSize": "a4",
+            "chapterMark": "pagebreak",
+            "pageBreaksBefore": "/",
+            "margin": {
+                "right": 62,
+                "left": 62,
+                "top": 56,
+                "bottom": 56
+            }
+        },
+        "structure": {
+            "langs": "LANGS.md",
+            "readme": "README.md",
+        },
+        "variables": {},
+        "title": "HIPC",
+        "language": "en",
+        "gitbook": "*"
+    },
+    "file": {
+        "path": "_practicals/2-introduction_to_c-2.md",
+        "mtime": "2022-07-21 00:00:00 +0100",
+        "type": "markdown"
+    },
+    "gitbook": {
+        "version": "3.2.3",
+        "time": "2024-11-27 15:06:35 +0000"
+    },
+    "basePath": "/~saw586/hipc/",
+    "book": {
+        "language": ""
+    }
+});
+            });
+            </script>
+        </div>
+<script src="/~saw586/hipc//assets/gitbook/gitbook.js"></script>
+<script src="/~saw586/hipc//assets/gitbook/theme.js"></script>
+
+<script src="/~saw586/hipc//assets/gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+<script src="/~saw586/hipc//assets/gitbook/gitbook-plugin-sharing/buttons.js"></script>
+
+<!-- <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+<script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+<script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+<script src="../gitbook/gitbook-plugin-search/search.js"></script> -->
+
+<script src="/~saw586/hipc//assets/gitbook/gitbook-plugin-search-pro/jquery.mark.min.js"></script>
+<script src="/~saw586/hipc//assets/gitbook/gitbook-plugin-search-pro/search.js"></script>
+<script src="/~saw586/hipc//assets/gitbook/gitbook-plugin-back-to-top-button/plugin.js"></script>
+
+<script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+</body>
+</html>

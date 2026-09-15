@@ -1,0 +1,1672 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+<meta charset="UTF-8">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<title>5. On-node Parallelism · HIPC</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="HIPC
+">
+<meta name="generator" content="Jekyll (using style of GitBook 3.2.3)">
+<meta name="author" content="Steven Wright">
+<link rel="stylesheet" href="/~saw586/hipc/2023-24//assets/gitbook/style.css">
+<link rel="stylesheet" href="/~saw586/hipc/2023-24//assets/gitbook/gitbook-plugin-fontsettings/website.css">
+<link rel="stylesheet" href="/~saw586/hipc/2023-24//assets/gitbook/gitbook-plugin-search-pro/search.css">
+<link rel="stylesheet" href="/~saw586/hipc/2023-24//assets/gitbook/gitbook-plugin-back-to-top-button/plugin.css">
+
+<link rel="stylesheet" href="/~saw586/hipc/2023-24//assets/gitbook/rouge/github.css">
+
+<link rel="stylesheet" href="/~saw586/hipc/2023-24//assets/gitbook/custom.css">
+
+<meta name="HandheldFriendly" content="true">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="apple-touch-icon-precomposed" sizes="152x152" href="/~saw586/hipc/2023-24//assets/gitbook/images/apple-touch-icon-precomposed-152.png">
+<link rel="shortcut icon" href="/~saw586/hipc/2023-24//assets/gitbook/images/favicon.ico" type="image/x-icon">
+
+
+
+
+
+<script>
+    MathJax = {
+        tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        svg: {
+            fontCache: 'global'
+        }
+    };
+</script>
+            <link rel="prev" href="/~saw586/hipc/2023-24//lectures/4-on-core_parallelism/">
+        
+
+        
+            <link rel="next" href="/~saw586/hipc/2023-24//lectures/6-internode_parallelism/">
+        
+    </head>
+    <body>
+        <div class="book">
+<div class="book-summary">
+    <nav role="navigation">
+        <div id="book-search-input" role="search">
+            <input type="text" placeholder="Type to search">
+        </div>
+        <div id="book-search-input-link" role="search">
+            <a href="/~saw586/hipc/2023-24//assets/search.html">Click to Search</a>
+        </div>
+        <ul class="summary">
+            
+            <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24/">
+            
+                <a href="/~saw586/hipc/2023-24//">
+                    HIPC
+                </a>
+            </li>
+
+            <li class="divider">
+
+            
+             
+                
+                <!-- <li class="chapter" data-level="1.1"><a>about</a></li> -->
+             
+                
+                    
+
+                    
+                        
+                        </li>
+<li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//about/about/">
+                        
+                            <a href="/~saw586/hipc/2023-24//about/about/">
+                                About
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//about/changelog/">
+                        
+                            <a href="/~saw586/hipc/2023-24//about/changelog/">
+                                Changelog
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+
+                    
+                        <li class="divider">
+                    
+                
+            
+             
+                
+                </li>
+<li><a><strong>Units</strong></a></li>
+                
+                <!-- <li class="chapter" data-level="1.1"><a>lectures</a></li> -->
+             
+                
+                    
+
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//lectures/1-supercomputing/">
+                        
+                            <a href="/~saw586/hipc/2023-24//lectures/1-supercomputing/">
+                                1. Supercomputing and Scientific Computing
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//lectures/2-architectures/">
+                        
+                            <a href="/~saw586/hipc/2023-24//lectures/2-architectures/">
+                                2. The Architectures of Distributed Systems
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//lectures/3-management_and_measurement/">
+                        
+                            <a href="/~saw586/hipc/2023-24//lectures/3-management_and_measurement/">
+                                3. Management and Measurement of Distributed Systems
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//lectures/4-on-core_parallelism/">
+                        
+                            <a href="/~saw586/hipc/2023-24//lectures/4-on-core_parallelism/">
+                                4. On-core Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter active" data-level="1.2" data-path="/~saw586/hipc/2023-24//lectures/5-on-node_parallelism/">
+                        
+                            <a href="/~saw586/hipc/2023-24//lectures/5-on-node_parallelism/">
+                                5. On-node Parallelism
+                            </a>
+                            
+                                
+                                    <ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#flynns-taxonomy-revisited">Flynn’s Taxonomy Revisited</a></li>
+<li>
+<a href="#shared-memory-systems">Shared Memory Systems</a><ul>
+<li><a href="#cache-coherence">Cache Coherence</a></li>
+<li><a href="#false-sharing">False Sharing</a></li>
+</ul>
+</li>
+<li>
+<a href="#the-fork-join-model-and-posix-threads">The Fork-Join Model and POSIX Threads</a><ul>
+<li><a href="#the-fork-join-model">The Fork-Join Model</a></li>
+<li><a href="#pthreads">pthreads</a></li>
+</ul>
+</li>
+<li>
+<a href="#openmp">OpenMP</a><ul>
+<li><a href="#parallel-execution">Parallel execution</a></li>
+<li><a href="#data-scoping">Data scoping</a></li>
+<li><a href="#worksharing-for-loops">Worksharing for Loops</a></li>
+</ul>
+</li>
+<li>
+<a href="#advanced-openmp">Advanced OpenMP</a><ul>
+<li><a href="#synchronisation">Synchronisation</a></li>
+<li><a href="#loop-scheduling">Loop Scheduling</a></li>
+<li><a href="#tasking">Tasking</a></li>
+<li><a href="#environmental-variables">Environmental Variables</a></li>
+</ul>
+</li>
+<li>
+<a href="#efficient-omp">Efficient OMP</a><ul><li><a href="#performance-pitfalls">Performance pitfalls</a></li></ul>
+</li>
+<li><a href="#recommended-reading">Recommended Reading</a></li>
+</ul>
+
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//lectures/6-internode_parallelism/">
+                        
+                            <a href="/~saw586/hipc/2023-24//lectures/6-internode_parallelism/">
+                                6. Internode Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//lectures/7-advanced_internode_parallelism/">
+                        
+                            <a href="/~saw586/hipc/2023-24//lectures/7-advanced_internode_parallelism/">
+                                7. Advanced Internode Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//lectures/8-accelerators/">
+                        
+                            <a href="/~saw586/hipc/2023-24//lectures/8-accelerators/">
+                                8. Accelerators
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//lectures/9-more_accelerators/">
+                        
+                            <a href="/~saw586/hipc/2023-24//lectures/9-more_accelerators/">
+                                9. Advanced Accelerators
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//lectures/10-heterogeneous_programming/">
+                        
+                            <a href="/~saw586/hipc/2023-24//lectures/10-heterogeneous_programming/">
+                                10. Heterogeneous Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+
+                    
+                        <li class="divider">
+                    
+                
+            
+             
+                
+                <!-- <li class="chapter" data-level="1.1"><a>posts</a></li> -->
+             
+                
+                    
+
+                    
+
+                    
+                
+            
+             
+                
+                </li>
+<li><a><strong>Practicals</strong></a></li>
+                
+                <!-- <li class="chapter" data-level="1.1"><a>practicals</a></li> -->
+             
+                
+                    
+
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//practicals/1-introduction_to_c-1/">
+                        
+                            <a href="/~saw586/hipc/2023-24//practicals/1-introduction_to_c-1/">
+                                1. Introduction to C (part 1)
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//practicals/2-introduction_to_c-2/">
+                        
+                            <a href="/~saw586/hipc/2023-24//practicals/2-introduction_to_c-2/">
+                                2. Introduction to C (part 2)
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//practicals/3-on-core_parallelism/">
+                        
+                            <a href="/~saw586/hipc/2023-24//practicals/3-on-core_parallelism/">
+                                3. Programming On-core Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//practicals/4-on-node_parallelism/">
+                        
+                            <a href="/~saw586/hipc/2023-24//practicals/4-on-node_parallelism/">
+                                4. Programming On-node Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//practicals/5-off-node_parallelism/">
+                        
+                            <a href="/~saw586/hipc/2023-24//practicals/5-off-node_parallelism/">
+                                5. Programming Off-node Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//practicals/6-advanced_mpi/">
+                        
+                            <a href="/~saw586/hipc/2023-24//practicals/6-advanced_mpi/">
+                                6. Advanced MPI Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//practicals/7-cuda_programming/">
+                        
+                            <a href="/~saw586/hipc/2023-24//practicals/7-cuda_programming/">
+                                7. CUDA Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//practicals/8-advanced_cuda_programming/">
+                        
+                            <a href="/~saw586/hipc/2023-24//practicals/8-advanced_cuda_programming/">
+                                8. Advanced CUDA Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/2023-24//practicals/9-heterogeneous_programming/">
+                        
+                            <a href="/~saw586/hipc/2023-24//practicals/9-heterogeneous_programming/">
+                                9. Heterogeneous Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+
+                    
+                        <li class="divider">
+                    
+                
+            
+        </li>
+</ul>
+    </nav>
+</div>
+<div class="book-body">
+                <div class="book-header" role="navigation">
+                    <!-- Title -->
+                    <h1>
+                        <i class="fa fa-circle-o-notch fa-spin"></i>
+                        
+                            <a href=".">5. On-node Parallelism</a>
+                        
+                    </h1>
+                </div>
+
+                <div class="body-inner">
+<div class="page-wrapper" tabindex="-1" role="main">
+    
+
+    <div class="page-inner">
+        <div id="book-search-results">
+            <div class="search-noresults">
+                <section class="normal markdown-section">
+                    
+                        <h1 id="/lectures/5-on-node_parallelism">5. On-node Parallelism</h1>
+                    
+
+                    <h1 id="overview">Overview</h1>
+
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/MaZVLgE6gwQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""></iframe>
+<p><br></p>
+
+<p>In the last unit we were looking at how we can parallelise and optimise an application on a single core. In this unit we’ll start to look at how we can make use of the entire processor (or processors!). Specifically we’re going to cover:</p>
+
+<ul>
+  <li>A quick revisit of Flynn’s taxonomy (with two new categories)</li>
+  <li>The architecture of a shared memory system</li>
+  <li>How to exploit parallelism with pthreads</li>
+  <li>How to parallelise an application with OpenMP</li>
+  <li>Advanced OpenMP functionality</li>
+</ul>
+
+<h1 id="flynns-taxonomy-revisited">Flynn’s Taxonomy Revisited</h1>
+
+<p>This unit begins in the same way as the previous unit – with Flynn’s taxonomy.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-5/flynns.png" alt="Flynn's taxonomy -- SISD, SIMD, MISD, and MIMD." width="60%"><br>
+<em><strong>Figure 1:</strong> Flynn’s taxonomy</em></p>
+
+<p>The four initial classifications defined by Flynn have since been subdivided and extended.</p>
+
+<p>The <strong>Single Instruction, Multiple Threads (SIMT)</strong> execution model is widely used in parallel computing. SIMT could be thought of as a subcategory of SIMD, but where the SIMD is combined with multithreading, and each parallel element has its own independent registers and memory.</p>
+
+<p>The <strong>Single Program, Multiple Data (SPMD)</strong> execution model is a subcategory of MIMD often used in distributed computing. In SPMD, tasks are divided and distributed to run on multiple processors with different inputs in order to obtain results much more rapidly.</p>
+
+<p>In the last unit, we were focussing very much on the SIMD aspect of Flynn’s taxonomy; in this unit we’ll look at SIMT and SPMD approaches on a single node.</p>
+
+<h1 id="shared-memory-systems">Shared Memory Systems</h1>
+
+<p>A shared memory parallel computer is a system in which a number of cores (or CPUs) work on a common, shared physical address space.</p>
+
+<p>Although transparent to the programmer, there are typically two different forms of shared memory system in terms of memory access.</p>
+
+<p>An <strong>UMA (Uniform Memory Access)</strong> system is one where the system has a flat memory model – latency and bandwidth are the same for all processors and all memory locations. This is sometimes also called symmetric multiprocessing (SMP).</p>
+
+<p>In an UMA system, each CPU would typically be connected to a shared memory controller, which would act as a conduit between the CPUs and the main memory. With modern CPUs now containing tens of cores per chip, UMA designs are not typically used. As core counts increase, the single memory controller soon becomes a significant bottleneck.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-5/uma.png" alt="A Uniform Memory Access (UMA) design"> <br>
+<em><strong>Figure 2:</strong> An UMA design</em></p>
+
+<p>A <strong>ccNUMA (cache-coherent Non-Uniform Memory Access)</strong> system is one in which memory is physically distributed, but logically shared. The latency and bandwidth of a memory access depends on whether the CPU has a direct connection to the memory, or whether it must be fetched remotely.</p>
+
+<p>In a NUMA system, each CPU has its own local memory address space, and can additionally access any other CPUs memory address space through an interconnect.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-5/numa.png" alt="A simple non-uniform memory access (NUMA) design"> <br>
+<em><strong>Figure 3:</strong> A simple NUMA design</em></p>
+
+<p>The NUMA design involved moving the memory controller on to the CPU, and was first introduced by AMD Opteron with “HyperTransport” in 2007, and into the Intel Nehalem architecture with “QuickPath” in 2008.</p>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li><a href="https://frankdenneman.nl/2016/07/06/introduction-2016-numa-deep-dive-series/">The NUMA Deep Dive Series</a></li>
+  </ul>
+</blockquote>
+
+<h2 id="cache-coherence">Cache Coherence</h2>
+
+<p>In any multi-core and multi-processor systems (UMA or ccNUMA) it is important that any data caches are kept <em>coherent</em>. Cache coherence is important because the same cache line could reside in several CPU caches, and if one is modified and evicted to main memory, the other CPUs cache could contain out of date data.</p>
+
+<p>There are a number of cache coherence protocols, but for now we’ll look at the MESI protocol. Under the MESI protocol, a cache line can have 4 possible states:</p>
+
+<p><strong>M (modified)</strong> indicates the cache line has been modified in a cache, and that it resides in no other cache. Only when the cache line is evicted to memory will the memory reflect the current state.<br>
+<strong>E (exclusive)</strong> indicates that a cache line has been read from memory but not yet modified, and that it resides in no other cache.<br>
+<strong>S (shared)</strong> indicates that a cache line has been read from memory but not yet modified, and that there may be other copies in other caches. <br>
+<strong>I (invalid)</strong> indicates that the cache line does not contain valid information (i.e. the cache line was in a shared state and another processor has requested exclusive access to modify the cache line).</p>
+
+<p>When a processor issues a read, the cache line is loaded on the core and its status is set to <strong>E</strong>. Should another process request the same cache line, both cachelines will be set to <strong>S</strong>. If a processor modifies data in the cache line, its status will be set to <strong>M</strong>, and all other instances of that cache line will be invalidated (<strong>I</strong>). A subsequent read by any process will cause the modified cache line to be evicted to memory (or a shared cache) to ensure each processor has a consistent view of data. Each cache line maintains a Core Valid Bits (CVB) register to indicate which processors a cache line is present on.</p>
+
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/nrzT044qNIc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""> </iframe>
+<p><br></p>
+
+<p>So a four processor shared memory system implementing the MESI protocol might look like this:</p>
+
+<div class="table-wrapper">
+
+  <table>
+    <tbody>
+      <tr>
+        <td> </td>
+        <td><strong>P0</strong></td>
+        <td><strong>P1</strong></td>
+        <td><strong>P2</strong></td>
+        <td><strong>P3</strong></td>
+        <td><strong>CVB</strong></td>
+      </tr>
+      <tr>
+        <td>Initial State</td>
+        <td>I</td>
+        <td>I</td>
+        <td>I</td>
+        <td>I</td>
+        <td>0000</td>
+      </tr>
+      <tr>
+        <td>P0 reads memory location X</td>
+        <td>E</td>
+        <td>I</td>
+        <td>I</td>
+        <td>I</td>
+        <td>1000</td>
+      </tr>
+      <tr>
+        <td>P1 reads memory location X</td>
+        <td>S</td>
+        <td>S</td>
+        <td>I</td>
+        <td>I</td>
+        <td>1100</td>
+      </tr>
+      <tr>
+        <td>P2 reads memory location X</td>
+        <td>S</td>
+        <td>S</td>
+        <td>S</td>
+        <td>I</td>
+        <td>1110</td>
+      </tr>
+      <tr>
+        <td>P3 writes memory location X</td>
+        <td>I</td>
+        <td>I</td>
+        <td>I</td>
+        <td>M</td>
+        <td>0001</td>
+      </tr>
+      <tr>
+        <td>P0 reads memory location X</td>
+        <td>S</td>
+        <td>I</td>
+        <td>I</td>
+        <td>S</td>
+        <td>1001</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
+<p>While cache coherence protocols are vitally important to ensure the correct operation of a multi-threaded application, they can also introduce performance degradation.</p>
+
+<h2 id="false-sharing">False Sharing</h2>
+
+<p>False sharing is a performance degrading usage pattern where two (or more) processors are accessing different memory addresses that reside within a single cache block. If one of the processors is writing to the cache block, each read by another processor will cause the entire cache block to be reloaded. Take the following for example,</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">struct</span> <span class="n">my_struct_t</span> <span class="p">{</span>
+   <span class="kt">int</span> <span class="n">x</span><span class="p">;</span>
+   <span class="kt">int</span> <span class="n">y</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">struct</span> <span class="n">my_struct_t</span> <span class="n">f</span><span class="p">;</span>
+
+<span class="c1">// The following two functions are running concurrently</span>
+
+<span class="kt">int</span> <span class="nf">read_x</span><span class="p">()</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="n">f</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">write_y</span><span class="p">()</span> <span class="p">{</span>
+   <span class="n">f</span><span class="p">.</span><span class="n">y</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span> 
+</code></pre></div></div>
+
+<p>Although the value of <code class="language-plaintext highlighter-rouge">x</code> in the struct is not changing, because the values are stored contiguously in memory the write function continually invalidates the cache line for other processors. This causes the cache line to be evicted and reloaded each time a read is issued.</p>
+
+<p>In most cases, false sharing can be avoided or mitigated with simple code changes (or by the compiler!).</p>
+
+<h1 id="the-fork-join-model-and-posix-threads">The Fork-Join Model and POSIX Threads</h1>
+
+<h2 id="the-fork-join-model">The Fork-Join Model</h2>
+
+<p>The fork-join model is a method for setting up and executing parallel programs that branch off at designated points and rejoin later on in execution (to continue sequential execution). It was formulated as a parallel design pattern at least as early as 1963.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-5/Fork_join.png" alt="An example of the Fork-Join model"> <br>
+<em><strong>Figure 4:</strong> An example of a fork-join execution</em></p>
+
+<p>In Figure 4, there are three parallel tasks to be executed, with each block being executed by a varying number of threads. First, the master thread creates two child threads, which rejoin after the first task, then it creates three threads, which rejoin after the second task, and then finally creates a single additional thread for the third parallel task.</p>
+
+<p>In C, perhaps the quickest (and dirtiest!) way to implement a fork-join model is with the POSIX <a href="https://man7.org/linux/man-pages/man2/fork.2.html"><code class="language-plaintext highlighter-rouge">fork()</code></a> and <a href="https://man7.org/linux/man-pages/man2/wait.2.html"><code class="language-plaintext highlighter-rouge">wait()</code></a> functions from <a href="https://man7.org/linux/man-pages/man0/unistd.h.0p.html"><code class="language-plaintext highlighter-rouge">&lt;unistd.h&gt;</code></a>. A call to <code class="language-plaintext highlighter-rouge">fork()</code> will create a child process by duplicating the calling process. The new process is referred to as the <em>child process</em>, while the calling process is the <em>parent process</em>. On the parent, the fork call will return the process ID of the child; while on the child process, the fork call will return zero. Each process runs in a seperate memory space (but the content is duplicated at the time of the fork call), and continues execution from the <code class="language-plaintext highlighter-rouge">fork()</code> command.</p>
+
+<p>A simple example might look like this:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;sys/wait.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp">
+</span>
+<span class="cp">#define THREADS 5
+</span>
+<span class="kt">void</span> <span class="nf">do_work</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"I'm thread %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+	<span class="n">pid_t</span> <span class="n">threads</span><span class="p">[</span><span class="n">THREADS</span><span class="p">];</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">THREADS</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">threads</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">fork</span><span class="p">();</span> <span class="c1">// start a new thread</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">threads</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// if child process</span>
+			<span class="n">do_work</span><span class="p">(</span><span class="n">i</span><span class="p">);</span> <span class="c1">// call do work and then exit</span>
+			<span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">THREADS</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// on the master thread, wait for each forked process to finish</span>
+		<span class="n">waitpid</span><span class="p">(</span><span class="n">threads</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="nb">NULL</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+	<span class="p">}</span>	
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Although this may seem like a simple way to write parallel code, <code class="language-plaintext highlighter-rouge">fork()</code> creates an entire new process and clones the entire address space, code and stack for each child. Since the memory spaces are separated, communication between forked processes is difficult.</p>
+
+<p>Instead, we’ll focus on some more lightweight solutions.</p>
+
+<h2 id="pthreads">pthreads</h2>
+
+<p>POSIX Threads (or pthreads) is a parallel execution model that allows a program to spawn multiple different flows of work that are able to overlap in time. The pthreads API was defined in 1995 in the POSIX.1c standard, and an implementation is provided in almost every UNIX-like operating system (e.g. FreeBSD, Linux, MacOS, etc.).</p>
+
+<p>Unlike the <code class="language-plaintext highlighter-rouge">fork()</code> command, pthreads creates a new thread within the same process, rather than a new process. This new thread shares the same memory space, but gets its own stack, registers and ID. Since threads share a memory space, they can communicate through shared memory; but, be warned, this can lead to race conditions and undefined behaviour.</p>
+
+<p>Threads are created using the <code class="language-plaintext highlighter-rouge">pthread_create()</code> function, and rejoin the parent when the <code class="language-plaintext highlighter-rouge">pthread_join()</code> function is called. The <code class="language-plaintext highlighter-rouge">pthread_create()</code> function requires a function pointer (i.e. a pointer to a function, rather than a variable). A simple example is shown below, where each thread executes the <code class="language-plaintext highlighter-rouge">perform_work(...)</code> function, with the thread ID passed as a variable to the function.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;pthread.h&gt;</span><span class="cp">
+</span>
+<span class="cp">#define THREADS 5
+</span>
+<span class="kt">int</span> <span class="n">my_shared_val</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="o">*</span><span class="nf">perform_work</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">ptr</span><span class="p">)</span> <span class="p">{</span>
+	<span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="o">*</span><span class="p">((</span><span class="kt">int</span> <span class="o">*</span><span class="p">)</span> <span class="n">ptr</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Thread %d has started</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">index</span><span class="p">);</span>
+	<span class="n">my_shared_val</span> <span class="o">+=</span> <span class="n">index</span><span class="p">;</span>
+	<span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+	<span class="n">my_shared_val</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="n">pthread_t</span> <span class="n">my_threads</span><span class="p">[</span><span class="n">THREADS</span><span class="p">];</span>
+	<span class="kt">int</span> <span class="n">thread_args</span><span class="p">[</span><span class="n">THREADS</span><span class="p">];</span>
+
+	<span class="c1">// create threads</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">THREADS</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">thread_args</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+		<span class="n">pthread_create</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_threads</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">perform_work</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">thread_args</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+	<span class="p">}</span>
+
+	<span class="n">printf</span><span class="p">(</span><span class="s">"All threads have now started</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+	<span class="c1">// wait for threads to rejoin</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">THREADS</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">pthread_join</span><span class="p">(</span><span class="n">my_threads</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="nb">NULL</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="n">printf</span><span class="p">(</span><span class="s">"The value of my_shared_val is: %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">my_shared_val</span><span class="p">);</span>
+
+	<span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Since pthreads is an external library, it usually requires linking on the command line. Each compiler may be different in how pthreads is linked but usually the <code class="language-plaintext highlighter-rouge">-pthread</code> or <code class="language-plaintext highlighter-rouge">-lpthread</code> command line option is required. You should also bear in mind, that due to the nature of threading, the order of execution is non-deterministic. For example,</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>gcc <span class="nt">-pthread</span> <span class="nt">-o</span> pthread_demo pthreads_demo.c
+<span class="nv">$ </span>./pthread_demo
+Thread 0 has started
+Thread 3 has started
+All threads have now started
+Thread 1 has started
+Thread 4 has started
+Thread 2 has started
+The value of my_shared_val is: 7
+</code></pre></div></div>
+
+<p>Besides thread management, the pthreads API also contains functionality for mutual exclusion (mutexes), monitors and synchronisation. In the example above, each thread is updating a shared value (adding the threads index), and in some cases an addition might be missed due to a race condition. Mutexes allow us to implement critical sections or atomic operations in our code.</p>
+
+<p>So, for example, we could update our code to contain a critical section around our accumulation operation like so:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
+<span class="n">pthread_mutex_t</span> <span class="n">lock</span><span class="p">;</span>
+<span class="p">...</span>
+<span class="kt">void</span> <span class="o">*</span><span class="nf">perform_work</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">ptr</span><span class="p">)</span> <span class="p">{</span>
+	<span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="o">*</span><span class="p">((</span><span class="kt">int</span> <span class="o">*</span><span class="p">)</span> <span class="n">ptr</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Thread %d has started</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">index</span><span class="p">);</span>
+	<span class="n">pthread_mutex_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lock</span><span class="p">);</span> <span class="c1">// lock our mutex for the accumulation</span>
+	<span class="n">my_val</span> <span class="o">+=</span> <span class="n">index</span><span class="p">;</span>
+	<span class="n">pthread_mutex_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lock</span><span class="p">);</span> <span class="c1">// unlock our mutex</span>
+	<span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+	<span class="p">...</span>
+	<span class="n">pthread_mutex_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lock</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+
+	<span class="c1">// create threads</span>
+	<span class="p">...</span>
+
+	<span class="c1">// wait for threads to rejoin</span>
+	<span class="p">...</span>
+
+	<span class="n">pthread_mutex_destroy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lock</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"The final value of my_val is: %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">my_val</span><span class="p">);</span>
+	<span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>In this updated code example, the mutex lock will be locked by each thread (not necessarily in order) so that the accumulation operations will never collide, and will thus avoid the case where an addition is missed.</p>
+
+<blockquote class="block-danger">
+  <p><strong>Exercise</strong></p>
+
+  <p>Try both of the pthreads examples above. Try to create undefined behaviour. Try to deadlock your code (you can always CTRL+C your code!).</p>
+</blockquote>
+
+<p>The pthreads API contains around 100 procedures, but we’re only going to cover the very basics in this section. The following playlist provides a much deeper look at pthreads.</p>
+
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/videoseries?list=PL9IEJIKnBJjFZxuqyJ9JqVYmuFZHr7CFM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""> </iframe>
+
+<h1 id="openmp">OpenMP</h1>
+
+<p>OpenMP (Open Multi-Processing) is an API that supports shared memory multiprocessing in C, C++ and Fortran. It provides an implementation of the Fork-Join model alongside some other parallel execution schemes and was first released for Fortran in 1997. The C/C++ specification was released in 2002 (part of version 2.0), two years after the release of version 2.0 of the Fortran specification.</p>
+
+<p>The current version is 5.2 and was released in November 2021. While the initial release was primarily focussed on parallelising highly regular loops, the modern standard now includes support for tasking, accelerators, atomics, reductions, SIMD and more.</p>
+
+<p>The central concept of the OpenMP standard is the use of <a href="https://en.wikipedia.org/wiki/Directive_(programming)"><em><strong>compiler directives</strong></em></a>. Rather than explicitly starting and subsequently rejoining threads (like with pthreads), code meant for parallel dispatch is marked accordingly with a directive that the compiler can understand. The most commonly used directives are focussed on <em>data parallelism</em> (i.e. SPMD).</p>
+
+<p>For example, consider the following code:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="p">}</span> 
+</code></pre></div></div>
+
+<p>This could be parallelised between two processors by creating two threads, where each thread operates on half of the array each.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// thread 0</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">500</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="c1">// thread 1</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">500</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="p">}</span> 
+</code></pre></div></div>
+
+<p>This concept is known as <strong>work-sharing</strong>, and will be the focus of this section.</p>
+
+<h2 id="parallel-execution">Parallel execution</h2>
+
+<p>But before we get to work-sharing, we’ll first cover some of the basics of parallel execution with OpenMP. 
+An OpenMP application relies on the presence of “parallel regions”, regions that are marked for parallel dispatch with compiler directives, or “<strong>pragmas</strong>”. In order to specify a block for parallel execution, we simply prefix it with <code class="language-plaintext highlighter-rouge">#pragma omp parallel</code>.</p>
+
+<p>In addition to its compiler directives, the OpenMP header file (<a href="https://sites.uclouvain.be/SystInfo/usr/include/omp.h.html"><code class="language-plaintext highlighter-rouge">&lt;omp.h&gt;</code></a>) also includes a number of useful functions. For example the <a href="https://www.openmp.org/spec-html/5.0/openmpsu111.html#x148-6450003.2.2"><code class="language-plaintext highlighter-rouge">omp_get_num_threads()</code></a> and <a href="https://www.openmp.org/spec-html/5.0/openmpsu113.html"><code class="language-plaintext highlighter-rouge">omp_get_thread_num()</code></a> functions allow us to query the number of parallel threads, and find our own thread ID.</p>
+
+<p>Let’s start with the simple pthreads code we used above, but instead we’ll implement it with OpenMP directives.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;omp.h&gt;</span><span class="cp">
+</span>
+<span class="kt">void</span> <span class="nf">perform_work</span><span class="p">(</span><span class="kt">int</span> <span class="n">thread_id</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Thread %d has started</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">thread_id</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+	<span class="kt">int</span> <span class="n">my_val</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="c1">// create threads</span>
+	<span class="cp">#pragma omp parallel
+</span>	<span class="p">{</span>
+		<span class="kt">int</span> <span class="n">thread_id</span> <span class="o">=</span> <span class="n">omp_get_thread_num</span><span class="p">();</span>
+		<span class="n">perform_work</span><span class="p">(</span><span class="n">thread_id</span><span class="p">);</span>
+		<span class="n">my_val</span> <span class="o">+=</span> <span class="n">thread_id</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="n">printf</span><span class="p">(</span><span class="s">"The final value of my_val is: %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">my_val</span><span class="p">);</span>
+
+	<span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>As you can see, our OpenMP code is much shorter and concise. One significant difference between the pthreads code from earlier and our OpenMP implementation is that the number of threads is not specified in the code. The code above can be compiled and executed like so:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gcc -fopenmp -o openmp_demo openmp_demo.c
+$ export OMP_NUM_THREADS=5
+$ ./openmp_demo                               
+Thread 2 has started
+Thread 1 has started
+Thread 3 has started
+Thread 4 has started
+Thread 0 has started
+The final value of my_val is: 7 
+</code></pre></div></div>
+
+<p>Our compile line no longer requires the <code class="language-plaintext highlighter-rouge">-pthreads</code> option, and instead includes <code class="language-plaintext highlighter-rouge">-fopenmp</code> (some compilers may require <code class="language-plaintext highlighter-rouge">-omp</code>, <code class="language-plaintext highlighter-rouge">-fomp</code>, <code class="language-plaintext highlighter-rouge">-gomp</code>, <code class="language-plaintext highlighter-rouge">-lomp</code>, or other variants). The number of threads is also now specified by the environmental variable <code class="language-plaintext highlighter-rouge">OMP_NUM_THREADS</code> (and will usually default to the total number of cores available if unset). But like earlier, there is no guarentee that the final value of <code class="language-plaintext highlighter-rouge">my_val</code> will be correct due to the non-deterministic nature of parallel execution without a critical section.</p>
+
+<p>Note that you can also specify the number of threads on the same line as the command, like so:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ OMP_NUM_THREADS=5 ./openmp_demo
+</code></pre></div></div>
+
+<blockquote class="block-warning">
+  <p><strong>A note for MacOS users</strong></p>
+
+  <p>OpenMP may not be easily available on MacOS with the default compiler. You may have to install an OpenMP library (perhaps using <code class="language-plaintext highlighter-rouge">brew</code>), and then pass a special option to the compiler. If you use <a href="https://brew.sh">Homebrew</a>, you could try the following:</p>
+
+  <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>$ brew install libomp
+$ clang -O3 -Xpreprocessor -fopenmp my_code.c -lomp
+</code></pre></div>  </div>
+
+  <p>The <code class="language-plaintext highlighter-rouge">-Xpreprocessor -fopenmp</code> flag will pass the <code class="language-plaintext highlighter-rouge">-fopenmp</code> option to the preprocessor, and the <code class="language-plaintext highlighter-rouge">-lomp</code> will link against the OpenMP library on compile.</p>
+</blockquote>
+
+<blockquote class="block-danger">
+  <p><strong>Exercise</strong></p>
+
+  <p>Besides the compile line and specification of number of threads, what other differences are there between the pthreads and OpenMP code?</p>
+</blockquote>
+
+<h2 id="data-scoping">Data scoping</h2>
+
+<p>Much like with pthreads, each thread started by OpenMP can access any variables that were in scope when the parallel region began. Each thread can also have their own <em>private</em> variables (such is the case with the <code class="language-plaintext highlighter-rouge">thread_id</code> variable in the example above, which is only within the scope of each thread).</p>
+
+<p>Besides this, OpenMP can control the scope of other variables using attribute clauses. For example, we could make the <code class="language-plaintext highlighter-rouge">my_val</code> variable private such that each thread does not affect the master threads value (which remains 0 throughout execution).</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#pragma omp parallel private(my_val)
+</span><span class="p">{</span>
+	<span class="kt">int</span> <span class="n">thread_id</span> <span class="o">=</span> <span class="n">omp_get_thread_num</span><span class="p">();</span>
+	<span class="n">perform_work</span><span class="p">(</span><span class="n">thread_id</span><span class="p">);</span>
+	<span class="n">my_val</span> <span class="o">+=</span> <span class="n">thread_id</span><span class="p">;</span>
+<span class="p">}</span> 
+</code></pre></div></div>
+
+<p>The following data sharing attribute clauses are available (and we’ll look at some of them in more detail later):</p>
+
+<p><em><strong>shared</strong></em>: the data declared outside the parallel region is shared with each thread. By default all variables are shared (except loop iteration counters)<br>
+<em><strong>private</strong></em>: the data declared within a parallel region is private to each thread (and is not initialised before the parallel region)<br>
+<em><strong>default</strong></em>: allows a programmer to specify the default sharing behaviour (shared or none, where none means that any variables to be shared must be explicitly listed under the shared list)<br>
+<em><strong>firstprivate</strong></em>: the same as private, except the variable is initialised with the initial value from the master thread
+<em><strong>lastprivate</strong></em>: the same as private, except that the original value is updated after the construct<br>
+<em><strong>reduction</strong></em>: a safe way of joining work from all threads</p>
+
+<h2 id="worksharing-for-loops">Worksharing for Loops</h2>
+
+<p>As we’ve already seen in Unit 4, loops are omnipresent in scientific applications and are therefore natural candidates for parallelisation. OpenMP was originally designed around exploiting loop-level parallelism, and this is still where it is predominently used today.</p>
+
+<p>To enable worksharing, OpenMP provides the <code class="language-plaintext highlighter-rouge">parallel for</code> pragma. Given a loop structure, the <code class="language-plaintext highlighter-rouge">parallel for</code> pragma will divide the iterations evenly between the available threads, with each thread operating independently on a sub range. For example, to apply this to the vector addition example above,</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#pragma omp parallel for
+</span><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>As stated above, each thread will have a private iteration counter variable, but will share all other variables. Which thread performs which iteration will be implementation specific (unless specified with a directive), but typically each thread will perform an equal “chunk” (e.g., for 4 threads, thread 0 will perform iteration 0 to 249, thread 1 will perform iteration 250 to 499, thread 2 will perform… etc.), in parallel.</p>
+
+<p>The data scoping clauses above can also be included, giving us finer control over the scope of any variables.</p>
+
+<blockquote class="block-danger">
+  <p><strong>Exercise</strong></p>
+
+  <p>Play around with OpenMP <code class="language-plaintext highlighter-rouge">parallel for</code> on some simple loops and see if you can work out what effect each of the data scoping clauses has on some variables.</p>
+</blockquote>
+
+<p>Let’s revisit our vectorised vector-add code from the previous unit.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;sys/time.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;immintrin.h&gt;</span><span class="cp">
+</span>
+<span class="k">struct</span> <span class="n">timeval</span> <span class="n">t</span><span class="p">;</span>
+
+<span class="kt">double</span> <span class="nf">get_time</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">gettimeofday</span><span class="p">(</span><span class="o">&amp;</span><span class="n">t</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+  <span class="k">return</span> <span class="n">t</span><span class="p">.</span><span class="n">tv_sec</span> <span class="o">+</span> <span class="p">(</span><span class="mf">1e-6</span> <span class="o">*</span> <span class="n">t</span><span class="p">.</span><span class="n">tv_usec</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">N</span> <span class="o">=</span> <span class="mi">10000000</span><span class="p">;</span>
+
+  <span class="kt">float</span> <span class="o">*</span><span class="n">a</span> <span class="o">=</span> <span class="n">_mm_malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="o">*</span> <span class="n">N</span><span class="p">,</span> <span class="mi">64</span><span class="p">);</span>
+  <span class="kt">float</span> <span class="o">*</span><span class="n">b</span> <span class="o">=</span> <span class="n">_mm_malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="o">*</span> <span class="n">N</span><span class="p">,</span> <span class="mi">64</span><span class="p">);</span>
+  <span class="kt">float</span> <span class="o">*</span><span class="n">c</span> <span class="o">=</span> <span class="n">_mm_malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="o">*</span> <span class="n">N</span><span class="p">,</span> <span class="mi">64</span><span class="p">);</span>
+
+  <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+  <span class="c1">// initialise a and b</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="n">rand</span><span class="p">()</span> <span class="o">/</span> <span class="n">RAND_MAX</span><span class="p">;</span>
+    <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="n">rand</span><span class="p">()</span> <span class="o">/</span> <span class="n">RAND_MAX</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="c1">// perform vector add</span>
+  <span class="kt">double</span> <span class="n">time</span> <span class="o">=</span> <span class="n">get_time</span><span class="p">();</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">I</span><span class="o">+=</span><span class="mi">8</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">__m256</span> <span class="n">a_v</span> <span class="o">=</span> <span class="n">_mm256_load_ps</span><span class="p">(</span><span class="n">a</span><span class="o">+</span><span class="n">i</span><span class="p">);</span>
+    <span class="n">__m256</span> <span class="n">b_v</span> <span class="o">=</span> <span class="n">_mm256_load_ps</span><span class="p">(</span><span class="n">b</span><span class="o">+</span><span class="n">i</span><span class="p">);</span>
+    <span class="n">__m256</span> <span class="n">c_v</span> <span class="o">=</span> <span class="n">_mm256_add_ps</span><span class="p">(</span><span class="n">a_v</span><span class="p">,</span> <span class="n">b_v</span><span class="p">);</span>
+    <span class="n">_mm256_store_ps</span><span class="p">(</span><span class="n">c</span><span class="o">+</span><span class="n">i</span><span class="p">,</span> <span class="n">c_v</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="n">time</span> <span class="o">=</span> <span class="n">get_time</span><span class="p">()</span> <span class="o">-</span> <span class="n">time</span><span class="p">;</span>
+
+  <span class="c1">// sum values for check</span>
+  <span class="kt">double</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">sum</span> <span class="o">+=</span> <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+  <span class="p">}</span>
+
+  <span class="n">printf</span><span class="p">(</span><span class="s">"Checksum is: %lf and took: %lf secs</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">sum</span><span class="p">,</span> <span class="n">time</span><span class="p">);</span>
+
+  <span class="n">_mm_free</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+  <span class="n">_mm_free</span><span class="p">(</span><span class="n">b</span><span class="p">);</span>
+  <span class="n">_mm_free</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>We can further parallelise our application by adding worksharing directives to our vectorised code, meaning that we can exploit parallelism at the core- and the process-level.</p>
+
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/Qp7hRK4DZog" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""></iframe>
+
+<h1 id="advanced-openmp">Advanced OpenMP</h1>
+
+<p>The last section introduced some of the basics of the OpenMP approach to shared memory parallelism. In this section, we’ll cover some of the slightly more advanced features of OpenMP.</p>
+
+<h2 id="synchronisation">Synchronisation</h2>
+
+<h3 id="critical-regions">Critical Regions</h3>
+
+<p>Perhaps the most common data corruption issue comes from race conditions, where multiple threads are updating a shared value simultaneously. In our earlier examples, the shared <code class="language-plaintext highlighter-rouge">my_val</code> variable sometimes returns an incorrect answer due to a race condition. We fixed this issue in pthreads by implementing a <em>critical section</em> using mutex locks – with each thread requesting a lock, executing critical code, and then releasing the lock. In OpenMP, we can use the <code class="language-plaintext highlighter-rouge">omp critical</code> pragma.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#pragma omp parallel
+</span><span class="p">{</span>
+	<span class="kt">int</span> <span class="n">thread_id</span> <span class="o">=</span> <span class="n">omp_get_thread_num</span><span class="p">();</span>
+	<span class="n">perform_work</span><span class="p">(</span><span class="n">thread_id</span><span class="p">);</span>
+	<span class="cp">#pragma omp critical
+</span>	<span class="n">my_val</span> <span class="o">+=</span> <span class="n">thread_id</span><span class="p">;</span>
+<span class="p">}</span> 
+</code></pre></div></div>
+
+<p>You should note that in the example above, the critical pragma is only attached to the proceeding line of code. If you would like to execute more than a single line of code in a critical section, it should be enclosed in a scoping block (i.e. a set of curly braces).</p>
+
+<p>When used inappropriately, critical sections can cause <em>deadlocks</em> (where one or more thread is waiting for a resource that never becomes available). This is particularly likely in large code bases with nested functions. If there is a critical section within a function that is called <em>within</em> a critical section, a deadlock is highly likely. Take the following code, for example:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;omp.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="n">my_val</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">func</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="cp">#pragma omp parallel for
+</span>  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="n">i</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="n">i</span><span class="p">;</span>
+    <span class="cp">#pragma omp critical
+</span>    <span class="n">sum</span> <span class="o">+=</span> <span class="n">i</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">sum</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">big_sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="cp">#pragma omp parallel for
+</span>  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="cp">#pragma omp critical
+</span>    <span class="n">big_sum</span> <span class="o">+=</span> <span class="n">func</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="n">printf</span><span class="p">(</span><span class="s">"Big sum is: %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">big_sum</span><span class="p">);</span>
+<span class="p">}</span> 
+</code></pre></div></div>
+
+<p>The application will first enter the critical section within <code class="language-plaintext highlighter-rouge">main()</code>, and it will then wait on resources becoming available in <code class="language-plaintext highlighter-rouge">func()</code>, causing a deadlock. To alleviate this, OpenMP allows critical sections to be named using:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#pragma omp critical (my_name) 
+</span></code></pre></div></div>
+
+<blockquote class="block-danger">
+  <p><strong>Exercise</strong></p>
+
+  <p>Try out the code above. Try removing the critical pragmas entirely and running the program multiple times. Do you get the same result each time? See if you can fix the application by providing the critical sections with names.</p>
+</blockquote>
+
+<h3 id="barriers">Barriers</h3>
+
+<p>In some cases it may be necessary to enforce synchronisation within an application. For example, all threads are updating a shared value and must have finished their updates before proceeding to the next stage of computation.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">big_sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="cp">#pragma omp parallel 
+</span>  <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">my_sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">my_sum</span> <span class="o">+=</span> <span class="n">i</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="cp">#pragma omp critical
+</span>    <span class="n">big_sum</span> <span class="o">+=</span> <span class="n">my_sum</span><span class="p">;</span>
+
+    <span class="n">printf</span><span class="p">(</span><span class="s">"I'm thread %d and I think big sum is: %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">omp_get_thread_num</span><span class="p">(),</span> <span class="n">big_sum</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span> 
+</code></pre></div></div>
+
+<p>In the example above, each thread will report a different value for <code class="language-plaintext highlighter-rouge">big_sum</code>, even with the critical section because they may execute the <code class="language-plaintext highlighter-rouge">printf()</code> function before other threads have finished.</p>
+
+<p>We can enforce syncronisation with a barrier (<code class="language-plaintext highlighter-rouge">omp barrier</code>), where each thread will block on a barrier until all threads have reached the barrier.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
+<span class="cp">#pragma omp critical
+</span><span class="n">big_sum</span> <span class="o">+=</span> <span class="n">my_sum</span><span class="p">;</span>
+
+<span class="cp">#pragma omp barrier
+</span>
+<span class="n">printf</span><span class="p">(</span><span class="s">"I'm thread %d and I think big sum is: %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">omp_get_thread_num</span><span class="p">(),</span> <span class="n">big_sum</span><span class="p">);</span>
+<span class="p">...</span>
+</code></pre></div></div>
+
+<p>Like critical sections, barriers can be a source of deadlock, and can cause significant performance defects. It should also be noted that there is a non-negotiable implicit barrier at the end of any parallel region and an implicit barrier at the end of any work sharing construct unless the <code class="language-plaintext highlighter-rouge">nowait</code> clause has been specified.</p>
+
+<h3 id="reductions">Reductions</h3>
+
+<p>In many of our examples up to now, we have been using critical sections in order to protect updates to a shared variable. In many cases, this may be a <em><strong>reduction</strong></em>, where a value calculated by each thread is reduced to a single variable for all threads.</p>
+
+<p>For operations like this, OpenMP provides a more elegant solution. Take the following (thread safe) example,</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;omp.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+  <span class="cp">#pragma omp parallel for
+</span>  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">100000000</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="cp">#pragma omp critical
+</span>    <span class="n">sum</span> <span class="o">+=</span> <span class="n">i</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">printf</span><span class="p">(</span><span class="s">"sum is: %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">sum</span><span class="p">);</span>
+<span class="p">}</span> 
+</code></pre></div></div>
+
+<p>Running the code produces the correct answer, but is not efficient due to the serialisation around the critical section. In fact, it may be faster to run this very simple example on a single thread.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gcc -fopenmp -o sum sum.c
+$ time ./sum                         
+sum is: 887459712
+./sum  2.53s user 10.39s system 405% cpu 3.189 total
+$ time OMP_NUM_THREADS=1 ./sum
+sum is: 887459712
+OMP_NUM_THREADS=1 ./sum  0.89s user 0.02s system 99% cpu 0.917 total 
+</code></pre></div></div>
+
+<p>Instead of using a critical section for a reduction operation, we can instead use a <a href="https://www.openmp.org/spec-html/5.0/openmpsu107.html">reduction</a> clause on our work sharing directive. For example,</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#pragma omp parallel for reduction(+:sum)
+</span><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">100000000</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">sum</span> <span class="o">+=</span> <span class="n">i</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Notice that we no longer require the critical section. Instead, we specify that the variable <code class="language-plaintext highlighter-rouge">sum</code> will be subject to an addition reduction. Our parallelised loop is now faster than the single threaded case.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gcc -fopenmp -o sum sum.c
+$ time OMP_NUM_THREADS=1 ./sum       
+sum is: 887459712
+OMP_NUM_THREADS=1 ./sum  0.26s user 0.01s system 53% cpu 0.499 total
+$ time ./sum       
+sum is: 887459712
+./sum  0.38s user 0.01s system 576% cpu 0.067 total 
+</code></pre></div></div>
+
+<p>In C/C++, the following reductions are provided in the OpenMP standard:</p>
+
+<div class="table-wrapper">
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Identifier</strong></td>
+        <td><strong>Initialiser</strong></td>
+        <td><strong>Combiner</strong></td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">+</code></td>
+        <td><code class="language-plaintext highlighter-rouge">omp_priv = 0</code></td>
+        <td><code class="language-plaintext highlighter-rouge">omp_out += omp_in</code></td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">-</code></td>
+        <td><code class="language-plaintext highlighter-rouge">omp_priv = 0</code></td>
+        <td><code class="language-plaintext highlighter-rouge">omp_out += omp_in</code></td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">*</code></td>
+        <td><code class="language-plaintext highlighter-rouge">omp_priv = 0</code></td>
+        <td><code class="language-plaintext highlighter-rouge">omp_out *= omp_in</code></td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">&amp;</code></td>
+        <td><code class="language-plaintext highlighter-rouge">omp_priv = ~ 0</code></td>
+        <td><code class="language-plaintext highlighter-rouge">omp_out &amp;= omp_in</code></td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">|</code></td>
+        <td><code class="language-plaintext highlighter-rouge">omp_priv = 0</code></td>
+        <td><code class="language-plaintext highlighter-rouge">omp_out |= omp_in</code></td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">^</code></td>
+        <td><code class="language-plaintext highlighter-rouge">omp_priv = 0</code></td>
+        <td><code class="language-plaintext highlighter-rouge">omp_out ^= omp_in</code></td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">&amp;&amp;</code></td>
+        <td><code class="language-plaintext highlighter-rouge">omp_priv = 1</code></td>
+        <td><code class="language-plaintext highlighter-rouge">omp_out = omp_in &amp;&amp; omp_out</code></td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">||</code></td>
+        <td><code class="language-plaintext highlighter-rouge">omp_priv = 0</code></td>
+        <td><code class="language-plaintext highlighter-rouge">omp_out = omp_in &amp;&amp; omp_out </code></td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">max</code></td>
+        <td>
+<code class="language-plaintext highlighter-rouge">omp_priv = </code> Smallest number in reduction list item type</td>
+        <td><code class="language-plaintext highlighter-rouge">omp_out = (omp_in &gt; omp_out) ? omp_in : omp_out</code></td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">min</code></td>
+        <td>
+<code class="language-plaintext highlighter-rouge">omp_priv = </code> Largest number in reduction list item type</td>
+        <td><code class="language-plaintext highlighter-rouge">omp_out = (omp_in &lt; omp_out) ? omp_in : omp_out</code></td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
+<h2 id="loop-scheduling">Loop Scheduling</h2>
+
+<p>As briefly mentioned earlier, OpenMP provides a mechanism to control the mapping of loop iterations to threads, if necessary. These are controlled with the <code class="language-plaintext highlighter-rouge">schedule</code> clause to a worksharing directive.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;omp.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+  <span class="cp">#pragma omp parallel for schedule(static)
+</span>  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"Thread %d is performing iteration %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">omp_get_thread_num</span><span class="p">(),</span> <span class="n">i</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span> 
+</code></pre></div></div>
+
+<p>The simplest (and default) schedule is “<code class="language-plaintext highlighter-rouge">static</code>”, which divides the loop into contiguous blocks of roughly equal size. Each thread will then execute a single block.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ OMP_NUM_THREADS=5 ./demo
+Thread 0 is performing iteration 0
+Thread 0 is performing iteration 1
+Thread 1 is performing iteration 2
+Thread 1 is performing iteration 3
+Thread 3 is performing iteration 6
+Thread 3 is performing iteration 7
+Thread 2 is performing iteration 4
+Thread 2 is performing iteration 5
+Thread 4 is performing iteration 8
+Thread 4 is performing iteration 9 
+</code></pre></div></div>
+
+<p>If the work in each loop iteration is not constant, a <code class="language-plaintext highlighter-rouge">static</code> schedule may be suboptimal. For example, if the amount of work per iteration increases with each iteration, each thread will have progressively more work to do than the previous thread. One solution to this is to specify the size of a chunk. We could specify a chunk size of 1 (<code class="language-plaintext highlighter-rouge">schedule(static,1)</code>), meaning that each iteration is allocated to a thread in a round-robin fashion.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ OMP_NUM_THREADS=5 ./demo
+Thread 1 is performing iteration 1
+Thread 1 is performing iteration 6
+Thread 2 is performing iteration 2
+Thread 2 is performing iteration 7
+Thread 4 is performing iteration 4
+Thread 3 is performing iteration 3
+Thread 3 is performing iteration 8
+Thread 0 is performing iteration 0
+Thread 0 is performing iteration 5
+Thread 4 is performing iteration 9 
+</code></pre></div></div>
+
+<p>In a <code class="language-plaintext highlighter-rouge">static</code> schedule, the blocks are assigned to threads before execution, and so the distribution remains constant regardless of the amount of work in each iteration.</p>
+
+<p>Besides <code class="language-plaintext highlighter-rouge">static</code> schedules, there are a number of alternatives. A <code class="language-plaintext highlighter-rouge">dynamic</code> schedule will divide iterations into blocks of a specified size (defaults to 1), and will start by scheduling a single block to each thread. When a thread finishes, it requests a new block to be allocated. So, for example with <code class="language-plaintext highlighter-rouge">schedule(dynamic,3)</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>OMP_NUM_THREADS=5 ./demo            
+Thread 0 is performing iteration 0
+Thread 0 is performing iteration 1
+Thread 0 is performing iteration 2
+Thread 1 is performing iteration 3
+Thread 1 is performing iteration 4
+Thread 1 is performing iteration 5
+Thread 2 is performing iteration 6
+Thread 2 is performing iteration 7
+Thread 2 is performing iteration 8
+Thread 4 is performing iteration 9 
+</code></pre></div></div>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li>
+<a href="https://www.openmp.org/spec-html/5.0/openmpsu41.html#x64-1290002.9.2">2.9.2 Worksharing-Loop Construct</a>, OpenMP 5.0 Standard</li>
+  </ul>
+</blockquote>
+
+<h2 id="tasking">Tasking</h2>
+
+<p>While the early OpenMP standards were heavily focussed on loop structures, the modern standard also provides <em>tasking</em>. The <code class="language-plaintext highlighter-rouge">task</code> directive is used to signify that a block of code is to be executed by a thread. When a thread encounters a task, it may choose to execute the task, or set up the appropriate data environment and then defer its execution. Conversely, the <code class="language-plaintext highlighter-rouge">single</code> directive indicates that the work within its block should only be executed by a single thread.</p>
+
+<p>Consider the following simple example, where a parallel region is created but only a single thread executes the loop construct. Within the loop construct, a <code class="language-plaintext highlighter-rouge">printf()</code> is called probabilistically (approximately half of the time).</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;omp.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;time.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+  <span class="n">srand</span><span class="p">(</span><span class="n">time</span><span class="p">(</span><span class="nb">NULL</span><span class="p">));</span>
+  <span class="cp">#pragma omp parallel
+</span>  <span class="p">{</span>
+    <span class="cp">#pragma omp single
+</span>    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">((</span><span class="kt">double</span><span class="p">)</span> <span class="n">rand</span><span class="p">()</span> <span class="o">/</span> <span class="n">RAND_MAX</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">)</span> <span class="p">{</span>
+        <span class="cp">#pragma omp task
+</span>        <span class="n">printf</span><span class="p">(</span><span class="s">"Thread %d reporting</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">omp_get_thread_num</span><span class="p">());</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span> 
+</code></pre></div></div>
+
+<p>Since the number of calls to <code class="language-plaintext highlighter-rouge">printf()</code> is not known, tasking is a natural choice for a problem such as this (or at least, a more complex problem with a similar structure!).</p>
+
+<h2 id="environmental-variables">Environmental Variables</h2>
+
+<p>Much of the parallelisation provided by OpenMP is controllable at runtime. As we’ve already seen, OpenMP uses environment variables to control execution (e.g. <code class="language-plaintext highlighter-rouge">OMP_NUM_THREADS</code>). It also provides a number of environment variables that direct an application to provide us with information that might be critical to performance.</p>
+
+<p>You can find the complete list of variables provided by OpenMP in <a href="https://www.openmp.org/spec-html/5.0/openmpch6.html#x287-20510006">Section 6 (Environment Variables)</a> of the specification. We’ll cover a few of the important ones here:</p>
+
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">OMP_SCHEDULE</code></strong></li>
+</ul>
+
+<p>For loops where the schedule has been specified as “runtime”, we can control the scheduling with the <code class="language-plaintext highlighter-rouge">OMP_SCHEDULE</code> environment variable. For example to set the schedule to guided with a chunk size of 4, we could use:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ export OMP_SCHEDULE "guided,4" 
+</code></pre></div></div>
+
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">OMP_NUM_THREADS</code></strong></li>
+</ul>
+
+<p>We’ve seen the <code class="language-plaintext highlighter-rouge">OMP_NUM_THREADS</code> variable throughout this unit, used to specify the number of threads to use. We can also provide a list of thread counts that are used for nested parallel regions. So, for example, if we wanted 4 threads for the first level of parallel regions, and 2 threads for any nested parallel regions, we could use:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ export OMP_NUM_THREADS 4,2 
+</code></pre></div></div>
+
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">OMP_PROC_BIND</code></strong></li>
+</ul>
+
+<p>As discussed at the very beginning of this unit, most modern systems implement NUMA memory systems, where a processor can access memory that is directly connected to it faster than some other memory spaces. The placement of processes and threads to cores can therefore have a significant effect on performance. Moreover, an operating system may choose to move a running application from one core to another, potentially affecting performance further.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">OMP_PROC_BIND</code> variable describes how threads are bound to <em>places</em>. The variable can take on several values, including “true” or “false”, or “master”, “close” or “spread”.</p>
+
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">OMP_PLACES</code></strong></li>
+</ul>
+
+<p>The <code class="language-plaintext highlighter-rouge">OMP_PLACES</code> variable defines the series of places to which threads are assigned. It can take on the values “threads”, “cores” or “sockets”.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">OMP_PROC_BIND</code> and <code class="language-plaintext highlighter-rouge">OMP_PLACES</code> variables can be used in conjunction to control <a href="https://en.wikipedia.org/wiki/Processor_affinity">thread affinity</a>.</p>
+
+<p>On a multi-core (8), multi-processor (2) system, <code class="language-plaintext highlighter-rouge">OMP_PLACES=cores OMP_PROC_BIND=close</code> may have the following effect:</p>
+
+<ul>
+  <li>thread 0 goes to core 0, on socket 0</li>
+  <li>thread 1 goes to core 1, on socket 0</li>
+  <li>thread 2 goes to core 2, on socket 0</li>
+  <li>…</li>
+  <li>thread 8 goes to core 8, on socket 1</li>
+  <li>thread 9 goes to core 9, on socket 1</li>
+  <li>… etc.</li>
+</ul>
+
+<p>Conversely, with <code class="language-plaintext highlighter-rouge">OMP_PLACES=cores OMP_PROC_BIND=spread</code>,</p>
+
+<ul>
+  <li>thread 0 goes to core 0, on socket 0</li>
+  <li>thread 1 goes to core 8, on socket 1</li>
+  <li>thread 2 goes to core 1, on socket 0</li>
+  <li>thread 3 goes to core 9, on socket 1</li>
+  <li>… etc.</li>
+</ul>
+
+<p>Tuning these options can have a significant effect on performance.</p>
+
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">OMP_DISPLAY_ENV</code></strong></li>
+</ul>
+
+<p>The final two variables we’ll briefly cover provide information on the runtime environment. The <code class="language-plaintext highlighter-rouge">OMP_DISPLAY_ENV</code> variable, when set to <code class="language-plaintext highlighter-rouge">true</code>, will output the OpenMP environment variables to the screen when the application is executed. For example:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ OMP_DISPLAY_ENV=true ./demo
+
+OPENMP DISPLAY ENVIRONMENT BEGIN
+_OPENMP = '201511'
+OMP_DYNAMIC = 'FALSE'
+OMP_NESTED = 'FALSE'
+OMP_NUM_THREADS = '5'
+OMP_SCHEDULE = 'DYNAMIC'
+OMP_PROC_BIND = 'FALSE'
+OMP_PLACES = ''
+OMP_STACKSIZE = '2097152'
+OMP_WAIT_POLICY = 'PASSIVE'
+OMP_THREAD_LIMIT = '4294967295'
+OMP_MAX_ACTIVE_LEVELS = '1'
+OMP_CANCELLATION = 'FALSE'
+OMP_DEFAULT_DEVICE = '0'
+OMP_MAX_TASK_PRIORITY = '0'
+OMP_DISPLAY_AFFINITY = 'FALSE'
+OMP_AFFINITY_FORMAT = 'level %L thread %i affinity %A'
+OMP_ALLOCATOR = 'omp_default_mem_alloc'
+OMP_TARGET_OFFLOAD = 'DEFAULT'
+OPENMP DISPLAY ENVIRONMENT END
+...
+</code></pre></div></div>
+
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">OMP_DISPLAY_AFFINITY</code></strong></li>
+</ul>
+
+<p>The <code class="language-plaintext highlighter-rouge">OMP_DISPLAY_AFFINITY</code> variable allows us to query how threads are being assigned to cores and sockets.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ OMP_NUM_THREADS=5 OMP_DISPLAY_AFFINITY=true ./demo
+level 1 thread 0x102dbc580 affinity 0-7
+level 1 thread 0x16d5c3000 affinity 0-7
+level 1 thread 0x16d7cf000 affinity 0-7
+level 1 thread 0x16d9db000 affinity 0-7
+level 1 thread 0x16dbe7000 affinity 0-7
+... 
+</code></pre></div></div>
+
+<h1 id="efficient-omp">Efficient OMP</h1>
+
+<p>Before we cover some tips and tricks to make the best use of OpenMP, you might like to learn more about OpenMP straight from one of its originators, Tim Mattson, from Intel.</p>
+
+<ul>
+  <li><a href="https://youtube.com/playlist?list=PLLX-Q6B8xqZ8n8bwjGdzBJ25X2utwnoEG">Introduction to OpenMP</a></li>
+</ul>
+
+<h2 id="performance-pitfalls">Performance pitfalls</h2>
+
+<p>Like any other method of parallelising code, OpenMP is prone to a number of performance issues, such as load balancing or serial fraction (see Amdahl’s law in Unit 1). However, we can sometimes alleviate these issues. This section will cover some of the issues that might appear and how we can potentially mitigate them.</p>
+
+<h3 id="avoid-unnecessary-parallelisation">Avoid unnecessary parallelisation</h3>
+
+<p>Any parallel region of code has an associated cost as well as a benefit. Upon encountering a parallel region, the runtime will incur a penalty in either spawning threads, or in waking them from an idle state. If the work being parallelised is suitably small, it may be the case that this cost outweights the benefit. For these instances, there are a few potential solutions.</p>
+
+<p>Firstly, we could avoid running a region in parallel if its unlikely to pay off. We can control this with the <code class="language-plaintext highlighter-rouge">if</code> clause, restricting our parallel region to a certain condition. For example,</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">iters</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+<span class="cp">#pragma omp parallel for if (iters &gt; 100)
+</span><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">iters</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">"Thread %d, running iteration %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">omp_get_thread_num</span><span class="p">(),</span> <span class="n">i</span><span class="p">);</span>
+<span class="p">}</span> 
+</code></pre></div></div>
+
+<p>In the code above, the loop will only parallelise if there are more than 100 iterations to complete. The point at which parallelisation may become beneficial will be problem- and platform-specific, but you could explore this space with profiling (see Unit 3).</p>
+
+<p>Alternatively, we could manually reduce the number of threads such that the overhead is minimised. We can do this by controlling the number of threads with a <code class="language-plaintext highlighter-rouge">num_threads</code> clause. For example,</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">iters</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+<span class="cp">#pragma omp parallel for num_threads(2)
+</span><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">iters</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">"Thread %d, running iteration %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">omp_get_thread_num</span><span class="p">(),</span> <span class="n">i</span><span class="p">);</span>
+<span class="p">}</span> 
+</code></pre></div></div>
+
+<p>In this example, regardless of the number of threads available to the application, this loop will only ever use 2. Less threads means less overhead, and thus this might improve the performance of a loop, without slowing down later loops that may benefit from more threads.</p>
+
+<h3 id="avoid-implicit-barriers">Avoid implicit barriers</h3>
+
+<p>As was mentioned in the previous section, there are implicit barriers at the end of all parallel regions in OpenMP. This means that if some threads finish their work early, they will block until all threads have finished. In cases where this is not required, we can instruct threads not to wait and to continue their execution.</p>
+
+<p>There is an explicit barrier at the end of any parallel region that cannot be removed, but we can remove the implicit barrier from a work-sharing construct with the <code class="language-plaintext highlighter-rouge">nowait</code> clause. Consider the <code class="language-plaintext highlighter-rouge">omp for</code> pragma in the following code sample:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">iters</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+<span class="cp">#pragma omp parallel 
+</span><span class="p">{</span>
+  <span class="cp">#pragma omp for 
+</span>  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">iters</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"Thread %d, running iteration %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">omp_get_thread_num</span><span class="p">(),</span> <span class="n">i</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">"Thread %d is done</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">omp_get_thread_num</span><span class="p">());</span>
+<span class="p">}</span> 
+</code></pre></div></div>
+
+<p>The output for this shows that each thread operates in lockstep, with each thread waiting at the end of the for-loop before executing the final <code class="language-plaintext highlighter-rouge">printf()</code>.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ OMP_NUM_THREADS</span><span class="o">=</span>5 ./demo            
+Thread 1, running iteration 2
+Thread 1, running iteration 3
+Thread 2, running iteration 4
+Thread 2, running iteration 5
+Thread 0, running iteration 0
+Thread 0, running iteration 1
+Thread 3, running iteration 6
+Thread 3, running iteration 7
+Thread 4, running iteration 8
+Thread 4, running iteration 9
+Thread 1 is <span class="k">done
+</span>Thread 2 is <span class="k">done
+</span>Thread 0 is <span class="k">done
+</span>Thread 3 is <span class="k">done
+</span>Thread 4 is <span class="k">done</span> 
+</code></pre></div></div>
+
+<p>If we add the <code class="language-plaintext highlighter-rouge">nowait</code> clause to our <code class="language-plaintext highlighter-rouge">omp for</code> pragma, the output shows that we have removed one of the implicit barriers in our code.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ OMP_NUM_THREADS</span><span class="o">=</span>5 ./demo            
+Thread 1, running iteration 2
+Thread 1, running iteration 3
+Thread 1 is <span class="k">done
+</span>Thread 3, running iteration 6
+Thread 3, running iteration 7
+Thread 4, running iteration 8
+Thread 4, running iteration 9
+Thread 0, running iteration 0
+Thread 0, running iteration 1
+Thread 0 is <span class="k">done
+</span>Thread 4 is <span class="k">done
+</span>Thread 3 is <span class="k">done
+</span>Thread 2, running iteration 4
+Thread 2, running iteration 5
+Thread 2 is <span class="k">done</span> 
+</code></pre></div></div>
+
+<p>Before adding the <code class="language-plaintext highlighter-rouge">nowait</code> clause to a work sharing construct, its important that you check that it is safe to do so!</p>
+
+<h3 id="avoid-trivial-load-imbalance">Avoid trivial load imbalance</h3>
+
+<p>In order to get the best out of OpenMP, the number of loop iterations should be large compared to the number of threads. If we have a small number of iterations spread over a similarly small number of threads (even if iterations does outnumber threads slightly), we are likely to end up with load imbalance.</p>
+
+<p>Say for example, we have a triply nested loop where the outermost loop has been parallelised and does <em>M</em> iterations on <em>N</em> threads. In the case where <em>M</em> is greater than <em>N</em>, but less than <em>2N</em>, we will have some threads performing two iterations, and some threads performing only one iteration (i.e. half the work). This will result in a significant waste of resourses and performance.</p>
+
+<p>For loop nests like this, we may be able to make use of the <code class="language-plaintext highlighter-rouge">collapse</code> clause to combine multiple levels of loop.</p>
+
+<p>So, for example,</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#pragma omp parallel for collapse(2)
+</span><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">M</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">O</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="p">...</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span> 
+</code></pre></div></div>
+
+<p>Here the two outermost loops are collapsed into a single loop of length <em>M × N</em>, that can be executed in parallel. The <code class="language-plaintext highlighter-rouge">collapse</code> keyword is specific to <em>perfect</em> loop nests, i.e., loop nests where there is no code between them, and the loop counts do not depend on each other.</p>
+
+<h3 id="avoid-dynamicguided-loop-scheduling-or-tasking-unless-necessary">Avoid dynamic/guided loop scheduling or tasking unless necessary</h3>
+
+<p>All parallel work-sharing scheduling options (except static) and tasking constructs require some amount of nontrivial computation or bookkeeping. If there is only a small amount of work to do, it is likely that the overhead will dominate the performance improvement that can be gained. Think carefully before using these features, and consider (and benchmark) the alternatives!</p>
+
+<h1 id="recommended-reading">Recommended Reading</h1>
+
+<blockquote class="block-warning">
+  <ul>
+    <li>
+<a href="https://yorsearch.york.ac.uk/permalink/f/1d5jm03/44YORK_ALMA_DS51308825180001381">Introduction to High Performance Computing for Scientists and Engineers</a>, Chapter 6 - Shared-memory parallel programming with OpenMP</li>
+    <li>
+<a href="https://yorsearch.york.ac.uk/permalink/f/1d5jm03/44YORK_ALMA_DS51308825180001381">Introduction to High Performance Computing for Scientists and Engineers</a>, Chapter 7 - Efficient OpenMP programming</li>
+  </ul>
+</blockquote>
+
+                </section>
+            </div>
+<div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title">
+<span class="search-results-count"></span> results matching "<span class="search-query"></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class="search-query"></span>"</h1>
+    </div>
+</div>
+</div>
+    </div>
+</div>
+
+                        <a href="/~saw586/hipc/2023-24//lectures/4-on-core_parallelism/" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 4. On-core Parallelism">
+                            <i class="fa fa-angle-left"></i>
+                        </a>
+                    
+
+                    
+                        <a href="/~saw586/hipc/2023-24//lectures/6-internode_parallelism/" class="navigation navigation-next navigation-unique" aria-label="Next page: 6. Internode Parallelism">
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    
+                </div>
+            </div>
+
+            <script>
+            var gitbook = gitbook || [];
+            gitbook.push(function() {
+                gitbook.page.hasChanged({
+    "page": {
+        "title": "Introduction",
+        "level": "1.1",
+        "depth": 1,
+        
+        "next": {
+            "title": "6. Internode Parallelism",
+            "level": "1.2",
+            "depth": 1,
+            "path": "_lectures/6-internode_parallelism.md",
+            "ref": "_lectures/6-internode_parallelism.md",
+            "articles": []
+        },
+        
+        "dir": "ltr"
+    },    "config": {
+        "plugins": ["fontsettings", "highlight", "livereload", "lunr", "search", "sharing", "theme-default", "livereload"],
+        "styles": {
+            "ebook": "styles/ebook.css",
+            "epub": "styles/epub.css",
+            "mobi": "styles/mobi.css",
+            "pdf": "styles/pdf.css",
+            "print": "styles/print.css",
+            "website": "styles/website.css"
+        },
+        "pluginsConfig": {
+            "fontsettings": {
+                "family": "sans",
+                "size": 2,
+                "theme": "white"
+            },
+            "highlight": {},
+            "livereload": {},
+            "lunr": {
+                "ignoreSpecialCharacters": false,
+                "maxIndexSize": 1000000
+            },
+            "search": {},
+            "sharing": {
+                "all": ["facebook", "google", "twitter", "weibo", "instapaper"],
+                "facebook": true,
+                "google": false,
+                "instapaper": true,
+                "twitter": true,
+                "vk": false,
+                "weibo": false
+            },
+            "theme-default": {
+                "showLevel": false,
+                "styles": {
+                    "ebook": "styles/ebook.css",
+                    "epub": "styles/epub.css",
+                    "mobi": "styles/mobi.css",
+                    "pdf": "styles/pdf.css",
+                    "print": "styles/print.css",
+                    "website": "styles/website.css"
+                }
+            }
+        },
+        "theme": "default",
+        "author": "Tao He",
+        "pdf": {
+            "pageNumbers": true,
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "paperSize": "a4",
+            "chapterMark": "pagebreak",
+            "pageBreaksBefore": "/",
+            "margin": {
+                "right": 62,
+                "left": 62,
+                "top": 56,
+                "bottom": 56
+            }
+        },
+        "structure": {
+            "langs": "LANGS.md",
+            "readme": "README.md",
+        },
+        "variables": {},
+        "title": "HIPC",
+        "language": "en",
+        "gitbook": "*"
+    },
+    "file": {
+        "path": "_lectures/5-on-node_parallelism.md",
+        "mtime": "2022-07-25 00:00:00 +0100",
+        "type": "markdown"
+    },
+    "gitbook": {
+        "version": "3.2.3",
+        "time": "2023-12-01 15:53:33 +0000"
+    },
+    "basePath": "/~saw586/hipc/2023-24/",
+    "book": {
+        "language": ""
+    }
+});
+            });
+            </script>
+        </div>
+<script src="/~saw586/hipc/2023-24//assets/gitbook/gitbook.js"></script>
+<script src="/~saw586/hipc/2023-24//assets/gitbook/theme.js"></script>
+
+<script src="/~saw586/hipc/2023-24//assets/gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+<script src="/~saw586/hipc/2023-24//assets/gitbook/gitbook-plugin-sharing/buttons.js"></script>
+
+<!-- <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+<script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+<script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+<script src="../gitbook/gitbook-plugin-search/search.js"></script> -->
+
+<script src="/~saw586/hipc/2023-24//assets/gitbook/gitbook-plugin-search-pro/jquery.mark.min.js"></script>
+<script src="/~saw586/hipc/2023-24//assets/gitbook/gitbook-plugin-search-pro/search.js"></script>
+<script src="/~saw586/hipc/2023-24//assets/gitbook/gitbook-plugin-back-to-top-button/plugin.js"></script>
+
+<script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+</body>
+</html>

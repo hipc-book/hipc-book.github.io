@@ -1,0 +1,915 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+<meta charset="UTF-8">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<title>3. Scientific Computing · HIPC</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="HIPC
+">
+<meta name="generator" content="Jekyll (using style of GitBook 3.2.3)">
+<meta name="author" content="Steven Wright">
+<link rel="stylesheet" href="/~saw586/hipc//assets/gitbook/style.css">
+<link rel="stylesheet" href="/~saw586/hipc//assets/gitbook/gitbook-plugin-fontsettings/website.css">
+<link rel="stylesheet" href="/~saw586/hipc//assets/gitbook/gitbook-plugin-search-pro/search.css">
+<link rel="stylesheet" href="/~saw586/hipc//assets/gitbook/gitbook-plugin-back-to-top-button/plugin.css">
+
+<link rel="stylesheet" href="/~saw586/hipc//assets/gitbook/rouge/github.css">
+
+<link rel="stylesheet" href="/~saw586/hipc//assets/gitbook/custom.css">
+
+<meta name="HandheldFriendly" content="true">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="apple-touch-icon-precomposed" sizes="152x152" href="/~saw586/hipc//assets/gitbook/images/apple-touch-icon-precomposed-152.png">
+<link rel="shortcut icon" href="/~saw586/hipc//assets/gitbook/images/favicon.ico" type="image/x-icon">
+
+
+
+
+
+<script>
+    MathJax = {
+        tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        svg: {
+            fontCache: 'global'
+        }
+    };
+</script>
+            <link rel="prev" href="/~saw586/hipc//practicals/2-introduction_to_c-2/">
+        
+
+        
+            <link rel="next" href="/~saw586/hipc//practicals/4-on-core_parallelism/">
+        
+    </head>
+    <body>
+        <div class="book">
+<div class="book-summary">
+    <nav role="navigation">
+        <div id="book-search-input" role="search">
+            <input type="text" placeholder="Type to search">
+        </div>
+        <div id="book-search-input-link" role="search">
+            <a href="/~saw586/hipc//assets/search.html">Click to Search</a>
+        </div>
+        <ul class="summary">
+            
+            <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/">
+            
+                <a href="/~saw586/hipc//">
+                    HIPC
+                </a>
+            </li>
+
+            <li class="divider">
+
+            
+             
+                
+                <!-- <li class="chapter" data-level="1.1"><a>about</a></li> -->
+             
+                
+                    
+
+                    
+                        
+                        </li>
+<li class="chapter" data-level="1.1" data-path="/~saw586/hipc//about/about/">
+                        
+                            <a href="/~saw586/hipc//about/about/">
+                                About
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//about/changelog/">
+                        
+                            <a href="/~saw586/hipc//about/changelog/">
+                                Changelog
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+
+                    
+                        <li class="divider">
+                    
+                
+            
+             
+                
+                </li>
+<li><a><strong>Units</strong></a></li>
+                
+                <!-- <li class="chapter" data-level="1.1"><a>lectures</a></li> -->
+             
+                
+                    
+
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/1-supercomputing/">
+                        
+                            <a href="/~saw586/hipc//lectures/1-supercomputing/">
+                                1. Supercomputing and Scientific Computing
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/2-architectures/">
+                        
+                            <a href="/~saw586/hipc//lectures/2-architectures/">
+                                2. The Architectures of Distributed Systems
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/3-management_and_measurement/">
+                        
+                            <a href="/~saw586/hipc//lectures/3-management_and_measurement/">
+                                3. Management and Measurement of Distributed Systems
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/4-on-core_parallelism/">
+                        
+                            <a href="/~saw586/hipc//lectures/4-on-core_parallelism/">
+                                4. On-core Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/5-on-node_parallelism/">
+                        
+                            <a href="/~saw586/hipc//lectures/5-on-node_parallelism/">
+                                5. On-node Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/6-internode_parallelism/">
+                        
+                            <a href="/~saw586/hipc//lectures/6-internode_parallelism/">
+                                6. Internode Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/7-advanced_internode_parallelism/">
+                        
+                            <a href="/~saw586/hipc//lectures/7-advanced_internode_parallelism/">
+                                7. Advanced Internode Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/8-accelerators/">
+                        
+                            <a href="/~saw586/hipc//lectures/8-accelerators/">
+                                8. Accelerators
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/9-advanced_accelerators/">
+                        
+                            <a href="/~saw586/hipc//lectures/9-advanced_accelerators/">
+                                9. Advanced Accelerators
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/10-heterogeneous_programming/">
+                        
+                            <a href="/~saw586/hipc//lectures/10-heterogeneous_programming/">
+                                10. Heterogeneous Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+
+                    
+                        <li class="divider">
+                    
+                
+            
+             
+                
+                <!-- <li class="chapter" data-level="1.1"><a>posts</a></li> -->
+             
+                
+                    
+
+                    
+
+                    
+                
+            
+             
+                
+                </li>
+<li><a><strong>Practicals</strong></a></li>
+                
+                <!-- <li class="chapter" data-level="1.1"><a>practicals</a></li> -->
+             
+                
+                    
+
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/1-introduction_to_c-1/">
+                        
+                            <a href="/~saw586/hipc//practicals/1-introduction_to_c-1/">
+                                1. Introduction to C (part 1)
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/2-introduction_to_c-2/">
+                        
+                            <a href="/~saw586/hipc//practicals/2-introduction_to_c-2/">
+                                2. Introduction to C (part 2)
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter active" data-level="1.2" data-path="/~saw586/hipc//practicals/3-scientific_computing/">
+                        
+                            <a href="/~saw586/hipc//practicals/3-scientific_computing/">
+                                3. Scientific Computing
+                            </a>
+                            
+                                
+                                    <ul>
+<li><a href="#overview">Overview</a></li>
+<li>
+<a href="#partial-differential-equations">Partial Differential Equations</a><ul><li><a href="#the-heat-equation">The Heat Equation</a></li></ul>
+</li>
+<li>
+<a href="#solving-partial-differential-equations">Solving Partial Differential Equations</a><ul>
+<li><a href="#direct-methods">Direct Methods</a></li>
+<li><a href="#iterative-methods">Iterative Methods</a></li>
+</ul>
+</li>
+<li><a href="#the-jacobi-method">The Jacobi method</a></li>
+<li><a href="#exercise-1">Exercise 1</a></li>
+<li><a href="#exercise-2">Exercise 2</a></li>
+<li><a href="#exercise-3">Exercise 3</a></li>
+<li><a href="#the-gauss-seidel-method">The Gauss-Seidel Method</a></li>
+<li><a href="#exercise-4">Exercise 4</a></li>
+<li><a href="#other-methods">Other Methods</a></li>
+</ul>
+
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/4-on-core_parallelism/">
+                        
+                            <a href="/~saw586/hipc//practicals/4-on-core_parallelism/">
+                                4. Programming On-core Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/5-on-node_parallelism/">
+                        
+                            <a href="/~saw586/hipc//practicals/5-on-node_parallelism/">
+                                5. Programming On-node Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/6-off-node_parallelism/">
+                        
+                            <a href="/~saw586/hipc//practicals/6-off-node_parallelism/">
+                                6. Programming Off-node Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/7-advanced_mpi/">
+                        
+                            <a href="/~saw586/hipc//practicals/7-advanced_mpi/">
+                                7. Advanced MPI Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/8-cuda_programming/">
+                        
+                            <a href="/~saw586/hipc//practicals/8-cuda_programming/">
+                                8. CUDA Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/9-advanced_cuda_programming/">
+                        
+                            <a href="/~saw586/hipc//practicals/9-advanced_cuda_programming/">
+                                9. Advanced CUDA Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/10-heterogeneous_programming/">
+                        
+                            <a href="/~saw586/hipc//practicals/10-heterogeneous_programming/">
+                                10. Heterogeneous Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+
+                    
+                        <li class="divider">
+                    
+                
+            
+        </li>
+</ul>
+    </nav>
+</div>
+<div class="book-body">
+                <div class="book-header" role="navigation">
+                    <!-- Title -->
+                    <h1>
+                        <i class="fa fa-circle-o-notch fa-spin"></i>
+                        
+                            <a href=".">3. Scientific Computing</a>
+                        
+                    </h1>
+                </div>
+
+                <div class="body-inner">
+<div class="page-wrapper" tabindex="-1" role="main">
+    
+
+    <div class="page-inner">
+        <div id="book-search-results">
+            <div class="search-noresults">
+                <section class="normal markdown-section">
+                    
+                        <h1 id="/practicals/3-scientific_computing">3. Scientific Computing</h1>
+                    
+
+                    <h1 id="overview">Overview</h1>
+
+<p>To complete our introductory material on C programming, we’ll briefly look at how we might use the C programming language to solve problems in scientific computing.</p>
+
+<p>In this practical, we will cover the following topics:</p>
+
+<ul>
+  <li>Scientific problems represented as partial differential equations (PDEs)</li>
+  <li>Solving partial differential equations
+    <ul>
+      <li>Direct methods</li>
+      <li>Iterative methods
+        <ul>
+          <li>The Jacobi method</li>
+          <li>The Gauss-Seidel method</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="partial-differential-equations">Partial Differential Equations</h1>
+
+<p>As you may well remember from A-level Mathematics, (<em>ordinary</em>) differential equations are often used to describe changes over time or space. <em>Partial</em> differential equations, or PDEs, are often used to describe how something changes over both time <strong>and</strong> space.</p>
+
+<p>A great number of problems in the sciences can be expressed as PDEs, and therefore a great deal of scientific computing is focussed on efficiently <em>solving</em> PDEs.</p>
+
+<h2 id="the-heat-equation">The Heat Equation</h2>
+
+<p>As an example, let’s look at the <em>heat equation</em> in one dimension. Imagine a metal rod where one end is held at a high temperature, while the other end is held at a cold temperature. In this example, heat would “flow” from the hot end to the cold end. The heat equation is expressed as a PDE as follows:</p>
+
+\[\frac{\partial u}{\partial t} = k \frac{\partial^2 u}{\partial x^2}\]
+
+<p>In the above equation: $u(x,t)$ is the temperature at position $x$, at time $t$; $k$ is the thermal diffusivity (i.e. how well heat diffuses in the material); $\frac{\partial u}{\partial t}$ is how the temperature changes over time, while $\frac{\partial^2 u}{\partial x^2}$ is how the temperature changes over the length of the metal rod.</p>
+
+<p>Perhaps the simplest solution to solving this PDE is to use a <a href="https://en.wikipedia.org/wiki/Finite_difference"><em>finite difference</em></a> approximation. We can replace the derivatives with approximate differences:</p>
+
+\[\frac{\partial u}{\partial t} \approx \frac{u_i^{n+1} - u_i^n}{\Delta t}\]
+
+\[\frac{\partial^2 u}{\partial x^2} \approx \frac{u_{i+1}^n - 2u_i^n + u_{i-1}^n}{(\Delta x)^2}\]
+
+<p>Substituting these finite differences back into the heat equation above:</p>
+
+\[\frac{u_i^{n+1} - u_i^n}{\Delta t} = k \cdot \frac{u_{i+1}^n - 2u_i^n + u_{i-1}^n}{(\Delta x)^2}\]
+
+<p>Finally, we can rearrange this to provide an expression for the next time step:</p>
+
+\[u_i^{n+1} = u_i^n + \frac{k \Delta t}{(\Delta x)^2} (u_{i+1}^n - 2u_i^n + u_{i-1}^n)\]
+
+<p>In other words, we can calculate the temperature at time step $n+1$, using the previous value and surrounding values (at locations $i$, and $i+1$, $i-1$, respectively, at step $n$).</p>
+
+<p>Given some initial condition and some boundary conditions (i.e. a starting state, and some fixed states on the boundaries of our computational domain), we can iteratively simulate the transfer of heat from one end of the rod to the other.</p>
+
+<h1 id="solving-partial-differential-equations">Solving Partial Differential Equations</h1>
+
+<p>In the general case, we can express a linear PDE (or linear system of PDEs) in matrix form, like so:</p>
+
+\[A\vec{x} = \vec{b}\]
+
+<p>Where $A$ is a matrix that encodes our equation, $\vec{x}$ is the solution vector, and $\vec{b}$ is our known values or our boundary conditions.</p>
+
+<p>For the heat equation example above, we could rewrite the equation as:</p>
+
+\[\vec{u~}^{n+1} = A \vec{u~}^n + \vec{b}\]
+
+<p>Where (in a simplified case for three internal points):</p>
+
+\[A = \begin{bmatrix}
+1 - 2\frac{k \Delta t}{(\Delta x)^2} &amp; \frac{k \Delta t}{(\Delta x)^2}      &amp; 0           \\
+\frac{k \Delta t}{(\Delta x)^2}      &amp; 1 - 2\frac{k \Delta t}{(\Delta x)^2} &amp; \frac{k \Delta t}{(\Delta x)^2}      \\
+0                                    &amp; \frac{k \Delta t}{(\Delta x)^2}      &amp; 1 - 2\frac{k \Delta t}{(\Delta x)^2} 
+\end{bmatrix}\]
+
+<p>Broadly speaking, there are two approaches to solving systems of linear equations: <strong>direct methods</strong> and <strong>iterative methods</strong>.</p>
+
+<h2 id="direct-methods">Direct Methods</h2>
+
+<p>We won’t cover direct methods in much depth here, but suffice to say that direct methods solve systems of linear equations <em>exactly</em> using a finite sequence of operations.</p>
+
+<p>Perhaps the best example of a direct method is the <a href="https://en.wikipedia.org/wiki/LU_decomposition">Lower-Upper (or LU) decomposition</a>.</p>
+
+<p>In this method, we decompose the matrix $A$ into the product of a lower ($L$) and an upper ($U$) matrix, such that,</p>
+
+\[A = LU\]
+
+\[\begin{bmatrix}
+a_{11} &amp; a_{12} &amp; a_{13}  \\
+a_{21} &amp; a_{22} &amp; a_{23}  \\
+a_{31} &amp; a_{32} &amp; a_{33}
+\end{bmatrix} = \begin{bmatrix}
+l_{11} &amp; 0      &amp; 0  \\
+l_{21} &amp; l_{22} &amp; 0  \\
+l_{31} &amp; l_{32} &amp; l_{33}
+\end{bmatrix} \begin{bmatrix}
+u_{11} &amp; u_{12} &amp; u_{13}  \\
+0      &amp; u_{22} &amp; u_{23}  \\
+0      &amp; 0      &amp; u_{33}
+\end{bmatrix}\]
+
+<p>In this form, we can reframe our system of linear equations as:</p>
+
+\[LU\vec{x} = \vec{b}\]
+
+<p>In this form, we can directly solve for $x$ using two logical steps (using <a href="https://en.wikipedia.org/wiki/Triangular_matrix#Forward_and_back_substitution">forward and backward substitution</a>):</p>
+
+<ol>
+  <li>Solve the equation $L \vec{y} = \vec{b}$ using forward substitution</li>
+  <li>Solve the equation $U \vec{x} = \vec{y}$ using backward substitution</li>
+</ol>
+
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/yVnSzpW0Stk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="allowfullscreen"></iframe>
+<p><br></p>
+
+<p>In the general case, some matrices cannot be LU decomposed directly. However, we can introduce a permutation matrix to reorder the rows, such that:</p>
+
+\[PA = LU\]
+
+<p>With <em>pivoting</em> (sometimes known as an “LUP” decomposition) it is always possible to decompose a <em>square</em> matrix.</p>
+
+<h2 id="iterative-methods">Iterative Methods</h2>
+
+<p>Direct methods, such as the LU and LUP decomposition methods, provide exact solutions to PDEs in a single pass. They work well when a matrix is reasonably small and dense (i.e. contains mostly non-zero entries). However, for larger matrices, or spare matrices, direct methods are slow and memory-intensive. For these problems, we typically employ an <em>iterative method</em>, like in the heat equation example above.</p>
+
+<p>While they do not provide <em>exact</em> solutions, iterative methods are simple, fast, and scalable (a key consideration in high-performance computing).</p>
+
+<p>As the name suggests, iterative methods work to iteratively improve a solution, from an initial approximation. This may be hill climbing, gradient decent, or something more complex such as <a href="https://en.wikipedia.org/wiki/Newton%27s_method">Newton’s method</a>.</p>
+
+<p>The remainder of this practical will focus on two iterative methods and their implementation in C.</p>
+
+<h1 id="the-jacobi-method">The Jacobi method</h1>
+
+<p>One of the simplest methods for solving linear systems was devised by <a href="https://en.wikipedia.org/wiki/Carl_Gustav_Jacob_Jacobi">Carl Gustav Jacob Jacobi</a> in around 1845. The Jacobi method works on matrices that are <em>diagonally dominant</em>. That is to say, matrices where the magnitude of the diagonal entry in a row is greater than or equal to the sum of the magnitudes of all other entries in that row. Or, more formally:</p>
+
+\[| a_{ii} |  \geq \sum_{j\ne i} | a_{ij} | ~ ~ \forall i\]
+
+<p>Consider the linear system $A\vec{x} = \vec{b}$, where $A$ is a square matrix. We can decompose $A$ to be the sum of three components, a diagonal component $D$, a lower triangular part $L$ and an upper triangular part $U$. <strong>Note:</strong> This is not the same $L$ and $U$ as in the LU decomposition above.</p>
+
+\[A = D + L + U\]
+
+\[\begin{bmatrix} 
+a_{11} &amp; a_{12} &amp; \cdots &amp; a_{1n} \\ 
+a_{21} &amp; a_{22} &amp; \cdots &amp; a_{2n} \\ 
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+a_{n1} &amp; a_{n2} &amp; \cdots &amp; a_{nn} 
+\end{bmatrix}
+=
+\begin{bmatrix} 
+a_{11} &amp; 0      &amp; \cdots &amp; 0 \\ 
+0      &amp; a_{22} &amp; \cdots &amp; 0 \\ 
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+0      &amp; 0      &amp; \cdots &amp; a_{nn} 
+\end{bmatrix}
++
+\begin{bmatrix} 
+0      &amp; 0      &amp; \cdots &amp; 0 \\ 
+a_{21} &amp; 0      &amp; \cdots &amp; 0 \\ 
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+a_{n1} &amp; a_{n2} &amp; \cdots &amp; 0 
+\end{bmatrix}
++
+\begin{bmatrix} 
+0      &amp; a_{12} &amp; \cdots &amp; a_{1n} \\ 
+0      &amp; 0      &amp; \cdots &amp; a_{2n} \\ 
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+0      &amp; 0      &amp; \cdots &amp; 0 
+\end{bmatrix}\]
+
+<p>We can then obtain a solution vector iteratively by evaluating:</p>
+
+\[\vec{x}^{n+1} = D^{-1}(\vec{b} - (L + U) \vec{x}^{n})\]
+
+<blockquote class="block-tip">
+  <p><strong>Inverting a diagonal matrix</strong></p>
+
+  <p>While inverting a matrix can be complex, for diagonal matrices, the process is simple:</p>
+
+  <p>\(D^{-1} = \begin{bmatrix} 
+\frac{1}{a_{11}} &amp; 0                &amp; \cdots &amp; 0 \\ 
+0                &amp; \frac{1}{a_{22}} &amp; \cdots &amp; 0 \\ 
+\vdots           &amp; \vdots           &amp; \ddots &amp; \vdots \\
+0                &amp; 0                &amp; \cdots &amp; \frac{1}{a_{nn}} 
+\end{bmatrix}\)
+<br><br></p>
+</blockquote>
+
+<p>With this we can derive an element-based formula for the solution vector $\vec{x}$:</p>
+
+\[x^{n+1}_i = \frac{1}{a_{ii}} \left(b_i - \sum_{j \ne i} a_{ij} x^{n}_{j} \right)\]
+
+<p>The more iterations we perform of this formula, the closer our approximation to $x$.</p>
+
+<blockquote class="block-danger">
+  <h1 id="exercise-1">Exercise 1</h1>
+
+  <p>Implement the Jacobi method in the code below for a fixed number of iterations <code class="language-plaintext highlighter-rouge">MAX_ITERS</code>:</p>
+
+  <div class="language-c highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;math.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+</span>
+<span class="cp">#define MAX_ITERS 25
+</span>
+<span class="kt">void</span> <span class="nf">jacobi_solve</span><span class="p">(</span><span class="kt">double</span><span class="o">*</span> <span class="n">A</span><span class="p">,</span> <span class="kt">double</span><span class="o">*</span> <span class="n">b</span><span class="p">,</span> <span class="kt">double</span><span class="o">*</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+   <span class="c1">// check that A is diagonally dominant</span>
+   <span class="c1">// iteratively improve x using the element-wise formula</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+   <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+
+   <span class="kt">double</span><span class="o">*</span> <span class="n">A</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span> <span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">double</span><span class="p">)</span> <span class="o">*</span> <span class="n">n</span> <span class="o">*</span> <span class="n">n</span><span class="p">);</span>
+   <span class="kt">double</span><span class="o">*</span> <span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span> <span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">double</span><span class="p">)</span> <span class="o">*</span> <span class="n">n</span><span class="p">);</span>
+   <span class="kt">double</span><span class="o">*</span> <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span> <span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">double</span><span class="p">)</span> <span class="o">*</span> <span class="n">n</span><span class="p">);</span>
+
+   <span class="c1">// A = [ 2  1 ] b = [ 11 ]</span>
+   <span class="c1">//     [ 5  7 ]     [ 13 ]</span>
+   <span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+   <span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+   <span class="n">A</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+   <span class="n">A</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span>
+
+   <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">11</span><span class="p">;</span>
+   <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">13</span><span class="p">;</span>
+
+   <span class="c1">// initial guess is x = [ 1 ]</span>
+   <span class="c1">//                      [ 1 ]</span>
+   <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+   <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+
+   <span class="n">jacobi_solve</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
+
+   <span class="n">printf</span><span class="p">(</span><span class="s">"Solution is: </span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+   <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">printf</span><span class="p">(</span><span class="s">"[ %10lf ]</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>  </div>
+
+  <p>After 25 iterations, you should find that the solution is approximately:</p>
+
+  <p>\(x \approx \begin{bmatrix}7.111 \\ -3.222\end{bmatrix}\)
+<br><br></p>
+</blockquote>
+
+<blockquote class="block-danger">
+  <h1 id="exercise-2">Exercise 2</h1>
+
+  <p>In Exercise 1 you implemented a basic Jacobi solver with a fixed number of iterations. In each iteration the solution vector gets progressively closer to the answer. For simple cases, only a few iterations may be required, while for complex cases many hundreds of iterations may be necessary.</p>
+
+  <p>After each iteration we can calculate how much the resulting vector is changed from the previous iteration.</p>
+
+  <p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/practical-3/jacobi-diff.png" alt="Convergence of the Jacobi method"><br>
+<em><strong>Figure 1</strong>: Largest change in vector $x$ between each iteration.</em></p>
+
+  <p>We can observe from Figure 1 that the answer changes very little after iteration 11 or 12. Depending on the level of accuracy we might require, we could have chosen to stop our solver at this point knowing that the answer is “good enough”.</p>
+
+  <p>Implement a simple convergence check into your solver, such that if the maximum change between iterations is less than some value (e.g. <code class="language-plaintext highlighter-rouge">eps = 1e-6</code>), the algorithm terminates early (you should keep some notion of a maximum number of iterations, just in case convergence is very slow).
+<br><br></p>
+</blockquote>
+
+<blockquote class="block-danger">
+  <h1 id="exercise-3">Exercise 3</h1>
+
+  <p>The example given above is a very small test case that should help verify the correctness of your Jacobi implementation.</p>
+
+  <p>Modify your code to allow the problem size (in terms of $n$) to be specified on the command line.</p>
+
+  <p>You will need to update your code to generate an <code class="language-plaintext highlighter-rouge">A</code> matrix (that is diagonally dominant) and a <code class="language-plaintext highlighter-rouge">b</code> vector. You could leave <code class="language-plaintext highlighter-rouge">x</code> in its original state, or you could set it to all ones or zeros.</p>
+
+  <p>You can test your solver with the following conditions:</p>
+
+\[A = 
+\begin{bmatrix}
+n + 1  &amp; 1      &amp; \cdots &amp; 1 \\
+1      &amp; n + 1  &amp; \cdots &amp; 1 \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+1      &amp; 1      &amp; 1      &amp; n + 1
+\end{bmatrix}, b = \begin{bmatrix}
+2n \\
+\vdots \\
+2n
+\end{bmatrix}\]
+
+  <p>The solver should converge with the following answer:</p>
+
+\[x = \begin{bmatrix}
+1 \\
+\vdots \\
+1 
+\end{bmatrix}\]
+
+  <p>You can now evaluate how well your solver scales with problem size.
+<br><br></p>
+</blockquote>
+
+<p>Depending on your initial values for <code class="language-plaintext highlighter-rouge">x</code> in Exercise 3 (your “guess”), you may find that your code converges quickly (if your initial guess was $[ 1.0, …, 1.0 ]^{T}$ for the test problem), or quite slowly (if your initial guess was $[ 0.0, …, 0.0 ]^{T}$ for the test problem).</p>
+
+<p>Providing an initial guess is known as “<a href="https://en.wikipedia.org/wiki/Preconditioner">preconditioning</a>”. Preconditioning is an active area of research within HPC, and within scientific computing. The better your preconditioning, the faster your solver might converge (and thus, the less computation you might require).</p>
+
+<h1 id="the-gauss-seidel-method">The Gauss-Seidel Method</h1>
+
+<p>The Gauss-Seidel Method is an alternative method devised by <a href="https://en.wikipedia.org/wiki/Carl_Friedrich_Gauss">Carl Friedrich Gauss</a> and <a href="https://en.wikipedia.org/wiki/Philipp_Ludwig_von_Seidel">Philipp Ludwig von Seidel</a>. It predates the Jacobi method by around 20 years, but wasn’t published until sometime later (1874).</p>
+
+<p>The method is very similar to the Jacobi method, with a crucial difference. Where in the Jacobi method, each iteration depends only on the previous iteration, the Gauss-Seidel method uses intermediate values in the update, so only a single solution vector is required (rather than having to maintain a copy from the previous iteration).</p>
+
+<p>Again, consider the linear system $A\vec{x} = \vec{b}$, where $A$ is a square matrix. We can determine solution iteratively using:</p>
+
+\[L\vec{x~}^{n+1} = \vec{b} - U\vec{x~}^{n}\]
+
+<p>In this formulation, $L$ is a lower triangular matrix and $U$ is a <em>strictly</em> upper triangular matrix (i.e. in contrast to the Jacobi method, $L$ <em>includes</em> the diagonal, while $U$ does not).</p>
+
+<p>We can then rearrange this to provide an expression for $\vec{x~}^{n+1}$:</p>
+
+\[\vec{x~}^{n+1} = L^{-1} \left(\vec{b} - U \vec{x}^{n} \right)\]
+
+<p>Using forward substitution and taking advantage of the triangular nature of $L$, we can write an element-wise formula like so:</p>
+
+\[x^{n+1}_{i} = \frac{1}{a_{ii}} \left(b_i - \sum_{j = 1}^{i - 1} a_{ij} x^{n+1}_{j} - \sum_{j = i+1}^{n} a_{ij} x^{n}_{j} \right)\]
+
+<p>You may well note that the element-wise formula is very similar to the formula we used previously, but now there are two summations, one using the current iteration $n+1$, and one using the previous iteration $n$. If we combine these iterations, we get the same formula as for the Jacobi method, except we no longer need to store the previous values of $x$. Instead, we simply always use the most recent version of $x$, whether from the previous iteration, or the current iteration.</p>
+
+<blockquote class="block-danger">
+  <h1 id="exercise-4">Exercise 4</h1>
+
+  <p>Copy your code the Jacobi method to a new function (perhaps called <code class="language-plaintext highlighter-rouge">gs_solve</code>), and modify it to implement the Gauss-Seidel Method.
+<br><br></p>
+</blockquote>
+
+<p>Because the algorithm can update in-place, it is more memory efficient, and using the latest data means that it converges more quickly. However, because of the data dependency, it is much more difficult to parallelise the Gauss-Seidel method.</p>
+
+<h1 id="other-methods">Other Methods</h1>
+
+<p>There are a host of alternative methods for solving systems of linear equations. Both the Jacobi method and the Gauss-Seidel method can be “weighted” to improve their convergence. The method of <a href="https://en.wikipedia.org/wiki/Successive_over-relaxation">successive over-relaxation</a> is a variant of Gauss-Seidel with a <em>relaxation factor</em> to improve performance.</p>
+
+<p>The <a href="https://en.wikipedia.org/wiki/Conjugate_gradient_method">conjugate gradient</a> method is another algorithm for solving systems of linear equations that is commonly seen in HPC software. This algorithm is the basis for the <a href="https://www.hpcg-benchmark.org">HPCG benchmark</a>, typically used alongside LINPACK to rank supercomputer systems.</p>
+
+<p>Throughout the remainder of this course you will encounter iterative methods again. The focus will be on parallelising and optimising their performance to solve complex scientific problems as quickly as possible.</p>
+
+
+                </section>
+            </div>
+<div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title">
+<span class="search-results-count"></span> results matching "<span class="search-query"></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class="search-query"></span>"</h1>
+    </div>
+</div>
+</div>
+    </div>
+</div>
+
+                        <a href="/~saw586/hipc//practicals/2-introduction_to_c-2/" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 2. Introduction to C (part 2)">
+                            <i class="fa fa-angle-left"></i>
+                        </a>
+                    
+
+                    
+                        <a href="/~saw586/hipc//practicals/4-on-core_parallelism/" class="navigation navigation-next navigation-unique" aria-label="Next page: 4. Programming On-core Parallelism">
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    
+                </div>
+            </div>
+
+            <script>
+            var gitbook = gitbook || [];
+            gitbook.push(function() {
+                gitbook.page.hasChanged({
+    "page": {
+        "title": "Introduction",
+        "level": "1.1",
+        "depth": 1,
+        
+        "next": {
+            "title": "4. Programming On-core Parallelism",
+            "level": "1.2",
+            "depth": 1,
+            "path": "_practicals/4-on-core_parallelism.md",
+            "ref": "_practicals/4-on-core_parallelism.md",
+            "articles": []
+        },
+        
+        "dir": "ltr"
+    },    "config": {
+        "plugins": ["fontsettings", "highlight", "livereload", "lunr", "search", "sharing", "theme-default", "livereload"],
+        "styles": {
+            "ebook": "styles/ebook.css",
+            "epub": "styles/epub.css",
+            "mobi": "styles/mobi.css",
+            "pdf": "styles/pdf.css",
+            "print": "styles/print.css",
+            "website": "styles/website.css"
+        },
+        "pluginsConfig": {
+            "fontsettings": {
+                "family": "sans",
+                "size": 2,
+                "theme": "white"
+            },
+            "highlight": {},
+            "livereload": {},
+            "lunr": {
+                "ignoreSpecialCharacters": false,
+                "maxIndexSize": 1000000
+            },
+            "search": {},
+            "sharing": {
+                "all": ["facebook", "google", "twitter", "weibo", "instapaper"],
+                "facebook": true,
+                "google": false,
+                "instapaper": true,
+                "twitter": true,
+                "vk": false,
+                "weibo": false
+            },
+            "theme-default": {
+                "showLevel": false,
+                "styles": {
+                    "ebook": "styles/ebook.css",
+                    "epub": "styles/epub.css",
+                    "mobi": "styles/mobi.css",
+                    "pdf": "styles/pdf.css",
+                    "print": "styles/print.css",
+                    "website": "styles/website.css"
+                }
+            }
+        },
+        "theme": "default",
+        "author": "Tao He",
+        "pdf": {
+            "pageNumbers": true,
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "paperSize": "a4",
+            "chapterMark": "pagebreak",
+            "pageBreaksBefore": "/",
+            "margin": {
+                "right": 62,
+                "left": 62,
+                "top": 56,
+                "bottom": 56
+            }
+        },
+        "structure": {
+            "langs": "LANGS.md",
+            "readme": "README.md",
+        },
+        "variables": {},
+        "title": "HIPC",
+        "language": "en",
+        "gitbook": "*"
+    },
+    "file": {
+        "path": "_practicals/3-scientific_computing.md",
+        "mtime": "2022-07-21 00:00:00 +0100",
+        "type": "markdown"
+    },
+    "gitbook": {
+        "version": "3.2.3",
+        "time": "2025-12-02 11:21:40 +0000"
+    },
+    "basePath": "/~saw586/hipc/",
+    "book": {
+        "language": ""
+    }
+});
+            });
+            </script>
+        </div>
+<script src="/~saw586/hipc//assets/gitbook/gitbook.js"></script>
+<script src="/~saw586/hipc//assets/gitbook/theme.js"></script>
+
+<script src="/~saw586/hipc//assets/gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+<script src="/~saw586/hipc//assets/gitbook/gitbook-plugin-sharing/buttons.js"></script>
+
+<!-- <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+<script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+<script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+<script src="../gitbook/gitbook-plugin-search/search.js"></script> -->
+
+<script src="/~saw586/hipc//assets/gitbook/gitbook-plugin-search-pro/jquery.mark.min.js"></script>
+<script src="/~saw586/hipc//assets/gitbook/gitbook-plugin-search-pro/search.js"></script>
+<script src="/~saw586/hipc//assets/gitbook/gitbook-plugin-back-to-top-button/plugin.js"></script>
+
+<script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+</body>
+</html>

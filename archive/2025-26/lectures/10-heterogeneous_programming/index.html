@@ -1,0 +1,1441 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+<meta charset="UTF-8">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<title>10. Heterogeneous Programming · HIPC</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="HIPC
+">
+<meta name="generator" content="Jekyll (using style of GitBook 3.2.3)">
+<meta name="author" content="Steven Wright">
+<link rel="stylesheet" href="/~saw586/hipc//assets/gitbook/style.css">
+<link rel="stylesheet" href="/~saw586/hipc//assets/gitbook/gitbook-plugin-fontsettings/website.css">
+<link rel="stylesheet" href="/~saw586/hipc//assets/gitbook/gitbook-plugin-search-pro/search.css">
+<link rel="stylesheet" href="/~saw586/hipc//assets/gitbook/gitbook-plugin-back-to-top-button/plugin.css">
+
+<link rel="stylesheet" href="/~saw586/hipc//assets/gitbook/rouge/github.css">
+
+<link rel="stylesheet" href="/~saw586/hipc//assets/gitbook/custom.css">
+
+<meta name="HandheldFriendly" content="true">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="apple-touch-icon-precomposed" sizes="152x152" href="/~saw586/hipc//assets/gitbook/images/apple-touch-icon-precomposed-152.png">
+<link rel="shortcut icon" href="/~saw586/hipc//assets/gitbook/images/favicon.ico" type="image/x-icon">
+
+
+
+
+
+<script>
+    MathJax = {
+        tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        svg: {
+            fontCache: 'global'
+        }
+    };
+</script>
+            <link rel="prev" href="/~saw586/hipc//lectures/9-advanced_accelerators/">
+        
+
+        
+    </head>
+    <body>
+        <div class="book">
+<div class="book-summary">
+    <nav role="navigation">
+        <div id="book-search-input" role="search">
+            <input type="text" placeholder="Type to search">
+        </div>
+        <div id="book-search-input-link" role="search">
+            <a href="/~saw586/hipc//assets/search.html">Click to Search</a>
+        </div>
+        <ul class="summary">
+            
+            <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/">
+            
+                <a href="/~saw586/hipc//">
+                    HIPC
+                </a>
+            </li>
+
+            <li class="divider">
+
+            
+             
+                
+                <!-- <li class="chapter" data-level="1.1"><a>about</a></li> -->
+             
+                
+                    
+
+                    
+                        
+                        </li>
+<li class="chapter" data-level="1.1" data-path="/~saw586/hipc//about/about/">
+                        
+                            <a href="/~saw586/hipc//about/about/">
+                                About
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//about/changelog/">
+                        
+                            <a href="/~saw586/hipc//about/changelog/">
+                                Changelog
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+
+                    
+                        <li class="divider">
+                    
+                
+            
+             
+                
+                </li>
+<li><a><strong>Units</strong></a></li>
+                
+                <!-- <li class="chapter" data-level="1.1"><a>lectures</a></li> -->
+             
+                
+                    
+
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/1-supercomputing/">
+                        
+                            <a href="/~saw586/hipc//lectures/1-supercomputing/">
+                                1. Supercomputing and Scientific Computing
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/2-architectures/">
+                        
+                            <a href="/~saw586/hipc//lectures/2-architectures/">
+                                2. The Architectures of Distributed Systems
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/3-management_and_measurement/">
+                        
+                            <a href="/~saw586/hipc//lectures/3-management_and_measurement/">
+                                3. Management and Measurement of Distributed Systems
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/4-on-core_parallelism/">
+                        
+                            <a href="/~saw586/hipc//lectures/4-on-core_parallelism/">
+                                4. On-core Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/5-on-node_parallelism/">
+                        
+                            <a href="/~saw586/hipc//lectures/5-on-node_parallelism/">
+                                5. On-node Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/6-internode_parallelism/">
+                        
+                            <a href="/~saw586/hipc//lectures/6-internode_parallelism/">
+                                6. Internode Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/7-advanced_internode_parallelism/">
+                        
+                            <a href="/~saw586/hipc//lectures/7-advanced_internode_parallelism/">
+                                7. Advanced Internode Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/8-accelerators/">
+                        
+                            <a href="/~saw586/hipc//lectures/8-accelerators/">
+                                8. Accelerators
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/9-advanced_accelerators/">
+                        
+                            <a href="/~saw586/hipc//lectures/9-advanced_accelerators/">
+                                9. Advanced Accelerators
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter active" data-level="1.2" data-path="/~saw586/hipc//lectures/10-heterogeneous_programming/">
+                        
+                            <a href="/~saw586/hipc//lectures/10-heterogeneous_programming/">
+                                10. Heterogeneous Programming
+                            </a>
+                            
+                                
+                                    <ul>
+<li><a href="#overview">Overview</a></li>
+<li>
+<a href="#heterogeneous-architectures">Heterogeneous Architectures</a><ul>
+<li><a href="#notable-examples-of-heterogeneous-architectures">Notable Examples of Heterogeneous Architectures</a></li>
+<li><a href="#issues">Issues</a></li>
+</ul>
+</li>
+<li>
+<a href="#performance-portability">Performance Portability</a><ul><li><a href="#a-metric-of-performance-portability">A Metric of Performance Portability</a></li></ul>
+</li>
+<li>
+<a href="#openmp-with-offload">OpenMP with Offload</a><ul><li><a href="#openmp-40">OpenMP 4.0+</a></li></ul>
+</li>
+<li>
+<a href="#opencl-and-sycl">OpenCL and SYCL</a><ul>
+<li><a href="#opencl">OpenCL</a></li>
+<li><a href="#sycldpc">SYCL/DPC++</a></li>
+</ul>
+</li>
+<li>
+<a href="#alternative-approaches">Alternative Approaches</a><ul>
+<li><a href="#kokkos">Kokkos</a></li>
+<li><a href="#raja">RAJA</a></li>
+</ul>
+</li>
+<li><a href="#the-future-of-heterogeneous-computing">The Future of Heterogeneous Computing</a></li>
+</ul>
+
+                                
+                            
+                        </li>
+                    
+
+                    
+                        <li class="divider">
+                    
+                
+            
+             
+                
+                <!-- <li class="chapter" data-level="1.1"><a>posts</a></li> -->
+             
+                
+                    
+
+                    
+
+                    
+                
+            
+             
+                
+                </li>
+<li><a><strong>Practicals</strong></a></li>
+                
+                <!-- <li class="chapter" data-level="1.1"><a>practicals</a></li> -->
+             
+                
+                    
+
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/1-introduction_to_c-1/">
+                        
+                            <a href="/~saw586/hipc//practicals/1-introduction_to_c-1/">
+                                1. Introduction to C (part 1)
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/2-introduction_to_c-2/">
+                        
+                            <a href="/~saw586/hipc//practicals/2-introduction_to_c-2/">
+                                2. Introduction to C (part 2)
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/3-scientific_computing/">
+                        
+                            <a href="/~saw586/hipc//practicals/3-scientific_computing/">
+                                3. Scientific Computing
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/4-on-core_parallelism/">
+                        
+                            <a href="/~saw586/hipc//practicals/4-on-core_parallelism/">
+                                4. Programming On-core Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/5-on-node_parallelism/">
+                        
+                            <a href="/~saw586/hipc//practicals/5-on-node_parallelism/">
+                                5. Programming On-node Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/6-off-node_parallelism/">
+                        
+                            <a href="/~saw586/hipc//practicals/6-off-node_parallelism/">
+                                6. Programming Off-node Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/7-advanced_mpi/">
+                        
+                            <a href="/~saw586/hipc//practicals/7-advanced_mpi/">
+                                7. Advanced MPI Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/8-cuda_programming/">
+                        
+                            <a href="/~saw586/hipc//practicals/8-cuda_programming/">
+                                8. CUDA Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/9-advanced_cuda_programming/">
+                        
+                            <a href="/~saw586/hipc//practicals/9-advanced_cuda_programming/">
+                                9. Advanced CUDA Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/10-heterogeneous_programming/">
+                        
+                            <a href="/~saw586/hipc//practicals/10-heterogeneous_programming/">
+                                10. Heterogeneous Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+
+                    
+                        <li class="divider">
+                    
+                
+            
+        </li>
+</ul>
+    </nav>
+</div>
+<div class="book-body">
+                <div class="book-header" role="navigation">
+                    <!-- Title -->
+                    <h1>
+                        <i class="fa fa-circle-o-notch fa-spin"></i>
+                        
+                            <a href=".">10. Heterogeneous Programming</a>
+                        
+                    </h1>
+                </div>
+
+                <div class="body-inner">
+<div class="page-wrapper" tabindex="-1" role="main">
+    
+
+    <div class="page-inner">
+        <div id="book-search-results">
+            <div class="search-noresults">
+                <section class="normal markdown-section">
+                    
+                        <h1 id="/lectures/10-heterogeneous_programming">10. Heterogeneous Programming</h1>
+                    
+
+                    <h1 id="overview">Overview</h1>
+
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/-XoVegW8jcI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""></iframe>
+<p><br></p>
+
+<p>In the final unit of the HIPC course we’ll look at the topic of <em><strong>Heterogeneous Programming</strong></em>. Modern HPC platforms are becoming more diverse and more heterogeneous, and exploiting the hierarchical parallelism that is available on these systems often requires multiple different approaches (i.e. a different programming model for an accelerator and for host code).</p>
+
+<p>This unit will briefly cover some of the single-source approaches that are available for writing applications for these platforms.</p>
+
+<p>We’ll cover the following topics:</p>
+
+<ul>
+  <li>Heterogeneous architectures</li>
+  <li>Measuring performance portability</li>
+  <li>OpenMP target directives</li>
+  <li>OpenCL and SYCL</li>
+  <li>Alternative approaches</li>
+  <li>The future of heterogeneity in HPC</li>
+</ul>
+
+<h1 id="heterogeneous-architectures">Heterogeneous Architectures</h1>
+
+<p>We’ve already covered heterogeneous architectures in this module, in particular when discussing accelerated architectures. Many of the largest systems in the world currently are heterogeneous in nature, where the architecture is made up of more than one kind of processor or core. These systems typically gain both performance and energy efficiency by adding co-processors that are optimised for a particular task (thus being more performant, and less power-hungry).</p>
+
+<p>Of course, as we saw much earlier in this course, the idea of heterogeneous computing is not new.</p>
+
+<ul>
+  <li>The CDC 6600 (often considered the first Supercomputer) was heterogeneous.</li>
+  <li>Intel released the 8087 math co-processor in 1980, which was able to perform floating-point computations alongside an 8086 host processor.</li>
+  <li>Modern CPUs increasingly contain on-board graphics processors and other accelerators (e.g. the Apple M1 has a GPU and a Neural Engine).</li>
+</ul>
+
+<p>Importantly, the majority of the current- and next-generation supercomputers are heterogeneous, accelerated architectures.</p>
+
+<h2 id="notable-examples-of-heterogeneous-architectures">Notable Examples of Heterogeneous Architectures</h2>
+
+<h3 id="tsubame">Tsubame</h3>
+
+<p>One of the first modern heterogeneous platforms was the first iteration of Tsubame. Tsubame 1.0 was built by Sun Microsystems and reached #9 in the TOP500 in November 2006. Alongside AMD Opteron CPUs, it was powered by ClearSpeed X620 Accelerators – PCIe connected accelerators each containing an array of 96 processor elements, running at 210-250 MHz.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-10/clearspeed.png" alt="A ClearSpeed Accelerator card"><br>
+<em><strong>Figure 1:</strong> A ClearSpeed Accelerator Card</em></p>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li><a href="http://spacewire.esa.int/WG/Microprocessors/ADCSS07-DSP-Proceedings/Session5-Processor%20IPs/5-1210%20A%20High-performance%20Low-power%20Flexible%20Platform%20for%20Next-generation%20On-board%20Payload%20Data%20Processing%20Application%20-%20McConnel.pdf">A high performance, low-power, scaleable platform for next-generation on-board payload data processing applications</a></li>
+  </ul>
+</blockquote>
+
+<h3 id="roadrunner">Roadrunner</h3>
+
+<p>We encountered Roadrunner earlier in this module when discussing the various performance barriers that have been broken over the past 50 years. Roadrunner was the first supercomputer to break the PetaFLOP/s barrier and did so using IBM PowerXCell 8i co-processors (a similar processor powered the Sony PlayStation 3).</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-10/RR-TriBlade.png" alt="The architecture of a Roadrunner TriBlade" style="background-color:white"><br>
+<em><strong>Figure 2:</strong> The architecture of a Roadrunner TriBlade</em></p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-10/RR-schematic.png" alt="A schematic for Roadrunner's architecture" style="background-color:white"><br>
+<em><strong>Figure 3:</strong> Schematic of Roadrunners architecture</em></p>
+
+<h3 id="titan">Titan</h3>
+
+<p>Oak Ridge National Laboratory’s Titan system was a supercomputer built by Cray Inc. and installed in 2012. It was an upgrade from their previous system, Jaguar. While Jaguar was an homogeneous architecture using AMD Opteron CPUs, Titan upgraded the CPUs and included an NVIDIA Tesla K20X GPU in each node.</p>
+
+<p>With a total of 18,688 nodes, Titan was capable of 17.59 PFLOP/s (achieved from a theoretical peak of 27 PFLOP/s) and achieved the #1 ranking in 2012.</p>
+
+<h3 id="tianhe-2">Tianhe-2</h3>
+
+<p>Titan was displaced in the Top500 rankings in 2013 by the 33.86 PFLOP/s Chinese supercomputer, Tianhe-2 (Milky Way 2). Tianhe-2 achieved this ranking with Intel Xeon CPUs backed by Intel’s newly released Xeon Phi co-processors.</p>
+
+<p>Tianhe was subsequently updated in 2018, almost doubling its performance to 61.44 PFLOP/s; however, due to US sanctions, the Intel Xeon Phi co-processors were replaced by Matrix-2000 many-core co-processors.</p>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li>
+<a href="https://en.wikichip.org/wiki/nudt/matrix-2000">Matrix-2000</a>, WikiChip</li>
+  </ul>
+</blockquote>
+
+<h3 id="summitsierra">Summit/Sierra</h3>
+
+<p>The Summit [retired November 2024] and Sierra systems installed at the Oak Ridge National Laboratory and the Lawrence Livermore National Laboratory, respectively, are essentially an evolution of Titan.</p>
+
+<p>Both systems were comprised of IBM Power9 cores, backed by NVIDIA Tesla V100 GPUs. Upon release, the systems achieved the #1 and #2 spots, with achieved performance in excess of 100 PFLOP/s.</p>
+
+<h3 id="aurora-frontier-and-el-capitan">Aurora, Frontier and El Capitan</h3>
+
+<p>The Department of Energy has recently delivered its first three Exascale systems, namely <strong>Aurora</strong>, <strong>Frontier</strong> and <strong>El Capitan</strong>, installed at Argonne National Laboratory, Oak Ridge National Laboratory, and Lawrence Livermore National Laboratory, respectively. All three systems are designed around the Cray Shasta architecture and are heterogeneous systems, consisting of a mixture of CPUs and GPUs.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-10/frontier.png" alt="The design for Frontier"><br>
+<em><strong>Figure 4:</strong> The design for the Frontier system, with performance in excess of 1 ExaFLOP/s</em></p>
+
+<p>Frontier is a 1.1 ExaFLOP/s (achieved) system consisting of AMD EPYC “Trento” CPUs with AMD Radeon Instinct MI250X GPUs.</p>
+
+<p>The Aurora system came online in 2023 and achieved 0.58 ExaFLOP/s in November 2023 (for approximately half of the machine). The machine officially broke the ExaFLOP barrier in June 2024, achieving 1.01 ExaFLOP/s. It is constructed with Intel CPUs and GPUs – with each node containing two Intel Xeon Sapphire Rapids Max CPUs, with six Intel Xe Max (Ponte Vecchio) GPUs.</p>
+
+<p>El Capitan is a 1.7 ExaFLOP/s (achieved) system that came online in November 2024. Like Frontier, El Capital consists of AMD hardware, making use of the MI300A APU (accelerated processing unit). The MI300A integrates an AMD CPU and GPU on a single device.</p>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li><a href="https://www.nextplatform.com/2021/10/04/first-look-at-oak-ridges-frontier-exascaler-contrasted-to-argonnes-aurora/">First look at Oak Ridge’s “Frontier” Exascaler, contrasted to Argonne’s “Aurora”</a></li>
+  </ul>
+</blockquote>
+
+<h3 id="jupiter">JUPITER</h3>
+
+<p>Exascale officially arrived in Europe in the November 2025 Top500 list. The JUPITER system is installed in Forschungszentrum Jülich, and when complete, will consist of two compute modules: a booster module and a cluster module.</p>
+
+<p>Its “booster module” has been installed and currently ranks #4, using NVIDIA GH200 Grace Hopper superchips. These chips embody a similar principle to El Capitans AMD MI300As, containing a Grace Arm Neoverse CPU and a Hopper NVIDIA GPU on a single die.</p>
+
+<p>The “cluster module” will use the first European HPC Processor, <em>Rhea1</em> by SiPearl. This module will provide high memory bandwidth for memory intensive workloads.</p>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li><a href="https://www.fz-juelich.de/en/jsc/jupiter/tech">JUPITER Technical Overview</a></li>
+  </ul>
+</blockquote>
+
+<h2 id="issues">Issues</h2>
+
+<p>While heterogeneous architectures have allowed us to push the boundaries of science with ever-increasing performance, they are not without issue. As we’ve seen in the previous units, programming accelerator architectures often requires complete re-engineering of applications, using potentially very different programming models.</p>
+
+<p>Although we can target multiple different CPU architectures from a single programming language, the same is not true with accelerator architectures. Each vendor provides a specific programming model for their architectures, with no universally accepted programming model.</p>
+
+<p>For NVIDIA architectures, CUDA is required; for AMD accelerators, HIP/ROCm is required; while for Intel’s Xe GPUs, Data Parallel C++ (DPC++) is required.</p>
+
+<p>This diversity of choice makes it difficult for application designers to target multiple accelerator architectures from a single code base and means that labs that choose to re-engineer their code run the risk of becoming locked-in to a particular vendor.</p>
+
+<p>However, there are many ongoing projects that seek to alleviate this issue, by providing a single programming model that is <strong><em>portable</em></strong> between architectures. In this unit, we’ll take a brief look at some of these programming models.</p>
+
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/9Z5bLxrt-H8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+<p><br></p>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li>
+<a href="http://uob-hpc.github.io/2021/12/10/CIUK-Heterogeneous-Keynote.html">Keynote on Heterogeneous Computing at CIUK, December 2021</a>, Prof. Simon McIntosh-Smith (University of Bristol, UK)</li>
+  </ul>
+</blockquote>
+
+<h1 id="performance-portability">Performance Portability</h1>
+
+<p>So far in this module, we’ve been concerned with <em><strong>Performance</strong></em>. One of the major issues we face with heterogeneity is <em><strong>Portability</strong></em> – the ability to maintain a single codebase that can be compiled and executed on any architecture without significant re-engineering.</p>
+
+<p>Of course, just because a piece of software is <em>portable</em>, does not mean that it is necessarily <em>performant</em> (at least not on every possible platform!).</p>
+
+<p>Typically HPC software engineers are trying to achieve <em>the three Ps</em>:</p>
+
+<ul>
+  <li>
+<strong>Performance</strong> - i.e. the software is fast</li>
+  <li>
+<strong>Portability</strong> - i.e. the software can run on many different architectures</li>
+  <li>
+<strong>Productivity</strong> - i.e. the software is easy to develop and maintain</li>
+</ul>
+
+<p>It is often said that these three goals exist on a triangle, where only two may be possible.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-10/threePs.png" alt="The Three Ps plotted on a triangle" style="background-color:white;"><br>
+<em><strong>Figure 5:</strong> The three Ps</em></p>
+
+<p>In this unit, we’ll look at a number of approaches to <em><strong>performance portability</strong></em> that also aim to improve <em><strong>productivity</strong></em>, by providing a single understandable parallel programming model that can achieve high performance on both CPUs and accelerated architectures. But first, we will cover what it means for an application to be <em>performance portable</em>.</p>
+
+<h2 id="a-metric-of-performance-portability">A Metric of Performance Portability</h2>
+
+<p>Portable performance has been a hot topic in HPC in the last decade, and has been central to some of the US Department of Energy’s Exascale Computing Projects. There are a number of (relatively) simple metrics for assessing performance (e.g. measuring runtime), while measuring portability is typically a binary measure (it either works or it doesn’t).</p>
+
+<p>However, combining them into a single metric value is difficult. Following the first <a href="https://www.osti.gov/biblio/1332474">DoE Centers of Excellence Performance Portability Meeting</a>, engineers at Intel proposed such a metric that provides a score of performance portability based on an application’s performance on each platform, relative to the best non-portable performance achieved on the same platform.</p>
+
+<p>Pennycook et al. proposed the following equation to calculate the performance portability of an application:</p>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+  <mrow class="MJX-TeXAtom-ORD">
+    <mo>ȹ</mo>
+  </mrow>
+  <mo stretchy="false">(</mo>
+  <mi>a</mi>
+  <mo>,</mo>
+  <mi>p</mi>
+  <mo>,</mo>
+  <mi>H</mi>
+  <mo stretchy="false">)</mo>
+  <mo>=</mo>
+  <mrow>
+    <mo>{</mo>
+    <mtable columnalign="left right" rowspacing="4pt" columnspacing="1em">
+      <mtr>
+        <mtd>
+          <mstyle displaystyle="true" scriptlevel="0">
+            <mfrac>
+              <mrow>
+                <mo>|</mo>
+                <mi>H</mi>
+                <mo>|</mo>
+              </mrow>
+              <mstyle displaystyle="true" scriptlevel="0">
+                <munder>
+                  <mo>∑<!-- ∑ --></mo>
+                  <mrow class="MJX-TeXAtom-ORD">
+                    <mi>i</mi>
+                    <mo>∈<!-- ∈ --></mo>
+                    <mi>H</mi>
+                  </mrow>
+                </munder>
+                <mtext> </mtext>
+                <mstyle displaystyle="true" scriptlevel="0">
+                  <mfrac>
+                    <mn>1</mn>
+                    <mrow>
+                      <msub>
+                        <mi>e</mi>
+                        <mi>i</mi>
+                      </msub>
+                      <mo stretchy="false">(</mo>
+                      <mi>a</mi>
+                      <mo>,</mo>
+                      <mi>p</mi>
+                      <mo stretchy="false">)</mo>
+                    </mrow>
+                  </mfrac>
+                </mstyle>
+              </mstyle>
+            </mfrac>
+          </mstyle>
+        </mtd>
+        <mtd>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi mathvariant="normal">if</mi>
+            <mtext> </mtext>
+          </mrow>
+          <mi>i</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mtext> </mtext>
+            <mi mathvariant="normal">is supported</mi>
+            <mtext> </mtext>
+          </mrow>
+          <mi mathvariant="normal">∀<!-- ∀ --></mi>
+          <mi>i</mi>
+          <mo>∈<!-- ∈ --></mo>
+          <mi>H</mi>
+        </mtd>
+      </mtr>
+      <mtr>
+        <mtd>
+          <mn>0</mn>
+        </mtd>
+        <mtd>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi mathvariant="normal">otherwise</mi>
+          </mrow>
+        </mtd>
+      </mtr>
+    </mtable>
+    <mo fence="true" stretchy="true" symmetric="true"></mo>
+  </mrow>
+</math>
+<p><br></p>
+
+<p>In the equation, the performance portability (ȹ) of an application <em>a</em>, solving problem <em>p</em>, on a given set of platforms <em>H</em>, is calculated by finding the <a href="https://en.wikipedia.org/wiki/Harmonic_mean">harmonic mean</a> of an application’s <em>performance efficiency</em> ($e_i(a,p)$). The performance efficiency for each platform can be calculated by comparing the achieved performance against the best recorded (possibly non-portable) performance on each individual target platform (i.e. <em>the application efficiency</em>), or by comparing the achieved performance against the theoretical maximum performance achievable on each individual platform (i.e. <em>the architectural efficiency</em>). Should the application fail to run on one of the target platforms, a performance portability score of <em>0</em> is awarded.</p>
+
+<p>Although the equation above provides a formal definition for performance portability, this single value metric may not answer all questions a developer might have about their application. In recognising this, a number of visualisation techniques have been proposed by Sewall et al.</p>
+
+<p>These are perhaps best described with an example. The figure below presents a simple synthetic data set for six implementations of an application running across 10 platforms.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-10/synthetic-heat-map.png" alt="A table of data for a synthetic dataset of performance"><br>
+<em><strong>Figure 6:</strong> An example synthetic data set of performance</em></p>
+
+<p>These implementations are:</p>
+
+<ul>
+  <li>
+<strong>unportable</strong> with high performance on a single platform (100%), but not portable to any other platform;</li>
+  <li>
+<strong>single target</strong> with high performance on a single platform, but low performance on all others;</li>
+  <li>
+<strong>multi target</strong> achieving high performance on some platforms, and low performance on others;</li>
+  <li>
+<strong>inconsistent</strong> showing a range of performance across all platforms;</li>
+  <li>
+<strong>consistent</strong> showing consistent low (30%) or high (70%) performance across all platforms.</li>
+</ul>
+
+<p>We could simply apply the performance portability metric to this synthetic data but this may mean that we lose some information about how the performance portability metric changes as we add and remove platforms from the evaluation set.</p>
+
+<p>Figure 7 shows a <em>cascade plot</em>, where we can observe the application efficiency as systems are added to the evaluation set in descending order of efficiency. In the plot on the right side we can see the single value performance portability, but with the left side of the plot, we can see how the application efficiency changes as new systems are added, and we can easily highlight which platforms might be most damaging to our performance portability (e.g. we can see that the “Multi-Target” application achieves very good efficiency until platform “B” is added to the evaluation set).</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-10/synthetic-cascade.png" alt="A cascade plot of performance portability for a synthetic dataset"><br>
+<em><strong>Figure 7:</strong> A cascade plot showing how performance portability changes as platforms are added to the evaluation set</em></p>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <p>You can read more about Pennycook’s metric for performance portability, Sewall’s visualisation techniques, and how to combine them with measures of productivity here:</p>
+
+  <ul>
+    <li>Pennycook, S.J., Sewall, J.D. and Lee, V.W., 2019. <a href="https://doi.org/10.1016/j.future.2017.08.007">Implications of a metric for performance portability</a>. <em>Future Generation Computer Systems</em>, <em>92</em>, pp.947-958.</li>
+    <li>Sewall, J., Pennycook, S.J., Jacobsen, D., Deakin, T. and McIntosh-Smith, S., 2020, November. <a href="https://doi.org/10.1109/P3HPC51967.2020.00007">Interpreting and visualizing performance portability metrics</a>. In <em>2020 IEEE/ACM International Workshop on Performance, Portability and Productivity in HPC (P3HPC)</em> (pp. 14-24). IEEE.</li>
+    <li>Pennycook, S.J., Sewall, J.D., Jacobsen, D.W., Deakin, T. and McIntosh-Smith, S., 2021. <a href="https://doi.org/10.1109/MCSE.2021.3097276">Navigating Performance, Portability, and Productivity</a>. <em>Computing in Science &amp; Engineering</em>, <em>23</em>(5), pp.28-38.</li>
+  </ul>
+
+  <p>You can generate your own cascade plots using the P3 Analysis Library provided by the authors here:</p>
+
+  <ul>
+    <li>
+<a href="https://p3hpc.org/p3-analysis-library/">Performance, Portability, and Productivity Analysis Library</a>, P3HPC</li>
+  </ul>
+
+  <p>And you can see the authors talking about their work in the following videos (from the <a href="https://p3hpc.org">P3HPC Workshop</a>):</p>
+
+  <iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/zuaYtYHfGJ4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+  <p><br></p>
+
+  <iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/1RwxhVbgluk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+  <p><br></p>
+</blockquote>
+
+<h1 id="openmp-with-offload">OpenMP with Offload</h1>
+
+<p>So far, the programming models we’ve looked at in this module target a single architecture (or architecture type). For example, our C-code with OpenMP directives can run on an x86 or ARM CPU, our CUDA code can run on an NVIDIA GPU. But in order for our code to be <strong>portable</strong>, we need a programming model that can target multiple architectures from a single code base.</p>
+
+<h2 id="openmp-40">OpenMP 4.0+</h2>
+
+<p>A 2015 update to the OpenMP standard introduced new directives aimed at heterogeneous programming. Specifically, the OpenMP 4.0 standard introduced directives for target regions (to support accelerators), and SIMD (to support SIMD parallelism).</p>
+
+<p>Compiler support for the latest features of the OpenMP standard often lags the standard, but the majority of compilers used in HPC now support a good subset of OpenMP 4.0+ directives (please refer to the list <a href="https://www.openmp.org/resources/openmp-compilers-tools/">here</a>).</p>
+
+<h3 id="device-constructs">Device Constructs</h3>
+
+<p>The first (and perhaps most crucial) directive we’ll look at is the <code class="language-plaintext highlighter-rouge">target</code> directive. The directive is similar to the parallel directive we’ve encountered previously, but now tells the compiler that a block of code can be executed on an attached accelerator. Within the <code class="language-plaintext highlighter-rouge">target</code> block, we can issue parallel operations as before. So for example:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#pragma omp target
+</span><span class="p">{</span>
+    <span class="cp">#pragma omp parallel for collapse(2)
+</span>    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">M</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// ...</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>We can additionally tag entire functions or variables for device execution using the <code class="language-plaintext highlighter-rouge">declare target</code> directive.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define N 1000
+</span>
+<span class="cp">#pragma omp declare target
+</span><span class="c1">// all variables and functions within a declare target region will be available for the host and a target device</span>
+<span class="c1">// but, they will not automatically be synchronised!</span>
+<span class="kt">double</span> <span class="n">array</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="kt">void</span> <span class="nf">init_array</span><span class="p">();</span>
+<span class="cp">#pragma omp end declare target
+</span>
+<span class="kt">void</span> <span class="nf">init_array</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">I</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+    <span class="n">init_array</span><span class="p">();</span> <span class="c1">// this will run the code on the host, initialising the array there</span>
+
+    <span class="cp">#pragma omp target
+</span>    <span class="n">init_array</span><span class="p">();</span> <span class="c1">// this will run on a target device, initialising the array there</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="mapping-data">Mapping Data</h3>
+
+<p>Now that we’ve covered how to run code on a target device, we need to consider how we move data between the host and a target device.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">target</code> construct offers a few ways for us to specify which data to map between the host and the device. Firstly we can specify which data to map to a device using the <code class="language-plaintext highlighter-rouge">map</code> modifier. Alternatively, we can specify enter/exit data with the <code class="language-plaintext highlighter-rouge">enter data</code> and <code class="language-plaintext highlighter-rouge">exit data</code> modifiers.</p>
+
+<p>For example,</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#pragma omp target map (to:a[:size]) map (to:b[:size]) map (from:c[:size])
+#pragma omp parallel for
+</span><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+   <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>In this example, the <code class="language-plaintext highlighter-rouge">a</code> and <code class="language-plaintext highlighter-rouge">b</code> variables will be copied to the target device. Upon completion of the target region, the <code class="language-plaintext highlighter-rouge">c</code> array will be copied back to the host.</p>
+
+<p>There are numerous other map types that can be specified such as: <code class="language-plaintext highlighter-rouge">alloc</code> (memory is allocated on the host (nothing is copied)), <code class="language-plaintext highlighter-rouge">to</code>, <code class="language-plaintext highlighter-rouge">from</code>, <code class="language-plaintext highlighter-rouge">tofrom</code>, and <code class="language-plaintext highlighter-rouge">delete</code> (upon completion, the data is deleted).</p>
+
+<p>Alternatively, for data that is allocated on device in a <code class="language-plaintext highlighter-rouge">declare target</code> region, you can use the <code class="language-plaintext highlighter-rouge">update</code> modifier to synchronise data.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define N 1000
+</span>
+<span class="cp">#pragma omp declare target
+</span><span class="kt">double</span> <span class="n">array</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="cp">#pragma omp end declare target
+</span>
+<span class="kt">void</span> <span class="nf">init_array</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+    <span class="n">init_array</span><span class="p">();</span> <span class="c1">// this will run the code on the host, initialising the array there</span>
+
+    <span class="c1">// this will update the array with data from the host</span>
+    <span class="cp">#pragma omp target update to(array)
+</span>
+    <span class="p">...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>When using a target device, the biggest bottleneck to high performance is typically data movement on and off device. It is therefore important that data is kept resident on an accelerator for as long as possible, only being moved on and off device when absolutely necessary. Alongside the <code class="language-plaintext highlighter-rouge">update</code> modifier, the <code class="language-plaintext highlighter-rouge">enter data</code> and <code class="language-plaintext highlighter-rouge">exit data</code> modifiers allow us to specify when data is moved to and from the device (so that it doesn’t need to be mapped at every target construct).</p>
+
+<p>So for example, we may have something like:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#pragma omp target enter data map(to: a[0:N],b[0:N])
+#pragma omp target
+</span><span class="p">{</span>
+    <span class="c1">// do something with a and b</span>
+<span class="p">}</span>
+<span class="cp">#pragma omp update from(a[0])
+</span>    <span class="c1">// modify a[0] on the host</span>
+<span class="cp">#pragma omp update to(a[0])
+#pragma omp target
+</span><span class="p">{</span>
+    <span class="c1">// do more with a and b</span>
+<span class="p">}</span>
+<span class="cp">#pragma omp target exit data map(from: b[0:N])
+</span></code></pre></div></div>
+
+<p>Another addition worth noting is a simplified parallelisation construct that is likely to yield better performance on some GPUs (in particular NVIDIA GPUs with the NVHPC compiler). The OpenMP <code class="language-plaintext highlighter-rouge">loop</code> directive is preferred to <code class="language-plaintext highlighter-rouge">parallel for</code> when dealing with target regions.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#pragma omp target teams loop
+</span><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="cp">#pragma omp loop
+</span>    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">M</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="p">...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li>
+<a href="https://www.olcf.ornl.gov/wp-content/uploads/nersc_best_practices_sep_1_2022.pdf">Best Practices for OpenMP</a>, Chris Daley, NERSC</li>
+  </ul>
+</blockquote>
+
+<h3 id="runtime-support">Runtime Support</h3>
+
+<p>Besides the compiler directives above, there are also some environment variables and OpenMP functions to support device execution.</p>
+
+<p>OpenMP 4.0+ adds the following target-based environment variables:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># in a multi-GPU set up, each device is numbered. This variable controls which device to use </span>
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">OMP_DEFAULT_DEVICE</span><span class="o">=</span>1
+
+<span class="c"># this sets the total number of threads that can be used in an OpenMP program</span>
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">OMP_THREAD_LIMIT</span><span class="o">=</span>256
+</code></pre></div></div>
+
+<p>It also adds the following notable functions (among others):</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">omp_get_default_device</span><span class="p">();</span> <span class="c1">// return the value of the default device</span>
+
+<span class="kt">int</span> <span class="nf">omp_get_num_devices</span><span class="p">();</span> <span class="c1">// get the number of target devices available</span>
+
+<span class="kt">int</span> <span class="nf">omp_get_device_num</span><span class="p">();</span> <span class="c1">// get the number of the device on which this function is called</span>
+
+<span class="kt">int</span> <span class="nf">omp_is_initial_device</span><span class="p">();</span> <span class="c1">// returns true if the current task is executing on host, otherwise false</span>
+</code></pre></div></div>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li>
+<a href="https://www.exascaleproject.org/wp-content/uploads/2017/05/OpenMP-4.5-and-Beyond-SOLLVE-part-21.pdf">OpenMP 4.5 Target</a>, Tom Scogland, Oscar Hernandez</li>
+    <li>
+<a href="http://www.archer.ac.uk/training/course-material/2019/06/AdvOpenMP-manch/L10-OpenMPTargetOffload.pdf">Advanced OpenMP</a>, ARCHER Training Course</li>
+    <li><a href="https://www.openmp.org/wp-content/uploads/OpenMP-RefGuide-6.0-OMP60SC24-web.pdf">OpenMP 6.0 Syntax Reference Guide</a></li>
+  </ul>
+</blockquote>
+
+<h1 id="opencl-and-sycl">OpenCL and SYCL</h1>
+
+<p>Besides OpenMP, there are two portable programming models maintained by the Khronos Group, a non-profit consortium of 170 organisations, including AMD, Apple, Arm, Intel, and NVIDIA, among many others.</p>
+
+<h2 id="opencl">OpenCL</h2>
+
+<p>The Open Computing Language (OpenCL) is a vendor-neutral framework for writing applications that can execute across heterogeneous architectures comprising of CPUs, GPUs, FPGAs, and other hardware accelerators. The OpenCL programming language is based on the C99, C++14, and C++17 standards.</p>
+
+<p>Typically in an OpenCL application, the host code is written in C++, while kernels are written in an OpenCL variant of the C or C++ languages. These kernels are then compiled <em>just-in-time</em> (JIT) by the OpenCL runtime library.</p>
+
+<p>Take the following, for example:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+</span>
+<span class="cp">#define __CL_ENABLE_EXCEPTIONS
+#include</span> <span class="cpf">&lt;CL/cl.hpp&gt;</span><span class="cp">
+</span>
+<span class="c1">// Compute c = a + b.</span>
+<span class="k">static</span> <span class="k">const</span> <span class="kt">char</span> <span class="n">source</span><span class="p">[]</span> <span class="o">=</span>
+<span class="s">"kernel void add(ulong n, global const double *a, global const double *b, global double *c) {</span><span class="se">\n</span><span class="s">"</span>
+<span class="s">"    size_t i = get_global_id(0);</span><span class="se">\n</span><span class="s">"</span>
+<span class="s">"    if (i &lt; n) {</span><span class="se">\n</span><span class="s">"</span>
+<span class="s">"       c[i] = a[i] + b[i];</span><span class="se">\n</span><span class="s">"</span>
+<span class="s">"    }</span><span class="se">\n</span><span class="s">"</span>
+<span class="s">"}</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">const</span> <span class="kt">size_t</span> <span class="n">N</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">20</span><span class="p">;</span>
+
+    <span class="k">try</span> <span class="p">{</span>
+        <span class="c1">// Get list of OpenCL platforms.</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">cl</span><span class="o">::</span><span class="n">Platform</span><span class="o">&gt;</span> <span class="n">platform</span><span class="p">;</span>
+        <span class="n">cl</span><span class="o">::</span><span class="n">Platform</span><span class="o">::</span><span class="n">get</span><span class="p">(</span><span class="o">&amp;</span><span class="n">platform</span><span class="p">);</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">platform</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+            <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">"OpenCL platforms not found."</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+            <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="c1">// Get first available GPU device.</span>
+        <span class="n">cl</span><span class="o">::</span><span class="n">Context</span> <span class="n">context</span><span class="p">;</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">cl</span><span class="o">::</span><span class="n">Device</span><span class="o">&gt;</span> <span class="n">device</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="n">p</span> <span class="o">=</span> <span class="n">platform</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span> <span class="n">device</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">p</span> <span class="o">!=</span> <span class="n">platform</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="n">p</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">cl</span><span class="o">::</span><span class="n">Device</span><span class="o">&gt;</span> <span class="n">pldev</span><span class="p">;</span>
+
+            <span class="k">try</span> <span class="p">{</span>
+                <span class="n">p</span><span class="o">-&gt;</span><span class="n">getDevices</span><span class="p">(</span><span class="n">CL_DEVICE_TYPE_GPU</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">pldev</span><span class="p">);</span>
+
+                <span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="n">d</span> <span class="o">=</span> <span class="n">pldev</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span> <span class="n">device</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">d</span> <span class="o">!=</span> <span class="n">pldev</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="n">d</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">d</span><span class="o">-&gt;</span><span class="n">getInfo</span><span class="o">&lt;</span><span class="n">CL_DEVICE_AVAILABLE</span><span class="o">&gt;</span><span class="p">())</span> <span class="k">continue</span><span class="p">;</span>
+
+                    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">d</span><span class="o">-&gt;</span><span class="n">getInfo</span><span class="o">&lt;</span><span class="n">CL_DEVICE_EXTENSIONS</span><span class="o">&gt;</span><span class="p">();</span>
+
+                    <span class="n">device</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="o">*</span><span class="n">d</span><span class="p">);</span>
+                    <span class="n">context</span> <span class="o">=</span> <span class="n">cl</span><span class="o">::</span><span class="n">Context</span><span class="p">(</span><span class="n">device</span><span class="p">);</span>
+                <span class="p">}</span>
+            <span class="p">}</span> <span class="k">catch</span><span class="p">(...)</span> <span class="p">{</span>
+                <span class="n">device</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">device</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+            <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">"No devices found."</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+            <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">device</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">getInfo</span><span class="o">&lt;</span><span class="n">CL_DEVICE_NAME</span><span class="o">&gt;</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+        <span class="c1">// Create command queue.</span>
+        <span class="n">cl</span><span class="o">::</span><span class="n">CommandQueue</span> <span class="nf">queue</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">device</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+
+        <span class="c1">// Compile OpenCL program for found device.</span>
+        <span class="n">cl</span><span class="o">::</span><span class="n">Program</span> <span class="nf">program</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">cl</span><span class="o">::</span><span class="n">Program</span><span class="o">::</span><span class="n">Sources</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">make_pair</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">source</span><span class="p">))));</span>
+
+        <span class="k">try</span> <span class="p">{</span>
+            <span class="n">program</span><span class="p">.</span><span class="n">build</span><span class="p">(</span><span class="n">device</span><span class="p">);</span>
+        <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="k">const</span> <span class="n">cl</span><span class="o">::</span><span class="n">Error</span><span class="o">&amp;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">"OpenCL compilation error"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span> <span class="o">&lt;&lt;</span> <span class="n">program</span><span class="p">.</span><span class="n">getBuildInfo</span><span class="o">&lt;</span><span class="n">CL_PROGRAM_BUILD_LOG</span><span class="o">&gt;</span><span class="p">(</span><span class="n">device</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+            <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="n">cl</span><span class="o">::</span><span class="n">Kernel</span> <span class="nf">add</span><span class="p">(</span><span class="n">program</span><span class="p">,</span> <span class="s">"add"</span><span class="p">);</span>
+
+        <span class="c1">// Prepare input data.</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span> <span class="n">a</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span> <span class="n">b</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span> <span class="n">c</span><span class="p">(</span><span class="n">N</span><span class="p">);</span>
+
+        <span class="c1">// Allocate device buffers and transfer input data to device.</span>
+        <span class="n">cl</span><span class="o">::</span><span class="n">Buffer</span> <span class="nf">A</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">CL_MEM_READ_ONLY</span> <span class="o">|</span> <span class="n">CL_MEM_COPY_HOST_PTR</span><span class="p">,</span> <span class="n">a</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">double</span><span class="p">),</span> <span class="n">a</span><span class="p">.</span><span class="n">data</span><span class="p">());</span>
+        <span class="n">cl</span><span class="o">::</span><span class="n">Buffer</span> <span class="nf">B</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">CL_MEM_READ_ONLY</span> <span class="o">|</span> <span class="n">CL_MEM_COPY_HOST_PTR</span><span class="p">,</span> <span class="n">b</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">double</span><span class="p">),</span> <span class="n">b</span><span class="p">.</span><span class="n">data</span><span class="p">());</span>
+        <span class="n">cl</span><span class="o">::</span><span class="n">Buffer</span> <span class="nf">C</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">CL_MEM_READ_WRITE</span><span class="p">,</span> <span class="n">c</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">double</span><span class="p">));</span>
+
+        <span class="c1">// Set kernel parameters.</span>
+        <span class="n">add</span><span class="p">.</span><span class="n">setArg</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="n">cl_ulong</span><span class="o">&gt;</span><span class="p">(</span><span class="n">N</span><span class="p">));</span>
+        <span class="n">add</span><span class="p">.</span><span class="n">setArg</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">A</span><span class="p">);</span>
+        <span class="n">add</span><span class="p">.</span><span class="n">setArg</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">B</span><span class="p">);</span>
+        <span class="n">add</span><span class="p">.</span><span class="n">setArg</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">C</span><span class="p">);</span>
+
+        <span class="c1">// Launch kernel on the compute device.</span>
+        <span class="n">queue</span><span class="p">.</span><span class="n">enqueueNDRangeKernel</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="n">cl</span><span class="o">::</span><span class="n">NullRange</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">cl</span><span class="o">::</span><span class="n">NullRange</span><span class="p">);</span>
+
+        <span class="c1">// Get result back to host.</span>
+        <span class="n">queue</span><span class="p">.</span><span class="n">enqueueReadBuffer</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">CL_TRUE</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">c</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">*</span> <span class="nf">sizeof</span><span class="p">(</span><span class="kt">double</span><span class="p">),</span> <span class="n">c</span><span class="p">.</span><span class="n">data</span><span class="p">());</span>
+
+        <span class="c1">// Should get '3' here.</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">c</span><span class="p">[</span><span class="mi">42</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="k">const</span> <span class="n">cl</span><span class="o">::</span><span class="n">Error</span> <span class="o">&amp;</span><span class="n">err</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">"OpenCL error: "</span> <span class="o">&lt;&lt;</span> <span class="n">err</span><span class="p">.</span><span class="n">what</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">"("</span> <span class="o">&lt;&lt;</span> <span class="n">err</span><span class="p">.</span><span class="n">err</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">")"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>We won’t delve into this code in too much detail, but what should be clear is that in this example the kernel’s code is stored in a string variable (source) and is built on-demand before being executed on the device (see the <code class="language-plaintext highlighter-rouge">cl::Program</code> object and the <code class="language-plaintext highlighter-rouge">program.build(device)</code> function call).</p>
+
+<p>You can compile the above code on a system with an OpenCL implementation installed using the following:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ g++ -o hello hello.cpp -lOpenCL
+</code></pre></div></div>
+
+<p>Much of the OpenCL API has been influenced by CUDA, but it has been generalised significantly to cater to alternative architectures. Perhaps one of the biggest differences is the amount of “boiler-plate” code required by OpenCL when compared to CUDA.</p>
+
+<p>However, it does have the advantage that a compute kernel can be executed on a host (if no accelerator is available) or on any accelerator that is present, assuming an OpenCL runtime library is provided for the architecture.</p>
+
+<h2 id="sycldpc">SYCL/DPC++</h2>
+
+<p>More recently, the Khronos Group ratified SYCL, a higher-level programming model that builds on the underlying concepts of OpenCL, but with a focus on improving programmer productivity. SYCL is a single-source embedded domain-specific language based on C++17.</p>
+
+<p>SYCL cuts down significantly on the amount of “boiler-plate” code that is required, and like OpenCL operates around the notion of a queue, where work items may be submitted.</p>
+
+<p>In contrast to OpenCL, work items are typically written in the code as <a href="https://en.wikipedia.org/wiki/Anonymous_function">anonymous functions</a>, rather than as self-contained kernel functions. We can achieve parallelism in SYCL through constructs such as the <code class="language-plaintext highlighter-rouge">parallel_for</code>.</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;sycl/sycl.hpp&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;cstdlib&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;array&gt;</span><span class="cp">
+</span>
+<span class="cp">#define N 10
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span> <span class="n">h_a</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="n">h_b</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="n">h_c</span><span class="p">(</span><span class="n">N</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">h_a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span> <span class="n">rand</span><span class="p">()</span> <span class="o">/</span> <span class="n">RAND_MAX</span><span class="p">;</span>
+        <span class="n">h_b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span> <span class="n">rand</span><span class="p">()</span> <span class="o">/</span> <span class="n">RAND_MAX</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">auto</span> <span class="n">platforms</span> <span class="o">=</span> <span class="n">sycl</span><span class="o">::</span><span class="n">platform</span><span class="o">::</span><span class="n">get_platforms</span><span class="p">();</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span><span class="n">platform</span> <span class="o">:</span> <span class="n">platforms</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Platform: "</span> <span class="o">&lt;&lt;</span> <span class="n">platform</span><span class="p">.</span><span class="n">get_info</span><span class="o">&lt;</span><span class="n">sycl</span><span class="o">::</span><span class="n">info</span><span class="o">::</span><span class="n">platform</span><span class="o">::</span><span class="n">name</span><span class="o">&gt;</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+        <span class="k">auto</span> <span class="n">devices</span> <span class="o">=</span> <span class="n">platform</span><span class="p">.</span><span class="n">get_devices</span><span class="p">();</span>
+        <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span><span class="n">device</span> <span class="o">:</span> <span class="n">devices</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">" Device: "</span> <span class="o">&lt;&lt;</span> <span class="n">device</span><span class="p">.</span><span class="n">get_info</span><span class="o">&lt;</span><span class="n">sycl</span><span class="o">::</span><span class="n">info</span><span class="o">::</span><span class="n">device</span><span class="o">::</span><span class="n">name</span><span class="o">&gt;</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">try</span> <span class="p">{</span>
+<span class="cp">#ifndef DEBUG
+</span>        <span class="n">sycl</span><span class="o">::</span><span class="n">queue</span> <span class="n">myqueue</span><span class="p">;</span>
+<span class="cp">#else
+</span>        <span class="n">sycl</span><span class="o">::</span><span class="n">queue</span> <span class="n">myqueue</span><span class="p">{</span><span class="n">sycl</span><span class="o">::</span><span class="n">cpu_selector_v</span><span class="p">};</span>
+<span class="cp">#endif
+</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span> <span class="o">&lt;&lt;</span> <span class="s">"Selected device: "</span> <span class="o">&lt;&lt;</span> <span class="n">myqueue</span><span class="p">.</span><span class="n">get_device</span><span class="p">().</span><span class="n">get_info</span><span class="o">&lt;</span><span class="n">sycl</span><span class="o">::</span><span class="n">info</span><span class="o">::</span><span class="n">device</span><span class="o">::</span><span class="n">name</span><span class="o">&gt;</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+        <span class="n">sycl</span><span class="o">::</span><span class="n">buffer</span> <span class="n">d_a</span> <span class="p">{</span> <span class="n">h_a</span> <span class="p">};</span>
+        <span class="n">sycl</span><span class="o">::</span><span class="n">buffer</span> <span class="n">d_b</span> <span class="p">{</span> <span class="n">h_b</span> <span class="p">};</span>
+        <span class="n">sycl</span><span class="o">::</span><span class="n">buffer</span> <span class="n">d_c</span> <span class="p">{</span> <span class="n">h_c</span> <span class="p">};</span>
+
+        <span class="n">myqueue</span><span class="p">.</span><span class="n">submit</span><span class="p">([</span><span class="o">&amp;</span><span class="p">](</span><span class="n">sycl</span><span class="o">::</span><span class="n">handler</span> <span class="o">&amp;</span><span class="n">h</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">sycl</span><span class="o">::</span><span class="n">accessor</span> <span class="n">a</span> <span class="p">{</span><span class="n">d_a</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">sycl</span><span class="o">::</span><span class="n">read_only</span><span class="p">};</span>
+            <span class="n">sycl</span><span class="o">::</span><span class="n">accessor</span> <span class="n">b</span> <span class="p">{</span><span class="n">d_b</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">sycl</span><span class="o">::</span><span class="n">read_only</span><span class="p">};</span>
+            <span class="n">sycl</span><span class="o">::</span><span class="n">accessor</span> <span class="n">c</span> <span class="p">{</span><span class="n">d_c</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">sycl</span><span class="o">::</span><span class="n">write_only</span><span class="p">,</span> <span class="n">sycl</span><span class="o">::</span><span class="n">no_init</span><span class="p">};</span>
+            
+            <span class="n">h</span><span class="p">.</span><span class="n">parallel_for</span><span class="p">(</span><span class="n">sycl</span><span class="o">::</span><span class="n">range</span><span class="p">{</span><span class="n">N</span><span class="p">},</span> <span class="p">[</span><span class="o">=</span><span class="p">](</span><span class="n">sycl</span><span class="o">::</span><span class="n">id</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span> <span class="n">i</span><span class="p">){</span>
+                <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+            <span class="p">});</span>
+        <span class="p">}).</span><span class="n">wait</span><span class="p">();</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">exception</span> <span class="k">const</span><span class="o">&amp;</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"sycl exception caught: "</span> <span class="o">&lt;&lt;</span> <span class="n">e</span><span class="p">.</span><span class="n">what</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">h_a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="s">" + "</span> <span class="o">&lt;&lt;</span> <span class="n">h_b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="s">" = "</span> <span class="o">&lt;&lt;</span> <span class="n">h_c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;;</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Support for SYCL exists in a number of compilers, with a variety of target architectures (see the list of SYCL Implementations <a href="https://www.khronos.org/sycl/#sycl-implementations">here</a>).</p>
+
+<p>Heidelberg University’s LLVM-based AdaptiveCpp (previously hipSYCL and OpenSYCL) compiler can generate OpenMP, CUDA, ROCm, or oneAPI Level Zero code, allowing it to target CPUs and GPUs from the three major hardware vendors present in post-Exascale systems; the triSYCL compiler, developed by Xilinx, can generate OpenMP-compliant applications, and can additionally target AMD/Xilinx FPGAs;</p>
+
+<p>SYCL has additionally been adopted and extended by Intel (as Data Parallel C++) for its oneAPI programming model. While initially appearing in Intel’s (now branded “Classic”) C++ Compiler in 2020, aimed primarily at Intel hardware, the adoption of an LLVM-backend in 2021 has meant that Intel’s compiler can now natively support NVIDIA and AMD targets also, through CUDA and HIP, respectively.</p>
+
+<p>The code above can be compiled with the Intel C++ compiler on Viking like so:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>module load intel-compilers/2023.1.0            <span class="c"># load the Intel DPC++ compiler</span>
+<span class="nv">$ </span>icpx <span class="nt">-fsycl</span> <span class="nt">-o</span> vec_add vec_add.cpp
+</code></pre></div></div>
+
+<p>The maturity of SYCL toolchains has been the subject of recent work, with performance still typically lagging native alternatives. Whether this performance gap can be reduced remains an open question.</p>
+
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/8Cs_uI-O51s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+<p><br></p>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li>James Reinders, Ben Ashbaugh, James Brodman, Michael Kinsner, John Pennycook, and Xinmin Tian. “<a href="https://doi.org/10.1007/978-1-4842-9691-2">Data Parallel C++</a>”. <em>Programming Accelerated Systems Using C++ and SYCL</em>, Apress Berkeley, CA, 2023.</li>
+    <li>Wageesha R. Shilpage, and Steven A. Wright. “<a href="https://doi.org/10.1007/978-3-031-40843-4_45">An Investigation into the Performance and Portability of SYCL Compiler Implementations</a>”. In <em>High Performance Computing. ISC High Performance 2023</em>. Lecture Notes in Computer Science, vol 13999. Springer, Cham, 2023.</li>
+    <li>Istvan Z. Reguly, Andrew Owenson, Archie Powell, Stephen A. Jarvis, and Gihan R. Mudalige. “<a href="https://doi.org/10.1007/978-3-030-78713-4_21">Under the hood of SYCL - an initial performance analysis with an unstructured-mesh cfd application</a>.” In <em>International Conference on High Performance Computing</em>, pp. 391-410. Springer, Cham, 2021.</li>
+    <li>Wei-Chen Lin, Tom Deakin, and Simon McIntosh-Smith. “<a href="https://doi.org/10.1145/3456669.3456701">On measuring the maturity of SYCL implementations by tracking historical performance improvements</a>.” In <em>International Workshop on OpenCL</em>, pp. 1-13. 2021.</li>
+  </ul>
+</blockquote>
+
+<h1 id="alternative-approaches">Alternative Approaches</h1>
+
+<p>The US Department of Energy has taken a different approach to heterogeneous computing. Rather than adopting the OpenMP or SYCL programming models, they have instead developed their own open-source programming models as part of the Exascale Computing Project (ECP).</p>
+
+<p>The ECP’s efforts revolve around two similar programming models, Kokkos and RAJA. Both are programming models based on <a href="https://en.wikipedia.org/wiki/Template_metaprogramming">template metaprogramming</a> in C++.</p>
+
+<h2 id="kokkos">Kokkos</h2>
+
+<p>Kokkos has been developed at Sandia National Laboratories and is able to target CUDA, OpenMP, pthreads, HIP, or SYCL. From a single code base, code can be generated for any of the backends, and can be potentially optimised at a single point (i.e. in the Kokkos library itself).</p>
+
+<p>Like SYCL, Kokkos expresses parallelism through anonymous functions passed to constructs such as a <code class="language-plaintext highlighter-rouge">parallel_for</code>. So for example, a vector add can be achieved as simply as:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Kokkos</span><span class="o">::</span><span class="n">parallel_for</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">KOKKOS_LAMBDA</span> <span class="p">(</span><span class="k">const</span> <span class="kt">int</span><span class="o">&amp;</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+   <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>Kokkos also provides fully managed multi-dimensional arrays through its <code class="language-plaintext highlighter-rouge">View</code> class. Using this class, we can specify in which memory space an array lives, as well as its access pattern (i.e. row-major vs column-major). Moreover, we can specify different access patterns based on where the memory is allocated (e.g. on a CPU <code class="language-plaintext highlighter-rouge">LayoutRight</code> (row-major) is used, while on a GPU <code class="language-plaintext highlighter-rouge">LayoutLeft</code> (column-major) is used).</p>
+
+<p>To specify a two-dimensional array (on the host and the GPU) we could use:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">const</span> <span class="kt">size_t</span> <span class="n">num_rows</span> <span class="o">=</span> <span class="p">...;</span>
+<span class="k">const</span> <span class="kt">size_t</span> <span class="n">num_cols</span> <span class="o">=</span> <span class="p">...;</span>
+
+<span class="c1">// a default array on the host device, with row-major layout</span>
+<span class="n">Kokkos</span><span class="o">::</span><span class="n">View</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">**&gt;</span> <span class="n">my_array</span> <span class="p">(</span><span class="s">"my_array"</span><span class="p">,</span> <span class="n">num_rows</span><span class="p">,</span> <span class="n">num_cols</span><span class="p">);</span>
+
+<span class="c1">// an array on the GPU with column-major layout</span>
+<span class="n">Kokkos</span><span class="o">::</span><span class="n">View</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">**</span><span class="p">,</span> <span class="n">Kokkos</span><span class="o">::</span><span class="n">LayoutLeft</span><span class="p">,</span> <span class="n">Kokkos</span><span class="o">::</span><span class="n">CudaSpace</span><span class="o">&gt;</span> <span class="n">my_gpu_array</span> <span class="p">(</span><span class="s">"my_gpu_array"</span><span class="p">,</span> <span class="n">num_rows</span><span class="p">,</span> <span class="n">num_cols</span><span class="p">);</span>
+
+<span class="c1">// access to these arrays uses bracket notation like so, rather than square brackets</span>
+<span class="n">my_array</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="p">...;</span>
+</code></pre></div></div>
+
+<p>Because Kokkos Views are fully managed, they are allocated and reference counted. When a Kokkos View goes out of scope, the memory will be released. Moving data between an accelerator and the host must be done explicitly using deep copies, but a <code class="language-plaintext highlighter-rouge">deep_copy()</code> can only be performed between Views with the same padding and memory layout. So for example,</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Kokkos</span><span class="o">::</span><span class="n">View</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">*&gt;</span> <span class="n">a</span> <span class="p">(</span><span class="s">"a"</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+<span class="n">Kokkos</span><span class="o">::</span><span class="n">View</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">*&gt;</span> <span class="n">b</span> <span class="p">(</span><span class="s">"b"</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+<span class="n">Kokkos</span><span class="o">::</span><span class="n">deep_copy</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">);</span> <span class="c1">// This is valid</span>
+
+<span class="n">Kokkos</span><span class="o">::</span><span class="n">View</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">*</span><span class="p">,</span> <span class="n">Kokkos</span><span class="o">::</span><span class="n">CudaSpace</span><span class="o">&gt;</span> <span class="n">a</span> <span class="p">(</span><span class="s">"a"</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+<span class="n">Kokkos</span><span class="o">::</span><span class="n">View</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">*</span><span class="p">,</span> <span class="n">Kokkos</span><span class="o">::</span><span class="n">HostSpace</span><span class="o">&gt;</span> <span class="n">b</span> <span class="p">(</span><span class="s">"b"</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+<span class="n">Kokkos</span><span class="o">::</span><span class="n">deep_copy</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">);</span> <span class="c1">// This will give a compiler error since CudaSpace will be LayoutLeft, while HostSpace will be LayoutRight</span>
+</code></pre></div></div>
+
+<p>To get around this issue, we can use a <code class="language-plaintext highlighter-rouge">HostMirror</code> to ensure an appropriate view is allocated in both memory spaces.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">typename</span> <span class="n">Kokkos</span><span class="o">::</span><span class="n">View</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">*&gt;::</span><span class="n">HostMirror</span> <span class="n">c</span> <span class="o">=</span> <span class="n">Kokkos</span><span class="o">::</span><span class="n">create_mirror_view</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+<span class="n">Kokkos</span><span class="o">::</span><span class="n">deep_copy</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>A complete vector add in Kokkos, using the CUDA backend might look like this:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;Kokkos_Core.hpp&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;cstdlib&gt;</span><span class="cp">
+</span>
+<span class="cp">#define N 100
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+    <span class="n">Kokkos</span><span class="o">::</span><span class="n">initialize</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span> <span class="n">argv</span><span class="p">);</span>
+    <span class="p">{</span>
+        <span class="c1">// allocate three arrays on device</span>
+        <span class="n">Kokkos</span><span class="o">::</span><span class="n">View</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">*</span><span class="p">,</span> <span class="n">Kokkos</span><span class="o">::</span><span class="n">CudaSpace</span><span class="o">&gt;</span> <span class="n">a</span><span class="p">(</span><span class="s">"a"</span><span class="p">,</span> <span class="n">N</span><span class="p">);</span>
+        <span class="n">Kokkos</span><span class="o">::</span><span class="n">View</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">*</span><span class="p">,</span> <span class="n">Kokkos</span><span class="o">::</span><span class="n">CudaSpace</span><span class="o">&gt;</span> <span class="n">b</span><span class="p">(</span><span class="s">"b"</span><span class="p">,</span> <span class="n">N</span><span class="p">);</span>
+        <span class="n">Kokkos</span><span class="o">::</span><span class="n">View</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">*</span><span class="p">,</span> <span class="n">Kokkos</span><span class="o">::</span><span class="n">CudaSpace</span><span class="o">&gt;</span> <span class="n">c</span><span class="p">(</span><span class="s">"c"</span><span class="p">,</span> <span class="n">N</span><span class="p">);</span>
+
+        <span class="c1">// create mirrors on the host</span>
+        <span class="k">typename</span> <span class="n">Kokkos</span><span class="o">::</span><span class="n">View</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">*</span><span class="p">,</span> <span class="n">Kokkos</span><span class="o">::</span><span class="n">CudaSpace</span><span class="o">&gt;::</span><span class="n">HostMirror</span> <span class="n">h_a</span> <span class="o">=</span> <span class="n">create_mirror</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+        <span class="k">typename</span> <span class="n">Kokkos</span><span class="o">::</span><span class="n">View</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">*</span><span class="p">,</span> <span class="n">Kokkos</span><span class="o">::</span><span class="n">CudaSpace</span><span class="o">&gt;::</span><span class="n">HostMirror</span> <span class="n">h_b</span> <span class="o">=</span> <span class="n">create_mirror</span><span class="p">(</span><span class="n">b</span><span class="p">);</span>
+        <span class="k">typename</span> <span class="n">Kokkos</span><span class="o">::</span><span class="n">View</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">*</span><span class="p">,</span> <span class="n">Kokkos</span><span class="o">::</span><span class="n">CudaSpace</span><span class="o">&gt;::</span><span class="n">HostMirror</span> <span class="n">h_c</span> <span class="o">=</span> <span class="n">create_mirror</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+
+        <span class="c1">// initialise the values on the host</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">h_a</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span> <span class="n">rand</span><span class="p">()</span> <span class="o">/</span> <span class="n">RAND_MAX</span><span class="p">;</span>
+            <span class="n">h_b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span> <span class="n">rand</span><span class="p">()</span> <span class="o">/</span> <span class="n">RAND_MAX</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="c1">// copy the contents from the host arrays to the device arrays</span>
+        <span class="n">Kokkos</span><span class="o">::</span><span class="n">deep_copy</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">h_a</span><span class="p">);</span>
+        <span class="n">Kokkos</span><span class="o">::</span><span class="n">deep_copy</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">h_b</span><span class="p">);</span>
+
+        <span class="c1">// perform the parallel kernel on the device</span>
+        <span class="n">Kokkos</span><span class="o">::</span><span class="n">parallel_for</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">KOKKOS_LAMBDA</span> <span class="p">(</span><span class="k">const</span> <span class="kt">int</span><span class="o">&amp;</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">c</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+        <span class="p">});</span>
+
+        <span class="c1">// copy the answer back to the host</span>
+        <span class="n">Kokkos</span><span class="o">::</span><span class="n">deep_copy</span><span class="p">(</span><span class="n">h_c</span><span class="p">,</span> <span class="n">c</span><span class="p">);</span>
+
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">h_a</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">" + "</span> <span class="o">&lt;&lt;</span> <span class="n">h_b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">" = "</span> <span class="o">&lt;&lt;</span> <span class="n">h_c</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+        <span class="p">}</span>
+
+    <span class="p">}</span>
+    <span class="n">Kokkos</span><span class="o">::</span><span class="n">finalize</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The nature of Kokkos means that no special libraries or compilers are required (beyond GCC/Clang/CUDA/etc.). Kokkos provides a number of methods to aid in the building of your software and there is an in-depth guide to using Kokkos on their website.</p>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li>Christian R. Trott, Damien Lebrun-Grandié, Daniel Arndt, Jan Ciesko, Vinh Dang, Nathan Ellingwood, Rahulkumar Gayatri et al. “<a href="https://doi.org/10.1109/TPDS.2021.3097283">Kokkos 3: Programming model extensions for the exascale era</a>.” <em>IEEE Transactions on Parallel and Distributed Systems</em> 33, no. 4 (2021): 805-817.</li>
+    <li><a href="https://kokkos.org/kokkos-core-wiki/">Kokkos: The Programming Model</a></li>
+  </ul>
+</blockquote>
+
+<h2 id="raja">RAJA</h2>
+
+<p>RAJA is the approach taken by the Lawrence Livermore National Laboratory. Again, it is based on C++ template metaprogramming and it is able to target OpenMP, Intel Thread Building Blocks (TBB), CUDA, and other programming models.</p>
+
+<p>The semantics of RAJA are similar to Kokkos, with parallelism expressed through loop constructs with anonymous functions. For example, a simple vector add could be implemented as follows:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">RAJA</span><span class="o">::</span><span class="n">RangeSegment</span> <span class="nf">seg</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span> 
+<span class="n">RAJA</span><span class="o">::</span><span class="n">forall</span><span class="o">&lt;</span><span class="n">loop_exec</span><span class="o">&gt;</span><span class="p">(</span><span class="n">seg</span><span class="p">,</span> <span class="p">[</span><span class="o">=</span><span class="p">]</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+   <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">];</span> 
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>Much like Kokkos, RAJA also provides a mechanism for managing multidimensional arrays; however, RAJA only provides a view over allocated memory, leaving the rest to the developer.</p>
+
+<p>So for example, to use a 2D array in RAJA you would first allocate the memory, then create a <code class="language-plaintext highlighter-rouge">RAJA::View</code> over the allocated memory.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">const</span> <span class="kt">int</span> <span class="n">DIM</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+<span class="kt">double</span> <span class="o">*</span><span class="n">array</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">double</span><span class="p">[</span><span class="n">num_rows</span> <span class="o">*</span> <span class="n">num_cols</span><span class="p">];</span>
+<span class="n">RAJA</span><span class="o">::</span><span class="n">View</span><span class="o">&lt;</span><span class="kt">double</span><span class="p">,</span> <span class="n">RAJA</span><span class="o">::</span><span class="n">Layout</span><span class="o">&lt;</span><span class="n">DIM</span><span class="o">&gt;&gt;</span> <span class="n">array_view</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">num_rows</span><span class="p">,</span> <span class="n">num_cols</span><span class="p">);</span>
+<span class="n">Aview</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="p">...;</span>
+<span class="p">...</span>
+<span class="k">delete</span> <span class="n">array</span><span class="p">;</span>
+</code></pre></div></div>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li>David A. Beckingsale, Jason Burmark, Rich Hornung, Holger Jones, William Killian, Adam J. Kunen, Olga Pearce, Peter Robinson, Brian S. Ryujin, and Thomas RW Scogland. “<a href="https://doi.org/10.1109/P3HPC49587.2019.00012">RAJA: Portable performance for large-scale scientific applications</a>.” In <em>2019 IEEE/ACM International Workshop on Performance, Portability and Productivity in HPC (P3HPC)</em>, pp. 71-81. IEEE, 2019.</li>
+    <li><a href="https://raja.readthedocs.io/en/develop/index.html">RAJA Documentation</a></li>
+  </ul>
+</blockquote>
+
+<h1 id="the-future-of-heterogeneous-computing">The Future of Heterogeneous Computing</h1>
+
+<p><a href="http://uob-hpc.github.io/SimonMS/">Professor Simon McIntosh-Smith</a> (University of Bristol) summarised in his Computing Insight UK 2021 (CUIK) keynote:</p>
+
+<ul>
+  <li>We’re likely to rely on heterogeneous systems for a while, but these systems will be “moderately diverse, not extremely diverse”</li>
+  <li>We’ll likely see closer integration between CPUs and GPUs (i.e. in-package GPU, cache coherence, etc.)</li>
+  <li>CPUs will integrate some of the best parts of GPUs (in-core accelerators, wide vectors, high bandwidth memory)</li>
+  <li>Programmability of heterogeneous systems is improving, but has a long way to go</li>
+</ul>
+
+<p>Heterogeneous systems typically offer us better performance per Watt, and possibly better performance per dollar, but they are more difficult to program. The first Exascale systems are CPU-GPU hybrid systems, using CPUs and GPUs from a variety of vendors (AMD, Intel, and NVIDIA), each with a preferred programming model (HIP/ROCm, OneAPI, and CUDA, respectively).</p>
+
+<p>However, application developers and scientists do not want to redevelop their applications for each machine. This has led to a big push in HPC to develop programming models focussed on improving performance portability. Some of these programming models have subsequently been adopted by vendors (e.g. <a href="https://www.intel.com/content/www/us/en/developer/tools/oneapi/dpc-compiler.html">Intel’s DPC++</a> is based on SYCL), and some of the features in these programming models are being added to language specifications (e.g. <a href="https://github.com/kokkos/mdspan">mdspan</a> is being added to C++23 from Kokkos).</p>
+
+<p>However, in the ever-changing world of HPC, there is always more work to be done.</p>
+
+                </section>
+            </div>
+<div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title">
+<span class="search-results-count"></span> results matching "<span class="search-query"></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class="search-query"></span>"</h1>
+    </div>
+</div>
+</div>
+    </div>
+</div>
+
+                        <a href="/~saw586/hipc//lectures/9-advanced_accelerators/" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 9. Advanced Accelerators">
+                            <i class="fa fa-angle-left"></i>
+                        </a>
+                    
+
+                    
+                </div>
+            </div>
+
+            <script>
+            var gitbook = gitbook || [];
+            gitbook.push(function() {
+                gitbook.page.hasChanged({
+    "page": {
+        "title": "Introduction",
+        "level": "1.1",
+        "depth": 1,
+        
+        "dir": "ltr"
+    },    "config": {
+        "plugins": ["fontsettings", "highlight", "livereload", "lunr", "search", "sharing", "theme-default", "livereload"],
+        "styles": {
+            "ebook": "styles/ebook.css",
+            "epub": "styles/epub.css",
+            "mobi": "styles/mobi.css",
+            "pdf": "styles/pdf.css",
+            "print": "styles/print.css",
+            "website": "styles/website.css"
+        },
+        "pluginsConfig": {
+            "fontsettings": {
+                "family": "sans",
+                "size": 2,
+                "theme": "white"
+            },
+            "highlight": {},
+            "livereload": {},
+            "lunr": {
+                "ignoreSpecialCharacters": false,
+                "maxIndexSize": 1000000
+            },
+            "search": {},
+            "sharing": {
+                "all": ["facebook", "google", "twitter", "weibo", "instapaper"],
+                "facebook": true,
+                "google": false,
+                "instapaper": true,
+                "twitter": true,
+                "vk": false,
+                "weibo": false
+            },
+            "theme-default": {
+                "showLevel": false,
+                "styles": {
+                    "ebook": "styles/ebook.css",
+                    "epub": "styles/epub.css",
+                    "mobi": "styles/mobi.css",
+                    "pdf": "styles/pdf.css",
+                    "print": "styles/print.css",
+                    "website": "styles/website.css"
+                }
+            }
+        },
+        "theme": "default",
+        "author": "Tao He",
+        "pdf": {
+            "pageNumbers": true,
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "paperSize": "a4",
+            "chapterMark": "pagebreak",
+            "pageBreaksBefore": "/",
+            "margin": {
+                "right": 62,
+                "left": 62,
+                "top": 56,
+                "bottom": 56
+            }
+        },
+        "structure": {
+            "langs": "LANGS.md",
+            "readme": "README.md",
+        },
+        "variables": {},
+        "title": "HIPC",
+        "language": "en",
+        "gitbook": "*"
+    },
+    "file": {
+        "path": "_lectures/10-heterogeneous_programming.md",
+        "mtime": "2022-07-28 00:00:00 +0100",
+        "type": "markdown"
+    },
+    "gitbook": {
+        "version": "3.2.3",
+        "time": "2025-12-02 11:21:40 +0000"
+    },
+    "basePath": "/~saw586/hipc/",
+    "book": {
+        "language": ""
+    }
+});
+            });
+            </script>
+        </div>
+<script src="/~saw586/hipc//assets/gitbook/gitbook.js"></script>
+<script src="/~saw586/hipc//assets/gitbook/theme.js"></script>
+
+<script src="/~saw586/hipc//assets/gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+<script src="/~saw586/hipc//assets/gitbook/gitbook-plugin-sharing/buttons.js"></script>
+
+<!-- <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+<script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+<script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+<script src="../gitbook/gitbook-plugin-search/search.js"></script> -->
+
+<script src="/~saw586/hipc//assets/gitbook/gitbook-plugin-search-pro/jquery.mark.min.js"></script>
+<script src="/~saw586/hipc//assets/gitbook/gitbook-plugin-search-pro/search.js"></script>
+<script src="/~saw586/hipc//assets/gitbook/gitbook-plugin-back-to-top-button/plugin.js"></script>
+
+<script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+</body>
+</html>

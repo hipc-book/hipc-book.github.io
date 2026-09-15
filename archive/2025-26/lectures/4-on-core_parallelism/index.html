@@ -1,0 +1,1382 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+<meta charset="UTF-8">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<title>4. On-core Parallelism · HIPC</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="HIPC
+">
+<meta name="generator" content="Jekyll (using style of GitBook 3.2.3)">
+<meta name="author" content="Steven Wright">
+<link rel="stylesheet" href="/~saw586/hipc//assets/gitbook/style.css">
+<link rel="stylesheet" href="/~saw586/hipc//assets/gitbook/gitbook-plugin-fontsettings/website.css">
+<link rel="stylesheet" href="/~saw586/hipc//assets/gitbook/gitbook-plugin-search-pro/search.css">
+<link rel="stylesheet" href="/~saw586/hipc//assets/gitbook/gitbook-plugin-back-to-top-button/plugin.css">
+
+<link rel="stylesheet" href="/~saw586/hipc//assets/gitbook/rouge/github.css">
+
+<link rel="stylesheet" href="/~saw586/hipc//assets/gitbook/custom.css">
+
+<meta name="HandheldFriendly" content="true">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="apple-touch-icon-precomposed" sizes="152x152" href="/~saw586/hipc//assets/gitbook/images/apple-touch-icon-precomposed-152.png">
+<link rel="shortcut icon" href="/~saw586/hipc//assets/gitbook/images/favicon.ico" type="image/x-icon">
+
+
+
+
+
+<script>
+    MathJax = {
+        tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        svg: {
+            fontCache: 'global'
+        }
+    };
+</script>
+            <link rel="prev" href="/~saw586/hipc//lectures/3-management_and_measurement/">
+        
+
+        
+            <link rel="next" href="/~saw586/hipc//lectures/5-on-node_parallelism/">
+        
+    </head>
+    <body>
+        <div class="book">
+<div class="book-summary">
+    <nav role="navigation">
+        <div id="book-search-input" role="search">
+            <input type="text" placeholder="Type to search">
+        </div>
+        <div id="book-search-input-link" role="search">
+            <a href="/~saw586/hipc//assets/search.html">Click to Search</a>
+        </div>
+        <ul class="summary">
+            
+            <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/">
+            
+                <a href="/~saw586/hipc//">
+                    HIPC
+                </a>
+            </li>
+
+            <li class="divider">
+
+            
+             
+                
+                <!-- <li class="chapter" data-level="1.1"><a>about</a></li> -->
+             
+                
+                    
+
+                    
+                        
+                        </li>
+<li class="chapter" data-level="1.1" data-path="/~saw586/hipc//about/about/">
+                        
+                            <a href="/~saw586/hipc//about/about/">
+                                About
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//about/changelog/">
+                        
+                            <a href="/~saw586/hipc//about/changelog/">
+                                Changelog
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+
+                    
+                        <li class="divider">
+                    
+                
+            
+             
+                
+                </li>
+<li><a><strong>Units</strong></a></li>
+                
+                <!-- <li class="chapter" data-level="1.1"><a>lectures</a></li> -->
+             
+                
+                    
+
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/1-supercomputing/">
+                        
+                            <a href="/~saw586/hipc//lectures/1-supercomputing/">
+                                1. Supercomputing and Scientific Computing
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/2-architectures/">
+                        
+                            <a href="/~saw586/hipc//lectures/2-architectures/">
+                                2. The Architectures of Distributed Systems
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/3-management_and_measurement/">
+                        
+                            <a href="/~saw586/hipc//lectures/3-management_and_measurement/">
+                                3. Management and Measurement of Distributed Systems
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter active" data-level="1.2" data-path="/~saw586/hipc//lectures/4-on-core_parallelism/">
+                        
+                            <a href="/~saw586/hipc//lectures/4-on-core_parallelism/">
+                                4. On-core Parallelism
+                            </a>
+                            
+                                
+                                    <ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#flynns-taxonomy">Flynn’s Taxonomy</a></li>
+<li>
+<a href="#simple-optimisations">Simple Optimisations</a><ul>
+<li><a href="#do-less-work">Do Less Work</a></li>
+<li><a href="#avoid-expensive-operations">Avoid Expensive Operations</a></li>
+<li><a href="#shrink-the-working-set">Shrink The Working Set</a></li>
+</ul>
+</li>
+<li>
+<a href="#more-simple-optimisations">More Simple Optimisations</a><ul>
+<li><a href="#eliminate-common-subexpressions">Eliminate Common Subexpressions</a></li>
+<li><a href="#avoid-branches">Avoid Branches</a></li>
+<li><a href="#multidimensional-array-storage">Multidimensional Array Storage</a></li>
+</ul>
+</li>
+<li>
+<a href="#loop-optimisations">Loop Optimisations</a><ul>
+<li><a href="#loop-unrolling">Loop Unrolling</a></li>
+<li><a href="#loop-fusion">Loop Fusion</a></li>
+<li><a href="#loop-fission">Loop Fission</a></li>
+</ul>
+</li>
+<li>
+<a href="#vector-instruction-sets">Vector Instruction Sets</a><ul>
+<li><a href="#the-streaming-simd-extensions">The Streaming SIMD Extensions</a></li>
+<li><a href="#advanced-vector-extensions-avx">Advanced Vector eXtensions (AVX)</a></li>
+</ul>
+</li>
+<li>
+<a href="#compiler-optimisations">Compiler Optimisations</a><ul>
+<li><a href="#optimisation-level">Optimisation Level</a></li>
+<li><a href="#specifying-the-target">Specifying The Target</a></li>
+<li><a href="#optimisation-reports">Optimisation Reports</a></li>
+</ul>
+</li>
+<li><a href="#recommended-reading">Recommended Reading</a></li>
+</ul>
+
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/5-on-node_parallelism/">
+                        
+                            <a href="/~saw586/hipc//lectures/5-on-node_parallelism/">
+                                5. On-node Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/6-internode_parallelism/">
+                        
+                            <a href="/~saw586/hipc//lectures/6-internode_parallelism/">
+                                6. Internode Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/7-advanced_internode_parallelism/">
+                        
+                            <a href="/~saw586/hipc//lectures/7-advanced_internode_parallelism/">
+                                7. Advanced Internode Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/8-accelerators/">
+                        
+                            <a href="/~saw586/hipc//lectures/8-accelerators/">
+                                8. Accelerators
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/9-advanced_accelerators/">
+                        
+                            <a href="/~saw586/hipc//lectures/9-advanced_accelerators/">
+                                9. Advanced Accelerators
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/10-heterogeneous_programming/">
+                        
+                            <a href="/~saw586/hipc//lectures/10-heterogeneous_programming/">
+                                10. Heterogeneous Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+
+                    
+                        <li class="divider">
+                    
+                
+            
+             
+                
+                <!-- <li class="chapter" data-level="1.1"><a>posts</a></li> -->
+             
+                
+                    
+
+                    
+
+                    
+                
+            
+             
+                
+                </li>
+<li><a><strong>Practicals</strong></a></li>
+                
+                <!-- <li class="chapter" data-level="1.1"><a>practicals</a></li> -->
+             
+                
+                    
+
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/1-introduction_to_c-1/">
+                        
+                            <a href="/~saw586/hipc//practicals/1-introduction_to_c-1/">
+                                1. Introduction to C (part 1)
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/2-introduction_to_c-2/">
+                        
+                            <a href="/~saw586/hipc//practicals/2-introduction_to_c-2/">
+                                2. Introduction to C (part 2)
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/3-scientific_computing/">
+                        
+                            <a href="/~saw586/hipc//practicals/3-scientific_computing/">
+                                3. Scientific Computing
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/4-on-core_parallelism/">
+                        
+                            <a href="/~saw586/hipc//practicals/4-on-core_parallelism/">
+                                4. Programming On-core Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/5-on-node_parallelism/">
+                        
+                            <a href="/~saw586/hipc//practicals/5-on-node_parallelism/">
+                                5. Programming On-node Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/6-off-node_parallelism/">
+                        
+                            <a href="/~saw586/hipc//practicals/6-off-node_parallelism/">
+                                6. Programming Off-node Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/7-advanced_mpi/">
+                        
+                            <a href="/~saw586/hipc//practicals/7-advanced_mpi/">
+                                7. Advanced MPI Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/8-cuda_programming/">
+                        
+                            <a href="/~saw586/hipc//practicals/8-cuda_programming/">
+                                8. CUDA Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/9-advanced_cuda_programming/">
+                        
+                            <a href="/~saw586/hipc//practicals/9-advanced_cuda_programming/">
+                                9. Advanced CUDA Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/10-heterogeneous_programming/">
+                        
+                            <a href="/~saw586/hipc//practicals/10-heterogeneous_programming/">
+                                10. Heterogeneous Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+
+                    
+                        <li class="divider">
+                    
+                
+            
+        </li>
+</ul>
+    </nav>
+</div>
+<div class="book-body">
+                <div class="book-header" role="navigation">
+                    <!-- Title -->
+                    <h1>
+                        <i class="fa fa-circle-o-notch fa-spin"></i>
+                        
+                            <a href=".">4. On-core Parallelism</a>
+                        
+                    </h1>
+                </div>
+
+                <div class="body-inner">
+<div class="page-wrapper" tabindex="-1" role="main">
+    
+
+    <div class="page-inner">
+        <div id="book-search-results">
+            <div class="search-noresults">
+                <section class="normal markdown-section">
+                    
+                        <h1 id="/lectures/4-on-core_parallelism">4. On-core Parallelism</h1>
+                    
+
+                    <h1 id="overview">Overview</h1>
+
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/ddAUWyQ6oig" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""></iframe>
+<p><br></p>
+
+<p>Over the next few units we’re going to be looking at how to develop applications for homogeneous distributed systems. In this unit, we’re going to start with performance and parallelism at the <em>core</em> level.</p>
+
+<p>Specifically we’re going to cover:</p>
+
+<ul>
+  <li>Some really simple optimisations</li>
+  <li>Some slightly less obvious optimisations</li>
+  <li>Optimising iterative code (loops)</li>
+  <li>Writing vectorised code</li>
+  <li>Having the compiler write vectorised code</li>
+</ul>
+
+<h1 id="flynns-taxonomy">Flynn’s Taxonomy</h1>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-4/FlynnPaper.png" alt="A screenshot of Flynn's paper" width="350"><br>
+<em><strong>Figure 1:</strong> Some Computer Organizations and Their Effectiveness</em></p>
+
+<p>In Unit 1, we briefly covered Flynn’s taxonomy. In Flynn’s 1972 IEEE Transactions on Computers paper, “<a href="https://doi.org/10.1109/TC.1972.5009071">Some Computer Organizations and Their Effectiveness</a>”, he defined four classifications for compute architectures based on the number of concurrent instruction streams and data streams that were available in hardware (see Figure 2).</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-4/flynns.png" alt="Flynn's taxonomy -- SISD, SIMD, MISD, and MIMD." width="60%" style="background-color: white"><br>
+<em><strong>Figure 2:</strong> Flynn’s taxonomy</em></p>
+
+<p>Almost all modern CPUs are based on a MIMD architecture, where each core or thread is able to act independently. Within these CPUs, individual <em>cores</em> are typically capable of operating in a SIMD fashion – using vector instruction sets such as SSE (Streaming SIMD Extensions), AVX (Advanced Vector eXtensions), or SVE (Scalable Vector Extensions).</p>
+
+<p>In this unit we’ll explore how we can use these SIMD instruction sets to enable instruction-level parallelism in our applications.</p>
+
+<h1 id="simple-optimisations">Simple Optimisations</h1>
+
+<p>Before we begin exploring the potential for parallelising our application, we’re first going to cover some simple optimisations that may improve performance, and simplify the process of parallelisation later.</p>
+
+<p>In some cases, a compiler may perform some of these optimisations for you. However, the easier we make the work of the compiler, the better. And regardless, it’s good to understand the kinds of things that may be going on “under the hood”.</p>
+
+<h2 id="do-less-work">Do Less Work</h2>
+
+<p>Perhaps the simplest way to improve the performance of any application is to <em>do less</em>. This could be by rearranging code such that we can do less work, or it could be by removing functionality that does not materially affect the execution.</p>
+
+<p>Take this simple loop for example,</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">flag</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num_items</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">threshold</span><span class="p">)</span> <span class="n">flag</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The code is checking to see if any of the items in a list have a value below a threshold, and if they do it sets a flag to indicate this. In the event that <code class="language-plaintext highlighter-rouge">item[0]</code> is below the threshold, the code will continue to check further values, despite this having no further effect on the application. Thus, the code could be rewritten with a <code class="language-plaintext highlighter-rouge">break</code> statement, to enable an early exit from the loop.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">flag</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num_items</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">threshold</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">flag</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Another example of “doing less work” can often be found in how we use temporary array storage. For example,</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">double</span> <span class="o">*</span><span class="n">temp_array</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span> <span class="o">*</span><span class="p">)</span> <span class="n">calloc</span><span class="p">(</span><span class="mi">1024</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">double</span><span class="p">));</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">1024</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">temp_array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">some</span> <span class="n">calculation</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="c1">// &lt;do some work with temp_array&gt;</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">1024</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">temp_array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span> <span class="c1">// zero the array, before next use</span>
+<span class="p">}</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">1024</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">temp_array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">some</span> <span class="n">calculation</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>In the code above, there are numerous opportunities to <em>do less</em>. In the first instance, we could use a <code class="language-plaintext highlighter-rouge">malloc()</code> operation, since the values in the array will be overwritten before being used (so starting everything at zero is not necessary). In the second instance, we do not need to zero the array between calculations, since the third loop overwrites the value instead of updating it.</p>
+
+<p>The important thing to look out for is whether a particular unit of work is necessary for the application – any opportunities to do less will save resources (except in some <em>very strange</em> circumstances!).</p>
+
+<h2 id="avoid-expensive-operations">Avoid Expensive Operations</h2>
+
+<p>Some instructions are intrinsically more expensive than other instructions, e.g., the trigonometric functions and exponentiation. When these expensive operations are used in a loop, they may have a significant impact on performance.</p>
+
+<p>Take the following code, for example, calculating the standard deviation of an array of values,</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">double</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num_items</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">sum</span> <span class="o">+=</span> <span class="n">pow</span><span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">mean</span><span class="p">,</span> <span class="mi">2</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kt">double</span> <span class="n">stdev</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">sum</span> <span class="o">/</span> <span class="n">num_items</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>While this may seem like a reasonably efficient implementation, the <code class="language-plaintext highlighter-rouge">pow(a,b)</code> function may actually perform <code class="language-plaintext highlighter-rouge">exp(b*log(a))</code>. Instead, it is likely more efficient to write out the squaring directly, i.e., <code class="language-plaintext highlighter-rouge">(items[i] - mean) * (items[i] - mean)</code>.</p>
+
+<p>Another example is provided in the <a href="https://yorsearch.york.ac.uk/permalink/f/1d5jm03/44YORK_ALMA_DS51308825180001381">Introduction to High Performance Computing</a> textbook, taken from a simulation code for non-equilibrium spin systems.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">iL</span><span class="p">,</span> <span class="n">iR</span><span class="p">,</span> <span class="n">iU</span><span class="p">,</span> <span class="n">iO</span><span class="p">,</span> <span class="n">iS</span><span class="p">,</span> <span class="n">iN</span><span class="p">;</span>
+<span class="kt">double</span> <span class="n">edelz</span><span class="p">,</span> <span class="n">tt</span><span class="p">;</span>
+<span class="p">...</span>
+<span class="o">&lt;</span><span class="n">loop</span> <span class="n">kernel</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="n">edelz</span> <span class="o">=</span> <span class="n">iL</span> <span class="o">+</span> <span class="n">iR</span> <span class="o">+</span> <span class="n">iU</span> <span class="o">+</span> <span class="n">iO</span> <span class="o">+</span> <span class="n">iS</span> <span class="o">+</span> <span class="n">iN</span><span class="p">;</span>
+    <span class="n">BF</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">5</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span> <span class="o">+</span> <span class="n">tanh</span><span class="p">(</span><span class="n">edelz</span><span class="o">/</span><span class="n">tt</span><span class="p">));</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The integer values each store spin orientations (and are therefore all <code class="language-plaintext highlighter-rouge">-1</code> or <code class="language-plaintext highlighter-rouge">+1</code>), and so the <code class="language-plaintext highlighter-rouge">edelz</code> variable can only take on values from <code class="language-plaintext highlighter-rouge">-6</code> to <code class="language-plaintext highlighter-rouge">+6</code>. Using this knowledge (and the assumption that <code class="language-plaintext highlighter-rouge">tt</code> is not changing in the loop body), we can calculate a lookup table for the values of the <code class="language-plaintext highlighter-rouge">tanh()</code> function, such that we only have to call the function 13 times (rather than for every loop iteration). For example,</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">iL</span><span class="p">,</span> <span class="n">iR</span><span class="p">,</span> <span class="n">iU</span><span class="p">,</span> <span class="n">iO</span><span class="p">,</span> <span class="n">iS</span><span class="p">,</span> <span class="n">iN</span><span class="p">;</span>
+<span class="kt">double</span> <span class="n">tt</span><span class="p">;</span>
+<span class="kt">double</span> <span class="n">tanh_table</span><span class="p">[</span><span class="mi">13</span><span class="p">];</span>
+<span class="p">...</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">13</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// do this once</span>
+    <span class="n">tanh_table</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">5</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span> <span class="o">+</span> <span class="n">tanh</span><span class="p">((</span><span class="n">i</span><span class="o">-</span><span class="mi">6</span><span class="p">)</span> <span class="o">/</span> <span class="n">tt</span><span class="p">));</span>
+<span class="p">}</span>
+<span class="p">...</span>
+<span class="o">&lt;</span><span class="n">loop</span> <span class="n">kernel</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="n">edelz</span> <span class="o">=</span> <span class="n">iL</span> <span class="o">+</span> <span class="n">iR</span> <span class="o">+</span> <span class="n">iU</span> <span class="o">+</span> <span class="n">iO</span> <span class="o">+</span> <span class="n">iS</span> <span class="o">+</span> <span class="n">iN</span><span class="p">;</span>
+    <span class="n">BF</span> <span class="o">=</span> <span class="n">tanh_table</span><span class="p">[</span><span class="n">edelz</span> <span class="o">+</span> <span class="mi">6</span><span class="p">];</span> <span class="c1">// add 6 to edelz to account for range from -6 to 6</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The cost of calculating the lookup table is minimal, and the size of the resulting table is small, such that it will easily fit in L1 cache.</p>
+
+<h2 id="shrink-the-working-set">Shrink The Working Set</h2>
+
+<p>The <em>working set</em> of an application is the amount of memory it uses. Generally, if we can reduce the amount of memory an application uses, we can likely improve its performance by raising the probability of cache hits. One simple way to do this is to consider the storage required for each variable.</p>
+
+<p>In the example above, double precision is used for the floating-point values, meaning that each value occupies 8 bytes (64 bits). If this level of precision is not required, we could replace <code class="language-plaintext highlighter-rouge">double</code> with <code class="language-plaintext highlighter-rouge">float</code> and reduce our working set by a half. This may also be advantageous since single-precision calculations are usually cheaper than double-precision ones!</p>
+
+<p>The important thing to consider is what precision is required, and whether switching precision will change any other properties of your application (e.g. will it affect convergence of a calculation?).</p>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li>
+<a href="https://yorsearch.york.ac.uk/permalink/f/1d5jm03/44YORK_ALMA_DS51308825180001381">Introduction to High Performance Computing for Scientists and Engineers</a>, Section 2.2 Common Sense Optimizations</li>
+  </ul>
+</blockquote>
+
+<h1 id="more-simple-optimisations">More Simple Optimisations</h1>
+
+<p>So, we’ve covered some common sense general optimisations. Now we’ll look at some more simple optimisations that can have a large impact on performance. Many of these optimisations may be performed by your compiler already – but again, the easier we make it for the compiler, the better.</p>
+
+<h2 id="eliminate-common-subexpressions">Eliminate Common Subexpressions</h2>
+
+<p>Subexpression elimination is a common compiler optimisation. In a loop where there is a common expression in each iteration, we can typically calculate the subexpression outside of the loop to a temporary variable, and then use this variable within the loop to reduce duplicated computation. For example,</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num_items</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">s</span> <span class="o">+</span> <span class="n">r</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>… becomes…</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">double</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">s</span> <span class="o">+</span> <span class="n">r</span> <span class="o">*</span> <span class="nf">sin</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num_items</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">tmp</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This form of optimisation is also sometimes called <em>loop invariant code motion</em>.</p>
+
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/Yx7_i8wx2sc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="avoid-branches">Avoid Branches</h2>
+
+<p>Loops are one of the easiest places for compilers to find opportunities for optimisation. However, it is difficult for a compiler to optimise a loop body that contains branching instructions. Take the following code:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">i_max</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">j_max</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&gt;</span> <span class="n">j</span><span class="p">)</span> <span class="n">sign</span> <span class="o">=</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">j</span> <span class="o">&gt;</span> <span class="n">i</span><span class="p">)</span> <span class="n">sign</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+        <span class="k">else</span> <span class="n">sign</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+        <span class="n">c</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="n">sign</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>For each iteration of the inner loop, a <em>branch prediction</em> algorithm will try to guess the most likely outcome of the test, and will start to evaluate the result. Should the prediction prove incorrect (i.e. a <em>branch miss</em>), the pipeline will need to be flushed, losing many cycles. Furthermore, the compiler is unlikely to perform advanced optimisations on the loop. Luckily, we can rewrite the code to avoid the branching logic.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">i_max</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">j_max</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">c</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">i_max</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">c</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>In this restructured code, the branching statements have effectively been removed by splitting the loop in two and adding the required logic to the inner loop bounds. There is much more optimisation potential in this code than the former example.</p>
+
+<h2 id="multidimensional-array-storage">Multidimensional Array Storage</h2>
+
+<p>Before we dive further into more loop optimisation techniques, let’s briefly look at memory management and data accesses. The two(/three) major languages of HPC are Fortran and C/C++, and both differ in how they allocate memory for multidimensional arrays. Before we start trying to optimise looping constructs, we should first look at how their approaches to multidimensional arrays differ.</p>
+
+<h3 id="row-major-vs-column-major-order">Row-major vs Column-major Order</h3>
+
+<p>In Fortran, a multidimensional dynamic array is declared with the <code class="language-plaintext highlighter-rouge">ALLOCATABLE</code> keyword, and the dynamic dimensions specified with a colon (<code class="language-plaintext highlighter-rouge">:</code>). For example,</p>
+
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">REAL</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:,</span><span class="w"> </span><span class="p">:),</span><span class="w"> </span><span class="k">ALLOCATABLE</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">a</span><span class="w">
+</span><span class="err">...</span><span class="w">
+</span><span class="k">ALLOCATE</span><span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The allocate statement will allocate a <em>contiguous</em> block of memory with space for 128 “reals” (i.e. 8 × 16). In Fortran, arrays are indexed in <em>column-major order</em>; in other words, the allocated memory will look like Figure 3 (<strong>Note:</strong> arrays in Fortran begin at 1 unless told otherwise, and arrays are accessed using this bracket notation).</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-4/column-major.png" alt="Column-major ordering in Fortran" style="background-color:white"> <br>
+<em><strong>Figure 3:</strong> Column-major ordering in Fortran</em></p>
+
+<p>In C/C++, it is not strictly possible to allocate a <em>dynamic</em> multidimensional array that can be accessed using the standard bracket notation, but we can allocate a 2D array <em>statically</em> like so:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">double</span> <span class="n">a</span><span class="p">[</span><span class="mi">8</span><span class="p">][</span><span class="mi">16</span><span class="p">];</span>
+</code></pre></div></div>
+
+<p>We would then be able to access the elements of this array using the standard C bracket notation. However, in contrast to Fortran, the data will be stored in <em>row-major order</em>. Figure 4 demonstrates this.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-4/row-major.png" alt="Row-major ordering in C/C++" style="background-color:white">  <br>
+<em><strong>Figure 4:</strong> Row-major ordering in C/C++</em></p>
+
+<p>While this may seem like a minor difference, this has implications for performance when looping over a 2D (or higher dimension) array. It seems natural to write your array loops such that the outer loop iterates over the first dimension, while the inner loop iterates over the second. In a C/C++ code, this will effectively stream through the data in order, making maximum use of the cache.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">8</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="mi">16</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">...;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>But if we were to use the same looping structure on the Fortran code, each data read would be a <em>strided</em> access.</p>
+
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">do</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">8</span><span class="w">
+    </span><span class="k">do</span><span class="w"> </span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">16</span><span class="w">
+        </span><span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">...</span><span class="w">
+    </span><span class="k">enddo</span><span class="w">
+</span><span class="k">enddo</span><span class="w">
+</span></code></pre></div></div>
+
+<p>First, this code would update the value in the first memory location <code class="language-plaintext highlighter-rouge">(1,1)</code>, but the second access <code class="language-plaintext highlighter-rouge">(1,2)</code> would at be the 9th location in memory (i.e. a stride of 8 reals). This would make ineffective use of the cache. While this may seem inconsequential, in code that is converted straight from Fortran to C, it is possible that any looping structures are written assuming column-major access. Swapping the inner and outer loop statements can have a significant effect on performance. This is called <em><strong>loop interchange</strong></em>.</p>
+
+<h3 id="multidimensional-arrays-in-c">Multidimensional Arrays in C</h3>
+
+<p>As mentioned above, dynamically allocated multidimensional arrays in C/C++ are… <em>difficult</em>. There are multiple approaches for dealing with this, and each comes with performance considerations.</p>
+
+<p>First, we could use a double pointer and allocate the outer array, and then allocate the inner arrays, like so:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">double</span> <span class="o">**</span><span class="n">my_array</span><span class="p">;</span>
+<span class="n">my_array</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span> <span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">double</span> <span class="o">*</span><span class="p">)</span> <span class="o">*</span> <span class="n">rows</span><span class="p">);</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">rows</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">my_array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">double</span><span class="p">)</span> <span class="o">*</span> <span class="n">cols</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="n">my_array</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="p">...;</span>
+</code></pre></div></div>
+
+<p>This will provide us with an <em>n × m</em> array that we can index using square brackets. However, each row is its own allocation and therefore <strong>the rows are not stored contiguously</strong> in memory.</p>
+
+<p>Another approach that is often used, is to store a 2D/3D/etc. array in a 1D array and then calculate offsets manually or using a macro. For example,</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">double</span> <span class="o">*</span><span class="n">my_array</span> <span class="o">=</span> <span class="p">(</span><span class="kt">double</span> <span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">double</span><span class="p">)</span> <span class="o">*</span> <span class="n">rows</span> <span class="o">*</span> <span class="n">cols</span><span class="p">);</span>
+<span class="p">...</span>
+<span class="n">my_array</span><span class="p">[</span><span class="n">x</span> <span class="o">*</span> <span class="n">cols</span> <span class="o">+</span> <span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="p">...;</span>
+</code></pre></div></div>
+
+<p>This approach has the advantage of contiguous storage, but also increases programmer effort, by requiring manual dereferencing. The use of C pre-processor macros can tidy up this example considerably.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define MY_ARRAY_MACRO(i, j) (my_array[(j) * WIDTH + (i)])
+</span><span class="p">...</span>
+<span class="n">MY_ARRAY_MACRO</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="p">...;</span>
+</code></pre></div></div>
+
+<p>In this example, the C pre-processor will expand the macro during compilation; essentially replacing <code class="language-plaintext highlighter-rouge">MY_ARRAY_MACRO(...)</code> with <code class="language-plaintext highlighter-rouge">my_array[...]</code>.</p>
+
+<p>There are a number of other approaches to dynamic multidimensional arrays in C/C++ (and you’ll notice one is used in the HIPC assessment later in the course).</p>
+
+<p>In HPC applications, locality of access is important, so approaches that keep memory contiguous are likely to outperform any other approach considerably.</p>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li><a href="https://www.geeksforgeeks.org/dynamically-allocate-2d-array-c/">How to dynamically allocate a 2D array in C?</a></li>
+    <li>
+<a href="https://en.cppreference.com/w/cpp/container/mdspan">std::mdspan</a>, a proposal for the C++23 standard</li>
+  </ul>
+</blockquote>
+
+<h3 id="array-of-structs-vs-struct-of-arrays">Array-of-Structs vs Struct-of-Arrays</h3>
+
+<p>The final topic we’ll cover before looking at loop optimisation techniques, is how we store multiple properties about each item in an array. This is often referred to as the <em>array-of-structures vs structure-of-arrays</em> problem.</p>
+
+<p>First, let’s consider an example where we are storing a collection of particles in 3D space. For each particle, we need to store an <em>x</em>-, <em>y</em>- and <em>z</em>-dimension. We can do this in C using a <code class="language-plaintext highlighter-rouge">struct</code> and then we can store an array of these structs.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+    <span class="kt">double</span> <span class="n">x</span><span class="p">;</span>
+    <span class="kt">double</span> <span class="n">y</span><span class="p">;</span>
+    <span class="kt">double</span> <span class="n">z</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">particle_t</span><span class="p">;</span>
+
+<span class="n">particle_t</span> <span class="n">my_particles</span><span class="p">[</span><span class="mi">1000</span><span class="p">];</span>
+
+<span class="n">my_particles</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">x</span> <span class="o">=</span> <span class="p">...;</span>
+<span class="n">my_particles</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">y</span> <span class="o">=</span> <span class="p">...;</span>
+<span class="p">...</span>
+</code></pre></div></div>
+
+<p>This is perhaps the most intuitive way to store our 1000 particles. But, if we look at how this is stored in memory, it might not be conducive to performance.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-4/AoS.png" alt="An array-of-structures" style="background-color:white"><br>
+<em><strong>Figure 5:</strong> An array-of-structures</em></p>
+
+<p>Although storing all of the values contiguously may seem like the most performant approach, this approach will force the application to use only a <em>single cache line</em>. If we were to store the <em>x</em>, <em>y</em>, and <em>z</em> values in separated arrays, we would be able to use three cache lines simultaneously (making much more efficient use of the cache, and thus improving performance).</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+    <span class="kt">double</span> <span class="n">x</span><span class="p">[</span><span class="mi">1000</span><span class="p">];</span>
+    <span class="kt">double</span> <span class="n">y</span><span class="p">[</span><span class="mi">1000</span><span class="p">];</span>
+    <span class="kt">double</span> <span class="n">z</span><span class="p">[</span><span class="mi">1000</span><span class="p">];</span>
+<span class="p">}</span> <span class="n">particles_t</span><span class="p">;</span>
+
+<span class="n">particles_t</span> <span class="n">my_particles</span><span class="p">;</span>
+
+<span class="n">my_particles</span><span class="p">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">...;</span>
+<span class="n">my_particles</span><span class="p">.</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">...;</span>
+<span class="p">...</span>
+</code></pre></div></div>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-4/SoA.png" alt="A structure-of-arrays" style="background-color:white"><br>
+<strong>Figure 6:</strong> A structure-of-arrays</p>
+
+<p>As we will see later in this unit, when we start making use of vector instructions, an SoA approach is much more effective at using SIMD registers than an AoS approach, but comes at the expense of readability. A hybrid approach (array-of-structures-of-arrays, or AoSoA) is also an option and provides greater control over the size of memory requests (since we can set the stride to be equal to the cache line width).</p>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li>
+<a href="https://en.wikipedia.org/wiki/AoS_and_SoA">AoS and SoA</a>, Wikipedia</li>
+  </ul>
+</blockquote>
+
+<h1 id="loop-optimisations">Loop Optimisations</h1>
+
+<p>The biggest source of performance gains in scientific software is usually contained within loop constructs. Before we look at how we can parallelise loop iterations with vectorisation, we’re going to cover three simple loop transformation techniques.</p>
+
+<h2 id="loop-unrolling">Loop Unrolling</h2>
+
+<p>The first technique we are going to look at is perhaps the most important for hand-vectorising code – <em>loop unrolling</em>. As the name suggests, this is where we manually unroll loop iterations by some factor (the unrolling factor). Let’s start with a simple vector addition kernel:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>In this code we’re simply adding successive elements of <code class="language-plaintext highlighter-rouge">a</code> to <code class="language-plaintext highlighter-rouge">b</code> and storing the result in <code class="language-plaintext highlighter-rouge">c</code>. Unrolling this loop by a factor of 4 would mean copying the body of the loop 3 times and increasing the loop step function to account for the now much larger steps. In other words, each new iteration would do the work of 4 iterations in the previous example.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span> <span class="o">+=</span> <span class="mi">4</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// the loop now steps forward 4 at a time.</span>
+    <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>   <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>   <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">];</span>
+    <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">];</span>
+    <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">3</span><span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Ah! But what if <code class="language-plaintext highlighter-rouge">N</code> (our vector sizes in this example) is not divisible by 4? Well, then we need two loops. One that we can unroll (i.e. one that performs all of the fully unrollable loops up to <code class="language-plaintext highlighter-rouge">N</code>), and one that cleans up the rest (i.e. performs the final few loops to get us to <code class="language-plaintext highlighter-rouge">N</code>).</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">+</span><span class="mi">4</span><span class="o">-</span><span class="mi">1</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span> <span class="o">+=</span> <span class="mi">4</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>   <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>   <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">];</span>
+    <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">];</span>
+    <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">3</span><span class="p">];</span>
+<span class="p">}</span>
+<span class="k">for</span> <span class="p">(</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// clean up the remaining iterations</span>
+    <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Now, at this point you might (quite reasonably) wonder what this buys us. Well,</p>
+
+<ul>
+  <li>It reduces the loop overhead (i.e. time spent evaluating the loop condition, incrementing the counter) by a factor of 4 (or <em>k</em>, where <em>k</em> is the unrolling factor), <em>though this overhead is likely minimal</em>.</li>
+  <li>The instructions in the loop body may benefit from better scheduling to reduce cycle stalls (see video below).</li>
+  <li>The loop body may now be implementable using vector instructions (see the next section).</li>
+</ul>
+
+<p>Loop unrolling is an optimisation technique found in all modern compilers. Where it is likely to be beneficial to runtime, it is almost always performed transparently – nonetheless it is useful to understand what might be going on beneath the surface.</p>
+
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/zXg5gvlxJkI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="loop-fusion">Loop Fusion</h2>
+
+<p>The next two techniques are the inverse of one another. <em>Loop fusion</em> is an optimisation technique where we fuse multiple loops over the same index range into a single loop. For example,</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">double</span> <span class="n">a</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+<span class="kt">double</span> <span class="n">b</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="o">*</span><span class="mi">2</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>We could fuse these two loops into a single loop, like so,</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">double</span> <span class="n">a</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+<span class="kt">double</span> <span class="n">b</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+    <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="o">*</span><span class="mi">2</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The potential advantages of loop fusion are:</p>
+
+<ul>
+  <li>A reduction in loop overheads (i.e. less loop guard checks, increment instructions).</li>
+  <li>A larger loop body may contain more opportunities for instruction level parallelism.</li>
+  <li>We may be able to reduce temporary allocations.</li>
+  <li>If the same array is used in multiple loops, we would only need to stream through the array once.</li>
+</ul>
+
+<p>However, these advantages may come at a cost:</p>
+
+<ul>
+  <li>A larger loop body is likely to increase the pressure on CPU registers.</li>
+</ul>
+
+<h2 id="loop-fission">Loop Fission</h2>
+
+<p><em>Loop fission</em> is the opposite of fusion, where instead we break a single loop into multiple loops over the same index range, with each loop only computing a part of the original loop’s body. Essentially doing the transformation above in reverse.</p>
+
+<p>This may have the following advantages:</p>
+
+<ul>
+  <li>We may be able to improve locality of reference in a small loop body.</li>
+  <li>It may decrease the pressure on register allocations.</li>
+  <li>It can enable opportunities for loop interchange.</li>
+  <li>It may increase the potential for loop pipelining and vectorisation.</li>
+</ul>
+
+<p>With Loop Fusion and Loop Fission, there is a complex trade-off between data locality, ILP, and loop overheads that can make fission, fusion, or neither the preferred optimisation.</p>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li>
+<a href="https://yorsearch.york.ac.uk/permalink/f/1d5jm03/44YORK_ALMA_DS51308825180001381">Introduction to High Performance Computing for Scientists and Engineers</a>, Section 3.5 Algorithm classification and access optimizations</li>
+  </ul>
+</blockquote>
+
+<h1 id="vector-instruction-sets">Vector Instruction Sets</h1>
+
+<p>The vector processors found in many early supercomputers (and in particular, Cray systems) could be considered an implementation of the SIMD paradigm from Flynn’s taxonomy. Special vector registers would hold multiple values that could have the same operation performed to them simultaneously.</p>
+
+<p>The first SIMD instruction set widely deployed on <em>modern</em> commodity hardware was Intel’s MMX extensions to the x86 architecture in 1996. The MMX extensions used eight 64-bit processor registers, named MM0-MM7, and contained instructions that could operate on one 64-bit integer, two packed 32-bit integers, four packed 16-bit integers, or eight packed 8-bit integers at once.</p>
+
+<h2 id="the-streaming-simd-extensions">The Streaming SIMD Extensions</h2>
+
+<p>In 1999, Intel introduced the Streaming SIMD Extensions (SSE) instruction set – extending SIMD to 128-bit registers (named XMM0-XMM15) and floating-point operations. In the first release, SSE could operate on four 32-bit single-precision floating-point numbers. This was extended in SSE2 to two 64-bit double-precision floating-point numbers, two 64-bit integers, four 32-bit integers, eight 16-bit integers, or sixteen 8-bit integers.</p>
+
+<p>The SSE instruction set was further extended to SSE3, SSE4, SSE4.1, and SSE4.2. In total there are approximately 300 vector instructions across the SSE instruction sets.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-4/SSE.png" alt="Selection of SSE instructions"><br>
+<em><strong>Figure 7:</strong> A small selection of SSE instructions taken the <a href="https://www.intel.com/content/www/us/en/docs/intrinsics-guide/index.html">Intel Intrinsics Guide</a></em></p>
+
+<blockquote class="block-warning">
+  <p><strong>A note on memory alignment</strong></p>
+
+  <p>The natural alignment of any memory access is the size of the memory access – accessing an 8-byte double-precision value requires the access to be aligned to an 8-byte boundary. Ensuring that memory accesses are properly aligned in this way means that accesses do not cross cache lines. If we consider a memory access that is not correctly aligned (e.g. an 8-byte access on an address that is only 4-byte aligned), it would require loading 2 cache lines, essentially halving performance. For most SSE instructions, it is a requirement that we use aligned memory operands (unless the instruction says otherwise).</p>
+
+  <p>When memory is allocated in C (using <code class="language-plaintext highlighter-rouge">malloc()</code>), there is no guarantee of alignment, and so alternative <code class="language-plaintext highlighter-rouge">malloc()</code> and <code class="language-plaintext highlighter-rouge">free()</code> functions are provided by Intel’s intrinsics header file. The provided <a href="https://www.intel.com/content/www/us/en/docs/intrinsics-guide/index.html#techs=SSE&amp;ig_expand=4497"><code class="language-plaintext highlighter-rouge">_mm_malloc()</code></a> function takes an additional argument to specify the byte alignment required. When using SSE intrinsics, we can replace our <code class="language-plaintext highlighter-rouge">malloc()</code> calls with calls to <code class="language-plaintext highlighter-rouge">_mm_malloc()</code> to ensure our memory accesses are correctly aligned to the size of cache lines (usually 64 bytes). In the following example, the two allocation are identical, except that the second allocation is guaranteed to be aligned.</p>
+
+  <div class="language-c++ highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kt">float</span> <span class="o">*</span> <span class="n">my_data</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">);</span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;immintrin.h&gt;</span><span class="c1"> // include intrinsics header file</span><span class="cp">
+</span><span class="kt">float</span> <span class="o">*</span> <span class="n">my_aligned_data</span> <span class="o">=</span> <span class="n">_mm_malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">64</span><span class="p">);</span> 
+                          <span class="c1">// align our malloc to 64 bytes</span>
+</code></pre></div>  </div>
+
+  <p><strong>See:</strong> <a href="https://blog.ngzhian.com/sse-avx-memory-alignment.html">Memory alignment requirements for SSE and AVX instructions</a></p>
+</blockquote>
+
+<p>With all of this in mind, let’s explore SSE with a simple vector-add example:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">float</span> <span class="o">*</span> <span class="n">a</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="o">*</span> <span class="n">N</span><span class="p">);</span>
+<span class="kt">float</span> <span class="o">*</span> <span class="n">b</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="o">*</span> <span class="n">N</span><span class="p">);</span>
+<span class="kt">float</span> <span class="o">*</span> <span class="n">c</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="o">*</span> <span class="n">N</span><span class="p">);</span>
+
+<span class="p">...</span> <span class="c1">// fill a and b with values</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="n">free</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+<span class="n">free</span><span class="p">(</span><span class="n">b</span><span class="p">);</span>
+<span class="n">free</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+</code></pre></div></div>
+
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/3RgMuhs7A3g" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""></iframe>
+<p><br></p>
+
+<p>As we can see in the video above, in order to manually apply vectorisation instructions to our vector-add example, we have to:</p>
+
+<ol>
+  <li>Align our memory by replacing the <code class="language-plaintext highlighter-rouge">malloc()</code> calls with <code class="language-plaintext highlighter-rouge">_mm_malloc()</code> calls, and the <code class="language-plaintext highlighter-rouge">free()</code> calls with calls to <code class="language-plaintext highlighter-rouge">_mm_free()</code>.</li>
+  <li>Unroll our loop by a factor of 4 (since we’re using 128-bit registers and 32-bit floats).</li>
+  <li>Replace our loop logic with two vector loads, a vector add, and a vector store instruction.</li>
+</ol>
+
+<p>In our very simple example, this results in a 1.5× boost in performance. While this is much more modest than the 4× speed-up we might hope for, such a simple (FLOP-light!) kernel is clearly going to be heavily memory-bound.</p>
+
+<h2 id="advanced-vector-extensions-avx">Advanced Vector eXtensions (AVX)</h2>
+
+<p>Advanced Vector eXtensions were introduced in March 2008, and first supported by Intel’s Sandy Bridge processors. AVX provides sixteen vector registers that are 256-bits wide (renamed to YMM0-YMM15) and can therefore operate on four 64-bit packed double-precision values, eight 32-bit packed single-precision values, etc.</p>
+
+<p>AVX was extended in 2013 with the AVX2 instruction set, and extended once again in 2013 for the Intel Xeon Phi Knights Landing processor with AVX-512 (with 512-bit wide vector registers). Although introduced for the Intel Xeon Phi range of co-processors, AVX-512 has been available on some modern Intel CPUs since 2017’s Skylake platform.</p>
+
+<p style="color:gray; font-size: 90%; text-align: center;"><img src="../../assets/unit-4/AVX.png" alt="Selection of AVX instructions"><br>
+<em><strong>Figure 8:</strong> A small selection of AVX instructions taken the <a href="https://www.intel.com/content/www/us/en/docs/intrinsics-guide/index.html">Intel Intrinsics Guide</a></em></p>
+
+<p>Many AVX instructions are 256-bit extensions of the legacy 128-bit SSE instructions, however there are a number of important new instructions in AVX. These additional instructions (such as broadcasts, masks, and permutations) can allow us to more easily express complex mathematical operations in AVX.</p>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li>
+<a href="https://en.wikipedia.org/wiki/Advanced_Vector_Extensions">Advanced Vector Extensions</a>, Wikipedia</li>
+  </ul>
+</blockquote>
+
+<p>For now, let’s simply consider how we might change the vector-add example above for AVX.</p>
+
+<ol>
+  <li>Since we’re now capable of handling 8 single-precision operations per second, we can unroll our loop by a factor of 8 instead of 4.</li>
+  <li>We must now use 256-bit instructions rather than 128-bit ones.</li>
+</ol>
+
+<p>And so, our hand-vectorised AVX code now looks like:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">float</span> <span class="o">*</span> <span class="n">a</span> <span class="o">=</span> <span class="n">_mm_malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="o">*</span> <span class="n">N</span><span class="p">,</span> <span class="mi">64</span><span class="p">);</span>
+<span class="kt">float</span> <span class="o">*</span> <span class="n">b</span> <span class="o">=</span> <span class="n">_mm_malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="o">*</span> <span class="n">N</span><span class="p">,</span> <span class="mi">64</span><span class="p">);</span>
+<span class="kt">float</span> <span class="o">*</span> <span class="n">c</span> <span class="o">=</span> <span class="n">_mm_malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="o">*</span> <span class="n">N</span><span class="p">,</span> <span class="mi">64</span><span class="p">);</span>
+
+<span class="p">...</span> <span class="c1">// fill a and b with values</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">+=</span><span class="mi">8</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// unrolled by a factor of 8</span>
+    <span class="n">__m256</span> <span class="n">a_v</span> <span class="o">=</span> <span class="n">_mm256_load_ps</span><span class="p">(</span><span class="n">a</span><span class="o">+</span><span class="n">i</span><span class="p">);</span>
+    <span class="n">__m256</span> <span class="n">b_v</span> <span class="o">=</span> <span class="n">_mm256_load_ps</span><span class="p">(</span><span class="n">b</span><span class="o">+</span><span class="n">i</span><span class="p">);</span>
+    <span class="n">__m256</span> <span class="n">c_v</span> <span class="o">=</span> <span class="n">_mm256_add_ps</span><span class="p">(</span><span class="n">a_v</span><span class="p">,</span> <span class="n">b_v</span><span class="p">);</span>
+    <span class="n">_mm256_store_ps</span><span class="p">(</span><span class="n">c</span><span class="o">+</span><span class="n">i</span><span class="p">,</span> <span class="n">c_v</span><span class="p">);</span>
+
+<span class="p">}</span>
+
+<span class="n">_mm_free</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+<span class="n">_mm_free</span><span class="p">(</span><span class="n">b</span><span class="p">);</span>
+<span class="n">_mm_free</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Clearly, hand-vectorising code has a significant impact on the readability (and writeability!) of our code. Luckily, an optimising compiler is usually capable of applying vectorisation to code, assuming there are no dependencies – this process is usually called auto-vectorisation, and we’re going to cover that next.</p>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li><a href="https://www.intel.com/content/www/us/en/docs/intrinsics-guide/index.html">Intel Intrinsics Guide</a></li>
+  </ul>
+</blockquote>
+
+<iframe width="560" height="315" class="center" src="https://www.youtube.com/embed/x9Scb5Mku1g" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h1 id="compiler-optimisations">Compiler Optimisations</h1>
+
+<p>In this unit we’ve looked at how to optimise the execution of a single-core/single-threaded application through some simple optimisations, through to loop transformations, and vector instruction sets. As you might have noticed, as we optimise an application more and more, it is likely that the code becomes less and less readable. Luckily, compilers are able to perform many of the optimisations we’ve discussed above (and many more beyond that!).</p>
+
+<p>Generally speaking, an optimising compiler can usually perform the following <em>types</em> of optimisation for us:</p>
+
+<ul>
+  <li>Loop optimisations (fusion, fission, interchange, unrolling, etc.)</li>
+  <li>Automatic parallelisation</li>
+  <li>Data-flow optimisations (subexpression elimination, constant folding, etc.)</li>
+  <li>Code generator optimisations (instruction selection, instruction scheduling, etc.)</li>
+  <li>Dead code elimination</li>
+  <li>Function inlining</li>
+  <li>etc.</li>
+</ul>
+
+<h2 id="optimisation-level">Optimisation Level</h2>
+
+<p>We can control many of the types of optimisation through compiler flags – flags specified on the command line at compile time. For example, if we wanted to inline small functions (functions where the body of the call is smaller than the expected function call code), we could include the <code class="language-plaintext highlighter-rouge">-finline-small-functions</code> compiler flag to our command line.</p>
+
+<p>But usually we don’t want to write out a exhaustive list of compiler options, and so instead we choose to specify an optimisation level that turns on a particular subset of optimisation flags for us.</p>
+
+<p>We will not list all of the optimisation levels and what options are enabled here, but on GCC we can specify an optimisation level from <code class="language-plaintext highlighter-rouge">-O0</code> (disable all optimisations) through to <code class="language-plaintext highlighter-rouge">-O3</code> (turn on all optimisations that are strict standards compliant). There are some additional optimisation flags that can be specified that may disregard strict standards compliance (<code class="language-plaintext highlighter-rouge">-Ofast</code>), or optimise a binary for size (<code class="language-plaintext highlighter-rouge">-Os</code> and <code class="language-plaintext highlighter-rouge">-Oz</code>).</p>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li>
+<a href="https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html">3.12 Options That Control Optimization</a>, GCC Optimisation Options</li>
+  </ul>
+</blockquote>
+
+<p>In general, Clang tries to copy the command line options of GCC, and so many of the same options are available in Clang/LLVM. However, the options enabled by each of the optimisation levels may differ slightly between the two compilers. Code compiled with <code class="language-plaintext highlighter-rouge">-O2</code> by Clang may not have the same optimisations applied as an equivalent compiled by GCC.</p>
+
+<h2 id="specifying-the-target">Specifying The Target</h2>
+
+<p>The next set of compiler options we will look at are those that specify our <em>target architecture</em>. As we’ve seen in this unit, there are many extensions to the x86(_64) instruction set, and different CPU models support different subsets of these extensions. While the compiler may be very sufficient at identifying vectorisable code, it will only be able to generate appropriate vector instructions if it knows that the CPU supports these instructions.</p>
+
+<p>We can specify our target architecture to GCC and Clang using the <code class="language-plaintext highlighter-rouge">-march=</code> compiler flag. Again, we’ll not cover the complete list of architectures here, but we’ll look at a few specific examples.</p>
+
+<p>Perhaps the simplest option is to use the <code class="language-plaintext highlighter-rouge">-march=native</code> option, which will allow GCC to determine the processor type at compilation time and tune for its specific instruction subsets.</p>
+
+<p>Alternatively, we can specify specific architectures such as <code class="language-plaintext highlighter-rouge">-march=cascadelake</code> (for an Intel Cascade Lake processor), or <code class="language-plaintext highlighter-rouge">-march=znver3</code> (for an AMD Zen 3 processor).</p>
+
+<p>We can also use the <code class="language-plaintext highlighter-rouge">-mtune=</code> compiler flag to allow the compiler to tune an application for a specific CPU, but still generate instructions that will run on a generic x86 processor.</p>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li>
+<a href="https://gcc.gnu.org/onlinedocs/gcc/x86-Options.html#x86-Options">3.20.54 x86 Options</a>, GCC list of x86 options</li>
+    <li>
+<a href="https://gcc.gnu.org/onlinedocs/gcc/Submodel-Options.html#Submodel-Options">3.20 Machine-Dependent Options</a>, GCC list of Submodel options</li>
+  </ul>
+</blockquote>
+
+<h2 id="optimisation-reports">Optimisation Reports</h2>
+
+<p>Now that we know how to make the compiler do most of the work for us, we might reasonably want to know <em>exactly what the compiler has done</em>. For this purpose, we can enable optimisation reports.</p>
+
+<p>GCC and Clang provide a wide range of optionality to their optimisation reports. We can ask for a complete report, or we can have a report that focuses on particular optimisations.</p>
+
+<p>In GCC, we can control optimisation reports through the <code class="language-plaintext highlighter-rouge">-fopt-info</code> command line flags.</p>
+
+<p>For Clang, we use the <code class="language-plaintext highlighter-rouge">-Rpass</code> (when a pass makes a transformation), <code class="language-plaintext highlighter-rouge">-Rpass-missed</code> (when a pass fails to make a transformation) and <code class="language-plaintext highlighter-rouge">-Rpass-analysis</code> (when a pass determines whether or not to make a transformation) flags.</p>
+
+<blockquote class="block-tip">
+  <p><strong>Further Reading</strong></p>
+
+  <ul>
+    <li>
+<a href="https://gcc.gnu.org/onlinedocs/gcc/Developer-Options.html">3.19 GCC Developer Options</a>, GCC Developer options</li>
+    <li>
+<a href="https://clang.llvm.org/docs/UsersManual.html#options-to-emit-optimization-reports">Options to Emit Optimization Reports</a>, Clang optimisation reports</li>
+  </ul>
+</blockquote>
+
+<p>Let’s revisit our vector-add example from earlier. If we compile this with GCC, <code class="language-plaintext highlighter-rouge">-O3</code>, and optimisation reports (<code class="language-plaintext highlighter-rouge">-fopt-info-all</code>), we should see something like the following (results may vary based on compiler version, architecture, etc.):</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gcc -fopt-info-all -O3 -o vec_acc vec_add.c
+vec_add.c:29:5: missed:   not inlinable: main/10 -&gt; free/14, function body not available
+vec_add.c:28:5: missed:   not inlinable: main/10 -&gt; free/14, function body not available
+vec_add.c:27:5: missed:   not inlinable: main/10 -&gt; free/14, function body not available
+vec_add.c:25:5: missed:   not inlinable: main/10 -&gt; printf/13, function body not available
+vec_add.c:24:15: missed:   not inlinable: main/10 -&gt; rand/12, function body not available
+vec_add.c:16:24: missed:   not inlinable: main/10 -&gt; rand/12, function body not available
+vec_add.c:15:24: missed:   not inlinable: main/10 -&gt; rand/12, function body not available
+vec_add.c:10:16: missed:   not inlinable: main/10 -&gt; malloc/11, function body not available
+vec_add.c:9:16: missed:   not inlinable: main/10 -&gt; malloc/11, function body not available
+vec_add.c:8:16: missed:   not inlinable: main/10 -&gt; malloc/11, function body not available
+Unit growth for small function inlining: 55-&gt;55 (0%)
+
+Inlined 0 calls, eliminated 0 functions
+
+vec_add.c:20:19: optimized: loop vectorized using 16 byte vectors
+vec_add.c:14:19: missed: couldn't vectorize loop
+vec_add.c:15:24: missed: statement clobbers memory: _1 = rand ();
+vec_add.c:5:5: note: vectorized 1 loops in function.
+vec_add.c:15:24: missed: statement clobbers memory: _1 = rand ();
+vec_add.c:8:16: missed: statement clobbers memory: a_31 = malloc (40000000);
+vec_add.c:9:16: missed: statement clobbers memory: b_33 = malloc (40000000);
+vec_add.c:10:16: missed: statement clobbers memory: c_35 = malloc (40000000);
+vec_add.c:15:24: missed: statement clobbers memory: _1 = rand ();
+vec_add.c:16:24: missed: statement clobbers memory: _7 = rand ();
+vec_add.c:24:15: missed: statement clobbers memory: _19 = rand ();
+vec_add.c:25:5: missed: statement clobbers memory: printf (...);
+vec_add.c:27:5: missed: statement clobbers memory: free (a_31);
+vec_add.c:28:5: missed: statement clobbers memory: free (b_33);
+vec_add.c:29:5: missed: statement clobbers memory: free (c_35);
+vec_add.c:29:5: note: ***** Analysis failed with vector mode V4SF
+vec_add.c:29:5: note: ***** Skipping vector mode V16QI, which would repeat the analysis for V4SF
+</code></pre></div></div>
+
+<p>The output here is very detailed about the various optimisations that have (or haven’t) been performed. But we perhaps only care about a few of these.</p>
+
+<p>First, we can see that GCC is unable to inline the <code class="language-plaintext highlighter-rouge">free</code>, <code class="language-plaintext highlighter-rouge">printf</code>, <code class="language-plaintext highlighter-rouge">rand</code> and <code class="language-plaintext highlighter-rouge">malloc</code> instructions (which is probably expected!). Next, we can see that the main vector-add compute loop, which starts on line 20, has been vectorised using 16-byte vectors. This is exactly what we achieved previously by writing vector intrinsics!</p>
+
+<p>Of course, this is a complete report of all optimisation stages in GCC, and so much of the information is likely not important. We can control the level of output by being more specific in what we request. For example, if we only wanted to know which statements have been successfully vectorised we could use <code class="language-plaintext highlighter-rouge">-fopt-info-vec</code>; to see missed optimisations from the vectorisation pass, we could use <code class="language-plaintext highlighter-rouge">-fopt-info-vec-missed</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gcc -fopt-info-vec -O3 -o vec_acc vec_add.c
+vec_add.c:20:19: optimized: loop vectorized using 16 byte vectors
+
+$ gcc -fopt-info-vec-missed -O3 -o vec_acc vec_add.c
+vec_add.c:14:19: missed: couldn't vectorize loop
+vec_add.c:15:24: missed: statement clobbers memory: _1 = rand ();
+vec_add.c:8:16: missed: statement clobbers memory: a_31 = malloc (40000000);
+vec_add.c:9:16: missed: statement clobbers memory: b_33 = malloc (40000000);
+vec_add.c:10:16: missed: statement clobbers memory: c_35 = malloc (40000000);
+vec_add.c:15:24: missed: statement clobbers memory: _1 = rand ();
+vec_add.c:16:24: missed: statement clobbers memory: _7 = rand ();
+vec_add.c:24:15: missed: statement clobbers memory: _19 = rand ();
+vec_add.c:25:5: missed: statement clobbers memory: printf (...);
+vec_add.c:27:5: missed: statement clobbers memory: free (a_31);
+vec_add.c:28:5: missed: statement clobbers memory: free (b_33);
+vec_add.c:29:5: missed: statement clobbers memory: free (c_35);
+</code></pre></div></div>
+
+<p>In Clang, we must specify which optimisation pass we’re interested in (e.g. loop-vectorize, inline, licm [loop invariant code motion], etc.); though we can also use a regular expression (e.g. “<code class="language-plaintext highlighter-rouge">-Rpass=.</code>”).</p>
+
+<p>So, let’s take our vector-add example once again and examine the successful and unsuccessful vectorisation passes:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ clang -Rpass=loop-vectorize -O3 -o vec_acc vec_add.c
+vec_add.c:20:5: remark: vectorized loop (vectorization width: 4, interleaved count: 4) [-Rpass=loop-vectorize]
+    for (i = 0; i &lt; N; i++) {
+    ^
+
+$ clang -Rpass-missed=loop-vectorize -O3 -o vec_acc vec_add.c
+vec_add.c:14:5: remark: loop not vectorized [-Rpass-missed=loop-vectorize]
+    for (i = 0; i &lt; N; i++) {
+    ^
+</code></pre></div></div>
+
+<p>Like with GCC before, Clang is able to successfully vectorise our main compute loop at line 20, but not our set-up loop (due to the function calls to <code class="language-plaintext highlighter-rouge">rand()</code> in the set-up loop’s body).</p>
+
+<p>Hopefully it is obvious that optimisation reports are a <em>vital</em> tool in the arsenal of a <strong>performance engineer</strong>.</p>
+
+<h3 id="help-my-code-wont-vectorise">Help! My Code Won’t Vectorise</h3>
+
+<p>OK, so you’ve written the most wonderful code but its just not performing how you expect. You decide to generate an optimisation report, and it seems your code isn’t being vectorised!</p>
+
+<p>The first thing to check is whether there are any <em>loop dependencies</em>. For example,</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">array</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>In this simple example, each iteration of the loop depends on a value that is updated in the previous iteration. In such a case, it may be impossible to vectorise this loop. However, do not despair! It may be the case that the logic of a loop can be rewritten to remove the dependency, or it may be possible to write your own vectorised code using intrinsics (i.e. we could precompute the first 4 values, and then step through this loop in blocks of 4 using our own vector logic).</p>
+
+<p>The next things to look for are inner loop function calls which may prevent vectorisation.</p>
+
+<p>In the vector-add example above, the call to the <code class="language-plaintext highlighter-rouge">rand()</code> function could not be inlined or vectorised and therefore the loop could not be vectorised safely. But many other simple functions may not have this issue. You may be able to take steps such as manually inlining a function, rewriting the loop logic to remove function calls, annotating a functions call to include the <code class="language-plaintext highlighter-rouge">inline</code> keyword, etc.</p>
+
+<p>The final issue we’ll deal with here is related to our first example – loop dependencies. Compilers will generally attempt to vectorise your code if, and only if, (i) it believes the performance increase is worth it (evaluated at compile time using a cost-model) and (ii) it believes that there are no loop dependencies. In some applications, this latter concern is difficult to evaluate, and so compilers will always “play it safe”, treating <em>assumed dependencies</em> as <em>proven dependencies</em>.</p>
+
+<p>Take the following code, for example,</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">vec_dep</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">k</span><span class="p">,</span> <span class="kt">int</span> <span class="n">c</span><span class="p">,</span> <span class="kt">int</span> <span class="n">m</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">m</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">c</span><span class="p">;</span> 
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The compiler will not vectorise this code (vectorisation would be illegal if <code class="language-plaintext highlighter-rouge">k &lt; 0</code>). We can override this behaviour using the <code class="language-plaintext highlighter-rouge">ivdep</code> code annotation (<code class="language-plaintext highlighter-rouge">#pragma ivdep</code> for Intel compilers, <code class="language-plaintext highlighter-rouge">#pragma GCC ivdep</code> for GCC). So our code becomes,</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">vec_dep</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">k</span><span class="p">,</span> <span class="kt">int</span> <span class="n">c</span><span class="p">,</span> <span class="kt">int</span> <span class="n">m</span><span class="p">)</span> <span class="p">{</span>
+    <span class="cp">#pragma GCC ivdep
+</span>    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">m</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">c</span><span class="p">;</span> 
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">ivdep</code> pragma will instruct the compiler to ignore the assumed dependencies in the following loop. <strong>Note:</strong> it will only ignore assumed dependencies, not proven ones; and this should only be used when you are <em>certain</em> that the compiler can ignore its assumed dependencies. Violating this dependency will lead to undefined behaviour.</p>
+
+<h1 id="recommended-reading">Recommended Reading</h1>
+
+<blockquote class="block-warning">
+  <ul>
+    <li>
+<a href="https://yorsearch.york.ac.uk/permalink/f/1d5jm03/44YORK_ALMA_DS51308825180001381">Introduction to High Performance Computing for Scientists and Engineers</a>, Chapter 2 - Basic optimization techniques for serial code</li>
+    <li>
+<a href="https://yorsearch.york.ac.uk/permalink/f/1d5jm03/44YORK_ALMA_DS51308825180001381">Introduction to High Performance Computing for Scientists and Engineers</a>, Chapter 3 - Data access optimizations</li>
+  </ul>
+</blockquote>
+
+                </section>
+            </div>
+<div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title">
+<span class="search-results-count"></span> results matching "<span class="search-query"></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class="search-query"></span>"</h1>
+    </div>
+</div>
+</div>
+    </div>
+</div>
+
+                        <a href="/~saw586/hipc//lectures/3-management_and_measurement/" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 3. Management and Measurement of Distributed Systems">
+                            <i class="fa fa-angle-left"></i>
+                        </a>
+                    
+
+                    
+                        <a href="/~saw586/hipc//lectures/5-on-node_parallelism/" class="navigation navigation-next navigation-unique" aria-label="Next page: 5. On-node Parallelism">
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    
+                </div>
+            </div>
+
+            <script>
+            var gitbook = gitbook || [];
+            gitbook.push(function() {
+                gitbook.page.hasChanged({
+    "page": {
+        "title": "Introduction",
+        "level": "1.1",
+        "depth": 1,
+        
+        "next": {
+            "title": "5. On-node Parallelism",
+            "level": "1.2",
+            "depth": 1,
+            "path": "_lectures/5-on-node_parallelism.md",
+            "ref": "_lectures/5-on-node_parallelism.md",
+            "articles": []
+        },
+        
+        "dir": "ltr"
+    },    "config": {
+        "plugins": ["fontsettings", "highlight", "livereload", "lunr", "search", "sharing", "theme-default", "livereload"],
+        "styles": {
+            "ebook": "styles/ebook.css",
+            "epub": "styles/epub.css",
+            "mobi": "styles/mobi.css",
+            "pdf": "styles/pdf.css",
+            "print": "styles/print.css",
+            "website": "styles/website.css"
+        },
+        "pluginsConfig": {
+            "fontsettings": {
+                "family": "sans",
+                "size": 2,
+                "theme": "white"
+            },
+            "highlight": {},
+            "livereload": {},
+            "lunr": {
+                "ignoreSpecialCharacters": false,
+                "maxIndexSize": 1000000
+            },
+            "search": {},
+            "sharing": {
+                "all": ["facebook", "google", "twitter", "weibo", "instapaper"],
+                "facebook": true,
+                "google": false,
+                "instapaper": true,
+                "twitter": true,
+                "vk": false,
+                "weibo": false
+            },
+            "theme-default": {
+                "showLevel": false,
+                "styles": {
+                    "ebook": "styles/ebook.css",
+                    "epub": "styles/epub.css",
+                    "mobi": "styles/mobi.css",
+                    "pdf": "styles/pdf.css",
+                    "print": "styles/print.css",
+                    "website": "styles/website.css"
+                }
+            }
+        },
+        "theme": "default",
+        "author": "Tao He",
+        "pdf": {
+            "pageNumbers": true,
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "paperSize": "a4",
+            "chapterMark": "pagebreak",
+            "pageBreaksBefore": "/",
+            "margin": {
+                "right": 62,
+                "left": 62,
+                "top": 56,
+                "bottom": 56
+            }
+        },
+        "structure": {
+            "langs": "LANGS.md",
+            "readme": "README.md",
+        },
+        "variables": {},
+        "title": "HIPC",
+        "language": "en",
+        "gitbook": "*"
+    },
+    "file": {
+        "path": "_lectures/4-on-core_parallelism.md",
+        "mtime": "2022-07-24 00:00:00 +0100",
+        "type": "markdown"
+    },
+    "gitbook": {
+        "version": "3.2.3",
+        "time": "2025-12-02 11:21:40 +0000"
+    },
+    "basePath": "/~saw586/hipc/",
+    "book": {
+        "language": ""
+    }
+});
+            });
+            </script>
+        </div>
+<script src="/~saw586/hipc//assets/gitbook/gitbook.js"></script>
+<script src="/~saw586/hipc//assets/gitbook/theme.js"></script>
+
+<script src="/~saw586/hipc//assets/gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+<script src="/~saw586/hipc//assets/gitbook/gitbook-plugin-sharing/buttons.js"></script>
+
+<!-- <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+<script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+<script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+<script src="../gitbook/gitbook-plugin-search/search.js"></script> -->
+
+<script src="/~saw586/hipc//assets/gitbook/gitbook-plugin-search-pro/jquery.mark.min.js"></script>
+<script src="/~saw586/hipc//assets/gitbook/gitbook-plugin-search-pro/search.js"></script>
+<script src="/~saw586/hipc//assets/gitbook/gitbook-plugin-back-to-top-button/plugin.js"></script>
+
+<script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+</body>
+</html>

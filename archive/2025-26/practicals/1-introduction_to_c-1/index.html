@@ -1,0 +1,1149 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+<meta charset="UTF-8">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<title>1. Introduction to C (part 1) · HIPC</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="HIPC
+">
+<meta name="generator" content="Jekyll (using style of GitBook 3.2.3)">
+<meta name="author" content="Steven Wright">
+<link rel="stylesheet" href="/~saw586/hipc//assets/gitbook/style.css">
+<link rel="stylesheet" href="/~saw586/hipc//assets/gitbook/gitbook-plugin-fontsettings/website.css">
+<link rel="stylesheet" href="/~saw586/hipc//assets/gitbook/gitbook-plugin-search-pro/search.css">
+<link rel="stylesheet" href="/~saw586/hipc//assets/gitbook/gitbook-plugin-back-to-top-button/plugin.css">
+
+<link rel="stylesheet" href="/~saw586/hipc//assets/gitbook/rouge/github.css">
+
+<link rel="stylesheet" href="/~saw586/hipc//assets/gitbook/custom.css">
+
+<meta name="HandheldFriendly" content="true">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="apple-touch-icon-precomposed" sizes="152x152" href="/~saw586/hipc//assets/gitbook/images/apple-touch-icon-precomposed-152.png">
+<link rel="shortcut icon" href="/~saw586/hipc//assets/gitbook/images/favicon.ico" type="image/x-icon">
+
+
+
+
+
+<script>
+    MathJax = {
+        tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        svg: {
+            fontCache: 'global'
+        }
+    };
+</script>
+            <link rel="prev" href="/~saw586/hipc//">
+        
+
+        
+            <link rel="next" href="/~saw586/hipc//practicals/2-introduction_to_c-2/">
+        
+    </head>
+    <body>
+        <div class="book">
+<div class="book-summary">
+    <nav role="navigation">
+        <div id="book-search-input" role="search">
+            <input type="text" placeholder="Type to search">
+        </div>
+        <div id="book-search-input-link" role="search">
+            <a href="/~saw586/hipc//assets/search.html">Click to Search</a>
+        </div>
+        <ul class="summary">
+            
+            <li class="chapter" data-level="1.1" data-path="/~saw586/hipc/">
+            
+                <a href="/~saw586/hipc//">
+                    HIPC
+                </a>
+            </li>
+
+            <li class="divider">
+
+            
+             
+                
+                <!-- <li class="chapter" data-level="1.1"><a>about</a></li> -->
+             
+                
+                    
+
+                    
+                        
+                        </li>
+<li class="chapter" data-level="1.1" data-path="/~saw586/hipc//about/about/">
+                        
+                            <a href="/~saw586/hipc//about/about/">
+                                About
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//about/changelog/">
+                        
+                            <a href="/~saw586/hipc//about/changelog/">
+                                Changelog
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+
+                    
+                        <li class="divider">
+                    
+                
+            
+             
+                
+                </li>
+<li><a><strong>Units</strong></a></li>
+                
+                <!-- <li class="chapter" data-level="1.1"><a>lectures</a></li> -->
+             
+                
+                    
+
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/1-supercomputing/">
+                        
+                            <a href="/~saw586/hipc//lectures/1-supercomputing/">
+                                1. Supercomputing and Scientific Computing
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/2-architectures/">
+                        
+                            <a href="/~saw586/hipc//lectures/2-architectures/">
+                                2. The Architectures of Distributed Systems
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/3-management_and_measurement/">
+                        
+                            <a href="/~saw586/hipc//lectures/3-management_and_measurement/">
+                                3. Management and Measurement of Distributed Systems
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/4-on-core_parallelism/">
+                        
+                            <a href="/~saw586/hipc//lectures/4-on-core_parallelism/">
+                                4. On-core Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/5-on-node_parallelism/">
+                        
+                            <a href="/~saw586/hipc//lectures/5-on-node_parallelism/">
+                                5. On-node Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/6-internode_parallelism/">
+                        
+                            <a href="/~saw586/hipc//lectures/6-internode_parallelism/">
+                                6. Internode Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/7-advanced_internode_parallelism/">
+                        
+                            <a href="/~saw586/hipc//lectures/7-advanced_internode_parallelism/">
+                                7. Advanced Internode Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/8-accelerators/">
+                        
+                            <a href="/~saw586/hipc//lectures/8-accelerators/">
+                                8. Accelerators
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/9-advanced_accelerators/">
+                        
+                            <a href="/~saw586/hipc//lectures/9-advanced_accelerators/">
+                                9. Advanced Accelerators
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//lectures/10-heterogeneous_programming/">
+                        
+                            <a href="/~saw586/hipc//lectures/10-heterogeneous_programming/">
+                                10. Heterogeneous Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+
+                    
+                        <li class="divider">
+                    
+                
+            
+             
+                
+                <!-- <li class="chapter" data-level="1.1"><a>posts</a></li> -->
+             
+                
+                    
+
+                    
+
+                    
+                
+            
+             
+                
+                </li>
+<li><a><strong>Practicals</strong></a></li>
+                
+                <!-- <li class="chapter" data-level="1.1"><a>practicals</a></li> -->
+             
+                
+                    
+
+                    
+                        
+                        <li class="chapter active" data-level="1.2" data-path="/~saw586/hipc//practicals/1-introduction_to_c-1/">
+                        
+                            <a href="/~saw586/hipc//practicals/1-introduction_to_c-1/">
+                                1. Introduction to C (part 1)
+                            </a>
+                            
+                                
+                                    <ul>
+<li><a href="#overview">Overview</a></li>
+<li>
+<a href="#getting-started">Getting Started</a><ul>
+<li><a href="#setup">Setup</a></li>
+<li><a href="#getting-started-with-c">Getting Started With C</a></li>
+</ul>
+</li>
+<li><a href="#functions">Functions</a></li>
+<li><a href="#exercise-1">Exercise 1</a></li>
+<li><a href="#pointers">Pointers</a></li>
+<li><a href="#exercise-2">Exercise 2</a></li>
+<li><a href="#exercise-3">Exercise 3</a></li>
+<li><a href="#memory">Memory</a></li>
+<li><a href="#exercise-4">Exercise 4</a></li>
+<li><a href="#multiple-file-projects">Multiple File Projects</a></li>
+<li><a href="#makefiles">Makefiles</a></li>
+<li><a href="#exercise-5">Exercise 5</a></li>
+<li><a href="#compile-time-debugging">Compile Time Debugging</a></li>
+<li><a href="#debugging-with-gdb">Debugging with GDB</a></li>
+<li><a href="#exercise-6">Exercise 6</a></li>
+</ul>
+
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/2-introduction_to_c-2/">
+                        
+                            <a href="/~saw586/hipc//practicals/2-introduction_to_c-2/">
+                                2. Introduction to C (part 2)
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/3-scientific_computing/">
+                        
+                            <a href="/~saw586/hipc//practicals/3-scientific_computing/">
+                                3. Scientific Computing
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/4-on-core_parallelism/">
+                        
+                            <a href="/~saw586/hipc//practicals/4-on-core_parallelism/">
+                                4. Programming On-core Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/5-on-node_parallelism/">
+                        
+                            <a href="/~saw586/hipc//practicals/5-on-node_parallelism/">
+                                5. Programming On-node Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/6-off-node_parallelism/">
+                        
+                            <a href="/~saw586/hipc//practicals/6-off-node_parallelism/">
+                                6. Programming Off-node Parallelism
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/7-advanced_mpi/">
+                        
+                            <a href="/~saw586/hipc//practicals/7-advanced_mpi/">
+                                7. Advanced MPI Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/8-cuda_programming/">
+                        
+                            <a href="/~saw586/hipc//practicals/8-cuda_programming/">
+                                8. CUDA Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/9-advanced_cuda_programming/">
+                        
+                            <a href="/~saw586/hipc//practicals/9-advanced_cuda_programming/">
+                                9. Advanced CUDA Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/~saw586/hipc//practicals/10-heterogeneous_programming/">
+                        
+                            <a href="/~saw586/hipc//practicals/10-heterogeneous_programming/">
+                                10. Heterogeneous Programming
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+
+                    
+                        <li class="divider">
+                    
+                
+            
+        </li>
+</ul>
+    </nav>
+</div>
+<div class="book-body">
+                <div class="book-header" role="navigation">
+                    <!-- Title -->
+                    <h1>
+                        <i class="fa fa-circle-o-notch fa-spin"></i>
+                        
+                            <a href=".">1. Introduction to C (part 1)</a>
+                        
+                    </h1>
+                </div>
+
+                <div class="body-inner">
+<div class="page-wrapper" tabindex="-1" role="main">
+    
+
+    <div class="page-inner">
+        <div id="book-search-results">
+            <div class="search-noresults">
+                <section class="normal markdown-section">
+                    
+                        <h1 id="/practicals/1-introduction_to_c-1">1. Introduction to C (part 1)</h1>
+                    
+
+                    <h1 id="overview">Overview</h1>
+
+<p>This practical session should give you some familiarity with many of the core features of the C programming language and how to perform some simple debugging.</p>
+
+<p>Following this session you should be familiar with:</p>
+
+<ul>
+  <li>Writing basic C programs with input and output provided by <code class="language-plaintext highlighter-rouge">scanf</code> and <code class="language-plaintext highlighter-rouge">printf</code>
+</li>
+  <li>How to write simple functions in C</li>
+  <li>The basics of manipulating pointers and allocating dynamically sized arrays</li>
+  <li>A basic understanding of compiling multi-file projects, and using simple “makefiles”</li>
+  <li>How to use GDB to find errors in C programs</li>
+</ul>
+
+<h1 id="getting-started">Getting Started</h1>
+
+<p>The aim of the first two labs is to expose you to the C programming language that will be used throughout this module.</p>
+
+<p>You should type out the code samples below, compile them and make sure you know exactly how each one works. There are exercises throughout that you should attempt. If you are struggling with any exercise please let us know.</p>
+
+<h2 id="setup">Setup</h2>
+
+<p>Almost every HPC system in use today uses the Linux operating system (or a Unix variant). For this reason, it is expected that you will complete these practicals and the coursework on a Unix/Linux-based system. If you are unfamiliar with the Linux command line, there are many guides available (e.g. <a href="https://ubuntu.com/tutorials/command-line-for-beginners#1-overview">The Linux command line for beginners</a>). If you are currently using a Windows lab machine, you should consider rebooting into Linux. If you are using a machine without Linux installed, perhaps consider SSHing to a Linux machine (e.g. the <strong>csteach</strong> machines). You may complete many of the exercises successfully on a MacOS system, but will likely find differences between the commands in this lab session and those required on a Mac.</p>
+
+<p>You can use any editor of your choice to write your codes. Some may prefer using advanced IDEs like VS Code while others might prefer terminal based editors such as <code class="language-plaintext highlighter-rouge">vim</code> or <code class="language-plaintext highlighter-rouge">nano</code>. Whatever you use, you must learn how to use the editor/IDE by yourself.</p>
+
+<h2 id="getting-started-with-c">Getting Started With C</h2>
+
+<p>We will begin these labs with the traditional “Hello, world!” program. Remember – C is not an object-oriented language, meaning there are no classes or objects to worry about. Much like Java, C has a limited set of language features out of the box. Additional functionality is packaged into libraries which must then be included. This keeps the core language simple and is conceptually similar Java’s <code class="language-plaintext highlighter-rouge">import</code> mechanism. To perform I/O to the terminal, we use the standard I/O library (<a href="http://linux.die.net/man/3/stdio"><code class="language-plaintext highlighter-rouge">stdio.h</code></a>). This contains the <a href="http://linux.die.net/man/3/printf"><code class="language-plaintext highlighter-rouge">printf()</code></a> function which is used to print a formatted string to the screen.</p>
+
+<p><strong>Note:</strong> comments in C follow the same conventions as Java. <code class="language-plaintext highlighter-rouge">//</code> indicates a single line comment, <code class="language-plaintext highlighter-rouge">/* */</code> is a block comment.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="c1"> // Includes the stdio.h library </span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span> <span class="c1">// main method is called when program is run    </span>
+   <span class="n">printf</span><span class="p">(</span><span class="s">"Hello, world!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>      <span class="c1">// Use the printf function from stdio.h to print a string to the terminal    </span>
+   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>                       <span class="c1">// return code zero means no problems occurred </span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">printf()</code> function prints a format string to standard out. Format strings can contain special control characters and variable placeholders in addition to regular text. In the example above we see <code class="language-plaintext highlighter-rouge">'\n'</code>, the newline control character. Save this code to a file called <code class="language-plaintext highlighter-rouge">helloworld.c</code> and then we can compile it. To compile the application we can use the C compiler from the GNU Compiler Collection (GCC) which should already be installed on the lab machines. To compile your program and create an executable file called “helloworld”, run the following command in the terminal (do not forget to change to your working directory before running the command):</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gcc -o helloworld helloworld.c
+</code></pre></div></div>
+
+<p>Assuming you were in the right directory and copied this code correctly this command will output an application named <code class="language-plaintext highlighter-rouge">helloworld</code> (as specified by the <code class="language-plaintext highlighter-rouge">-o</code> flag). We run this like any other Linux binary:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gcc -o helloworld helloworld.c
+$ ./helloworld
+Hello, world!
+$
+</code></pre></div></div>
+
+<p>You’ll find that, for the most part, C and Java have the same semantics. You will already be familiar with C’s flow control statements (loops and conditionals) as they were inherited by Java. One noticeable difference is that in C (prior to the C99 standard) variables must be declared outside of <code class="language-plaintext highlighter-rouge">for</code> loop conditions, otherwise they will result in a compiler error. Compare these two applications (in C and Java), paying special attention to where the variable controlling loop iterations, <code class="language-plaintext highlighter-rouge">i</code>, is defined.</p>
+
+<p><strong>Java</strong></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">Sum</span> <span class="o">{</span>    
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span> <span class="n">args</span><span class="o">[])</span> <span class="o">{</span>      
+        <span class="kt">int</span> <span class="n">sum</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>          
+            <span class="n">sum</span> <span class="o">=</span> <span class="n">sum</span> <span class="o">+</span> <span class="n">i</span><span class="o">;</span>      
+        <span class="o">}</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"The sum is: "</span> <span class="o">+</span> <span class="n">sum</span><span class="o">);</span>   
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><strong>C</strong></p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>    
+    <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">sum</span> <span class="o">=</span> <span class="n">sum</span> <span class="o">+</span> <span class="n">i</span><span class="p">;</span>    
+    <span class="p">}</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"The sum is: %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">sum</span><span class="p">);</span>   
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span> 
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><strong>Note</strong>: The format string provided to the <code class="language-plaintext highlighter-rouge">printf()</code> function is very different to Java’s <code class="language-plaintext highlighter-rouge">println</code> function.</p>
+
+<h1 id="functions">Functions</h1>
+
+<p>In the C language, each program consists of at least one function. Every C program must have a <code class="language-plaintext highlighter-rouge">main()</code> function, where the execution of the program begins. There can be additional functions (defined by the user) which make the program more modular and therefore easy to debug. Consider the following example:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span>
+
+<span class="kt">int</span> <span class="nf">factorial</span><span class="p">(</span><span class="kt">int</span> <span class="n">m</span><span class="p">)</span> <span class="p">{</span>  <span class="c1">// computes the factorial of a positive integer m</span>
+    <span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="n">prod</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">prod</span> <span class="o">=</span> <span class="n">prod</span> <span class="o">*</span> <span class="n">i</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">prod</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
+
+    <span class="n">printf</span><span class="p">(</span><span class="s">"Enter a positive integer:"</span><span class="p">);</span>
+    <span class="n">scanf</span><span class="p">(</span><span class="s">"%d"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">n</span><span class="p">);</span> <span class="c1">// scanf() scans the integer entered by the user</span>
+
+    <span class="n">printf</span><span class="p">(</span><span class="s">"The factoral of %d is %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">factorial</span><span class="p">(</span><span class="n">n</span><span class="p">));</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>In this example, the <code class="language-plaintext highlighter-rouge">factorial()</code> function computes the factorial of a positive integer entered by the user. The first line of each C function should define the output and input(s) of the function. In this case, the line</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">factorial</span><span class="p">(</span><span class="kt">int</span> <span class="n">m</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>specifies that the function <code class="language-plaintext highlighter-rouge">factorial()</code> takes one integer input and returns an integer. A C function cannot return multiple values. If you want a C function to return multiple values, use pointers (more on those later) or custom types (more on those later, too).</p>
+
+<p>Note the use of the <code class="language-plaintext highlighter-rouge">scanf()</code> function in the above code. It scans input according to a format specifier (<code class="language-plaintext highlighter-rouge">"%d"</code> in this case). To know more about the function <code class="language-plaintext highlighter-rouge">scanf()</code> type</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ man scanf
+</code></pre></div></div>
+
+<p>in the terminal and it will show you the <code class="language-plaintext highlighter-rouge">man</code> page (short for manual page) for the <code class="language-plaintext highlighter-rouge">scanf()</code> function. In general, if you would like to pull up the man page of any library function, type the following in the terminal</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ man &lt;function_name&gt;
+</code></pre></div></div>
+
+<p>where <code class="language-plaintext highlighter-rouge">&lt;function_name&gt;</code> specifies the name of the function you want to search for. Try pulling up the manual page for the <code class="language-plaintext highlighter-rouge">man</code> function itself!</p>
+
+<blockquote class="block-danger">
+  <h1 id="exercise-1">Exercise 1</h1>
+
+  <p>Write a C program that asks the user to enter an integer, <code class="language-plaintext highlighter-rouge">n</code>, and then prints the primes between 2 and <code class="language-plaintext highlighter-rouge">n</code>. The program should use a function to determine if a given integer is a prime. <br><br></p>
+</blockquote>
+
+<h1 id="pointers">Pointers</h1>
+
+<p>There are two fundamental types of variable in C: the primitive and the pointer. A pointer is something that points to a space in memory. In Java, pointers are hidden from the user and instead we talk about objects and primitives (although under the covers Java’s “objects” are implemented as pointers to data in memory). In C we can manipulate memory in a much more powerful (and more dangerous!) manner. Pointers are identified using an asterisk. For example:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">a</span><span class="p">;</span>   <span class="c1">// An integer primitive, holds a whole number from -2,147,483,648 to 2,147,483,647 on most machines</span>
+<span class="kt">int</span> <span class="o">*</span><span class="n">b</span><span class="p">;</span>  <span class="c1">// An integer pointer, holds an address of an integer variable.</span>
+</code></pre></div></div>
+
+<p>This declares a pointer (<code class="language-plaintext highlighter-rouge">b</code>) that will point to an integer in memory. Initially <code class="language-plaintext highlighter-rouge">b</code> won’t be pointing at a valid integer but we can make it point to one. Consider the following:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+   <span class="kt">int</span> <span class="o">*</span><span class="n">a_pointer</span><span class="p">;</span>
+   <span class="kt">int</span> <span class="n">a_value</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+   <span class="kt">int</span> <span class="n">x</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span> <span class="p">};</span>
+
+   <span class="n">a_pointer</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">a_value</span><span class="p">;</span>
+
+   <span class="n">printf</span><span class="p">(</span><span class="s">"The value of a_value is %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">a_value</span><span class="p">);</span> <span class="c1">// print the value of the variable a_value</span>
+   <span class="n">printf</span><span class="p">(</span><span class="s">"The value of the pointer is %p,</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">a_pointer</span><span class="p">);</span> <span class="c1">// prints the address of the variable a_value</span>
+   <span class="n">printf</span><span class="p">(</span><span class="s">"The value pointed to by the pointer is %d,</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="o">*</span><span class="n">a_pointer</span><span class="p">);</span> <span class="c1">// prints the value of the variable a_value</span>
+
+   <span class="o">*</span><span class="n">a_pointer</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+
+   <span class="n">printf</span><span class="p">(</span><span class="s">"The value of a_value is now %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">a_value</span><span class="p">);</span> <span class="c1">// the value of a_value will be changed</span>
+   <span class="n">printf</span><span class="p">(</span><span class="s">"The start address of the array x is %p</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">x</span><span class="p">);</span> <span class="c1">// prints the base address of the array x</span>
+   <span class="n">printf</span><span class="p">(</span><span class="s">"The address of the first element is %p</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span> <span class="c1">// also prints the same</span>
+
+   <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+   <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">printf</span><span class="p">(</span><span class="s">"Value stored in address %p is %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">i</span><span class="p">),</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>  <span class="c1">// shows that array elements are stored in contiguous locations</span>
+   <span class="p">}</span>
+
+   <span class="n">printf</span><span class="p">(</span><span class="s">"Size of each integer is %lu bytes</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">));</span>  <span class="c1">// the address of each location in array x differs by this amount from its previous location</span>
+   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><strong>Note</strong>: integers are formatted using <code class="language-plaintext highlighter-rouge">%d</code> in a <code class="language-plaintext highlighter-rouge">printf</code> statement; pointer memory addresses are formatted using <code class="language-plaintext highlighter-rouge">%p</code>. <code class="language-plaintext highlighter-rouge">%lu</code> is used to indicate a <em>long</em>, <em>unsigned integer</em> (i.e. a 64-bit integer without a sign bit).</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">&amp;</code> de-references a particular variable to its address, and so <code class="language-plaintext highlighter-rouge">&amp;a_value</code> gets the address in memory where <code class="language-plaintext highlighter-rouge">a_value</code> is stored and stores it in <code class="language-plaintext highlighter-rouge">a_pointer</code>. This means that <code class="language-plaintext highlighter-rouge">a_pointer</code> is now ‘pointing to’ <code class="language-plaintext highlighter-rouge">a_value</code>.</p>
+
+<p>If we ever want to get the value being pointed to we de-reference the pointer using <code class="language-plaintext highlighter-rouge">*</code>. The statement <code class="language-plaintext highlighter-rouge">*a_pointer = 10</code> in the above code stores the value 10 in the address pointed by the pointer <code class="language-plaintext highlighter-rouge">a_pointer</code> which in this case is the address of <code class="language-plaintext highlighter-rouge">a_value</code>. Therefore, <code class="language-plaintext highlighter-rouge">a_value</code> gets updated to 10.</p>
+
+<p>Next, we show how addresses are organised within an array. The base address of the array <code class="language-plaintext highlighter-rouge">x</code> can be accessed either using <code class="language-plaintext highlighter-rouge">x</code> or <code class="language-plaintext highlighter-rouge">&amp;x[0]</code>. Similarly the addresses of the other elements of the array can be accessed using <code class="language-plaintext highlighter-rouge">x+i</code> or <code class="language-plaintext highlighter-rouge">&amp;x[i]</code>. Observe the outputs produced by the the statements within the loop. What can you conclude from them?</p>
+
+<p>For historical reasons the position of the <code class="language-plaintext highlighter-rouge">*</code> is not fixed when declaring a pointer variable. The following three lines are all equivalent. You should pick the style you like best and stick to it.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span><span class="o">*</span> <span class="n">a</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="o">*</span> <span class="n">a</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="o">*</span><span class="n">a</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>While they may seem quite confusing, pointers are an incredibly powerful feature of C and are vital when writing efficient code.</p>
+
+<blockquote class="block-danger">
+  <h1 id="exercise-2">Exercise 2</h1>
+
+  <p>Given the code below, implement the <code class="language-plaintext highlighter-rouge">swap</code> function and call it correctly from the <code class="language-plaintext highlighter-rouge">main</code> function to swap the two integers (so that <code class="language-plaintext highlighter-rouge">a</code> becomes <code class="language-plaintext highlighter-rouge">b</code>, and <code class="language-plaintext highlighter-rouge">b</code> becomes <code class="language-plaintext highlighter-rouge">a</code>).</p>
+
+  <p><strong>Note</strong>: even in this simple example we are beginning to see the power of C – it is impossible to write an equivalent function to exchange primitives in Java.</p>
+
+  <div class="language-c highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span>
+<span class="c1">// write the code for the function swap() that would swap the values of two integers</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+   <span class="kt">int</span> <span class="n">val_a</span> <span class="o">=</span> <span class="mi">50</span><span class="p">;</span>
+   <span class="kt">int</span> <span class="n">val_b</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span>
+
+   <span class="c1">// call the swap() function correctly, swap() should swap the values stored in val_a and val_b so</span>
+   <span class="c1">// that the swapped values of val_a and val_b are printed in the next two lines</span>
+
+   <span class="n">printf</span><span class="p">(</span><span class="s">"val_a is %d (should be 20)</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">val_a</span><span class="p">);</span>
+   <span class="n">printf</span><span class="p">(</span><span class="s">"val_b is %d (should be 50)</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">val_b</span><span class="p">);</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>  </div>
+  <p><br></p>
+</blockquote>
+
+<blockquote class="block-danger">
+  <h1 id="exercise-3">Exercise 3</h1>
+
+  <p>Complete the C program below by writing the code for the <code class="language-plaintext highlighter-rouge">sort()</code> function. You can use any sorting algorithm of your choice.</p>
+
+  <div class="language-c highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span>
+<span class="c1">// write the code for the sort() function that sorts an integer array in ascending order</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+   <span class="kt">int</span> <span class="n">x</span><span class="p">[]</span><span class="o">=</span> <span class="p">{</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5</span> <span class="p">};</span>
+   <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+
+   <span class="n">sort</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">6</span><span class="p">);</span> <span class="c1">// sort() function sorts the array x in ascending order</span>
+
+   <span class="n">printf</span><span class="p">(</span><span class="s">"The sorted array is as follows:</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+   <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">6</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+      <span class="n">printf</span><span class="p">(</span><span class="s">"%d "</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+   <span class="p">}</span>
+
+   <span class="n">printf</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>  </div>
+  <p><br></p>
+</blockquote>
+
+<h1 id="memory">Memory</h1>
+
+<p>Pointers are at their most useful and powerful when you are dealing with memory. The standard library (<code class="language-plaintext highlighter-rouge">stdlib.h</code>) contains 3 useful functions for memory management: <a href="http://linux.die.net/man/3/malloc"><code class="language-plaintext highlighter-rouge">malloc()</code></a>, <a href="http://linux.die.net/man/3/calloc"><code class="language-plaintext highlighter-rouge">calloc()</code></a>, and <a href="http://linux.die.net/man/3/realloc"><code class="language-plaintext highlighter-rouge">realloc()</code></a>.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="o">*</span> <span class="nf">malloc</span><span class="p">(</span><span class="kt">size_t</span> <span class="n">size</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">malloc()</code> takes a single argument, the size of the memory to allocate (in bytes) and returns the address of our newly allocated memory as a <code class="language-plaintext highlighter-rouge">void</code> pointer. Void pointers are simply pointers which may point to anything.</p>
+
+<p>Typically we want to allocate memory to store multiple instances of a specific datatype each of which is larger than 1 byte. We use the <code class="language-plaintext highlighter-rouge">sizeof()</code> function to get the size of a datatype and multiply it by the number of elements we intend to store. We then cast the pointer to the correct type. For example, to store 10 integers we do the following:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="o">*</span><span class="n">my_array</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="o">*</span> <span class="mi">10</span><span class="p">);</span> <span class="c1">// Be careful with the different meanings of '*' - here we see a pointer and multiply.</span>
+</code></pre></div></div>
+
+<p><strong>Note</strong>: We use <code class="language-plaintext highlighter-rouge">sizeof()</code> rather than hardcoding the size of an integer because in C, unlike Java, the size of an integer can vary between different architectures. This is because while Java runs on a standardised virtual machine, C has to run on real hardware which may have different word sizes.</p>
+
+<p>We can get the information out of this array in two ways: (1) like a normal array using square brackets; or, (2) by manipulating the pointer. Method 1 is usually the correct way to do things, as pointer manipulation is extremely error prone. The following code illustrates both methods:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="o">*</span><span class="n">my_array</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="o">*</span> <span class="mi">10</span><span class="p">);</span>
+
+<span class="n">my_array</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">my_array</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+<span class="p">...</span>
+<span class="n">my_array</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+
+<span class="o">*</span><span class="n">my_array</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="o">*</span><span class="p">(</span><span class="n">my_array</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+<span class="p">...</span>
+<span class="o">*</span><span class="p">(</span><span class="n">my_array</span><span class="o">+</span><span class="mi">9</span><span class="p">)</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p><strong>Note</strong>: C does no range checking – it will not prevent you reading or writing beyond the end of an array. This can lead to serious bugs (more on this later).</p>
+
+<p>These methods also work when getting values out of the array. You can also manipulate a pointer using notation such as <code class="language-plaintext highlighter-rouge">++</code>, but this will change the value of the pointer itself (meaning it will point to the second element) and when this is done, you may lose the ability to <em>release</em> the memory later.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="o">*</span><span class="nf">calloc</span><span class="p">(</span><span class="kt">size_t</span> <span class="n">nmemb</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">size</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>When memory is allocated using <code class="language-plaintext highlighter-rouge">malloc()</code>, there is no guarantee that the memory will be set to zeros. The <code class="language-plaintext highlighter-rouge">calloc()</code> function therefore allocates memory and also clears its contents (hence the name <code class="language-plaintext highlighter-rouge">calloc</code>). It takes two arguments, where the first is the number of elements to allocate space for and the second is the size of each element. So to allocate space for 10 integers (as we did with <code class="language-plaintext highlighter-rouge">malloc</code>), but to also set them all to zero:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="o">*</span><span class="n">my_array</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="p">)</span> <span class="n">calloc</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">));</span>
+</code></pre></div></div>
+
+<p>If you’ve already allocated some memory but find you actually need more memory, there is a function that will either extend the size of your allocation, or allocate a new bigger block elsewhere in memory and copy the old data across. This is called <code class="language-plaintext highlighter-rouge">realloc()</code> (since it re-allocates memory).</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="o">*</span><span class="nf">realloc</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">ptr</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">size</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">realloc()</code> function does not zero data and requires 2 arguments to be provided to it. First, it requires the original pointer, and second it requires a size (in bytes) much like the <code class="language-plaintext highlighter-rouge">malloc()</code> function. For example, to increase <code class="language-plaintext highlighter-rouge">my_array</code> to 20 integers:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="o">*</span><span class="n">tmp_ptr</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="p">)</span> <span class="n">realloc</span><span class="p">(</span><span class="n">my_array</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="o">*</span> <span class="mi">20</span><span class="p">);</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">tmp_ptr</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span> <span class="n">my_array</span> <span class="o">=</span> <span class="n">tmp_ptr</span><span class="p">;</span>
+<span class="k">else</span> <span class="nf">perror</span><span class="p">(</span><span class="s">"Failed to reallocate memory."</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>You should check the return values of all <code class="language-plaintext highlighter-rouge">..alloc()</code> functions to ensure a pointer has been assigned. If an error occurs allocating memory, the functions all return the special <code class="language-plaintext highlighter-rouge">NULL</code> value. It is especially important to do this for the <code class="language-plaintext highlighter-rouge">realloc()</code> function. If you call <code class="language-plaintext highlighter-rouge">realloc</code> like so:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">my_array</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="o">*</span><span class="p">)</span> <span class="n">realloc</span><span class="p">(</span><span class="n">my_array</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="o">*</span> <span class="mi">20</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>In the case where the <code class="language-plaintext highlighter-rouge">realloc()</code> fails, you will lose the data that was originally in <code class="language-plaintext highlighter-rouge">my_array</code>, and so it is vital that you assign its result to a temporary pointer first.</p>
+
+<p>The final piece of the memory allocation puzzle is that in C there is no garbage collector to clear up after you. Memory must be manually allocated and then deallocated when it is no longer needed. This is done with the <a href="http://linux.die.net/man/3/free"><code class="language-plaintext highlighter-rouge">free()</code></a> function.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">free</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">ptr</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">free()</code> function returns no value and simply releases the memory in use by a pointer. After <code class="language-plaintext highlighter-rouge">free()</code> has been called the memory at <code class="language-plaintext highlighter-rouge">*ptr</code> will be released. The value of <code class="language-plaintext highlighter-rouge">ptr</code> will not change, however, you may wish to explicitly set <code class="language-plaintext highlighter-rouge">ptr</code> to <code class="language-plaintext highlighter-rouge">NULL</code> to prevent any invalid memory accesses.</p>
+
+<blockquote class="block-danger">
+  <h1 id="exercise-4">Exercise 4</h1>
+
+  <p>Write a C program that would sort an array of any size entered by a user. The program should first ask the user the size of the array they want to sort. Then the program should ask the user to enter the elements of the array. Once the whole array is entered by the user, the program should output the sorted array.</p>
+
+  <p>You should use a dynamic array to store the integers entered by the user. You can use the <code class="language-plaintext highlighter-rouge">scanf()</code> function to read the numbers input by the user.<br><br></p>
+</blockquote>
+
+<h1 id="multiple-file-projects">Multiple File Projects</h1>
+
+<p>Often when working on large software projects it is convenient to break the project down into multiple source files. It makes programming and debugging much easier. In this section, we shall learn how to build an executable file from multiple source files written in C.</p>
+
+<p>Write the following code and save it as a .c file, say <code class="language-plaintext highlighter-rouge">main.c</code>:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">sum</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">sum_squares</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
+
+    <span class="n">printf</span><span class="p">(</span><span class="s">"Enter a positive integer:"</span><span class="p">);</span>
+    <span class="n">scanf</span><span class="p">(</span><span class="s">"%d"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">n</span><span class="p">);</span>
+
+    <span class="n">printf</span><span class="p">(</span><span class="s">"Sum of first %d positive integers is %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">sum</span><span class="p">(</span><span class="n">n</span><span class="p">));</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"Sum of squares of first %d positive integers is %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">sum_squares</span><span class="p">(</span><span class="n">n</span><span class="p">));</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Note that the above code uses two functions called <code class="language-plaintext highlighter-rouge">sum()</code> and <code class="language-plaintext highlighter-rouge">sum_squares()</code> that are not defined in the same file (we only declare their prototypes here). Hence, the <code class="language-plaintext highlighter-rouge">main.c</code> source file cannot be compiled directly to build an executable file. However, we can still build an object file from this source file. Roughly speaking, an object file contains relocatable addresses for functions. Hence, actual codes for the functions are not required to build object files. Different object files containing different functions can be linked together to create the final executable file. The object file for <code class="language-plaintext highlighter-rouge">main.c</code> can be built by typing the following command:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gcc -c main.c
+</code></pre></div></div>
+
+<p>This will create the object file called “<code class="language-plaintext highlighter-rouge">main.o</code>” in the same folder. Note that the <code class="language-plaintext highlighter-rouge">-c</code> option is used to tell the gcc compiler to stop after building the <code class="language-plaintext highlighter-rouge">.o</code> file so that it does not attempt to build an executable file at this stage.</p>
+
+<p>Next, create (in the same folder) two new source files containing the definitions of the functions <code class="language-plaintext highlighter-rouge">sum()</code> and <code class="language-plaintext highlighter-rouge">sum_squares()</code>. Call them <code class="language-plaintext highlighter-rouge">sum.c</code> and <code class="language-plaintext highlighter-rouge">sum_squares.c</code>, respectively. The files should contain the following code:</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">sum.c</code></strong></p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span><span class="kt">int</span> <span class="nf">sum</span><span class="p">(</span><span class="kt">int</span> <span class="n">m</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">sum</span> <span class="o">+=</span> <span class="n">i</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">sum</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><strong><code class="language-plaintext highlighter-rouge">sum_squares.c</code></strong></p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">sum_squares</span><span class="p">(</span><span class="kt">int</span> <span class="n">m</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">sum</span> <span class="o">+=</span> <span class="n">i</span><span class="o">*</span><span class="n">i</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">sum</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Now, create the object files for each of these source files by typing:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gcc -c sum.c sum_squares.c
+</code></pre></div></div>
+
+<p>We shall now link all the three object files that we have created so far to build our final executable file. This can be done using the following command:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gcc main.o sum.o sum_squares.o -o numbers
+</code></pre></div></div>
+
+<p>This will create the a combined executable file called “<code class="language-plaintext highlighter-rouge">numbers</code>” by linking the three object files. Try running the executable file and see what it does.</p>
+
+<h1 id="makefiles">Makefiles</h1>
+
+<p>The whole process of building an executable from its sources can be automated using <em>Makefiles</em>. A makefile contains recipes for building the final executable file as well as for each of the intermediate files. Each recipe is written in the following format:</p>
+
+<div class="language-makefile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">target</span><span class="o">:</span> <span class="nf">dependencies</span>
+    <span class="err">action</span>
+</code></pre></div></div>
+
+<p>where “<code class="language-plaintext highlighter-rouge">target</code>” is the name of the target you want to build; “<code class="language-plaintext highlighter-rouge">dependencies</code>” is the list of the files from which the “<code class="language-plaintext highlighter-rouge">target</code>” will be built; “<code class="language-plaintext highlighter-rouge">action</code>” specifies the command that must be executed to build the target from its dependencies. <strong>Note:</strong> the second line in each recipe must start with a <em>tab</em> character followed by the action (do not use spaces instead of a tab!). In our case, the Makefile should look something as follows:</p>
+
+<div class="language-makefile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">numbers</span><span class="o">:</span> <span class="nf">main.o sum.o sum_squares.o</span>
+    <span class="err">gcc</span> <span class="err">main.o</span> <span class="err">sum.o</span> <span class="err">sum_squares.o</span> <span class="err">-o</span> <span class="err">numbers</span>
+
+<span class="nl">sum.o</span><span class="o">:</span> <span class="nf">sum.c</span>
+    <span class="err">gcc</span> <span class="err">-c</span> <span class="err">sum.c</span>
+
+<span class="nl">sum_squares.o</span><span class="o">:</span> <span class="nf">sum_squares.c</span>
+    <span class="err">gcc</span> <span class="err">-c</span> <span class="err">sum_squares.c</span>
+
+<span class="nl">main.o</span><span class="o">:</span> <span class="nf">main.c</span>
+    <span class="err">gcc</span> <span class="err">-c</span> <span class="err">main.c</span>
+</code></pre></div></div>
+
+<p>Save the file as <strong>Makefile</strong>; again, don’t forget the tabs in your makefile. You can run the makefile using the command:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ make
+</code></pre></div></div>
+
+<p>from your terminal. This will build the entire project including all intermediate files.</p>
+
+<blockquote class="block-danger">
+  <h1 id="exercise-5">Exercise 5</h1>
+
+  <p>For the same project, write another C source file that only contains a function <code class="language-plaintext highlighter-rouge">prime()</code>. This function should take an integer <code class="language-plaintext highlighter-rouge">n</code> as input and should output the sum of all primes from 2 to <code class="language-plaintext highlighter-rouge">n</code>. Call the <code class="language-plaintext highlighter-rouge">prime()</code> function from <code class="language-plaintext highlighter-rouge">main()</code> of <code class="language-plaintext highlighter-rouge">main.c</code> above to print the sum of the primes up to <code class="language-plaintext highlighter-rouge">n</code>.<br><br></p>
+</blockquote>
+
+<h1 id="compile-time-debugging">Compile Time Debugging</h1>
+
+<p>Before we start looking at debugging a compiled application, let’s have a look at some simple compile-time debugging.</p>
+
+<p>Should there be an error in your application source code, GCC will likely fail to compile and will provide information about the failure. On modern versions of GCC and Clang, these error messages explain the error and (usually) point to the line number and location of the error. For example,</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gcc -o test test.c
+test.c:2:5: error: implicitly declaring library function 'printf' with type 'int (const char *, ...)' [-Werror,-Wimplicit-function-declaration]
+    printf("%d", argc)
+    ^
+test.c:2:5: note: include the header &lt;stdio.h&gt; or explicitly provide a declaration for 'printf'
+test.c:2:23: error: expected ';' after expression
+    printf("%d", argc)
+                      ^
+                      ;
+2 errors generated.
+</code></pre></div></div>
+
+<p>The output tells us that we have forgotten to include the <code class="language-plaintext highlighter-rouge">stdio</code> header file, but have used the <code class="language-plaintext highlighter-rouge">printf</code> function on line 2 (column 5), and that we missed a semi-colon on line 2 (column 23).</p>
+
+<p>However, it may be the case that there are minor issues in our code that do not prevent compilation, but may have an affect at runtime. Such “compiler warnings” may not be shown unless explicitly specified on the command line.</p>
+
+<p>Take the following code, for example:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">my_func</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"Hello World</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+    <span class="n">my_func</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>It might be hard to spot an issue with this code, and the compiler will likely compile the code. Some compilers (or versions of compiler) will output a warning, but some may not.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gcc -o test test.c
+$ ./test
+Hello World
+
+</code></pre></div></div>
+
+<p>In the example, the <code class="language-plaintext highlighter-rouge">my_func()</code> function specified that it will return an <code class="language-plaintext highlighter-rouge">int</code>, but there is no <code class="language-plaintext highlighter-rouge">return</code> keyword in the function. While this doesn’t harm the functionality in this case, it might cause undefined behaviour in a larger application.</p>
+
+<p>To find such issues at compile-time, we can either enable all warnings, or we can turn all warnings into error (such that an application doesn’t compile if there are warnings present).</p>
+
+<p>We can enable displaying all warnings with the <code class="language-plaintext highlighter-rouge">-Wall</code> compile time flag.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gcc -Wall -o test test.c
+test.c: In function 'my_func':
+test.c:5:1: warning: control reaches end of non-void function [-Wreturn-type]
+    5 | }
+      | ^
+</code></pre></div></div>
+
+<p>We can go further and prevent an application from compiling with warnings by using the <code class="language-plaintext highlighter-rouge">-Werror</code> compile time flag.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gcc -Wall -Werror -o test test.c
+test.c: In function 'my_func':
+test.c:5:1: error: control reaches end of non-void function [-Werror=return-type]
+    5 | }
+      | ^
+cc1: all warnings being treated as errors
+</code></pre></div></div>
+
+<p>Note that in the first case (with just <code class="language-plaintext highlighter-rouge">-Wall</code>), the code compiled successfully, and an executable binary is created. In the second case, the binary is not created and compilation has failed.</p>
+
+<h1 id="debugging-with-gdb">Debugging with GDB</h1>
+
+<p>Debugging C code is often one of the most frustrating periods of code development. While the Java runtime environment outputs nice and helpful errors, C programs often crash with a segmentation fault. These are usually caused by reading or writing unallocated or unowned memory. For instance, if we allocate space for 10 integers, and then try to write to the 10th index (i.e. the 11th element), the result is undefined. If you are lucky the application will crash and report a segmentation fault, but it may fail silently or cause random errors.</p>
+
+<p>To debug our applications we usually use the GNU Debugger (<code class="language-plaintext highlighter-rouge">gdb</code>). First we compile our application with the debug flag (<code class="language-plaintext highlighter-rouge">-g</code>) to include debugging information.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gcc -g -o helloworld helloworld.c
+</code></pre></div></div>
+
+<p>Then we run the application with <code class="language-plaintext highlighter-rouge">gdb</code> like so:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gdb ./helloworld
+</code></pre></div></div>
+
+<p>This presents us with a prompt in which to control our application. Type “<code class="language-plaintext highlighter-rouge">run</code>” and it will run your application. In the event of a fault, <code class="language-plaintext highlighter-rouge">gdb</code> will stop the program and return you to a prompt. Here you can interact with the operating system to find out what line of the application was being executed at the time and what the value of various variables were at the time. Consider the following example application:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+   <span class="kt">int</span> <span class="o">*</span><span class="n">my_array</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="mi">5</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">));</span> 
+
+   <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+
+   <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">1000000</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span> 
+      <span class="n">my_array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+   <span class="p">}</span>
+
+   <span class="n">free</span><span class="p">(</span><span class="n">my_array</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>If you write this application and compile it, upon execution you may see an error like the one shown below. Notice that the error was not triggered immediately – if we had only gone a little past the end of our allocated memory the application would have continued, but we would still have overwritten some random piece of memory with garbage. This can have devastating consequences and lead to all sorts of nasty surprises.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ./test.out
+Segmentation fault: 5000
+</code></pre></div></div>
+
+<p>To debug this, we recompile the application but with the <code class="language-plaintext highlighter-rouge">-g</code> flag provided. We then run <code class="language-plaintext highlighter-rouge">gdb</code> on the application (as above). Type “<code class="language-plaintext highlighter-rouge">run</code>” into <code class="language-plaintext highlighter-rouge">gdb</code> and you may see an error like this:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Program received signal EXC_BAD_ACCESS, Could not access memory.
+Reason: KERN_INVALID_ADDRESS at address: 0x0000000000000000
+0x0000000100000f05 in main (argc=1, argv=0x7fff5fbffb90) at test.c:10
+10                      my_array[i] = i;
+</code></pre></div></div>
+
+<p>This indicates that the error is caused at line 10 in <code class="language-plaintext highlighter-rouge">test.c</code>. Looking at line 10, we see that the error occurs when trying to store a value at a location in <code class="language-plaintext highlighter-rouge">my_array</code>. Since this memory access is invalid it seems likely that the reason the program crashing is because the memory has not been allocated.</p>
+
+<p>More information can be extracted using <code class="language-plaintext highlighter-rouge">gdb</code> by using the commands “<code class="language-plaintext highlighter-rouge">bt</code>” and “<code class="language-plaintext highlighter-rouge">print</code>”. <code class="language-plaintext highlighter-rouge">bt</code> will produce a backtrace, which for our program was uninteresting, but would otherwise contain the call path to your function (e.g. if <code class="language-plaintext highlighter-rouge">main()</code> called <code class="language-plaintext highlighter-rouge">f1()</code>, which in turn called <code class="language-plaintext highlighter-rouge">f2()</code>, etc.). <code class="language-plaintext highlighter-rouge">print</code> can be used to print the values of in-scope variables at the time of error. Try typing <code class="language-plaintext highlighter-rouge">print i</code> into <code class="language-plaintext highlighter-rouge">gdb</code> and it will inform you that the program above crashed when the value of <code class="language-plaintext highlighter-rouge">i</code> is invalid. After you are done with debugging, to exit from the <code class="language-plaintext highlighter-rouge">gdb</code> prompt type “<code class="language-plaintext highlighter-rouge">quit</code>”.</p>
+
+<p><code class="language-plaintext highlighter-rouge">gdb</code> is a powerful debugger with a great number of features. This <a href="https://darkdust.net/files/GDB%20Cheat%20Sheet.pdf">cheat sheet</a> demonstrates many of the most important features and may come in handy in the future.</p>
+
+<blockquote class="block-tip">
+  <p><strong>Note:</strong> If you’re using a Mac, it is likely that <code class="language-plaintext highlighter-rouge">gdb</code> will not be available. Instead you can use <code class="language-plaintext highlighter-rouge">lldb</code></p>
+</blockquote>
+
+<blockquote class="block-danger">
+  <h1 id="exercise-6">Exercise 6</h1>
+
+  <p>Fix the above program and ensure that it runs to completion (it should not produce any errors). <br><br></p>
+</blockquote>
+
+
+                </section>
+            </div>
+<div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title">
+<span class="search-results-count"></span> results matching "<span class="search-query"></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class="search-query"></span>"</h1>
+    </div>
+</div>
+</div>
+    </div>
+</div>
+
+                        <a href="/~saw586/hipc//" class="navigation navigation-prev navigation-unique" aria-label="Previous page: HIPC">
+                            <i class="fa fa-angle-left"></i>
+                        </a>
+                    
+
+                    
+                        <a href="/~saw586/hipc//practicals/2-introduction_to_c-2/" class="navigation navigation-next navigation-unique" aria-label="Next page: 2. Introduction to C (part 2)">
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    
+                </div>
+            </div>
+
+            <script>
+            var gitbook = gitbook || [];
+            gitbook.push(function() {
+                gitbook.page.hasChanged({
+    "page": {
+        "title": "Introduction",
+        "level": "1.1",
+        "depth": 1,
+        
+        "next": {
+            "title": "2. Introduction to C (part 2)",
+            "level": "1.2",
+            "depth": 1,
+            "path": "_practicals/2-introduction_to_c-2.md",
+            "ref": "_practicals/2-introduction_to_c-2.md",
+            "articles": []
+        },
+        
+        "dir": "ltr"
+    },    "config": {
+        "plugins": ["fontsettings", "highlight", "livereload", "lunr", "search", "sharing", "theme-default", "livereload"],
+        "styles": {
+            "ebook": "styles/ebook.css",
+            "epub": "styles/epub.css",
+            "mobi": "styles/mobi.css",
+            "pdf": "styles/pdf.css",
+            "print": "styles/print.css",
+            "website": "styles/website.css"
+        },
+        "pluginsConfig": {
+            "fontsettings": {
+                "family": "sans",
+                "size": 2,
+                "theme": "white"
+            },
+            "highlight": {},
+            "livereload": {},
+            "lunr": {
+                "ignoreSpecialCharacters": false,
+                "maxIndexSize": 1000000
+            },
+            "search": {},
+            "sharing": {
+                "all": ["facebook", "google", "twitter", "weibo", "instapaper"],
+                "facebook": true,
+                "google": false,
+                "instapaper": true,
+                "twitter": true,
+                "vk": false,
+                "weibo": false
+            },
+            "theme-default": {
+                "showLevel": false,
+                "styles": {
+                    "ebook": "styles/ebook.css",
+                    "epub": "styles/epub.css",
+                    "mobi": "styles/mobi.css",
+                    "pdf": "styles/pdf.css",
+                    "print": "styles/print.css",
+                    "website": "styles/website.css"
+                }
+            }
+        },
+        "theme": "default",
+        "author": "Tao He",
+        "pdf": {
+            "pageNumbers": true,
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "paperSize": "a4",
+            "chapterMark": "pagebreak",
+            "pageBreaksBefore": "/",
+            "margin": {
+                "right": 62,
+                "left": 62,
+                "top": 56,
+                "bottom": 56
+            }
+        },
+        "structure": {
+            "langs": "LANGS.md",
+            "readme": "README.md",
+        },
+        "variables": {},
+        "title": "HIPC",
+        "language": "en",
+        "gitbook": "*"
+    },
+    "file": {
+        "path": "_practicals/1-introduction_to_c-1.md",
+        "mtime": "2022-07-21 00:00:00 +0100",
+        "type": "markdown"
+    },
+    "gitbook": {
+        "version": "3.2.3",
+        "time": "2025-12-02 11:21:40 +0000"
+    },
+    "basePath": "/~saw586/hipc/",
+    "book": {
+        "language": ""
+    }
+});
+            });
+            </script>
+        </div>
+<script src="/~saw586/hipc//assets/gitbook/gitbook.js"></script>
+<script src="/~saw586/hipc//assets/gitbook/theme.js"></script>
+
+<script src="/~saw586/hipc//assets/gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+<script src="/~saw586/hipc//assets/gitbook/gitbook-plugin-sharing/buttons.js"></script>
+
+<!-- <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+<script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+<script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+<script src="../gitbook/gitbook-plugin-search/search.js"></script> -->
+
+<script src="/~saw586/hipc//assets/gitbook/gitbook-plugin-search-pro/jquery.mark.min.js"></script>
+<script src="/~saw586/hipc//assets/gitbook/gitbook-plugin-search-pro/search.js"></script>
+<script src="/~saw586/hipc//assets/gitbook/gitbook-plugin-back-to-top-button/plugin.js"></script>
+
+<script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+</body>
+</html>
