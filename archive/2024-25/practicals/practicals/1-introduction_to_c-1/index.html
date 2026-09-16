@@ -1123,5 +1123,22 @@ Reason: KERN_INVALID_ADDRESS at address: 0x0000000000000000
 
 <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
+<!-- The GitBook theme swaps page content via AJAX rather than doing a full page
+     load, so MathJax must be told to typeset the new content on each page change. -->
+<script>
+    if (window.gitbook && gitbook.events) {
+        gitbook.events.on('page.change', function() {
+            // If MathJax is still loading, its startup typeset will cover this page.
+            if (!window.MathJax || !MathJax.typesetPromise) return;
+            MathJax.startup.promise = MathJax.startup.promise.then(function() {
+                MathJax.typesetClear();
+                return MathJax.typesetPromise();
+            }).catch(function(err) {
+                console.log('MathJax typeset failed: ' + err.message);
+            });
+        });
+    }
+</script>
+
 </body>
 </html>
