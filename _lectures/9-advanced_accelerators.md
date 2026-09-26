@@ -334,94 +334,49 @@ cudaEventDestroy(start);
 cudaEventDestroy(stop);
 ```
 
-## Profiling with nvprof
+## Profiling with Nsight Systems
 
-The `nvprof` profiling tool is a component of the Nsight Systems performance analysis tool that enables you to collect and view profiling data from the command-line. `nvprof` enables the collection of a timeline of CUDA-related activities on both CPU and GPU, including kernel execution, memory transfers, memory set and CUDA API calls and events or metrics for CUDA kernels. Profiling options are provided through command-line options. Profiling results are displayed in the console after the profiling data is collected, and may also be saved for later viewing by either `nvprof` or the Visual Profiler.
+Use **Nsight Systems** (`nsys`) to investigate CUDA API calls, kernel execution, and memory transfers. For detailed kernel hardware metrics, use **Nsight Compute** (`ncu`). The legacy tools `nvprof` and NVIDIA Visual Profiler were deprecated and [removed in CUDA 13.0](https://docs.nvidia.com/cuda/archive/13.0.1/cuda-toolkit-release-notes/index.html).
 
+To collect a profile of the matrix multiplication program:
 
-> **Note**
->
-> `nvprof` has been deprecated for devices with Compute Capability > 7.0. For the lab PCs, as the graphic card is CC==6.1, we will stick with `nvprof`, by simply remove the leading `nsys` from the following examples. For these newer GPUs (on Viking), you should use **Nsight Systems** (`nsys`) instead for profiling. Nsight Systems provides improved performance analysis capabilities and is the recommended profiling tool for modern NVIDIA GPUs. All the instructions below assume `nsys`. 
-{: .block-warning }
-
-
-To use nvprof, simply in a new command line:
-
-```
-$ nsys nvprof [options] [application] [application-arguments]
+```bash
+$ nsys profile --trace=cuda --sample=none --cpuctxsw=none --stats=true -o matrix_profile ./matrixMul
 ```
 
-The `nvprof` command takes options, the name of the application, and then any parameters that need to be passed to the application. The most useful options for `nvprof` is `--print-gpu-trace`, which prints individual kernel invocations (including CUDA memcpys/memsets) and sorts them in chronological order. In event/metric profiling mode, it shows events/metrics for each kernel invocation.
+Place any application arguments after `./matrixMul`. This command prints summaries and saves `matrix_profile.nsys-rep`; CPU sampling and context-switch tracing are disabled for this CUDA-focused exercise. Use a different output name for each experiment.
 
-Below is an example output from `nvprof`:
+You can analyse the saved report without rerunning the application:
 
-```
-$ nsys nvprof ./matrixMul
-[Matrix Multiply Using CUDA] - Starting...
-==27694== NVPROF is profiling process 27694, command: matrixMul
-GPU Device 0: "GeForce GT 640M LE" with compute capability 3.0
-
-MatrixA(320,320), MatrixB(640,320)
-Computing result using CUDA Kernel...
-done
-Performance= 35.35 GFlop/s, Time= 3.708 msec, Size= 131072000 Ops, WorkgroupSize= 1024 threads/block
-Checking computed result for correctness: OK
-
-Note: For peak performance, please refer to the matrixMulCUBLAS example.
-==27694== Profiling application: matrixMul
-==27694== Profiling result:
-Time(%)      Time     Calls       Avg       Min       Max  Name
- 99.94%  1.11524s       301  3.7051ms  3.6928ms  3.7174ms  void matrixMulCUDA<int=32>(float*, float*, float*, int, int)
-  0.04%  406.30us         2  203.15us  136.13us  270.18us  [CUDA memcpy HtoD]
-  0.02%  248.29us         1  248.29us  248.29us  248.29us  [CUDA memcpy DtoH]
-
-==27964== API calls:
-Time(%)      Time     Calls       Avg       Min       Max  Name
- 49.81%  285.17ms         3  95.055ms  153.32us  284.86ms  cudaMalloc
- 25.95%  148.57ms         1  148.57ms  148.57ms  148.57ms  cudaEventSynchronize
- 22.23%  127.28ms         1  127.28ms  127.28ms  127.28ms  cudaDeviceReset
-  1.33%  7.6314ms       301  25.353us  23.551us  143.98us  cudaLaunch
-  0.25%  1.4343ms         3  478.09us  155.84us  984.38us  cudaMemcpy
-  0.11%  601.45us         1  601.45us  601.45us  601.45us  cudaDeviceSynchronize
-  0.10%  564.48us      1505     375ns     313ns  3.6790us  cudaSetupArgument
-  0.09%  490.44us        76  6.4530us     307ns  221.93us  cuDeviceGetAttribute
-  0.07%  406.61us         3  135.54us  115.07us  169.99us  cudaFree
-  0.02%  143.00us       301     475ns     431ns  2.4370us  cudaConfigureCall
-  0.01%  42.321us         1  42.321us  42.321us  42.321us  cuDeviceTotalMem
-  0.01%  33.655us         1  33.655us  33.655us  33.655us  cudaGetDeviceProperties
-  0.01%  31.900us         1  31.900us  31.900us  31.900us  cuDeviceGetName
-  0.00%  21.874us         2  10.937us  8.5850us  13.289us  cudaEventRecord
-  0.00%  16.513us         2  8.2560us  2.6240us  13.889us  cudaEventCreate
-  0.00%  13.091us         1  13.091us  13.091us  13.091us  cudaEventElapsedTime
-  0.00%  8.1410us         1  8.1410us  8.1410us  8.1410us  cudaGetDevice
-  0.00%  2.6290us         2  1.3140us     509ns  2.1200us  cuDeviceGetCount
-  0.00%  1.9970us         2     998ns     520ns  1.4770us  cuDeviceGet
+```bash
+$ nsys stats --report cuda_gpu_kern_sum,cuda_gpu_mem_time_sum,cuda_api_sum matrix_profile.nsys-rep
+$ nsys stats --report cuda_gpu_trace matrix_profile.nsys-rep
 ```
 
-This gives an overview of the performance, enabling us to understand which function spends more time than the others, and then locate the performance bottleneck. To have a finer granularity of profiling, you can manually turn on/off profiling within an executable using the CUDA runtime API (defined in `cuda_profiler_api.h`):
+The summaries separate kernel durations, memory-operation durations, and CPU time in CUDA APIs. For example, a long `cudaDeviceSynchronize` call may be waiting for GPU work; it is not itself a kernel duration. The trace lists individual GPU operations, helping you locate expensive transfers and repeated kernel launches.
 
-```c
-cudaProfilerStart()
-// and
-cudaProfilerStop()
-```
+Use `nsys stats --help-reports` to check available reports. Older Nsight Systems releases call these reports `gpukernsum`, `gpumemtimesum`, `cudaapisum`, and `gputrace`, respectively. Use a profiler release compatible with the GPU and driver in your lab environment or Viking allocation.
 
-With this, you can collect profile information only for a specific kernel:
+To capture only a selected region, surround it with the CUDA profiler API calls. Synchronise before starting to exclude earlier GPU work, and before stopping to include completion of the selected kernel:
 
 ```c
 #include <cuda_profiler_api.h>
-...
+// ...
 
+cudaDeviceSynchronize();
 cudaProfilerStart();
 myKernel<<<...>>>(...);
+cudaDeviceSynchronize();
 cudaProfilerStop();
 ```
 
-Full documentation on `nvprof`, including a full list of command line options, can be found in the [User Guide](https://docs.nvidia.com/nsight-systems/UserGuide/index.html#migrating-from-nvidia-nvprof).
+Enable these capture boundaries explicitly when launching the profiler:
 
+```bash
+$ nsys profile --trace=cuda --sample=none --cpuctxsw=none --capture-range=cudaProfilerApi --capture-range-end=stop --stats=true -o kernel_profile ./my_program
+```
 
-
-
+Without `--capture-range=cudaProfilerApi`, the start/stop calls do not control the capture range. Full command-line documentation is available in the [Nsight Systems User Guide](https://docs.nvidia.com/nsight-systems/UserGuide/).
 
 ## Automatic Block Size Tuning
 

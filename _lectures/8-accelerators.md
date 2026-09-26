@@ -26,7 +26,7 @@ By the end of this unit, you will have a foundational understanding of GPUs and 
 
 As the name suggests, an _accelerator_ is a device designed to speed up specific computations in an HPC application. Accelerators act as peripheral processors, capable of performing additional tasks in the background, thereby releasing resources on the main processor.   
 
-In the June 2016 TOP500 list, 19% of the state-of-the-art HPC systems utilised GPUs (graphics processing units) or other types of accelerators, such as FPGA-based HPC accelerators. Broadly, accelerators can be classified as (1) general-purpose or (2) domain-specific. Using accelerators often requires the collaborative design of both software and hardware (known as SW & HW co-design). This close coupling between software applications and specific hardware platforms can make porting and maintenance more challenging.
+In the [June 2026 TOP500 list](https://www.top500.org/lists/top500/2026/06/highs/), 276 of the 500 systems (55.2%) used accelerators or co-processors, including GPUs (graphics processing units). This is the share of systems, rather than the share of total computing performance. Broadly, accelerators can be classified as (1) general-purpose or (2) domain-specific. Using accelerators often requires the collaborative design of both software and hardware (known as SW & HW co-design). This close coupling between software applications and specific hardware platforms can make porting and maintenance more challenging.
 
 Accelerated computing began gaining popularity with the release of the first Petascale system, Roadrunner, which featured IBM PowerXCell 8i accelerators connected to each core.
 
@@ -151,56 +151,35 @@ CUDA is implemented and deployed across multiple software layers, including:
 * __The CUDA API and its runtime__: The CUDA API extends the C programming language, allowing developers to specify thread-level parallelism and GPU-specific operations, such as data transfer between the CPU and GPU;
 * __Optimised mathematical libraries__ designed to leverage CUDA for improved performance.  
 
-The CUDA Toolkit SDK (software development kit) includes the hardware driver, the CUDA toolkit (compiler, debugger, profiler), and code samples.
+The CUDA Toolkit SDK (software development kit) provides compilers, development tools, and libraries. A compatible NVIDIA driver is also required; current toolkit releases distribute the driver separately (see the release notes below).
 
 ![The CUDA Software Stack](../../assets/unit-8/The-CUDA-software-stack.png)  
 _**Figure 7:** CUDA Software Stack_
 {: style="color:gray; font-size: 90%; text-align: center;" }
 
-The CUDA Toolkit includes many sub-components. For example, for CUDA 11.6, the components are listed in the table below:
+The table below shows selected components from **CUDA Toolkit 13.4 GA**, using NVIDIA's [versioned release notes](https://docs.nvidia.com/cuda/archive/13.4.1/cuda-toolkit-release-notes/index.html#cuda-toolkit-major-components). Components are versioned independently; this is a release snapshot, not a requirement to upgrade the lab environment.
 
 <div class="table-wrapper" markdown="block">
 
-| **Component Name**                 | **Version Information** | **Supported Architectures**              |
-| CUDA C++ Core Compute Libraries    | 11.6.55                 |         x86_64, POWER, Arm64             |
-| CUDA Runtime (cudart)              | 11.6.55                 |         x86_64, POWER, Arm64             |
-| cuobjdump                          | 11.6.55                 |         x86_64, POWER, Arm64             |
-| CUPTI                              | 11.6.55                 |         x86_64, POWER, Arm64             |
-| CUDA cuxxfilt (demangler)          | 11.6.55                 |         x86_64, POWER, Arm64             |
-| CUDA Demo Suite                    | 11.6.55                 |         x86_64                           |
-| CUDA GDB                           | 11.6.55                 |         x86_64, POWER, Arm64             |
-| CUDA Memcheck                      | 11.6.55                 |         x86_64, POWER                    |
-| CUDA Nsight                        | 11.6.55                 |         x86_64, POWER                    |
-| CUDA NVCC                          | 11.6.55                 |         x86_64, POWER, Arm64             |
-| CUDA nvdisasm                      | 11.6.55                 |         x86_64, POWER, Arm64             |
-| CUDA NVML Headers                  | 11.6.55                 |         x86_64, POWER, Arm64             |
-| CUDA nvprof                        | 11.6.55                 |         x86_64, POWER, Arm64             |
-| CUDA nvprune                       | 11.6.55                 |         x86_64, POWER, Arm64             |
-| CUDA NVRTC                         | 11.6.55                 |         x86_64, POWER, Arm64             |
-| CUDA NVTX                          | 11.6.55                 |         x86_64, POWER, Arm64             |
-| CUDA NVVP                          | 11.6.58                 |         x86_64, POWER                    |
-| CUDA Samples                       | 11.6.101                |         x86_64, POWER, Arm64             |
-| CUDA Compute Sanitizer API         | 11.6.55                 |         x86_64, POWER, Arm64             |
-| CUDA cuBLAS                        | 11.8.1.74               |         x86_64, POWER, Arm64             |
-| CUDA cuFFT                         | 10.7.0.55               |         x86_64, POWER, Arm64             |
-| CUDA cuFile                        | 1.2.0.100               |         x86_64                           |
-| CUDA cuRAND                        | 10.2.9.55               |         x86_64, POWER, Arm64             |
-| CUDA cuSOLVER                      | 11.3.2.55               |         x86_64, POWER, Arm64             |
-| CUDA cuSPARSE                      | 11.7.1.55               |         x86_64, POWER, Arm64             |
-| CUDA NPP                           | 11.6.0.55               |         x86_64, POWER, Arm64             |
-| CUDA nvJPEG                        | 11.6.0.55               |         x86_64, POWER, Arm64             |
-| Nsight Compute                     | 2022.1.0.12             |         x86_64, POWER, Arm64 (CLI only)  |
-| NVTX                               | 1.21018621              |         x86_64, POWER, Arm64             |
-| Nsight Systems                     | 2021.5.2.53             |         x86_64, POWER, Arm64 (CLI only)  |
-| Nsight Visual Studio Edition (VSE) | 2022.1.0.21343          |         x86_64 (Windows)                 |
-| nvidia_fs                          | 2.10.3                  |         x86_64                           |
-| Visual Studio Integration          | 11.6.55                 |         x86_64 (Windows)                 |
-| NVIDIA Linux Driver                | 510.39.01               |         x86_64, POWER, Arm64             |
-| NVIDIA Windows Driver              | 511.23                  |         x86_64 (Windows)                 |
+| **Component** | **Version** |
+| --- | --- |
+| CUDA C++ Core Compute Libraries (Thrust, CUB, libcu++) | 3.4.2 |
+| CUDA Runtime (cudart) | 13.4.49 |
+| CUDA NVCC | 13.4.59 |
+| CUDA GDB | 13.4.49 |
+| CUPTI | 13.4.58 |
+| CUDA Compute Sanitizer API | 13.4.57 |
+| cuBLAS | 13.7.0.27 |
+| cuFFT | 12.4.0.34 |
+| cuRAND | 10.4.4.49 |
+| cuSOLVER | 12.3.2.15 |
+| cuSPARSE | 12.8.6.49 |
+| Nsight Compute | 2026.3.0.13 |
+| Nsight Systems | 2026.3.2.313 |
 
 </div>
 
-It is noted that the version of components differs version by version. In this unit, we will only cover a subset of these components, but if you are interested in any of them, you can find details in the [CUDA Toolkit Documentation](https://docs.nvidia.com/cuda/).
+Supported host platforms vary by component; consult the release notes for the full architecture and operating-system matrix. Use the toolkit and profiler versions provided for your lab GPU or Viking allocation. Older GPUs may require older supported toolchains.
 
 ## CUDA Memory Model
 
@@ -448,19 +427,21 @@ Note some irrelevant code is omitted, for example, the initialisation of `a` and
 
 ## Profiling Performance
 
-NVIDIA provide a command-line profiler tool called `nvprof`, which gives more insight in the performance of CUDA applications. To profile our vector addition, use the following command:
+NVIDIA Nsight Systems (`nsys`) records CUDA activity so that we can compare kernel execution and memory-transfer costs. To profile our vector addition:
 
-```
-$ nvprof ./vec_add
-==6326== Profiling application: ./vec_add
-==6326== Profiling result:
-Time(%)      Time     Calls       Avg       Min       Max  Name
- 97.55%  1.42529s         1  1.42529s  1.42529s  1.42529s  vector_add(float*, float*, float*, int)
-  1.39%  20.318ms         2  10.159ms  10.126ms  10.192ms  [CUDA memcpy HtoD]
-  1.06%  15.549ms         1  15.549ms  15.549ms  15.549ms  [CUDA memcpy DtoH]
+```bash
+$ nsys profile --trace=cuda --sample=none --cpuctxsw=none --stats=true -o vec_add_profile ./vec_add
 ```
 
-To get a more detailed trace, you could use the `--print-gpu-trace` flag.
+This prints summary statistics and saves `vec_add_profile.nsys-rep`. Look for `vector_add` in the kernel summary and host-to-device/device-to-host copies in the memory-operation summary. Timings depend on the GPU, problem size, and launch configuration. The options above disable CPU sampling and context-switch tracing, which are not needed for this exercise.
+
+To inspect individual GPU operations in execution order:
+
+```bash
+$ nsys stats --report cuda_gpu_trace vec_add_profile.nsys-rep
+```
+
+Report names vary between Nsight Systems releases: run `nsys stats --help-reports` to list those installed. Older versions use `gputrace` for `cuda_gpu_trace`. Choose a new output name for each experiment. See the [Nsight Systems User Guide](https://docs.nvidia.com/nsight-systems/UserGuide/) and Unit 9 for more profiling options.
 
 ## Kernel Execution Configuration
 

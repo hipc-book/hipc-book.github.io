@@ -67,37 +67,36 @@ Attached File: [`matrix.zip`](../../assets/practical-9/matrix.zip)
 
 
 > # Exercise 2
-> Time the program you have written in Exercise 1 using `cudaEventElapsedTime()`. Then profile your code with `nvprof` (or `nsys` for devices with Compute Capability > 7.0, e.g., on Viking). These should give you similar if not identical results.
+> Time the kernel you have written in Exercise 1 using `cudaEventElapsedTime()`. Then profile your code with Nsight Systems (`nsys`) using the commands below. Compare the CUDA event measurement with the GPU kernel duration, rather than total application or CUDA API time. Measure the same region and allow for profiling overhead and run-to-run variation.
 {: .block-danger }
 
-## Profiling with NVIDIA Visual Profiler
+## Profiling with NVIDIA Nsight Systems
 
-One of the additional profiling tools that we did not mention in the unit is the [Visual Profiler](https://docs.nvidia.com/cuda/profiler-users-guide/index.html#visual-profiler) which allows you to analyse and visualise the performance of your application. The Visual Profiler gives you a different _view_ that helps you to understand the CPU and GPU activities. You may find it is functionally similar to Intel Advisor.
+Collect a profile from the command line, replacing `./matrixMul` with your executable and appending any input-file arguments:
 
-For example, a Timeline view shows GPU events with elapsed time:
+```bash
+$ nsys profile --trace=cuda --sample=none --cpuctxsw=none --stats=true -o matrix_profile ./matrixMul
+```
 
-![Timeline View](../../assets/practical-9/timeline-view.png)  
-_**Figure 2:** Timeline View in Visual Profiler_  
-{: style="color:gray; font-size: 90%; text-align: center;" }
+Use a distinct output name for each implementation. On Viking, run this command within your GPU job on an allocated GPU compute node.
 
-Another valuable feature is the Analysis View, which is used to manage application analysis and display the corresponding results. The Analysis View offers two modes: guided and unguided:
-- **Guided mode**: This mode guides you through multiple analysis stages, helping you identify potential performance bottlenecks and optimisation opportunities in your application.
-- **Unguided mode**: This mode allows you to manually explore the full set of analysis results collected for your application.
+Open the resulting `matrix_profile.nsys-rep` file in the **Nsight Systems GUI** (`nsys-ui`). If you collected it on Viking, download the report to your local machine first. Use a GUI version compatible with the version that collected the report. The [Nsight Systems User Guide](https://docs.nvidia.com/nsight-systems/UserGuide/) describes the timeline and report views.
 
-![Analysis View](../../assets/practical-9/analysis-view.png)  
-_**Figure 3:** Analysis View in Visual Profiler_
-{: style="color:gray; font-size: 90%; text-align: center;" }
+Inspect the CUDA API and GPU timeline rows to answer:
 
-> **Note 1**
->
-> If you have a problem to run `nvvp` and receive an error related to JVM, try launching it with a different version of OpenJDK using:  
-> `> nvvp -vm /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java`
-{: .block-warning }
+- Which kernel takes the most GPU time?
+- How much time is spent transferring inputs and results?
+- Are there idle gaps between GPU operations?
+- Do asynchronous copies and kernels overlap when you expect them to?
 
-> **Note 2**
->
-> Running `nvvp` requires a graphic interface. This is okay for the lab PCs, but if you do need to profile your code on Viking with `nvvp`, you should first use `nvprof` to generate a profile file (`nsys nvprof -o profile.out -s ./prog args`), download the file to your local machine, and then open it with `nvvp`.
-{: .block-warning }
+You can also inspect reports without a graphical interface:
+
+```bash
+$ nsys stats --report cuda_gpu_kern_sum,cuda_gpu_mem_time_sum,cuda_api_sum matrix_profile.nsys-rep
+$ nsys stats --report cuda_gpu_trace matrix_profile.nsys-rep
+```
+
+Run `nsys stats --help-reports` if a report name is unavailable. Older releases use `gpukernsum`, `gpumemtimesum`, `cudaapisum`, and `gputrace`, respectively. For detailed kernel hardware metrics, use [Nsight Compute](https://docs.nvidia.com/nsight-compute/) on supported GPUs.
 
 
 > # Exercise 3
@@ -117,7 +116,7 @@ Occupancy is an important concept to achieve performant CUDA programs, you can r
 > - Use `__syncthreads()` where appropriate to avoid race condition.
 >
 > ![Sub-Matrix Multiplication](../../assets/practical-9/sub-matrix-multiplication.png)  
-> _**Figure 4:** Sub-Matrix Multiplication_
+> _**Figure 2:** Sub-Matrix Multiplication_
 > {: style="color:gray; font-size: 90%; text-align: center;" }
 {: .block-danger }
 
@@ -133,5 +132,5 @@ Occupancy is an important concept to achieve performant CUDA programs, you can r
 > **Further Reading**
 >
 > - [CUDA C++ Best Practices Guide](https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/index.html), NVIDIA.
-> - [Profiler User’s Guide](https://docs.nvidia.com/cuda/profiler-users-guide/index.html), NVIDIA.
+> - [Nsight Systems User Guide](https://docs.nvidia.com/nsight-systems/UserGuide/), NVIDIA.
 {: .block-tip }
